@@ -7,7 +7,7 @@ function character(payload) {
 
 function skill(payload) {
     this.type = payload.type
-    this.damage = payload.damage
+    this.damage = payload.damage    
     this.apply = function(payload){
         return payload.target.set('hp', payload.target.get('hp') - this.damage)
         console.log(payload.target.name, payload.target.hp)
@@ -20,8 +20,7 @@ function state(payload) {
 
 function main(payload, callback) {
     //Define
-    let action = {}
-    let store = []
+    let action = {}    
 
     //Set State
     let attack = new skill({
@@ -50,26 +49,33 @@ function main(payload, callback) {
         skill: [attack]
     })
 
-    let state = {
+    let state = Immutable.Map({
         playerOne: Immutable.Map(playerOne),
         playerTwo: Immutable.Map(playerTwo),
         heroOne: Immutable.Map(heroOne),
         heroTwo: Immutable.Map(heroTwo),
         turn: 1
-    }
-
-    store.push(state)
-    action.store = store[store.length-1]
+    })
+    let store = Immutable.List.of(state)
+    // store.push(state)
+    console.log(store)
+    action.store = store.get(-1)
 
     function registerAttack(payload) {        
-        let state = {
-            turn: store.length+1
-        }
-        state[payload.offense.get('name')] = payload.offense
-        state[payload.target.get('name')] = payload.offense.get('skill')[payload.skill].apply({target: payload.target})
-        store.push(state)
+        let state = store.get(-1).withMutations((state) => {
+            state
+                .set('turn',state.get('turn') + 1)
+                
+            payload.forEach(payload => {
+                console.log(payload)
+                let offense = state.get(payload.offense)
+                let target = state.get(payload.target)
+                state.set(payload.target, offense.get('skill')[payload.skill].apply({target: target}))
+            })
+        })                
+        store = store.push(state)        
         
-        action.view(store[store.length-1])        
+        action.view(store.get(-1))
     }
     action.registerAttack = registerAttack
     
