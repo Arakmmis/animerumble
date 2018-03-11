@@ -1,0 +1,164 @@
+<html>
+
+<head>
+    <script src="/script/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/immutable@3.8.2/dist/immutable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="section1">
+        <p>Player One</p>
+        <div id="playerone">
+            <p>Player One</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Skill 1</button>
+        </div>
+        <div id="heroone">
+            <p>Hero One</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Skill 1</button>
+        </div>
+
+        <div id="playertwo">
+            <p>Player Two</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Player 2</button>
+        </div>
+        <div id="herotwo">
+            <p>Hero Two</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Hero 2</button>
+        </div>
+
+        <button id="attack">Attack</button>
+    </div>
+    <hr>
+    <div id="section2">
+        <p>Player Two</p>
+        <div id="playertwo">
+            <p>Player Two</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Skill 1</button>
+        </div>
+        <div id="herotwo">
+            <p>Hero Two</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Skill 1</button>
+        </div>
+
+        <div id="playerone">
+            <p>Player One</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Player 1</button>
+        </div>
+        <div id="heroone">
+            <p>Hero One</p>
+            <p>HP:
+                <span class="hp">0</span>
+            </p>
+            <button>Hero 1</button>
+        </div>
+
+        <button id="attack">Attack</button>
+    </div>
+
+</body>
+
+<script>
+    main({}, (action) => {
+        function view(payload) {
+            action.store = payload
+            $('#playerone .hp').text(payload.playerOne.get('hp'))
+            $('#playertwo .hp').text(payload.playerTwo.get('hp'))
+            $('#heroone .hp').text(payload.heroOne.get('hp'))
+            $('#herotwo .hp').text(payload.heroTwo.get('hp'))
+            console.log(payload.turn)
+            if (payload.turn % 2 === 0) {
+                $("#section1 *").prop("disabled", false)
+                $("#section2 *").prop("disabled", true)
+            } else {
+                $("#section1 *").prop("disabled", true)
+                $("#section2 *").prop("disabled", false)
+            }
+        }
+
+        view(action.store)
+        action.view = view
+
+        let attack = {}
+        $('#section1 #playerone button').click(() => {
+            attack.offense = action.store.playerOne
+            attack.skill = 0
+            console.log(attack)
+        })
+        $('#section1 #heroone button').click(() => {
+            attack.offense = action.store.heroOne
+            attack.skill = 0
+            console.log(attack)
+        })
+
+        $('#section1 #playertwo button').click(() => {
+            console.log('hi')
+            attack.target = action.store.playerTwo
+            console.log(attack)
+        })
+        $('#section1 #herotwo button').click(() => {
+            console.log('hi')
+            attack.target = action.store.heroTwo
+            console.log(attack)
+        })
+        
+        $('#section1 #attack').click(() => {
+            console.log('hi')
+            console.log(attack)
+            action.registerAttack(attack)
+        })
+
+        //Second       
+
+        $('#section2 #playertwo button').click(() => {
+            attack.offense = action.store.playerTwo
+            attack.skill = 0
+            console.log(attack)
+        })
+        $('#section2 #herotwo button').click(() => {
+            attack.offense = action.store.heroTwo
+            attack.skill = 0
+            console.log(attack)
+        })
+
+        $('#section2 #playerone button').click(() => {
+            console.log('hi')
+            attack.target = action.store.playerOne
+            console.log(attack)
+        })
+        $('#section2 #heroone button').click(() => {
+            console.log('hi')
+            attack.target = action.store.heroOne
+            console.log(attack)
+        })
+
+        $('#section2 #attack').click(() => {
+            console.log('hi')
+            console.log(attack)
+            action.registerAttack(attack)
+        })
+    })
+</script>
+
+</html>

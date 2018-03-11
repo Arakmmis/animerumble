@@ -1,0 +1,14 @@
+{
+  "name": "gametest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "latest"
+  },
+  "scripts": {},
+  "author": "Marcel Christianis",
+  "devDependencies": {},
+  "license": "ISC"
+}
