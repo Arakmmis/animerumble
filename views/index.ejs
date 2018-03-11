@@ -1,9 +1,10 @@
 <html>
 
-<head>    
+<head>
     <script src="https://cdn.jsdelivr.net/npm/immutable@3.8.2/dist/immutable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
 </head>
 
 <body>
@@ -45,7 +46,7 @@
 
 </body>
 
-<script>    
+<script>
     $(function () {
         var socket = io();
 
@@ -53,18 +54,46 @@
         let attack = {}
 
         function view(payload) {
-            $('#playerOne .hp').text(payload.playerOne.hp)
-            $('#playerTwo .hp').text(payload.playerTwo.hp)
-            $('#heroOne .hp').text(payload.heroOne.hp)
-            $('#heroTwo .hp').text(payload.heroTwo.hp)
+            $('#playerOne .hp').text(payload.myTeam.playerOne.hp)
+            $('#heroOne .hp').text(payload.myTeam.heroOne.hp)
+
+            $('#playerTwo .hp').text(payload.theirTeam.playerTwo.hp)            
+            $('#heroTwo .hp').text(payload.theirTeam.heroTwo.hp)
         }
 
         socket.on('apply', (payload) => {
-            view(payload)
+            store = payload
+            console.log('apply', payload)
+            if (store.myTeam === 'teamA') {
+                store = {
+                    myTeam: store.teamA,
+                    theirTeam: store.teamB,
+                    turn: store.turn
+                }
+            }
+
+            // view(payload)
         })
 
         socket.on('initiate', (payload) => {
-            store = payload.store
+            store = payload
+            console.log(payload)
+            if (store.myTeam === 'teamA') {
+                store = {
+                    myTeam: store.teamA,
+                    theirTeam: store.teamB,
+                    turn: store.turn
+                }
+            }
+            console.log(store)
+            function checkTeam(owner) {
+                if(store.myTeam[owner]){
+                    return store.myTeam
+                }
+                else{
+                    return store.theirTeam
+                }
+            }
 
             $('.skill').click((e) => {
                 console.log(e)
@@ -76,6 +105,7 @@
                     attack = {}
                     $(".skill").prop("disabled", false).removeClass('clicked')
                 } else {
+                    let store = checkTeam(owner)
                     attack.offense = store[owner].name
                     attack.skill = skill
                     // console.log(attack)
@@ -91,6 +121,7 @@
             $('.target').click((e) => {
                 console.log(e)
                 let target = e.currentTarget.dataset.target
+                let store = checkTeam(target)
 
                 attack.target = store[target].name
                 packet.push(attack)
@@ -100,19 +131,19 @@
             })
 
             $('#playerOne button').attr({
-                'data-owner': store.playerOne.name,
+                'data-owner': store.myTeam.playerOne.name,
                 'data-skill': 0
             })
             $('#heroOne button').attr({
-                'data-owner': store.heroOne.name,
+                'data-owner': store.myTeam.heroOne.name,
                 'data-skill': 0
             })
 
             $('#playerTwo button').attr({
-                'data-target': store.playerTwo.name                
+                'data-target': store.theirTeam.playerTwo.name
             })
             $('#heroTwo button').attr({
-                'data-target': store.heroTwo.name                
+                'data-target': store.theirTeam.heroTwo.name
             })
 
             view(store)
