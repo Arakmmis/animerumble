@@ -6,7 +6,8 @@
   "dependencies": {
     "ejs": "^2.5.6",
     "express": "latest",
-    "immutable": "^3.8.2"
+    "immutable": "^3.8.2",
+    "socket.io": "^2.0.4"
   },
   "scripts": {},
   "author": "Marcel Christianis",

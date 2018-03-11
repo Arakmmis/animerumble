@@ -1,90 +1,70 @@
 <html>
 
-<head>
-    <script src="/script/script.js"></script>
+<head>    
     <script src="https://cdn.jsdelivr.net/npm/immutable@3.8.2/dist/immutable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 </head>
 
 <body>
     <div id="section1">
         <p>Player One</p>
-        <div id="playerone">
+        <div id="playerOne">
             <p>Player One</p>
             <p>HP:
                 <span class="hp">0</span>
             </p>
-            <button class="skill" data-owner="playerOne" data-skill="0">Skill 1</button>
+            <button class="skill" data-owner="" data-skill="">Skill 1</button>
         </div>
-        <div id="heroone">
+        <div id="heroOne">
             <p>Hero One</p>
             <p>HP:
                 <span class="hp">0</span>
             </p>
-            <button class="skill" data-owner="heroOne" data-skill="0">Skill 1</button>
+            <button class="skill" data-owner="" data-skill="">Skill 1</button>
         </div>
 
-        <div id="playertwo">
+        <div id="playerTwo">
             <p>Player Two</p>
             <p>HP:
                 <span class="hp">0</span>
             </p>
-            <button class="target" data-target="playerTwo">Player 2</button>
+            <button class="target" data-target="">Player 2</button>
         </div>
-        <div id="herotwo">
+        <div id="heroTwo">
             <p>Hero Two</p>
             <p>HP:
                 <span class="hp">0</span>
             </p>
-            <button class="target" data-target="heroTwo">Hero 2</button>
+            <button class="target" data-target="">Hero 2</button>
         </div>
 
         <button id="attack">Attack</button>
     </div>
     <hr>
-    <!-- <div id="section2">
-        <p>Player Two</p>
-        <div id="playertwo">
-            <p>Player Two</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button>Skill 1</button>
-        </div>
-        <div id="herotwo">
-            <p>Hero Two</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button>Skill 1</button>
-        </div>
-
-        <div id="playerone">
-            <p>Player One</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button>Player 1</button>
-        </div>
-        <div id="heroone">
-            <p>Hero One</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button>Hero 1</button>
-        </div>
-
-        <button id="attack">Attack</button>
-    </div> -->
 
 </body>
 
-<script>
-    $(document).ready(function () {
-        main({}, (action) => {
-            function skill() {
+<script>    
+    $(function () {
+        var socket = io();
 
-            }
+        let packet = []
+        let attack = {}
+
+        function view(payload) {
+            $('#playerOne .hp').text(payload.playerOne.hp)
+            $('#playerTwo .hp').text(payload.playerTwo.hp)
+            $('#heroOne .hp').text(payload.heroOne.hp)
+            $('#heroTwo .hp').text(payload.heroTwo.hp)
+        }
+
+        socket.on('apply', (payload) => {
+            view(payload)
+        })
+
+        socket.on('initiate', (payload) => {
+            store = payload.store
 
             $('.skill').click((e) => {
                 console.log(e)
@@ -96,7 +76,7 @@
                     attack = {}
                     $(".skill").prop("disabled", false).removeClass('clicked')
                 } else {
-                    attack.offense = action.store.get(owner).get('name')
+                    attack.offense = store[owner].name
                     attack.skill = skill
                     // console.log(attack)
                     // console.log(packet)
@@ -112,74 +92,39 @@
                 console.log(e)
                 let target = e.currentTarget.dataset.target
 
-                attack.target = action.store.get(target).get('name')
+                attack.target = store[target].name
                 packet.push(attack)
                 attack = {}
                 $(".skill").prop("disabled", false).removeClass('clicked')
                 console.log(attack, packet)
             })
 
-            function view(payload) {
-                console.log(payload)
-                action.store = payload
-                $('#playerone .hp').text(payload.get('playerOne').get('hp'))
-                $('#playertwo .hp').text(payload.get('playerTwo').get('hp'))
-                $('#heroone .hp').text(payload.get('heroOne').get('hp'))
-                $('#herotwo .hp').text(payload.get('heroTwo').get('hp'))
-                console.log(payload.get('turn'))
-                if (payload.get('turn') % 1 === 0) {
-                    $("#section1 *").prop("disabled", false)
-                    $("#section2 *").prop("disabled", true)
-                } else {
-                    $("#section1 *").prop("disabled", true)
-                    $("#section2 *").prop("disabled", false)
-                }
-            }
+            $('#playerOne button').attr({
+                'data-owner': store.playerOne.name,
+                'data-skill': 0
+            })
+            $('#heroOne button').attr({
+                'data-owner': store.heroOne.name,
+                'data-skill': 0
+            })
 
-            view(action.store)
-            action.view = view
+            $('#playerTwo button').attr({
+                'data-target': store.playerTwo.name                
+            })
+            $('#heroTwo button').attr({
+                'data-target': store.heroTwo.name                
+            })
 
-            let packet = []
-            let attack = {}
+            view(store)
 
             $('#section1 #attack').click(() => {
                 console.log('hi')
                 console.log(packet)
-                action.registerAttack(packet)
+                socket.emit('registerAttack', packet)
                 packet = []
             })
-
-            //Second       
-
-            $('#section2 #playertwo button').click(() => {
-                attack.offense = action.store.get('playerTwo')
-                attack.skill = 0
-                console.log(attack)
-            })
-            $('#section2 #herotwo button').click(() => {
-                attack.offense = action.store.get('heroTwo')
-                attack.skill = 0
-                console.log(attack)
-            })
-
-            $('#section2 #playerone button').click(() => {
-                console.log('hi')
-                attack.target = action.store.get('playerOne')
-                console.log(attack)
-            })
-            $('#section2 #heroone button').click(() => {
-                console.log('hi')
-                attack.target = action.store.get('heroOne')
-                console.log(attack)
-            })
-
-            $('#section2 #attack').click(() => {
-                console.log('hi')
-                console.log(attack)
-                action.registerAttack(attack)
-            })
-        })
-    })
+        });
+    });
 </script>
 
 </html>
