@@ -6,10 +6,7 @@ let io = require('socket.io')(http);
 let path = require('path');
 let engine = require('./app.js');
 
-const {
-    List,
-    Map
-} = require('immutable')
+const _ = require('lodash')
 
 //Route
 app.set('view engine', 'ejs');
@@ -20,31 +17,40 @@ app.get('/', function (req, res) {
     res.render('index');
 });
 
+let connection = 0
+let testStore = {}
+let func = {}
+
 //Socket
 io.on('connection', function (socket) {
-    console.log('a user connected');
-
+    console.log('a user connected');    
     //Engine Initiate
-    engine.main({}, (action) => {                        
-        
-        let packet = Map(action).get('store').withMutations((state) => {
-            state.set('myTeam','teamA')
-            console.log(state)
-        })
-        io.emit('initiate', packet)
+    connection = connection + 1
+    console.log(connection)
+    if (connection <= 2) {
+        engine.main({}, (action) => {
+            console.log(action)
+            func = action.move
+            testStore = action.store
+            action.store.myTeam = 'teamA'
+            io.emit('initiate', action.store)            
 
-        socket.on('registerAttack', function (payload) {
-            console.log(payload)
-            action.registerAttack(payload)
+            action.view = (payload) => {
+                testStore = payload
+                console.log(payload)
+                payload.myTeam = 'teamA'
+                console.log('view', payload)
+                io.emit('apply', payload)
+            }
         })
 
-        action.view = (payload) => {
-            let packet = payload.withMutations((state) => {
-                state.set('myTeam','teamA')                
-            })
-            console.log('view',packet)
-            io.emit('apply', packet)
-        }
+        initiate = 1
+    } else {
+        io.emit('initiate', testStore)
+    }
+
+    socket.on('registerAttack', function (payload) {        
+        func(payload)
     })
 
     socket.on('chat message', function (msg) {

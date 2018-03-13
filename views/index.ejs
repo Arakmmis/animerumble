@@ -8,36 +8,61 @@
 </head>
 
 <body>
-    <div id="section1">
-        <p>Player One</p>
-        <div id="playerOne">
-            <p>Player One</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button class="skill" data-owner="" data-skill="">Skill 1</button>
+    <div id="wrap">
+        <div class="myTeam">
+            <div class="char">
+                <p class="name">Player One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Target</button>
+                <button class="skill" data-owner="" data-skill="">Skill 1</button>
+                <button class="skill" data-owner="" data-skill="">Skill 2</button>
+                <button class="skill" data-owner="" data-skill="">Skill 3</button>
+            </div>
+            <div class="char">
+                <p class="name">Hero One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Target</button>
+                <button class="skill" data-owner="" data-skill="">Skill 1</button>
+                <button class="skill" data-owner="" data-skill="">Skill 2</button>
+                <button class="skill" data-owner="" data-skill="">Skill 3</button>
+            </div>
+            <div class="char">
+                <p class="name">Hero One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Target</button>
+                <button class="skill" data-owner="" data-skill="">Skill 1</button>
+                <button class="skill" data-owner="" data-skill="">Skill 2</button>
+                <button class="skill" data-owner="" data-skill="">Skill 3</button>
+            </div>
         </div>
-        <div id="heroOne">
-            <p>Hero One</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button class="skill" data-owner="" data-skill="">Skill 1</button>
-        </div>
-
-        <div id="playerTwo">
-            <p>Player Two</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button class="target" data-target="">Player 2</button>
-        </div>
-        <div id="heroTwo">
-            <p>Hero Two</p>
-            <p>HP:
-                <span class="hp">0</span>
-            </p>
-            <button class="target" data-target="">Hero 2</button>
+        <div class="theirTeam">
+            <div class="char">
+                <p class="name">Player One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Player 2</button>
+            </div>
+            <div class="char">
+                <p class="name">Player One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Hero 2</button>
+            </div>
+            <div class="char">
+                <p class="name">Player One</p>
+                <p>HP:
+                    <span class="hp">0</span>
+                </p>
+                <button class="target" data-target="">Hero 2</button>
+            </div>
         </div>
 
         <button id="attack">Attack</button>
@@ -48,50 +73,84 @@
 
 <script>
     $(function () {
+        function getParameterName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
         var socket = io();
 
         let packet = []
         let attack = {}
+        let myTeam = getParameterName('team') === 'teamA' ? 'teamA' : 'teamB'
+        console.log(myTeam)
+        let initiate = false
 
-        function view(payload) {
-            $('#playerOne .hp').text(payload.myTeam.playerOne.hp)
-            $('#heroOne .hp').text(payload.myTeam.heroOne.hp)
-
-            $('#playerTwo .hp').text(payload.theirTeam.playerTwo.hp)            
-            $('#heroTwo .hp').text(payload.theirTeam.heroTwo.hp)
+        function view(store) {
+            store.myTeam.forEach((x, i) => {
+                $('.myTeam .char').eq(i).children('p').children('.hp').text(x.hp)
+            })
+            store.theirTeam.forEach((x, i) => {
+                $('.theirTeam .char').eq(i).children('p').children('.hp').text(x.hp)
+            })
+            $(".target").prop("disabled", true)
         }
 
         socket.on('apply', (payload) => {
             store = payload
             console.log('apply', payload)
-            if (store.myTeam === 'teamA') {
+            if (store.myTeam === myTeam) {
                 store = {
                     myTeam: store.teamA,
                     theirTeam: store.teamB,
                     turn: store.turn
                 }
+            } else {
+                store = {
+                    myTeam: store.teamB,
+                    theirTeam: store.teamA,
+                    turn: store.turn
+                }
             }
 
-            // view(payload)
+            view(store)
         })
 
         socket.on('initiate', (payload) => {
+
+            if (initiate === true) {
+                console.log('initiated')
+                return false
+            }
             store = payload
             console.log(payload)
-            if (store.myTeam === 'teamA') {
+            if (store.myTeam === myTeam) {
                 store = {
                     myTeam: store.teamA,
                     theirTeam: store.teamB,
+                    turn: store.turn
+                }
+            } else {
+                store = {
+                    myTeam: store.teamB,
+                    theirTeam: store.teamA,
                     turn: store.turn
                 }
             }
             console.log(store)
+
             function checkTeam(owner) {
-                if(store.myTeam[owner]){
-                    return store.myTeam
-                }
-                else{
-                    return store.theirTeam
+                let index = store.myTeam.findIndex(x => x.name === owner)
+                console.log(index)
+                if (index > -1) {
+                    return store.myTeam[index]
+                } else {
+                    return store.theirTeam[store.theirTeam.findIndex(x => x.name === owner)]
                 }
             }
 
@@ -99,19 +158,23 @@
                 console.log(e)
                 let owner = e.currentTarget.dataset.owner
                 let skill = e.currentTarget.dataset.skill
-                let self = $(".skill[data-owner='" + owner + "']")
+                let self = $(".skill[data-owner='" + owner + "'][data-skill='"+skill+"']")
 
                 if (self.hasClass('clicked')) {
                     attack = {}
                     $(".skill").prop("disabled", false).removeClass('clicked')
+                    $(".target").prop("disabled", true)
+                    $("#attack").prop("disabled", false)
                 } else {
                     let store = checkTeam(owner)
-                    attack.offense = store[owner].name
+                    attack.offense = store.name
                     attack.skill = skill
                     // console.log(attack)
                     // console.log(packet)
 
                     $(".skill").prop("disabled", true)
+                    $(".target").prop("disabled", false)
+                    $("#attack").prop("disabled", true)
                     self.prop("disabled", false).addClass(
                         'clicked')
                 }
@@ -123,32 +186,42 @@
                 let target = e.currentTarget.dataset.target
                 let store = checkTeam(target)
 
-                attack.target = store[target].name
+                attack.target = store.name
                 packet.push(attack)
                 attack = {}
                 $(".skill").prop("disabled", false).removeClass('clicked')
+                $(".target").prop("disabled", true)
+                $("#attack").prop("disabled", false)
                 console.log(attack, packet)
             })
 
-            $('#playerOne button').attr({
-                'data-owner': store.myTeam.playerOne.name,
-                'data-skill': 0
-            })
-            $('#heroOne button').attr({
-                'data-owner': store.myTeam.heroOne.name,
-                'data-skill': 0
-            })
+            if (initiate === false) {
+                console.log('initiate')
+                store.myTeam.forEach((x, i) => {
+                    $('.myTeam .char').eq(i).children('.name').text(x.name)
+                    $('.myTeam .char').eq(i).children('.target').attr({
+                        'data-target': x.name
+                    })
+                    x.skill.forEach((t,s) => {
+                        $('.myTeam .char').eq(i).children('.skill').eq(s).attr({
+                        'data-owner': x.name,
+                        'data-skill': s
+                    })
+                    })                    
+                })
+                store.theirTeam.forEach((x, i) => {
+                    $('.theirTeam .char').eq(i).children('.name').text(x.name)
+                    $('.theirTeam .char').eq(i).children('.target').attr({
+                        'data-target': x.name
+                    })
+                })
 
-            $('#playerTwo button').attr({
-                'data-target': store.theirTeam.playerTwo.name
-            })
-            $('#heroTwo button').attr({
-                'data-target': store.theirTeam.heroTwo.name
-            })
+                initiate = true
+            }
 
             view(store)
 
-            $('#section1 #attack').click(() => {
+            $('#attack').click(() => {
                 console.log('hi')
                 console.log(packet)
                 socket.emit('registerAttack', packet)
