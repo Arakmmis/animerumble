@@ -4,8 +4,34 @@ function character(payload) {
     this.name = payload.name
     this.hp = payload.hp
     this.status = []
+    this.modifier = []
     this.skill = payload.skill
 }
+
+ function applySkill(payload) {
+    console.log('apply', payload.target.name, payload.target.hp, this.damage)
+    let package = {            
+        offense: payload.offense,
+        target: payload.target,
+        damage: this.damage
+    }
+    if(payload.offense.modifier.length > 0){   
+        console.log('testhi')     
+        payload.offense.modifier[0].apply(package, this.move, 'offense')            
+    }
+    else{
+        if(payload.target.modifier.length > 0){   
+            console.log('hi')     
+            payload.target.modifier[0].apply(package, this.move, 'target')            
+        }
+        else {
+            payload.target = this.move(package)
+        }            
+    }
+    // payload.target.hp = payload.target.hp - this.damage
+    
+    return payload.target
+}   
 
 function skill(payload) {
     this.type = payload.type
@@ -20,14 +46,14 @@ function skill(payload) {
             target: payload.target,
             damage: this.damage
         }
-        if(payload.offense.status.length > 0){   
-            console.log('hi')     
-            payload.offense.status[0].apply(package, this.move, 'offense')            
+        if(payload.offense.modifier.length > 0){   
+            console.log('testhi')     
+            payload.offense.modifier[0].apply(package, this.move, 'offense')            
         }
         else{
-            if(payload.target.status.length > 0){   
+            if(payload.target.modifier.length > 0){   
                 console.log('hi')     
-                payload.target.status[0].apply(package, this.move, 'target')            
+                payload.target.modifier[0].apply(package, this.move, 'target')            
             }
             else {
                 payload.target = this.move(package)
@@ -39,20 +65,20 @@ function skill(payload) {
     }    
 }
 
-function status(payload) {
-    this.active = 2
-    this.damage = payload.damage
-    this.val = 20    
+function modifier(payload) {
+    this.active = 2    
+    this.val = payload.val    
     this.modify = payload.modify
+    this.type = payload.type
     this.apply = function (payload, callback, owner) {
         console.log('stat')
         // payload.damage = payload.damage + this.val
         console.log(payload)
         if(owner === 'offense'){
-            payload.offense.status[0].modify(payload, (payload)=>{
-                if(payload.target.status.length > 0){   
+            payload.offense.modifier[0].modify(payload, (payload)=>{
+                if(payload.target.modifier.length > 0){   
                     console.log('hi')     
-                    payload.target.status[0].modify(payload, callback)
+                    payload.target.modifier[0].modify(payload, callback)
                 }
                 else{
                     callback(payload)
@@ -60,9 +86,29 @@ function status(payload) {
             })
         }
         else{
-            payload.target.status[0].modify(payload, callback)
+            payload.target.modifier[0].modify(payload, callback)
         }
         
+    }
+}
+
+function status(payload) {
+    this.active = 2    
+    this.val = payload.val    
+    this.modify = payload.modify
+    this.type = payload.type
+    this.apply = function (payload) {
+        console.log('stat')
+        // payload.damage = payload.damage + this.val
+        console.log(payload)
+
+        if(payload.offense.status.length > 0){ 
+            let package = {            
+                offense: payload.offense                
+            }
+            console.log('hi')     
+            payload.offense.status[0].modify(package)
+        } 
     }
 }
 
@@ -70,9 +116,51 @@ function main(payload, callback) {
     //Define
     let action = {}
 
+    function sequence(payload) {
+        let state = _.cloneDeep(store[store.length - 1])
+        state.turn = state.turn + 1
+
+        //Apply Global Func
+
+        payload.forEach(payload => {
+            function team(owner) {
+                let index = state.teamB.findIndex(x => x.name === owner)
+                if (index > -1) {
+                    console.log(state)
+                    return state.teamB[index]
+                } else {
+                    return state.teamA[state.teamA.findIndex(x => x.name === owner)]
+                }
+            }
+            let offense = team(payload.offense)
+            let target = team(payload.target)
+            target = offense.skill[payload.skill].apply({
+                offense: offense,
+                target: target
+            })
+        })        
+
+        state.teamA.forEach(x => {
+            if(x.status.length > 0){ 
+                console.log('teamA')     
+                x.status[0].apply({offense: x})
+            } 
+        })
+        state.teamB.forEach(x => {
+            if(x.status.length > 0){ 
+                console.log('teamB')     
+                x.status[0].apply({offense: x})
+            } 
+        })
+
+        store.push(state)
+        action.view(store[store.length - 1])
+    }
+
     //Set State
-    let boost = new status({
-        damage: 10,
+    let boost = new modifier({
+        val: 10,
+        type: 'skill',
         modify: function (payload, callback) {
             console.log('stat')
             payload.damage = payload.damage + this.val
@@ -81,14 +169,24 @@ function main(payload, callback) {
         }
     })
 
-    let protect = new status({
-        damage: 10,
+    let protect = new modifier({
+        val: 10,
+        type: 'skill',
         modify: function (payload, callback) {            
             console.log('protect', payload.damage)
             payload.damage = payload.damage - this.val
             console.log('protect', payload.damage)
             console.log(payload)
             callback(payload)
+        }
+    })
+
+    let poison = new status({
+        val: 10,
+        type: 'self',
+        modify: function (payload) {                        
+            payload.offense.hp = payload.offense.hp - this.val            
+            console.log(payload)            
         }
     })
 
@@ -134,7 +232,7 @@ function main(payload, callback) {
         hp: 100,
         skill: [attack, hurt, heal]
     })
-    playerOne.status.push(boost)
+    playerOne.modifier.push(boost)
     let heroOne = new character({
         name: 'heroOne',
         hp: 100,
@@ -146,7 +244,8 @@ function main(payload, callback) {
         hp: 100,
         skill: [attack, hurt, heal]
     })
-    playerTwo.status.push(protect)
+    playerTwo.status.push(poison)
+    playerTwo.modifier.push(protect)
     let heroTwo = new character({
         name: 'heroTwo',
         hp: 100,
@@ -180,33 +279,8 @@ function main(payload, callback) {
     state.teamA.forEach((x, i) => x.id = i)
     state.teamB.forEach((x, i) => x.id = i)
     let store = [state]
-    action.store = store[store.length - 1]
-
-    function move(payload) {
-        let state = _.cloneDeep(store[store.length - 1])
-        state.turn = state.turn + 1
-
-        payload.forEach(payload => {
-            function team(owner) {
-                let index = state.teamB.findIndex(x => x.name === owner)
-                if (index > -1) {
-                    console.log(state)
-                    return state.teamB[index]
-                } else {
-                    return state.teamA[state.teamA.findIndex(x => x.name === owner)]
-                }
-            }
-            let offense = team(payload.offense)
-            let target = team(payload.target)
-            target = offense.skill[payload.skill].apply({
-                offense: offense,
-                target: target
-            })
-        })
-        store.push(state)
-        action.view(store[store.length - 1])
-    }
-    action.move = move
+    action.store = store[store.length - 1]    
+    action.sequence = sequence
     callback(action)
 }
 

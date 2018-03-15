@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
     if (connection <= 2) {
         engine.main({}, (action) => {
             console.log(action)
-            func = action.move
+            func = action.sequence
             testStore = action.store
             action.store.myTeam = 'teamA'
             io.emit('initiate', action.store)            
