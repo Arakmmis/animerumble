@@ -19,6 +19,7 @@
                 <button class="skill" data-owner="" data-skill="">Skill 1</button>
                 <button class="skill" data-owner="" data-skill="">Skill 2</button>
                 <button class="skill" data-owner="" data-skill="">Skill 3</button>
+                <button class="skill" data-owner="" data-skill="">Skill 3</button>
             </div>
             <div class="char">
                 <p class="name">Hero One</p>
@@ -206,7 +207,7 @@
                         $('.myTeam .char').eq(i).children('.skill').eq(s).attr({
                         'data-owner': x.name,
                         'data-skill': s
-                    })
+                    }).text(t.name)
                     })                    
                 })
                 store.theirTeam.forEach((x, i) => {
