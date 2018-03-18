@@ -6,21 +6,21 @@ function main(payload, callback) {
     //Define    
     let action = {}     
     let state = {
-        teamA: [
+        teamOdd: [
             new constructor.character(heroes.naruto),
             new constructor.character(heroes.heroOne),
             new constructor.character(heroes.heroTwo),
         ],
-        teamB: [
+        teamEven: [
             new constructor.character(heroes.playerTwo),
-            new constructor.character(heroes.heroTwo),
+            new constructor.character(heroes.heroThree),
             new constructor.character(heroes.playerThree),
         ],
         turn: 1,
         myTeam: ''
     }
-    state.teamA.forEach((x, i) => x.id = i)
-    state.teamB.forEach((x, i) => x.id = i)
+    state.teamEven.forEach((x, i) => x.id = i)
+    state.teamOdd.forEach((x, i) => x.id = i)
     
     let store = [state]
     action.store = store[store.length - 1]    

@@ -16,9 +16,9 @@ module.exports = {
     name: "heroOne",
     hp: 100,
     skill: [
-        new constructor.skill(skills.attack),
-        new constructor.skill(skills.protect),
-        new constructor.skill(skills.heal)
+        new constructor.skill(skills.stun),
+        new constructor.skill(skills.attackBuff),
+        new constructor.skill(skills.protect)
       ]
   },
   playerTwo: {
@@ -27,7 +27,7 @@ module.exports = {
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.hurt),
-        new constructor.skill(skills.heal)
+        new constructor.skill(skills.stun)
       ]
   },
   heroTwo: {
@@ -44,7 +44,7 @@ module.exports = {
     hp: 100,
     skill: [
         new constructor.skill(skills.attack),
-        new constructor.skill(skills.hurt),
+        new constructor.skill(skills.protect),
         new constructor.skill(skills.heal)
       ]
   },

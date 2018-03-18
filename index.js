@@ -18,8 +18,7 @@ app.get("/", function(req, res) {
 });
 
 let connection = 0;
-let testStore = {};
-let func = {};
+let sequence = {};
 let store = [];
 
 //Socket
@@ -29,35 +28,23 @@ io.on("connection", function(socket) {
   connection = connection + 1;
   console.log(connection);
   if (connection <= 2) {
-    engine.main({}, action => {
-      console.log(action);
-      func = action.sequence;
-      testStore = action.store;
+    engine.main({}, action => {      
+      sequence = action.sequence;      
       store.push(action.store);
-      action.store.myTeam = "teamA";
+      action.store.myTeam = "teamEven";
+      console.log("initiate", action);
       io.emit("initiate", store[store.length - 1]);
-
-      action.view = payload => {
-        testStore = payload;
-        store.push(payload);
-        console.log(payload);
-        payload.myTeam = "teamA";
-        console.log("view", payload);
-        io.emit("apply", payload);
-      };
     });
 
     initiate = 1;
   } else {
-    io.emit("initiate", testStore);
+    io.emit("initiate", store[store.length - 1]);
   }
 
   socket.on("registerAttack", function(payload) {
-    func(payload, store[store.length - 1], payload => {
-      testStore = payload;
-      store.push(payload);
-      console.log(payload);
-      payload.myTeam = "teamA";
+    sequence(payload, store[store.length - 1], payload => {      
+      store.push(payload);      
+      payload.myTeam = "teamEven";
       console.log("view", payload);
       io.emit("apply", payload);
     });

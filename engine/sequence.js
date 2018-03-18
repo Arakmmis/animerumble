@@ -1,99 +1,144 @@
-const _ = require('lodash')
+const _ = require("lodash");
 
-function applySkill(payload) {
-    console.log('apply', payload.target.name, payload.target.hp, payload.offense.skill[payload.skill].val)
-    let package = {
-        offense: payload.offense,
-        target: payload.target,
-        val: payload.offense.skill[payload.skill].val,
-        skill: payload.skill,
-        move: payload.offense.skill[payload.skill].move
+function skillApply(payload) {
+  console.log(
+    "apply",
+    payload.target.name,
+    payload.target.hp,
+    payload.offense.skill[payload.skill].val
+  );
+
+  let package = {
+    offense: payload.offense,
+    target: payload.target,
+    val: payload.offense.skill[payload.skill].val,
+    skill: payload.skill,
+    move: payload.offense.skill[payload.skill].move
+  };
+  if (payload.offense.status.onAttack.length > 0) {
+    statusApply(package, package.move, "offense");
+  } else {
+    if (payload.target.status.onReceive.length > 0) {
+      statusApply(package, package.move, "target");
+    } else {
+      payload.target = package.move(package);
     }
-    if(payload.offense.modifier.length > 0){   
-        console.log('testhi')     
-        applyStatus(package, package.move, 'offense')
-        // payload.offense.modifier[0].apply(package, package.move, 'offense')            
-    }
-    else{
-        if(payload.target.modifier.length > 0){   
-            console.log('hi')     
-            applyStatus(package, package.move, 'target')            
-        }
-        else {
-            payload.target = package.move(package)
-        }            
-    }
-    // payload.target.hp = payload.target.hp - this.damage
-    
-    return payload.target
+  }
+  payload.offense.skill[payload.skill].state = "cooldown";
+
+  return payload.target;
 }
 
-function applyStatus(payload, callback, owner) {
-    console.log('stat')
-    // payload.damage = payload.damage + this.val
-    console.log(payload)
-    if(owner === 'offense'){
-        payload.offense.modifier[0].modify(payload, (payload)=>{
-            if(payload.target.modifier.length > 0){   
-                console.log('target')     
-                payload.target.modifier[0].modify(payload, callback)
+function statusApply(payload, move, owner) {
+  function statusIterator(package, source, callback) {
+    source.forEach((x, i, a) => {
+      x.modify(package);
+      if (i === a.length - 1) {
+        callback(package, source, callback);
+      }
+    });
+  }
+
+  if (owner === "offense") {
+    statusIterator(
+      payload,
+      payload.offense.status.onAttack,
+      (payload, source, callback) => {
+        console.log("test");
+        if (payload.target.status.onReceive.length > 0) {
+          statusIterator(
+            payload,
+            payload.target.status.onReceive,
+            (payload, source, callback) => {
+              move(payload);
             }
-            else{
-                callback(payload)
-            }
-        })
-    }
-    else{
-        console.log('target 2')     
-        payload.target.modifier[0].modify(payload, callback)
-    } 
+          );
+        } else {
+          move(payload);
+        }
+      }
+    );
+  } else {
+    statusIterator(
+      payload,
+      payload.target.status.onReceive,
+      (payload, source, callback) => {
+        move(payload);
+      }
+    );
+  }
 }
 
 function sequence(payload, store, callback) {
-    console.log(store)
-    let state = _.cloneDeep(store)
-    state.turn = state.turn + 1
+  console.log(store);
+  let state = _.cloneDeep(store);
+  state.turn = state.turn + 1;
 
-    //Pre Sequence
+  //Sequence
+  payload.forEach(payload => {
+    function team(owner) {
+      let index = state.teamOdd.findIndex(x => x.name === owner);
+      if (index > -1) {
+        return state.teamOdd[index];
+      } else {
+        return state.teamEven[state.teamEven.findIndex(x => x.name === owner)];
+      }
+    }
+    let offense = team(payload.offense);
+    let target = team(payload.target);
+    target = skillApply({
+      offense: offense,
+      target: target,
+      skill: payload.skill
+    });
+  });
 
-    //Sequence
-    payload.forEach(payload => {
-        function team(owner) {
-            let index = state.teamB.findIndex(x => x.name === owner)
-            if (index > -1) {
-                console.log(state)
-                return state.teamB[index]
-            } else {
-                return state.teamA[state.teamA.findIndex(x => x.name === owner)]
-            }
+  //Post Sequence
+  function postSequence(x, turn) {
+    function pattern(source) {
+      if (source.length > 0) {
+        source.forEach((s, t) => {
+          source[t].name;
+          source[t].active -= 1;
+        });
+        return source.filter(x => x.active > 0);        
+      } else {
+        return [];
+      }
+    }
+
+    if (state.turn % 2 === turn) {
+      if (x.status.onSelf.length > 0) {
+        x.status.onSelf.forEach((s, t) => {
+          x.status.onSelf[t].active -= 1;
+          x.status.onSelf[t].modify({ offense: x });
+        });
+        x.status.onSelf = x.status.onSelf.filter(x => x.active > 0);
+      }
+      x.status.onAttack = pattern(x.status.onAttack);
+      x.status.onReceive = pattern(x.status.onReceive);
+      x.status.onState = pattern(x.status.onState);
+      x.skill.forEach(s => {
+        if (s.state === "cooldown") {
+          if (s.counter < s.cooldown) {
+            s.counter += 1;
+          } else {
+            s.counter = 0;
+            s.state = "active";
+          }
         }
-        let offense = team(payload.offense)
-        let target = team(payload.target)
-        target = applySkill({
-            offense: offense,
-            target: target,
-            skill: payload.skill
-        })
-        // target = offense.skill[payload.skill].apply({            
-        //     offense: offense,
-        //     target: target
-        // })
-    })        
+      });
+    }
+  }
 
-    //Post Sequence
-    state.teamA.forEach(x => {
-        if(x.status.length > 0){ 
-            console.log('teamA')     
-            x.status[0].apply({offense: x})
-        } 
-    })
-    state.teamB.forEach(x => {
-        if(x.status.length > 0){ 
-            console.log('teamB')     
-            x.status[0].apply({offense: x})
-        } 
-    })    
-    callback(state)
+  state.teamEven.forEach(x => {
+    postSequence(x, 0);
+  });
+  state.teamOdd.forEach(x => {
+    postSequence(x, 1);
+  });
+
+  callback(state);
 }
 
-module.exports = sequence
+module.exports = sequence;

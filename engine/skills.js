@@ -6,66 +6,48 @@ module.exports = {
     name: "Uzumaki Naruto Combo",
     type: "attack",
     val: 20,
-    move: function(payload) {
-      console.log(
-        "inside",
-        payload.target.name,
-        payload.target.hp,
-        payload.val
-      );
-      payload.target.hp = payload.target.hp - payload.val;
-      return payload.target;
+    cooldown: 2,    
+    move: function(payload) {      
+      payload.target.hp -= payload.val;      
     }
   },
   rasengan: {
     name: "Rasengan",
     type: "attack",
     val: 45,
-    move: function(payload) {
-      console.log(
-        "inside",
-        payload.target.name,
-        payload.target.hp,
-        payload.val
-      );
-      payload.target.hp = payload.target.hp - payload.val;
-      return payload.target;
+    cooldown: 2,    
+    required: true,
+    move: function(payload) {      
+      payload.target.hp -= payload.val;      
     }
   },
   shadowClones: {
     name: "Shadow CLones",
     type: "attack",
     val: 10,
-    move: function(payload) {
-      console.log(
-        "inside",
-        payload.target.name,
-        payload.target.hp,
-        payload.val
-      );
-      payload.target.modifier.push(new constructor.status(status.shadowClones), new constructor.status(status.boost));
-      return payload.target;
+    cooldown: 2,
+    target: 'self',  
+    move: function(payload) {      
+      payload.target.status.onState.push(new constructor.status(status.allowRasengan));      
+      payload.target.status.onAttack.push(new constructor.status(status.shadowClones));
     }
   },
   invincible: {
     name: "Invincible",
     type: "attack",
     val: 10,
-    move: function(payload) {
-      console.log(
-        "inside",
-        payload.target.name,
-        payload.target.hp,
-        payload.val
-      );
-      payload.target.modifier.push(new constructor.status(status.invincible));
-      return payload.target;
+    cooldown: 2,
+    target: 'self',
+    move: function(payload) {      
+      payload.target.status.onState.push(new constructor.status(status.invincible));
     }
   },
   attack: {
     name: "attack",
     type: "attack",
     val: 10,
+    cooldown: 2,
+    target: 'enemy',
     move: function(payload) {
       console.log(
         "inside",
@@ -73,41 +55,53 @@ module.exports = {
         payload.target.hp,
         payload.val
       );
-      payload.target.hp = payload.target.hp - payload.val;
-      return payload.target;
+      payload.target.hp -= payload.val;      
     }
   },
   attackBuff: {
     name: "attackBuff",
     type: "modifier",
     val: 10,
+    cooldown: 2,
+    target: 'ally',
     move: function(payload) {
-      payload.target.modifier.push(new constructor.status(status.boost));
-      return payload.target;
+      payload.target.status.onAttack.push(new constructor.status(status.boost));      
     }
   },
   protect: {
     name: "protect",
     type: "modifier",
     val: 10,
+    cooldown: 2,
+    target: 'ally',
     move: function(payload) {
-      payload.target.modifier.push(new constructor.status(status.protect));
-      return payload.target;
+      payload.target.status.onReceive.push(new constructor.status(status.protect));      
     }
   },
   poison: {
     name: "poison",
     type: "self",
     val: 10,
+    cooldown: 2,    
     move: function(payload) {
-      payload.target.status.push(new constructor.status(status.poison));
+      payload.target.status.onSelf.push(new constructor.status(status.poison));
       return payload.target;
     }
   },
+  stun: {
+    name: "stun",
+    type: "enemy",
+    val: 10,
+    cooldown: 2,    
+    move: function(payload) {      
+      payload.target.status.onState.push(new constructor.status(status.stun));      
+    }
+  },
   hurt: {
-    type: "hurt",
+    name: "hurt",    
     type: "attack",
     val: 20,
+    cooldown: 2,    
     move: function(payload) {
       console.log(
         "inside",
@@ -115,18 +109,16 @@ module.exports = {
         payload.target.hp,
         this.damage
       );
-      payload.target.hp = payload.target.hp - payload.val;
-      return payload.target;
+      payload.target.hp -= payload.val;      
     }
   },
   heal: {
     name: "heal",
     type: "heal",
     val: 20,
-    move: function(payload) {
-      console.log("heal", payload.target.name, payload.target.hp, this.val);
-      payload.target.hp = payload.target.hp + payload.val;
-      return payload.target;
+    cooldown: 2,    
+    move: function(payload) {      
+      payload.target.hp += payload.val; 
     }
   }
 };

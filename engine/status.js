@@ -1,47 +1,64 @@
 module.exports = {
   boost: {
     name: "boost",
-    val: 10,
+    val: 40,
     type: "skill",
-    modify: function(payload, callback) {
-      payload.val = payload.val + this.val;
-      callback(payload);
+    active: 2,
+    modify: function(payload) {
+      console.log('boost')
+      payload.val += this.val;
     }
   },
   protect: {
     name: "protect",
     val: 10,
     type: "skill",
-    modify: function(payload, callback) {
-      console.log('protect',this.val)
-      payload.val = payload.val - this.val;
-      callback(payload);
+    active: 2,
+    modify: function(payload) {
+      console.log("protect", this.val);
+      payload.val -= this.val;
     }
   },
   poison: {
     name: "poison",
     val: 10,
     type: "self",
+    active: 2,
     modify: function(payload) {
-      payload.offense.hp = payload.offense.hp - this.val;
-      console.log(payload);
+      payload.offense.hp -= this.val;
     }
   },
   invincible: {
     name: "invincible",
     val: 0,
-    type: "self",
-    modify: function(payload) {  
-      payload.val = 0    
-    }
+    type: "invincible",
+    active: 1,    
   },
   shadowClones: {
     name: "Shadow Clones",
-    val: 15,
+    val: 10,
     type: "skill",
-    modify: function(payload, callback) {      
-      payload.val = payload.val + this.val;
-      callback(payload);
+    active: 4,
+    modify: function(payload) {
+      console.log(payload.offense.skill[payload.skill].name)      
+      if(payload.offense.skill[payload.skill].name === "Uzumaki Naruto Combo"){        
+        console.log("Shadow Clone")
+        payload.val += this.val;
+      }      
     }
+  },
+  stun: {
+    name: "stun",
+    val: 0,
+    type: "stun",
+    active: 1,
+    modify: function(payload) {      
+    }
+  },
+  allowRasengan: {
+    name: "allowRasengan",
+    type: "allow",
+    active: 4,
+    allow: "Rasengan"
   }
 };
