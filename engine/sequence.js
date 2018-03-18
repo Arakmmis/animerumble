@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-function skillApply(payload) {
+function skillApply(payload, mana) {
   console.log(
     "apply",
     payload.target.name,
@@ -24,9 +24,17 @@ function skillApply(payload) {
       payload.target = package.move(package);
     }
   }
+
+  //Cleanup
   payload.offense.skill[payload.skill].state = "cooldown";
+  payload.mana -= payload.offense.skill[payload.skill].mana;
+  mana(payload.mana);
 
   return payload.target;
+}
+
+function calculateMana(payload) {
+  return (payload.mana -= payload.offense.skill[payload.skill].mana);
 }
 
 function statusApply(payload, move, owner) {
@@ -72,7 +80,8 @@ function statusApply(payload, move, owner) {
 function sequence(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
-  state.turn = state.turn + 1;
+  let myTurn = state.turn % 2 === 1 ? "teamOdd" : "teamEven";
+  console.log(myTurn);
 
   //Sequence
   payload.forEach(payload => {
@@ -86,11 +95,17 @@ function sequence(payload, store, callback) {
     }
     let offense = team(payload.offense);
     let target = team(payload.target);
-    target = skillApply({
-      offense: offense,
-      target: target,
-      skill: payload.skill
-    });
+    target = skillApply(
+      {
+        offense: offense,
+        target: target,
+        skill: payload.skill,
+        mana: state.mana[myTurn]
+      },
+      mana => {
+        state.mana[myTurn] = mana;
+      }
+    );
   });
 
   //Post Sequence
@@ -101,7 +116,7 @@ function sequence(payload, store, callback) {
           source[t].name;
           source[t].active -= 1;
         });
-        return source.filter(x => x.active > 0);        
+        return source.filter(x => x.active > 0);
       } else {
         return [];
       }
@@ -131,13 +146,39 @@ function sequence(payload, store, callback) {
     }
   }
 
-  state.teamEven.forEach(x => {
+  function cleanup(x) {
+    if (x.hp < 0) {
+      x.hp = 0;
+    }
+    if (x.hp > 100) {
+      x.hp = 100;
+    }
+  }
+
+  state.teamEven.forEach(x => {      
     postSequence(x, 0);
+    cleanup(x)
   });
   state.teamOdd.forEach(x => {
     postSequence(x, 1);
+    cleanup(x)
   });
 
+  //Mana Distribution
+  if (state.turn % 2 === 0) {
+    state.mana.teamOdd += state.teamOdd.filter(x => x.hp > 0).length;
+    if(state.mana.teamOdd === 0){
+        state.winner = 'teamEven'
+    }
+  } else {
+    state.mana.teamEven += state.teamEven.filter(x => x.hp > 0).length;
+    if(state.mana.teamOdd === 0){
+        state.winner = 'teamOdd'
+    }
+  }
+
+  //Exit
+  state.turn = state.turn + 1;
   callback(state);
 }
 

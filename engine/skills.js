@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   shadowClones: {
-    name: "Shadow CLones",
+    name: "Shadow Clones",
     type: "attack",
     val: 10,
     cooldown: 2,
@@ -48,6 +48,7 @@ module.exports = {
     val: 10,
     cooldown: 2,
     target: 'enemy',
+    mana: 10,
     move: function(payload) {
       console.log(
         "inside",

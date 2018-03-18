@@ -11,56 +11,59 @@
     <p>Round:
         <span class="round"></span>
     </p>
+    <p>Mana:
+        <span class="mana"></span>
+    </p>
     <div id="wrap">
         <div class="myTeam">
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Player One</p>
                 <p>HP:
                     <span class="hp">0</span>
                 </p>
                 <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 3</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 3</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
             </div>
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Hero One</p>
                 <p>HP:
                     <span class="hp">0</span>
                 </p>
                 <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 3</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
             </div>
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Hero One</p>
                 <p>HP:
                     <span class="hp">0</span>
                 </p>
                 <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="">Skill 3</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
+                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
             </div>
         </div>
         <div class="theirTeam">
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Player One</p>
                 <p>HP:
                     <span class="hp">0</span>
                 </p>
                 <button class="target btn enemy" data-target="">Player 2</button>
             </div>
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Player One</p>
                 <p>HP:
                     <span class="hp">0</span>
                 </p>
                 <button class="target btn enemy" data-target="">Hero 2</button>
             </div>
-            <div class="char">
+            <div class="char" data-hero="">
                 <p class="name">Player One</p>
                 <p>HP:
                     <span class="hp">0</span>
@@ -92,12 +95,12 @@
         let packet = []
         let attack = {}
         let myTeam = getParameterName('team') === 'teamEven' ? 'teamEven' : 'teamOdd'
+        let theirTeam = getParameterName('team') === 'teamEven' ? 'teamOdd' : 'teamEven'
         let myTurn = myTeam === 'teamEven' ? 1 : 0
         console.log(myTeam)
         let initiate = false
 
-        function view(store) {
-
+        function view(store) {            
             //Turn Update
             if (store.turn % 2 !== myTurn) {
                 $(".btn").prop("disabled", false)
@@ -114,28 +117,38 @@
                     if (s.required) {
                         $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
                     }
+                    if (store.mana < s.mana) {
+                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
+                    }
+                    if (x.hp <= 0) {
+                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
+                    }
                 })
-                x.status.onState.forEach((s, t) => {               
+                x.status.onState.forEach((s, t) => {
                     if (s.type === 'stun') {
                         $(".skill[data-owner='" + x.name + "']").prop("disabled", true)
                     }
                     if (s.type === 'allow') {
-                        let index = x.skill.findIndex(a => a.name === s.allow)                        
+                        let index = x.skill.findIndex(a => a.name === s.allow)
                         $(".skill[data-owner='" + x.name + "'][data-skill='" + index + "']").prop("disabled", false)
                     }
                 })
+
             })
 
             //Update Char Status
             store.theirTeam.forEach((x, i) => {
                 $('.theirTeam .char').eq(i).children('p').children('.hp').text(x.hp)
-                x.status.onState.forEach((s, t) => {                        
+                x.status.onState.forEach((s, t) => {
                     if (s.type === 'invincible') {
-                        console.log(s.type)           
-                        console.log(x.name)     
+                        console.log(s.type)
+                        console.log(x.name)
                         $(".target[data-target='" + x.name + "'].enemy").addClass("invincible")
-                    }        
+                    }
                 })
+                if (x.hp <= 0) {
+                    $(".target[data-target='" + x.name + "']").prop("disabled", true)
+                }
             })
 
             //General Update
@@ -144,6 +157,15 @@
             }
             $(".target").prop("disabled", true)
             $('.round').text(store.turn)
+            $('.mana').text(store.mana)
+
+            //Game End
+            if(store.winner === myTeam){
+                $('.round').text('You Win')
+            }
+            else{
+                $('.round').text('You Lose')
+            }
         }
 
         socket.on('apply', (payload) => {
@@ -153,13 +175,17 @@
                 store = {
                     myTeam: store.teamEven,
                     theirTeam: store.teamOdd,
-                    turn: store.turn
+                    turn: store.turn,
+                    mana: store.mana.teamEven,
+                    winner: store.winner
                 }
             } else {
                 store = {
                     myTeam: store.teamOdd,
                     theirTeam: store.teamEven,
-                    turn: store.turn
+                    turn: store.turn,
+                    mana: store.mana.teamOdd,
+                    winner: store.winner
                 }
             }
 
@@ -178,20 +204,23 @@
                 store = {
                     myTeam: store.teamEven,
                     theirTeam: store.teamOdd,
-                    turn: store.turn
+                    turn: store.turn,
+                    mana: store.mana.teamEven,
+                    winner: store.winner
                 }
             } else {
                 store = {
                     myTeam: store.teamOdd,
                     theirTeam: store.teamEven,
-                    turn: store.turn
+                    turn: store.turn,
+                    mana: store.mana.teamOdd,
+                    winner: store.winner
                 }
             }
             console.log(store)
 
             function checkTeam(owner) {
                 let index = store.myTeam.findIndex(x => x.name === owner)
-                console.log(index)
                 if (index > -1) {
                     return store.myTeam[index]
                 } else {
@@ -206,8 +235,34 @@
                 let self = $(".skill[data-owner='" + owner + "'][data-skill='" + skill + "']")
 
                 if (self.hasClass('clicked')) {
+                    if (attack.offense === undefined) {
+                        store.mana += parseInt($(".skill[data-owner='" + owner + "'][data-skill='" + skill + "']").attr('data-mana'))
+                        packet = packet.filter(x => x.offense !== owner)
+                        $('.mana').text(store.mana)
+                    }
                     attack = {}
-                    $(".skill").prop("disabled", false).removeClass('clicked')
+                    $(".char[data-hero='" + owner + "']").prop("disabled", false).removeClass('attacking')
+                    $(".char[data-hero='" + owner + "'] .skill").prop("disabled", false).removeClass('clicked')
+
+                    $(".myTeam .char .skill").each((i, x) => {
+                        if (store.mana >= $(x).attr('data-mana')) {
+                            console.log(store.mana)
+                            $(x).prop("disabled", false)
+                        }
+                        if (store.mana < $(x).attr('data-mana')) {
+                            console.log(store.mana)
+                            $(x).prop("disabled", true)
+                        }
+                    })
+
+                    $(".char").each((i, x) => {
+                        if ($('.char .hp').eq(i).text() === String(0)) {
+                            console.log($('.char .hp').eq(i).text())
+                            console.log(i)
+                            $('.char').eq(i).children('.skill').prop("disabled", true)
+                        }
+                    })
+
                     $(".target").prop("disabled", true)
                     $("#attack").prop("disabled", false)
                 } else {
@@ -225,6 +280,13 @@
                     else if (store.skill[skill].target === 'self') {
                         $(".target[data-target='" + store.name + "']").prop("disabled", false)
                     }
+                    $(".char").each((i, x) => {
+                        if ($('.char .hp').eq(i).text() === String(0)) {
+                            console.log($('.char .hp').eq(i).text())
+                            console.log(i)
+                            $('.char .target').eq(i).prop("disabled", true)
+                        }
+                    })
                     $(".skill").prop("disabled", true)
                     // $(".target").prop("disabled", false)
                     $("#attack").prop("disabled", true)
@@ -237,35 +299,66 @@
             $('.target').click((e) => {
                 console.log(e)
                 let target = e.currentTarget.dataset.target
-                let store = checkTeam(target)
+                let char = checkTeam(target)
 
-                attack.target = store.name
+                attack.target = char.name
                 packet.push(attack)
-                attack = {}
-                $(".skill").prop("disabled", false).removeClass('clicked')
+                store.mana -= parseInt($(".skill[data-owner='" + attack.offense + "'][data-skill='" + attack.skill + "']").attr('data-mana'))
+                $('.mana').text(store.mana)
+
+                $(".char[data-hero='" + attack.offense + "']").addClass("attacking")
+                $(".char:not(.attacking) .skill").prop("disabled", false)
+
+                $(".skill").each((i, x) => {
+                    if (store.mana < $(x).attr('data-mana')) {
+                        console.log(store.mana)
+                        $(x).prop("disabled", true)
+                    }
+                })
+
+                $(".skill[data-owner='" + attack.offense + "']").prop("disabled", true)
+                $(".skill.clicked").prop("disabled", false)
+
+                $(".char").each((i, x) => {
+                    if ($('.char .hp').eq(i).text() === String(0)) {
+                        console.log($('.char .hp').eq(i).text())
+                        console.log(i)
+                        $('.char').eq(i).children('.skill').prop("disabled", true)
+                    }
+                })                
                 $(".target").prop("disabled", true)
                 $("#attack").prop("disabled", false)
+
+                attack = {}
                 console.log(attack, packet)
             })
 
             if (initiate === false) {
                 console.log('initiate')
                 store.myTeam.forEach((x, i) => {
-                    $('.myTeam .char').eq(i).children('.name').text(x.name)
+                    console.log(x.name)
+                    $('.myTeam .char').eq(i).children('.name').text(x.name.substring(0, x.name.length - 1))
                     $('.myTeam .char').eq(i).children('.target').attr({
                         'data-target': x.name
+                    })
+                    $('.myTeam .char').eq(i).attr({
+                        'data-hero': x.name
                     })
                     x.skill.forEach((t, s) => {
                         $('.myTeam .char').eq(i).children('.skill').eq(s).attr({
                             'data-owner': x.name,
-                            'data-skill': s
+                            'data-skill': s,
+                            'data-mana': t.mana
                         }).text(t.name)
                     })
                 })
                 store.theirTeam.forEach((x, i) => {
-                    $('.theirTeam .char').eq(i).children('.name').text(x.name)
+                    $('.theirTeam .char').eq(i).children('.name').text(x.name.substring(0, x.name.length - 1))
                     $('.theirTeam .char').eq(i).children('.target').attr({
                         'data-target': x.name
+                    })
+                    $('.theirTeam .char').eq(i).attr({
+                        'data-hero': x.name
                     })
                 })
 
@@ -277,6 +370,7 @@
             $('#attack').click(() => {
                 console.log('hi')
                 console.log(packet)
+                $('.skill').removeClass('clicked')
                 socket.emit('registerAttack', packet)
                 packet = []
             })

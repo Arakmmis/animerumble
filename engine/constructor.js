@@ -28,6 +28,7 @@ module.exports = {
     this.target = payload.target ? payload.target :  "enemy";
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false
+    this.mana = payload.mana ? payload.mana : 1
   },
   modifier: function(payload) {
     this.name = payload.name;

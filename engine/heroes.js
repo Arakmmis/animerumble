@@ -23,7 +23,7 @@ module.exports = {
   },
   playerTwo: {
     name: "playerTwo",
-    hp: 100,
+    hp: 10,
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.hurt),

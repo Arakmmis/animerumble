@@ -14,8 +14,7 @@ module.exports = {
     val: 10,
     type: "skill",
     active: 2,
-    modify: function(payload) {
-      console.log("protect", this.val);
+    modify: function(payload) {      
       payload.val -= this.val;
     }
   },
@@ -51,7 +50,7 @@ module.exports = {
     name: "stun",
     val: 0,
     type: "stun",
-    active: 1,
+    active: 2,
     modify: function(payload) {      
     }
   },
