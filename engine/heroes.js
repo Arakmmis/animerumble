@@ -18,7 +18,8 @@ module.exports = {
     skill: [
         new constructor.skill(skills.stun),
         new constructor.skill(skills.attackBuff),
-        new constructor.skill(skills.protect)
+        new constructor.skill(skills.protect),
+        new constructor.skill(skills.invincible)
       ]
   },
   playerTwo: {
@@ -27,7 +28,8 @@ module.exports = {
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.hurt),
-        new constructor.skill(skills.stun)
+        new constructor.skill(skills.stun),
+        new constructor.skill(skills.invincible)
       ]
   },
   heroTwo: {
@@ -36,7 +38,8 @@ module.exports = {
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.hurt),
-        new constructor.skill(skills.heal)
+        new constructor.skill(skills.heal),
+        new constructor.skill(skills.invincible)
       ]
   },
   heroThree: {
@@ -45,7 +48,8 @@ module.exports = {
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.protect),
-        new constructor.skill(skills.heal)
+        new constructor.skill(skills.heal),
+        new constructor.skill(skills.invincible)
       ]
   },
   playerThree: {
@@ -54,7 +58,8 @@ module.exports = {
     skill: [
         new constructor.skill(skills.attack),
         new constructor.skill(skills.hurt),
-        new constructor.skill(skills.heal)
+        new constructor.skill(skills.heal),
+        new constructor.skill(skills.invincible)
       ]
   }
 };

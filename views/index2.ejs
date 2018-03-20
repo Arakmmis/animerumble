@@ -1,0 +1,250 @@
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<div id="app">
+    <p>Turn: {{source.turn}}</p>
+    <p>Mana: {{source.mana.ally}}</p>
+    <div v-for="(item, index) in source.ally">
+        <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+        <p>HP: {{item.hp}}</p>
+
+        <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">{{item.name}}</button>
+        <div v-for="(skill, skillIndex) in item.skill">
+            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">{{skill.name}}</button>
+        </div>
+    </div>
+    <hr>
+    <div v-for="(item, index) in source.enemy">
+        <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+        <p>HP: {{item.hp}}</p>
+
+        <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
+    </div>
+
+    <button @click="onAttack('hi')" :disabled="(packet.length <= 0 || source.mana.ally < 0) ? true : false">Attack</button>
+</div>
+
+<script>
+    var socket = io();
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vuee.js!',
+            source: {
+                mana: {}
+            },
+            packet: [],
+            state: {
+                skill: {
+                    offense: '',
+                    skill: null,
+                    target: '',
+                    aim: ''
+                },
+                onSkill: false,
+                button: {}
+            },
+            buttonDisabled: {
+                target: true,
+                skill: false,
+            },
+        },
+        methods: {
+            onSkill: function (payload) {
+                //Define and Switch State            
+                let state = this.state
+                let temporary = {
+                    offense: payload.name,
+                    skill: payload.skillIndex,
+                    target: '',
+                    aim: payload.target,
+                    heroIndex: payload.heroIndex
+                }
+                console.log(state)
+                console.log(payload)
+
+                if (state.button.ally[temporary.heroIndex].onSkill === false) {
+                    //Buffer Skill                    
+                    state.skill = temporary
+                    this.source.mana.ally -= this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
+                    //Button Management
+                    buttonManagement(temporary, 'onSkill')
+                }
+                else {
+                    this.source.mana.ally += this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
+                    //Button Management
+                    if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex === null) {
+                        buttonManagement(temporary, 'onSelf')
+                    }
+                    else if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex !== null) {
+                        buttonManagement(temporary, 'onCancel')
+                    }
+                    else {
+                        buttonManagement(temporary, 'onSkill')
+                    }
+                    this.packet = this.packet.filter(x => x.offense !== temporary.offense)
+                    //Clean Skill Buffer
+                    state.skill = {
+                        offense: '',
+                        skill: null,
+                        target: '',
+                        aim: '',
+                        heroIndex: null
+                    }
+                }
+
+                //State Management
+                state.button.ally[temporary.heroIndex].onSkill = !state.button.ally[temporary.heroIndex].onSkill
+            },
+            onTarget: function (payload) {
+                //Define State
+                let state = this.state
+                //Buffer Skill          
+                state.skill.target = payload.name
+                //Register Skill
+                this.packet.push(this.state.skill)
+
+                //Button Management
+                buttonManagement(state.skill, 'onTarget')
+
+                //Clean Skill Buffer
+                state.skill = {
+                    offense: '',
+                    skill: null,
+                    target: '',
+                    aim: '',
+                    heroIndex: null
+                }
+            },
+            onAttack: function (payload) {
+                console.log(this.packet)                
+                socket.emit('registerAttack', this.packet)
+                this.packet = []
+            }
+        }
+    })
+
+    function buttonManagement(payload, option) {
+        //Target Button
+        if (payload.aim === 'enemy') {
+            app.state.button.enemy.forEach(x => x.button = x.disabled === false ? !x.button : true)
+        }
+        else if (payload.aim === 'ally') {
+            app.state.button.ally.forEach(x => x.button = x.disabled === false ? !x.button : true)
+        }
+        else if (payload.aim === 'self') {
+            app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled === false ? !app.state.button.ally[payload.heroIndex].button : true
+        }
+
+        //Skill Button
+        if (option === 'onSkill') {
+            app.state.button.ally.forEach(x => {
+                if (x.onSkill === false) {
+                    x.skill.forEach(s => {
+                        // s.disabled = s.mana >= app.source.mana.ally ? true : false
+                        s.button = s.disabled === false ? !s.button : true
+                        if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                            s.button = false
+                        }
+                    })
+                }
+            })
+        }
+        if (option === 'onCancel') {
+            app.state.button.ally.forEach(x => {
+                x.skill.forEach(s => {
+                    // s.disabled = s.mana >= app.source.mana.ally ? true : false
+                    s.button = s.disabled === false ? !s.button : true
+                    if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                        s.button = false
+                    }
+                })
+            })
+        }
+        else if (option === 'onTarget') {
+            app.state.button.ally.forEach(x => {
+                let index = app.packet.findIndex(s => s.offense === x.name)
+                if (index < 0) {
+                    x.skill.forEach(s => {
+                        // s.disabled = s.mana >= app.source.mana.ally ? true : false
+                        s.button = s.disabled === false ? !s.button : true
+                    })
+                }
+            })
+        }
+        else if (option === 'onSelf') {
+            app.state.button.ally[payload.heroIndex].skill.forEach(s => {
+                // s.disabled = s.mana >= app.source.mana.ally ? true : false
+                s.button = s.disabled === false ? false : true
+            })
+        }
+    }
+
+    function getParameterName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function vueBind(payload) {
+        console.log(payload)
+        let ally = getParameterName('team') === 'teamEven' ? 'teamEven' : 'teamOdd'
+        let enemy = getParameterName('team') === 'teamEven' ? 'teamOdd' : 'teamEven'
+        let turn = ally === 'teamEven' ? 1 : 0
+        let myTurn = payload.turn % 2 === turn ? true : false
+        let store = {
+            mana: {
+                ally: payload.mana[ally],
+                enemy: payload.mana[enemy]
+            },
+            ally: payload[ally],
+            enemy: payload[enemy],
+            turn: payload.turn
+        }
+        console.log(store)
+        let button = {
+            ally: store.ally.map(x => {
+                let stun = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
+                return {
+                    name: x.name,
+                    button: true,
+                    onSkill: false,
+                    disabled: stun,
+                    skill: x.skill.map(s => {
+                        let disabled = s.mana > store.mana.ally || stun || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
+                        return {
+                            name: s.name,
+                            mana: s.mana,
+                            disabled: disabled,
+                            button: disabled
+                        }
+                    })
+                }
+            }),
+            enemy: store.enemy.map(x => {
+                let disabled = x.status.onState.findIndex(x => x.type === 'invincible') > -1 || x.hp <= 0 ? true : false
+                console.log(disabled)
+                return {
+                    name: x.name,
+                    disabled: disabled,
+                    button: true
+                }
+            })
+        }
+        app.source = store
+        app.state.button = button
+    }
+
+    socket.on('initiate', (payload) => {
+        vueBind(payload)
+    })
+
+    socket.on('apply', (payload) => {
+        vueBind(payload)
+    })
+</script>

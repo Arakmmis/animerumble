@@ -167,14 +167,14 @@ function sequence(payload, store, callback) {
   //Mana Distribution
   if (state.turn % 2 === 0) {
     state.mana.teamOdd += state.teamOdd.filter(x => x.hp > 0).length;
-    if(state.mana.teamOdd === 0){
-        state.winner = 'teamEven'
-    }
+    // if(state.mana.teamOdd === 0){
+    //     state.winner = 'teamEven'
+    // }
   } else {
     state.mana.teamEven += state.teamEven.filter(x => x.hp > 0).length;
-    if(state.mana.teamOdd === 0){
-        state.winner = 'teamOdd'
-    }
+    // if(state.mana.teamOdd === 0){
+    //     state.winner = 'teamOdd'
+    // }
   }
 
   //Exit

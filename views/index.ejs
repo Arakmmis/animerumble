@@ -160,12 +160,12 @@
             $('.mana').text(store.mana)
 
             //Game End
-            if(store.winner === myTeam){
-                $('.round').text('You Win')
-            }
-            else{
-                $('.round').text('You Lose')
-            }
+            // if(store.winner === myTeam){
+            //     $('.round').text('You Win')
+            // }
+            // else{
+            //     $('.round').text('You Lose')
+            // }
         }
 
         socket.on('apply', (payload) => {

@@ -31,7 +31,7 @@ module.exports = {
     name: "invincible",
     val: 0,
     type: "invincible",
-    active: 1,    
+    active: 2,    
   },
   shadowClones: {
     name: "Shadow Clones",
