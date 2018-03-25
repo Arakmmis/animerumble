@@ -1,381 +1,110 @@
-<html>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/immutable@3.8.2/dist/immutable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
-</head>
-
-<body>
-    <p>Round:
-        <span class="round"></span>
-    </p>
-    <p>Mana:
-        <span class="mana"></span>
-    </p>
-    <div id="wrap">
-        <div class="myTeam">
-            <div class="char" data-hero="">
-                <p class="name">Player One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
-            </div>
-            <div class="char" data-hero="">
-                <p class="name">Hero One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
-            </div>
-            <div class="char" data-hero="">
-                <p class="name">Hero One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn ally" data-target="">Target</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 1</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 2</button>
-                <button class="skill btn" data-owner="" data-skill="" data-mana="">Skill 3</button>
-            </div>
-        </div>
-        <div class="theirTeam">
-            <div class="char" data-hero="">
-                <p class="name">Player One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn enemy" data-target="">Player 2</button>
-            </div>
-            <div class="char" data-hero="">
-                <p class="name">Player One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn enemy" data-target="">Hero 2</button>
-            </div>
-            <div class="char" data-hero="">
-                <p class="name">Player One</p>
-                <p>HP:
-                    <span class="hp">0</span>
-                </p>
-                <button class="target btn enemy" data-target="">Hero 2</button>
-            </div>
-        </div>
-
-        <button id="attack" class="btn">Attack</button>
+<div id="app">
+    <div v-if="!seen">
+        <p>Choose a name:</p>
+        <input v-model="username"></input>
+        <p>{{username}}</p>
+        <button @click="login">Login</button>
     </div>
-    <hr>
+    <div v-if="seen">
+        <p>Welcome {{username}}</p>
+    </div>
+    <p>Users Online:</p>
+    <div v-for="item in players">
+        <p>{{item[1]}}</p> 
+        <button @click="onChallenge(item[1])" v-if="item[1] !== username">Challenge</button>
+    </div>
 
-</body>
+    <div v-if="challenge.seen">
+        <p>Challenge from {{challenge.challenger}}</p>
+        <button @click="onAccept(challenge.challenger)">Accept?</button>
+    </div>
+
+</div>
 
 <script>
-    $(function () {
-        function getParameterName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
+    var socket = io();
+
+    let app = new Vue({
+        el: '#app',
+        data: {
+            seen: false,
+            username: '',
+            players: [],
+            challenge: {
+                seen: false,
+                challenger: ''
+            }
+        },
+        methods: {
+            login: function (payload) {
+                console.log(this.username)
+                socket.emit('log', {
+                    name: this.username
+                })
+            },
+            onChallenge: function (payload) {
+                socket.emit('challenge', {
+                    from: this.username,
+                    to: payload
+                })
+            },
+            onAccept: function (payload) {
+                socket.emit('accept', {
+                    from: this.username,
+                    to: payload
+                })
+                // window.location.replace("/game/"+payload+this.username)
+            }
         }
+    })
 
-        var socket = io();
+    const setCookie = (name, value, days = 7, path = '/') => {
+		const expires = new Date(Date.now() + days * 864e5).toGMTString()
+		document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+	}
 
-        let packet = []
-        let attack = {}
-        let myTeam = getParameterName('team') === 'teamEven' ? 'teamEven' : 'teamOdd'
-        let theirTeam = getParameterName('team') === 'teamEven' ? 'teamOdd' : 'teamEven'
-        let myTurn = myTeam === 'teamEven' ? 1 : 0
-        console.log(myTeam)
-        let initiate = false
+	const getCookie = (name) => {
+		return document.cookie.split('; ').reduce((r, v) => {
+			const parts = v.split('=')
+			return parts[0] === name ? decodeURIComponent(parts[1]) : r
+		}, '')
+	}
 
-        function view(store) {            
-            //Turn Update
-            if (store.turn % 2 !== myTurn) {
-                $(".btn").prop("disabled", false)
-                $(".target.invincible").removeClass("invincible")
-            }
+	const deleteCookie = (name, path) => {
+		setCookie(name, '', -1, path)
+	}
+    
 
-            //Update Char Status
-            store.myTeam.forEach((x, i) => {
-                $('.myTeam .char').eq(i).children('p').children('.hp').text(x.hp)
-                x.skill.forEach((s, t) => {
-                    if (s.state === 'cooldown') {
-                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
-                    }
-                    if (s.required) {
-                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
-                    }
-                    if (store.mana < s.mana) {
-                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
-                    }
-                    if (x.hp <= 0) {
-                        $(".skill[data-owner='" + x.name + "'][data-skill='" + t + "']").prop("disabled", true)
-                    }
-                })
-                x.status.onState.forEach((s, t) => {
-                    if (s.type === 'stun') {
-                        $(".skill[data-owner='" + x.name + "']").prop("disabled", true)
-                    }
-                    if (s.type === 'allow') {
-                        let index = x.skill.findIndex(a => a.name === s.allow)
-                        $(".skill[data-owner='" + x.name + "'][data-skill='" + index + "']").prop("disabled", false)
-                    }
-                })
+    let token = getCookie('token')
+    socket.emit('connectLobby', {
+        token: token
+    })
+    socket.on('logged', payload => {
+        app.seen = true
+        app.username = payload.user
+        console.log('logged in')
+        setCookie('token', payload.token)
+        setCookie('username', payload.user)
+    })
+    socket.on('exist', payload => {
+        console.log('exist')
+    })
 
-            })
+    socket.on('challenge', payload => {
+        app.challenge.seen = true
+        app.challenge.challenger = payload
+    })
 
-            //Update Char Status
-            store.theirTeam.forEach((x, i) => {
-                $('.theirTeam .char').eq(i).children('p').children('.hp').text(x.hp)
-                x.status.onState.forEach((s, t) => {
-                    if (s.type === 'invincible') {
-                        console.log(s.type)
-                        console.log(x.name)
-                        $(".target[data-target='" + x.name + "'].enemy").addClass("invincible")
-                    }
-                })
-                if (x.hp <= 0) {
-                    $(".target[data-target='" + x.name + "']").prop("disabled", true)
-                }
-            })
+    socket.on('accepted', payload => {
+        console.log('start')
+        window.location.replace("/game/"+payload)
+    })
 
-            //General Update
-            if (store.turn % 2 === myTurn) {
-                $(".btn").prop("disabled", true)
-            }
-            $(".target").prop("disabled", true)
-            $('.round').text(store.turn)
-            $('.mana').text(store.mana)
-
-            //Game End
-            // if(store.winner === myTeam){
-            //     $('.round').text('You Win')
-            // }
-            // else{
-            //     $('.round').text('You Lose')
-            // }
-        }
-
-        socket.on('apply', (payload) => {
-            store = payload
-            console.log('apply', payload)
-            if (store.myTeam === myTeam) {
-                store = {
-                    myTeam: store.teamEven,
-                    theirTeam: store.teamOdd,
-                    turn: store.turn,
-                    mana: store.mana.teamEven,
-                    winner: store.winner
-                }
-            } else {
-                store = {
-                    myTeam: store.teamOdd,
-                    theirTeam: store.teamEven,
-                    turn: store.turn,
-                    mana: store.mana.teamOdd,
-                    winner: store.winner
-                }
-            }
-
-            view(store)
-        })
-
-        socket.on('initiate', (payload) => {
-
-            if (initiate === true) {
-                console.log('initiated')
-                return false
-            }
-            store = payload
-            console.log(payload)
-            if (store.myTeam === myTeam) {
-                store = {
-                    myTeam: store.teamEven,
-                    theirTeam: store.teamOdd,
-                    turn: store.turn,
-                    mana: store.mana.teamEven,
-                    winner: store.winner
-                }
-            } else {
-                store = {
-                    myTeam: store.teamOdd,
-                    theirTeam: store.teamEven,
-                    turn: store.turn,
-                    mana: store.mana.teamOdd,
-                    winner: store.winner
-                }
-            }
-            console.log(store)
-
-            function checkTeam(owner) {
-                let index = store.myTeam.findIndex(x => x.name === owner)
-                if (index > -1) {
-                    return store.myTeam[index]
-                } else {
-                    return store.theirTeam[store.theirTeam.findIndex(x => x.name === owner)]
-                }
-            }
-
-            $('.skill').click((e) => {
-                console.log(e)
-                let owner = e.currentTarget.dataset.owner
-                let skill = e.currentTarget.dataset.skill
-                let self = $(".skill[data-owner='" + owner + "'][data-skill='" + skill + "']")
-
-                if (self.hasClass('clicked')) {
-                    if (attack.offense === undefined) {
-                        store.mana += parseInt($(".skill[data-owner='" + owner + "'][data-skill='" + skill + "']").attr('data-mana'))
-                        packet = packet.filter(x => x.offense !== owner)
-                        $('.mana').text(store.mana)
-                    }
-                    attack = {}
-                    $(".char[data-hero='" + owner + "']").prop("disabled", false).removeClass('attacking')
-                    $(".char[data-hero='" + owner + "'] .skill").prop("disabled", false).removeClass('clicked')
-
-                    $(".myTeam .char .skill").each((i, x) => {
-                        if (store.mana >= $(x).attr('data-mana')) {
-                            console.log(store.mana)
-                            $(x).prop("disabled", false)
-                        }
-                        if (store.mana < $(x).attr('data-mana')) {
-                            console.log(store.mana)
-                            $(x).prop("disabled", true)
-                        }
-                    })
-
-                    $(".char").each((i, x) => {
-                        if ($('.char .hp').eq(i).text() === String(0)) {
-                            console.log($('.char .hp').eq(i).text())
-                            console.log(i)
-                            $('.char').eq(i).children('.skill').prop("disabled", true)
-                        }
-                    })
-
-                    $(".target").prop("disabled", true)
-                    $("#attack").prop("disabled", false)
-                } else {
-                    let store = checkTeam(owner)
-                    attack.offense = store.name
-                    attack.skill = skill
-                    console.log(store.skill[skill].target)
-                    if (store.skill[skill].target === 'enemy') {
-                        $(".target.enemy").prop("disabled", false)
-                        $(".target.enemy.invincible").prop("disabled", true)
-                    }
-                    else if (store.skill[skill].target === 'ally') {
-                        $(".target.ally").prop("disabled", false)
-                    }
-                    else if (store.skill[skill].target === 'self') {
-                        $(".target[data-target='" + store.name + "']").prop("disabled", false)
-                    }
-                    $(".char").each((i, x) => {
-                        if ($('.char .hp').eq(i).text() === String(0)) {
-                            console.log($('.char .hp').eq(i).text())
-                            console.log(i)
-                            $('.char .target').eq(i).prop("disabled", true)
-                        }
-                    })
-                    $(".skill").prop("disabled", true)
-                    // $(".target").prop("disabled", false)
-                    $("#attack").prop("disabled", true)
-                    self.prop("disabled", false).addClass(
-                        'clicked')
-                }
-                console.log(attack, packet)
-            })
-
-            $('.target').click((e) => {
-                console.log(e)
-                let target = e.currentTarget.dataset.target
-                let char = checkTeam(target)
-
-                attack.target = char.name
-                packet.push(attack)
-                store.mana -= parseInt($(".skill[data-owner='" + attack.offense + "'][data-skill='" + attack.skill + "']").attr('data-mana'))
-                $('.mana').text(store.mana)
-
-                $(".char[data-hero='" + attack.offense + "']").addClass("attacking")
-                $(".char:not(.attacking) .skill").prop("disabled", false)
-
-                $(".skill").each((i, x) => {
-                    if (store.mana < $(x).attr('data-mana')) {
-                        console.log(store.mana)
-                        $(x).prop("disabled", true)
-                    }
-                })
-
-                $(".skill[data-owner='" + attack.offense + "']").prop("disabled", true)
-                $(".skill.clicked").prop("disabled", false)
-
-                $(".char").each((i, x) => {
-                    if ($('.char .hp').eq(i).text() === String(0)) {
-                        console.log($('.char .hp').eq(i).text())
-                        console.log(i)
-                        $('.char').eq(i).children('.skill').prop("disabled", true)
-                    }
-                })                
-                $(".target").prop("disabled", true)
-                $("#attack").prop("disabled", false)
-
-                attack = {}
-                console.log(attack, packet)
-            })
-
-            if (initiate === false) {
-                console.log('initiate')
-                store.myTeam.forEach((x, i) => {
-                    console.log(x.name)
-                    $('.myTeam .char').eq(i).children('.name').text(x.name.substring(0, x.name.length - 1))
-                    $('.myTeam .char').eq(i).children('.target').attr({
-                        'data-target': x.name
-                    })
-                    $('.myTeam .char').eq(i).attr({
-                        'data-hero': x.name
-                    })
-                    x.skill.forEach((t, s) => {
-                        $('.myTeam .char').eq(i).children('.skill').eq(s).attr({
-                            'data-owner': x.name,
-                            'data-skill': s,
-                            'data-mana': t.mana
-                        }).text(t.name)
-                    })
-                })
-                store.theirTeam.forEach((x, i) => {
-                    $('.theirTeam .char').eq(i).children('.name').text(x.name.substring(0, x.name.length - 1))
-                    $('.theirTeam .char').eq(i).children('.target').attr({
-                        'data-target': x.name
-                    })
-                    $('.theirTeam .char').eq(i).attr({
-                        'data-hero': x.name
-                    })
-                })
-
-                initiate = true
-            }
-
-            view(store)
-
-            $('#attack').click(() => {
-                console.log('hi')
-                console.log(packet)
-                $('.skill').removeClass('clicked')
-                socket.emit('registerAttack', packet)
-                packet = []
-            })
-        });
-    });
+    socket.on('users', payload => {
+        console.log('test')
+        app.players = payload
+    })
 </script>
-
-</html>

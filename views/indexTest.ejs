@@ -1,0 +1,27 @@
+<script data-main="/script/app.js" src="/script/require.js"></script>
+
+<div id="app">
+    <div v-if="!seen">
+        <p>Choose a name:</p>
+        <input v-model="username"></input>
+        <p>{{username}}</p>
+        <button @click="login">Login</button>
+    </div>
+    <div v-if="seen">
+        <p>Welcome {{username}}</p>
+    </div>
+    <p>Users Online:</p>
+    <div v-for="item in players">
+        <p>{{item[1]}}</p> <button @click="onChallenge(item[1])">Challenge</button>
+    </div>
+
+    <div v-if="challenge.seen">
+        <p>Challenge from {{challenge.challenger}}</p>
+        <button>Accept?</button>
+    </div>
+
+</div>
+
+<script>
+    
+</script>

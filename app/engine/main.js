@@ -1,4 +1,3 @@
-let sequence = require('./sequence.js')
 let constructor = require('./constructor.js')
 let heroes = require('./heroes.js')
 let naruto = require('./character/naruto.js')
@@ -21,9 +20,13 @@ function main(payload, callback) {
             teamOdd: 1,
             teamEven: 0,
         },
-        turn: 1,
-        myTeam: '',
-        winner: 'tbd'
+        turn: 1,        
+        winner: 'tbd',
+        team: {
+            teamOdd: payload.team.teamOdd,
+            teamEven: payload.team.teamEven
+        },
+        room: payload.room
     }
     state.teamEven.forEach((x, i) => {
         x.name += 0
@@ -35,11 +38,8 @@ function main(payload, callback) {
         x.id = i
         x.team = 'teamOdd'
     })
-    
-    let store = [state]
-    action.store = store[store.length - 1]    
-    action.sequence = sequence
-    callback(action)
+        
+    callback(state)
 }
 
 module.exports = {

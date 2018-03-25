@@ -1,6 +1,5 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-
 <div id="app">
     <p>Turn: {{source.turn}}</p>
     <p>Mana: {{source.mana.ally}}</p>
@@ -21,7 +20,7 @@
         <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
     </div>
 
-    <button @click="onAttack('hi')" :disabled="(packet.length <= 0 || source.mana.ally < 0) ? true : false">Attack</button>
+    <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false">Attack</button>
 </div>
 
 <script>
@@ -44,11 +43,7 @@
                 },
                 onSkill: false,
                 button: {}
-            },
-            buttonDisabled: {
-                target: true,
-                skill: false,
-            },
+            },            
         },
         methods: {
             onSkill: function (payload) {
@@ -119,7 +114,10 @@
             },
             onAttack: function (payload) {
                 console.log(this.packet)                
-                socket.emit('registerAttack', this.packet)
+                socket.emit('sequence', {
+                    packet: this.packet,
+                    room: this.source.room
+                })
                 this.packet = []
             }
         }
@@ -189,12 +187,29 @@
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+    }    
+
+    const setCookie = (name, value, days = 7, path = '/') => {
+		const expires = new Date(Date.now() + days * 864e5).toGMTString()
+		document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+	}
+
+	const getCookie = (name) => {
+		return document.cookie.split('; ').reduce((r, v) => {
+			const parts = v.split('=')
+			return parts[0] === name ? decodeURIComponent(parts[1]) : r
+		}, '')
+	}
+
+	const deleteCookie = (name, path) => {
+		setCookie(name, '', -1, path)
+	}
 
     function vueBind(payload) {
+        let username = getCookie('username')
         console.log(payload)
-        let ally = getParameterName('team') === 'teamEven' ? 'teamEven' : 'teamOdd'
-        let enemy = getParameterName('team') === 'teamEven' ? 'teamOdd' : 'teamEven'
+        let ally = payload.team.teamEven === username ? 'teamEven' : 'teamOdd'
+        let enemy = payload.team.teamEven === username ? 'teamOdd' : 'teamEven'
         let turn = ally === 'teamEven' ? 1 : 0
         let myTurn = payload.turn % 2 === turn ? true : false
         let store = {
@@ -204,7 +219,9 @@
             },
             ally: payload[ally],
             enemy: payload[enemy],
-            turn: payload.turn
+            turn: payload.turn,
+            myTurn: myTurn,
+            room: payload.room
         }
         console.log(store)
         let button = {
@@ -238,13 +255,20 @@
         }
         app.source = store
         app.state.button = button
+    }        
+
+    socket.on('apply', (payload) => {        
+        vueBind(payload)
+    })    
+
+    function initiate(){
+        let url = window.location.href.split('/')        
+        let room = url[url.length-1]
+        socket.emit('initiate', {
+            room: room,
+        })
     }
 
-    socket.on('initiate', (payload) => {
-        vueBind(payload)
-    })
+    initiate()
 
-    socket.on('apply', (payload) => {
-        vueBind(payload)
-    })
 </script>
