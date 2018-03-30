@@ -1,20 +1,22 @@
 let constructor = require('./constructor.js')
 let heroes = require('./heroes.js')
-let naruto = require('./character/naruto.js')
+let character = require('./character/index.js')
 
 function main(payload, callback) {
+    console.log(payload)
+    console.log(character)
     //Define    
     let action = {}     
     let state = {
         teamOdd: [
-            new constructor.character(naruto),
-            new constructor.character(heroes.heroOne),
-            new constructor.character(heroes.heroTwo),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[0])]),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[1])]),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[2])]),
         ],
         teamEven: [
-            new constructor.character(heroes.playerTwo),
-            new constructor.character(heroes.heroThree),
-            new constructor.character(heroes.playerThree),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[0])]),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[1])]),
+            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[2])]),
         ],
         mana: {
             teamOdd: 1,

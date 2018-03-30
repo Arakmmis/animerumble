@@ -1,5 +1,6 @@
 let uniqid = require("uniqid");
 let model = require("../helper/model.js")
+let character = require("../engine/character/index.js")
 
 module.exports = function(io, socket) {
   socket.on("connectLobby", payload => {       
@@ -8,12 +9,18 @@ module.exports = function(io, socket) {
     console.log(socket.id);
     console.log(payload)
     let index = user_.findIndex(x => x[2] === payload.token)
-    console.log(index)
+    console.log(index)    
     // socket.id = payload.token
     if(index !== -1){
       socket.emit("logged", {
         user: user_[index][1],
-        token: user_[index][2]
+        token: user_[index][2],
+        character: character.map(x => {
+          return {
+            name: x.name,
+            id: x.id
+          }          
+        })
       });
       model.updateUser({
         index: index,
@@ -37,7 +44,13 @@ module.exports = function(io, socket) {
       io.emit("users", user_);
       socket.emit("logged", {
         user: payload.name,
-        token: token
+        token: token,
+        character: character.map(x => {
+          return {
+            name: x.name,
+            id: x.id
+          }          
+        })
       });
     } else {
       socket.emit("exist");
@@ -49,14 +62,16 @@ module.exports = function(io, socket) {
     let index = user_.findIndex(x => x[1] === payload.to)
     if(index !== -1){
       console.log(user_[index][0])
-      io.to(user_[index][0]).emit("challenge", payload.from);
+      io.to(user_[index][0]).emit("challenge", {challenger: payload.from, char: payload.char});
     }    
   });
 
   socket.on('accept', function(payload) {
     model.setMatch({
       challenger: payload.to,
-      accept: payload.from
+      accept: payload.from,
+      challengerChar: payload.challengerChar,
+      acceptChar: payload.acceptChar
     })
 
     console.log(model.getMatch())

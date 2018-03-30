@@ -33,15 +33,17 @@ function deleteUser(payload) {
 let match = []
 
 function setMatch(payload){
-  var {challenger, accept} = payload
+  var {challenger, accept, challengerChar, acceptChar} = payload
   let random = getRandomInt(2)
   match.push({
     challenger: {
       name: challenger,
+      char: challengerChar,
       order: random
     },
     accept: {
       name: accept,
+      char: acceptChar,
       order: 1 - random
     },
     room: challenger+accept

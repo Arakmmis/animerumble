@@ -17,15 +17,21 @@ module.exports = function(io, socket) {
     let user = model.getUser(payload.token);
     let team = {
       teamOdd: '',
-      teamEven: ''
+      teamOddChar: [],
+      teamEven: '',
+      teamEvenChar: [],
     };
     if(match.challenger.order === 1){
       team.teamOdd = match.challenger.name
+      team.teamOddChar = match.challenger.char
       team.teamEven = match.accept.name
+      team.teamEvenChar = match.accept.char
     }
     else{
       team.teamOdd = match.accept.name
+      team.teamOddChar = match.accept.char
       team.teamEven = match.challenger.name
+      team.teamEvenChar = match.challenger.char
     }    
 
     let roomName = payload.room;

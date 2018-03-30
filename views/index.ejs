@@ -1,25 +1,33 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <div id="app">
-    <div v-if="!seen">
-        <p>Choose a name:</p>
-        <input v-model="username"></input>
-        <p>{{username}}</p>
-        <button @click="login">Login</button>
+    <div v-if="!seen" class="col-12">        
+                <p>Choose a name:</p>
+                <input v-model="username"></input>
+                <p>{{username}}</p>
+                <button @click="login">Login</button>        
     </div>
     <div v-if="seen">
         <p>Welcome {{username}}</p>
-    </div>
-    <p>Users Online:</p>
-    <div v-for="item in players">
-        <p>{{item[1]}}</p> 
-        <button @click="onChallenge(item[1])" v-if="item[1] !== username">Challenge</button>
-    </div>
 
-    <div v-if="challenge.seen">
-        <p>Challenge from {{challenge.challenger}}</p>
-        <button @click="onAccept(challenge.challenger)">Accept?</button>
+        <p>Users Online:</p>
+        <div v-for="item in players">
+            <p>{{item[1]}}</p>
+            <button @click="onChallenge(item[1])" v-if="item[1] !== username" :disabled="lineup.length < 3">Challenge</button>
+        </div>
+
+        <div v-if="challenge.seen">
+            <p>Challenge from {{challenge.challenger}}</p>
+            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3">Accept?</button>
+        </div>
+
+        <p>Choose Character:</p>
+        <div v-for="char in characters">
+            <p>{{char.name}}</p>
+            <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3">Select</button>
+        </div>
     </div>
 
 </div>
@@ -35,8 +43,11 @@
             players: [],
             challenge: {
                 seen: false,
-                challenger: ''
-            }
+                challenger: '',
+                char: ''
+            },
+            lineup: [],
+            characters: []
         },
         methods: {
             login: function (payload) {
@@ -48,35 +59,49 @@
             onChallenge: function (payload) {
                 socket.emit('challenge', {
                     from: this.username,
-                    to: payload
+                    to: payload,
+                    char: this.lineup
                 })
             },
             onAccept: function (payload) {
                 socket.emit('accept', {
                     from: this.username,
-                    to: payload
+                    to: payload,
+                    challengerChar: this.challenge.char,
+                    acceptChar: this.lineup
                 })
                 // window.location.replace("/game/"+payload+this.username)
+            },
+            selectCharacter: function (payload) {
+                console.log(payload)
+                console.log(this.lineup.some(x => x === payload))
+                if(this.lineup.some(x => x === payload)){
+                    this.lineup = this.lineup.filter(x => x !== payload)                    
+                }
+                else{
+                    this.lineup.push(payload)
+                }          
+                console.log(this.lineup)      
             }
         }
     })
 
     const setCookie = (name, value, days = 7, path = '/') => {
-		const expires = new Date(Date.now() + days * 864e5).toGMTString()
-		document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-	}
+        const expires = new Date(Date.now() + days * 864e5).toGMTString()
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+    }
 
-	const getCookie = (name) => {
-		return document.cookie.split('; ').reduce((r, v) => {
-			const parts = v.split('=')
-			return parts[0] === name ? decodeURIComponent(parts[1]) : r
-		}, '')
-	}
+    const getCookie = (name) => {
+        return document.cookie.split('; ').reduce((r, v) => {
+            const parts = v.split('=')
+            return parts[0] === name ? decodeURIComponent(parts[1]) : r
+        }, '')
+    }
 
-	const deleteCookie = (name, path) => {
-		setCookie(name, '', -1, path)
-	}
-    
+    const deleteCookie = (name, path) => {
+        setCookie(name, '', -1, path)
+    }
+
 
     let token = getCookie('token')
     socket.emit('connectLobby', {
@@ -85,6 +110,8 @@
     socket.on('logged', payload => {
         app.seen = true
         app.username = payload.user
+        app.characters = payload.character
+        console.log(payload)
         console.log('logged in')
         setCookie('token', payload.token)
         setCookie('username', payload.user)
@@ -95,12 +122,13 @@
 
     socket.on('challenge', payload => {
         app.challenge.seen = true
-        app.challenge.challenger = payload
+        app.challenge.challenger = payload.challenger
+        app.challenge.char = payload.char
     })
 
     socket.on('accepted', payload => {
         console.log('start')
-        window.location.replace("/game/"+payload)
+        window.location.replace("/game/" + payload)
     })
 
     socket.on('users', payload => {
