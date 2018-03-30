@@ -1,9 +1,13 @@
+/* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
+/* HSL */
+/* RGB */
 /*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -6490,16 +6494,35 @@ a.text-dark:hover, a.text-dark:focus {
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #ddd !important; } }
+body, #images, #images a {
+  font-family: "Roboto", sans-serif; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
-.text {
-  font-size: 12px; }
+.btn-color4 {
+  background-color: #9368B7; }
 
-.text-2 {
-  font-size: 12px; }
+.title-1 {
+  font-size: 20px;
+  font-weight: bold; }
 
+/* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
+/* HSL */
+/* RGB */
 .chatbox {
-  width: 300px; }
+  width: 300px;
+  border-left: 1px solid #e0e0e0;
+  background: #e0e0e0;
+  color: #949494; }
+
+.challenge {
+  width: 300px;
+  border-left: 1px solid #e0e0e0;
+  background: #fafafa;
+  color: #949494; }
+  .challenge .l--head {
+    background-color: #474747;
+    color: #fafafa; }
 
 /*# sourceMappingURL=style.css.map */

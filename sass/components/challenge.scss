@@ -1,0 +1,11 @@
+.challenge {
+  width: 300px;
+  border-left: 1px solid $color5;
+  background: lighten($color5, 10%);
+  color: darken($color5, 30%);
+
+  .l--head {
+    background-color: darken($color5, 60%);
+    color: lighten($color5, 10%);
+  }
+}

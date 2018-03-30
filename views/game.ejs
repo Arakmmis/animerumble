@@ -1,26 +1,33 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-<div id="app">
-    <p>Turn: {{source.turn}}</p>
-    <p>Mana: {{source.mana.ally}}</p>
-    <div v-for="(item, index) in source.ally">
-        <p>{{item.name.substring(0, item.name.length - 1)}}</p>
-        <p>HP: {{item.hp}}</p>
+<link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 
-        <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">{{item.name}}</button>
-        <div v-for="(skill, skillIndex) in item.skill">
-            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">{{skill.name}}</button>
+<div id="app">
+    <div class="d-flex flex-row w-100">
+        <div class="">
+            <p>Turn: {{source.turn}}</p>
+            <p>Mana: {{source.mana.ally}}</p>
+            <div v-for="(item, index) in source.ally">
+                <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+                <p>HP: {{item.hp}}</p>
+
+                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">{{item.name}}</button>
+                <div v-for="(skill, skillIndex) in item.skill">
+                    <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">{{skill.name}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div v-for="(item, index) in source.enemy">
+                <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+                <p>HP: {{item.hp}}</p>
+
+                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
+            </div>
+
+            <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false">Attack</button>
         </div>
     </div>
-    <hr>
-    <div v-for="(item, index) in source.enemy">
-        <p>{{item.name.substring(0, item.name.length - 1)}}</p>
-        <p>HP: {{item.hp}}</p>
-
-        <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
-    </div>
-
-    <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false">Attack</button>
 </div>
 
 <script>
@@ -43,7 +50,7 @@
                 },
                 onSkill: false,
                 button: {}
-            },            
+            },
         },
         methods: {
             onSkill: function (payload) {
@@ -113,7 +120,7 @@
                 }
             },
             onAttack: function (payload) {
-                console.log(this.packet)                
+                console.log(this.packet)
                 socket.emit('sequence', {
                     packet: this.packet,
                     room: this.source.room
@@ -187,23 +194,23 @@
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }    
+    }
 
     const setCookie = (name, value, days = 7, path = '/') => {
-		const expires = new Date(Date.now() + days * 864e5).toGMTString()
-		document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-	}
+        const expires = new Date(Date.now() + days * 864e5).toGMTString()
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+    }
 
-	const getCookie = (name) => {
-		return document.cookie.split('; ').reduce((r, v) => {
-			const parts = v.split('=')
-			return parts[0] === name ? decodeURIComponent(parts[1]) : r
-		}, '')
-	}
+    const getCookie = (name) => {
+        return document.cookie.split('; ').reduce((r, v) => {
+            const parts = v.split('=')
+            return parts[0] === name ? decodeURIComponent(parts[1]) : r
+        }, '')
+    }
 
-	const deleteCookie = (name, path) => {
-		setCookie(name, '', -1, path)
-	}
+    const deleteCookie = (name, path) => {
+        setCookie(name, '', -1, path)
+    }
 
     function vueBind(payload) {
         let username = getCookie('username')
@@ -255,15 +262,15 @@
         }
         app.source = store
         app.state.button = button
-    }        
+    }
 
-    socket.on('apply', (payload) => {        
+    socket.on('apply', (payload) => {
         vueBind(payload)
-    })    
+    })
 
-    function initiate(){
-        let url = window.location.href.split('/')        
-        let room = url[url.length-1]
+    function initiate() {
+        let url = window.location.href.split('/')
+        let room = url[url.length - 1]
         socket.emit('initiate', {
             room: room,
         })

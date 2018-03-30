@@ -1,0 +1,23 @@
+<div class="challenge">
+    <div class="p-2 l--head">
+        <p class="mb-0">Welcome
+            <b>{{username}}</b>
+        </p>
+    </div>
+
+    <div class="p-2 l--body">
+        <p>Users Online:</p>
+        <div v-for="item in players">
+            <p>{{item[1]}}
+                <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3">
+                    <i class="icon-swords" aria-hidden="true"></i>
+                </button>
+            </p>
+        </div>
+
+        <div v-if="challenge.seen">
+            <p class="title-1">Challenge from {{challenge.challenger}}</p>
+            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3">Accept?</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+@import '../palette';
+
+.chatbox {
+  width: 300px;
+  border-left: 1px solid $color5;
+  background: $color5;
+  color: darken($color5, 30%)
+}

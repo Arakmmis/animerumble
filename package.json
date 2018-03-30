@@ -13,7 +13,7 @@
     "uniqid": "^4.1.1"
   },
   "scripts": {
-    "sass": "sass --watch sass/style.scss:public/css"
+    "sass": "sass --watch sass/style.scss:public/css/style.css"
   },
   "author": "Marcel Christianis",
   "devDependencies": {},

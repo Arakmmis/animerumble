@@ -1,7 +1,10 @@
-.text {
-    font-size: 12px;
+@import 'palette';
+
+.btn-color4 {
+    background-color: $color4;
 }
 
-.text-2{
-    font-size: 12px;
+.title-1 {
+    font-size: 20px;
+    font-weight: bold;
 }

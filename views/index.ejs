@@ -1,125 +1,135 @@
-<script src="https://unpkg.com/vue"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-<link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-
-<div id="app">
-    <div v-if="!seen" class="d-flex flex-row justify-content-center align-items-center h-100">
-        <div class="">
-            <p class="font-weight-bold">Choose a Username</p>
-            <input v-model="username" class="form-control"></input>
-            <p>{{username}}</p>
-            <button @click="login" class="btn btn-primary">Login</button>
+<head>        
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">        
+</head>
+<body>                
+        
+        <div id="app">
+            <div v-if="!seen" class="d-flex flex-row justify-content-center align-items-center h-100">
+                <div class="">
+                    <p class="font-weight-bold">Choose a Username</p>
+                    <input v-model="username" class="form-control"></input>
+                    <p>{{username}}</p>
+                    <button @click="login" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+            <div v-if="seen" class="d-flex flex-row w-100 justify-content-between h-100">
+                <% include components/character.ejs %>
+                    <% include components/challenge.ejs %>                    
+            </div>
+        
         </div>
-    </div>
-    <div v-if="seen" class="d-flex flex-row w-100 justify-content-between">
-        <% include components/character.ejs %>
-        <% include components/chatbox.ejs %>
-    </div>
 
-</div>
-
-<script>
-    var socket = io();
-
-    let app = new Vue({
-        el: '#app',
-        data: {
-            seen: false,
-            username: '',
-            players: [],
-            challenge: {
-                seen: false,
-                challenger: '',
-                char: ''
-            },
-            lineup: [],
-            characters: []
-        },
-        methods: {
-            login: function (payload) {
-                console.log(this.username)
-                socket.emit('log', {
-                    name: this.username
-                })
-            },
-            onChallenge: function (payload) {
-                socket.emit('challenge', {
-                    from: this.username,
-                    to: payload,
-                    char: this.lineup
-                })
-            },
-            onAccept: function (payload) {
-                socket.emit('accept', {
-                    from: this.username,
-                    to: payload,
-                    challengerChar: this.challenge.char,
-                    acceptChar: this.lineup
-                })
-                // window.location.replace("/game/"+payload+this.username)
-            },
-            selectCharacter: function (payload) {
-                console.log(payload)
-                console.log(this.lineup.some(x => x === payload))
-                if (this.lineup.some(x => x === payload)) {
-                    this.lineup = this.lineup.filter(x => x !== payload)
+        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+        
+        <script>
+            var socket = io();
+        
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    seen: false,
+                    username: '',
+                    players: [],
+                    challenge: {
+                        seen: false,
+                        challenger: '',
+                        char: ''
+                    },
+                    lineup: [],
+                    characters: []
+                },
+                methods: {
+                    login: function (payload) {
+                        console.log(this.username)
+                        socket.emit('log', {
+                            name: this.username
+                        })
+                    },
+                    onChallenge: function (payload, event) {
+                        console.log(event)
+                        socket.emit('challenge', {
+                            from: this.username,
+                            to: payload,
+                            char: this.lineup
+                        })
+                    },
+                    onAccept: function (payload) {
+                        socket.emit('accept', {
+                            from: this.username,
+                            to: payload,
+                            challengerChar: this.challenge.char,
+                            acceptChar: this.lineup
+                        })
+                        // window.location.replace("/game/"+payload+this.username)
+                    },
+                    selectCharacter: function (payload) {
+                        console.log(payload)
+                        console.log(this.lineup.some(x => x === payload))
+                        if (this.lineup.some(x => x === payload)) {
+                            this.lineup = this.lineup.filter(x => x !== payload)
+                        }
+                        else {
+                            this.lineup.push(payload)
+                        }
+                        console.log(this.lineup)
+                    }
                 }
-                else {
-                    this.lineup.push(payload)
-                }
-                console.log(this.lineup)
+            })
+        
+            const setCookie = (name, value, days = 7, path = '/') => {
+                const expires = new Date(Date.now() + days * 864e5).toGMTString()
+                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
             }
-        }
-    })
-
-    const setCookie = (name, value, days = 7, path = '/') => {
-        const expires = new Date(Date.now() + days * 864e5).toGMTString()
-        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-    }
-
-    const getCookie = (name) => {
-        return document.cookie.split('; ').reduce((r, v) => {
-            const parts = v.split('=')
-            return parts[0] === name ? decodeURIComponent(parts[1]) : r
-        }, '')
-    }
-
-    const deleteCookie = (name, path) => {
-        setCookie(name, '', -1, path)
-    }
-
-
-    let token = getCookie('token')
-    socket.emit('connectLobby', {
-        token: token
-    })
-    socket.on('logged', payload => {
-        app.seen = true
-        app.username = payload.user
-        app.characters = payload.character
-        console.log(payload)
-        console.log('logged in')
-        setCookie('token', payload.token)
-        setCookie('username', payload.user)
-    })
-    socket.on('exist', payload => {
-        console.log('exist')
-    })
-
-    socket.on('challenge', payload => {
-        app.challenge.seen = true
-        app.challenge.challenger = payload.challenger
-        app.challenge.char = payload.char
-    })
-
-    socket.on('accepted', payload => {
-        console.log('start')
-        window.location.replace("/game/" + payload)
-    })
-
-    socket.on('users', payload => {
-        console.log('test')
-        app.players = payload
-    })
-</script>
+        
+            const getCookie = (name) => {
+                return document.cookie.split('; ').reduce((r, v) => {
+                    const parts = v.split('=')
+                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                }, '')
+            }
+        
+            const deleteCookie = (name, path) => {
+                setCookie(name, '', -1, path)
+            }
+        
+        
+            let token = getCookie('token')
+            socket.emit('connectLobby', {
+                token: token
+            })
+            socket.on('logged', payload => {
+                app.seen = true
+                app.username = payload.user
+                app.characters = payload.character
+                console.log(payload)
+                console.log('logged in')
+                setCookie('token', payload.token)
+                setCookie('username', payload.user)
+            })
+            socket.on('exist', payload => {
+                console.log('exist')
+            })
+        
+            socket.on('challenge', payload => {
+                app.challenge.seen = true
+                app.challenge.challenger = payload.challenger
+                app.challenge.char = payload.char
+            })
+        
+            socket.on('accepted', payload => {
+                console.log('start')
+                let url = "/game/" + payload
+                newwindow = window.open(url, 'Battle', 'height=600,width=800');
+                if (window.focus) { newwindow.focus() }
+                // window.location.replace()
+            })
+        
+            socket.on('users', payload => {
+                console.log('test')
+                app.players = payload
+            })
+        </script>
+</body>

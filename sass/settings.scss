@@ -3,3 +3,7 @@
 
 // Required
 @import "../node_modules/bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body, #images, #images a {
+  font-family: "Roboto", sans-serif;
+}
