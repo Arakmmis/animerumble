@@ -1,0 +1,9 @@
+<div class="p-2 chatbox">
+    <p>Welcome {{username}}</p>
+
+    <p>Users Online:</p>
+    <div v-for="item in players">
+        <p>{{item[1]}}</p>
+        <button @click="onChallenge(item[1])" v-if="item[1] !== username" :disabled="lineup.length < 3">Challenge</button>
+    </div>
+</div>

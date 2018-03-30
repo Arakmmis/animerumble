@@ -1,33 +1,20 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 
 <div id="app">
-    <div v-if="!seen" class="col-12">        
-                <p>Choose a name:</p>
-                <input v-model="username"></input>
-                <p>{{username}}</p>
-                <button @click="login">Login</button>        
+    <div v-if="!seen" class="d-flex flex-row justify-content-center align-items-center h-100">
+        <div class="">
+            <p class="font-weight-bold">Choose a Username</p>
+            <input v-model="username" class="form-control"></input>
+            <p>{{username}}</p>
+            <button @click="login" class="btn btn-primary">Login</button>
+        </div>
     </div>
-    <div v-if="seen">
-        <p>Welcome {{username}}</p>
-
-        <p>Users Online:</p>
-        <div v-for="item in players">
-            <p>{{item[1]}}</p>
-            <button @click="onChallenge(item[1])" v-if="item[1] !== username" :disabled="lineup.length < 3">Challenge</button>
-        </div>
-
-        <div v-if="challenge.seen">
-            <p>Challenge from {{challenge.challenger}}</p>
-            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3">Accept?</button>
-        </div>
-
-        <p>Choose Character:</p>
-        <div v-for="char in characters">
-            <p>{{char.name}}</p>
-            <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3">Select</button>
-        </div>
+    <div v-if="seen" class="d-flex flex-row w-100 justify-content-between">
+        <% include components/character.ejs %>
+        <% include components/chatbox.ejs %>
     </div>
 
 </div>
@@ -75,13 +62,13 @@
             selectCharacter: function (payload) {
                 console.log(payload)
                 console.log(this.lineup.some(x => x === payload))
-                if(this.lineup.some(x => x === payload)){
-                    this.lineup = this.lineup.filter(x => x !== payload)                    
+                if (this.lineup.some(x => x === payload)) {
+                    this.lineup = this.lineup.filter(x => x !== payload)
                 }
-                else{
+                else {
                     this.lineup.push(payload)
-                }          
-                console.log(this.lineup)      
+                }
+                console.log(this.lineup)
             }
         }
     })

@@ -1,0 +1,27 @@
+<div class="p-2">
+    <div v-if="challenge.seen">
+        <p>Challenge from {{challenge.challenger}}</p>
+        <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3">Accept?</button>
+    </div>
+
+    <div class="">
+        <p>Choose Character:</p>
+        <div class="d-flex flex-row">
+            <div v-for="char in characters" class="p-2">
+                <p>{{char.name}}</p>
+                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3">Select</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <p>Selected Characters:</p>
+        <div class="d-flex flex-row">
+            <div v-for="item in lineup" class="p-2">
+                <p>{{item}}</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
