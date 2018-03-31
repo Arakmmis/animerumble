@@ -6501,6 +6501,7 @@ body, #images, #images a {
 /* HSL */
 /* RGB */
 .btn--small {
+  cursor: pointer;
   border-radius: 5px;
   border-color: #667ED5;
   background: #667ED5;
@@ -6514,6 +6515,7 @@ body, #images, #images a {
   color: #fefefe; }
 
 .btn-color4 {
+  cursor: pointer;
   background-color: #667ED5;
   border-color: #667ED5;
   color: #fefefe;
@@ -6539,6 +6541,15 @@ body, #images, #images a {
 .color-white {
   color: #fefefe; }
 
+.color1 {
+  color: #667ED5; }
+
+.color5 {
+  color: #8EA0AC; }
+
+.width-300 {
+  max-width: 300px; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
@@ -6553,22 +6564,36 @@ body, #images, #images a {
   border-left: 1px solid #dad8de;
   background: #ffffff;
   color: #8EA0AC;
-  font-size: 14px; }
+  font-size: 14px;
+  overflow-y: scroll; }
   .challenge .l--head {
     background-color: #44535d;
     color: #abb9c2;
     padding: 10px 20px; }
   .challenge .l--body {
-    padding-top: 10px;
-    padding-left: 20px; }
+    padding: 10px 20px; }
     .challenge .l--body .l--title {
       margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 300; }
+    .challenge .l--body .l--info {
       font-size: 14px;
       font-weight: 300; }
     .challenge .l--body p {
       font-size: 16px;
       margin-bottom: 5px;
       color: #718796; }
+
+.challenge--accept {
+  background: #8EA0AC;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px; }
+  .challenge--accept .title-1 {
+    color: #fefefe !important;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 300; }
 
 .characters--selected {
   background: rgba(145, 162, 174, 0.8);
@@ -6584,13 +6609,24 @@ body, #images, #images a {
   min-height: 160px;
   margin-top: 20px; }
 
+.characters--info {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 10px;
+  border-radius: 5px;
+  min-height: 80px;
+  margin-top: 20px;
+  font-size: 12px; }
+  .characters--info p {
+    margin-bottom: 5px; }
+
 .characters {
   padding: 20px;
   background: url("https://i.imgur.com/gh6yr99.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover; }
+  background-size: cover;
+  overflow-y: scroll; }
 
 .characters--card {
   border: 1px solid #8EA0AC;
@@ -6680,6 +6716,12 @@ body, #images, #images a {
 
 .game--box {
   padding: 10px 20px; }
+  .game--box .l--disabled {
+    opacity: 1;
+    background: #fefefe;
+    cursor: normal; }
+    .game--box .l--disabled img {
+      opacity: 0.3; }
 
 .game--char {
   position: relative; }
@@ -6716,5 +6758,21 @@ body, #images, #images a {
         border-radius: 2px;
         height: 20px;
         background: #8EA0AC; }
+
+.game--description {
+  background: #fefefe;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 10px;
+  border-radius: 5px; }
+  .game--description .l--title {
+    font-size: 14px;
+    color: #667ED5;
+    font-weight: bold; }
+  .game--description .l--desc {
+    font-size: 12px; }
+  .game--description .l--info {
+    font-size: 12px;
+    color: #8EA0AC; }
 
 /*# sourceMappingURL=style.css.map */

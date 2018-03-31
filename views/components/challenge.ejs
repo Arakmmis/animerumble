@@ -1,11 +1,9 @@
 <div class="challenge">
-
-
     <div class="l--body">
         <p class="l--title">ONLINE - {{players.length}}</p>
-        <div v-if="challenge.seen">
+        <div v-if="challenge.seen" class="challenge--accept">
             <p class="title-1">Challenge from {{challenge.challenger}}</p>
-            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3" class="btn-color4">Accept?</button>
+            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3" class="btn-color4 w-100">Accept?</button>
         </div>
         <div v-for="item in players">
             <p>
@@ -14,6 +12,6 @@
                     <i class="icon-swords" aria-hidden="true"></i>
                 </button>
             </p>
-        </div>
+        </div>        
     </div>
 </div>

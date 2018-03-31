@@ -13,7 +13,7 @@ let status = {
     type: "self",
     active: 3,
     modify: function(payload) {
-      payload.offense.hp -= this.val;
+      payload.val -= this.val;
     }
   },
   allowRasengan: {
@@ -21,7 +21,7 @@ let status = {
     type: "allow",
     active: 4,
     allow: "Flash Rasengan"
-  } 
+  }
 };
 
 let skills = {
@@ -30,9 +30,11 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
+    description:
+      "Deal 15 physical damage. Allow Flash Rasengan, the following turn.",
     move: function(payload) {
-      payload.target.hp -= payload.val;      
-      payload.target.status.onState.push(
+      payload.target.hp -= payload.val;
+      payload.offense.status.onState.push(
         new constructor.status(status.allowRasengan)
       );
     }
@@ -41,11 +43,12 @@ let skills = {
     name: "Flash Rasengan",
     type: "attack",
     val: 30,
-    cooldown: 0,   
-    required: true, 
-    target: 'enemy',
+    cooldown: 0,
+    description: "Deal 30 melee damage.",
+    required: true,
+    target: "enemy",
     move: function(payload) {
-      payload.target.hp -= payload.val;       
+      payload.target.hp -= payload.val;
     }
   },
   skill3: {
@@ -53,11 +56,12 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: "Increases physical damage taken by 5, for 3 turns.",
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onSelf.push(
+      payload.target.status.onReceive.push(
         new constructor.status(status.kunaiStab)
-      );      
+      );
     }
   },
   skill4: {
@@ -65,6 +69,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: "Become invulnerable, for 1 turn.",
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(

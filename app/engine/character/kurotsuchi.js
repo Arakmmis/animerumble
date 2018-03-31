@@ -6,14 +6,14 @@ let status = {
     val: 0,
     type: "invincible",
     active: 1
-  },   
+  },
   boost: {
     name: "boost",
     val: 10,
     type: "skill",
     active: 2,
     modify: function(payload) {
-      console.log('boost')
+      console.log("boost");
       payload.val += this.val;
     }
   },
@@ -22,9 +22,8 @@ let status = {
     val: 0,
     type: "stun",
     active: 2,
-    modify: function(payload) {      
-    }
-  },
+    modify: function(payload) {}
+  }
 };
 
 let skills = {
@@ -33,16 +32,18 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 0,
+    description: "Deal 15 physical damage.",
     move: function(payload) {
-      payload.target.hp -= payload.val;      
+      payload.target.hp -= payload.val;
     }
   },
   skill2: {
     name: "Opening Earth Rising Excavation",
     type: "attack",
     val: 0,
-    cooldown: 3,    
-    target: 'enemy',
+    cooldown: 3,
+    description: "Increase physical damage taken by 10, this turn.",
+    target: "enemy",
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.boost)
@@ -54,11 +55,10 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
+    description: "Stun, for 1 turn.",
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.stun)
-      );      
+      payload.target.status.onState.push(new constructor.status(status.stun));
     }
   },
   skill4: {
@@ -66,6 +66,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: "Become invulnerable, for 1 turn.",
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(

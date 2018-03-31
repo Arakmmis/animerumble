@@ -3,7 +3,8 @@
   border-left: 1px solid $color4;
   background: $color2;
   color: $color5;
-  font-size: 14px;  
+  font-size: 14px;
+  overflow-y: scroll;
 
   .l--head {
     background-color: darken($color5, 30%);
@@ -11,10 +12,13 @@
     padding: 10px 20px;
   }
   .l--body {
-    padding-top: 10px;
-    padding-left: 20px;
-    .l--title{
+    padding: 10px 20px;
+    .l--title {
       margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .l--info{
       font-size: 14px;
       font-weight: 300;
     }
@@ -24,4 +28,17 @@
       color: darken($color5, 10%);
     }
   }
+}
+
+.challenge--accept {
+  .title-1 {
+    color: #fefefe !important;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 300;
+  }  
+  background: $color5;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
 }

@@ -21,11 +21,12 @@ module.exports = {
   },
   skill: function(payload) {
     this.name = payload.name;
-    this.type = payload.type;
-    this.cooldown = payload.cooldown;
+    this.type = payload.type ? payload.type : 'attack';
+    this.cooldown = payload.cooldown ? payload.cooldown : 0;
     this.counter = 0
-    this.val = payload.val;
+    this.val = payload.val ? payload.val : 0;
     this.move = payload.move;
+    this.description = payload.description
     this.target = payload.target ? payload.target :  "enemy";
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false

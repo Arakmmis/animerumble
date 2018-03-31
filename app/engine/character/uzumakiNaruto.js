@@ -6,24 +6,23 @@ let status = {
     val: 0,
     type: "invincible",
     active: 1
-  },   
+  },
   stun: {
     name: "stun",
     val: 0,
     type: "stun",
-    active: 2,
-    modify: function(payload) {      
-    }
+    active: 1,
+    modify: function(payload) {}
   },
   protect: {
     name: "protect",
     val: 10,
     type: "skill",
     active: 2,
-    modify: function(payload) {      
+    modify: function(payload) {
       payload.val -= this.val;
     }
-  },
+  }
 };
 
 let skills = {
@@ -32,19 +31,19 @@ let skills = {
     type: "attack",
     val: 5,
     cooldown: 1,
+    description: "Deal 5 physical damage. Stun, for 1 turn.",
     move: function(payload) {
-      payload.target.hp -= payload.val;      
-      payload.target.status.onState.push(
-        new constructor.status(status.stun)
-      );     
+      payload.target.hp -= payload.val;
+      payload.target.status.onState.push(new constructor.status(status.stun));
     }
   },
   skill2: {
     name: "Mass Shadow Clones",
     type: "attack",
     val: 25,
-    cooldown: 2,    
-    target: 'ally',
+    cooldown: 2,
+    description: "Grant 5 defense, for 2 turns.",
+    target: "ally",
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.protect)
@@ -56,11 +55,10 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
+    description: "Protect 10 damage for 3 turns.",
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.protect)
-      );      
+      payload.target.status.onSelf.push(new constructor.status(status.protect));
     }
   },
   skill4: {
@@ -68,6 +66,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: "Become invulnerable, for 1 turn.",
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(

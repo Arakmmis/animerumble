@@ -5,7 +5,7 @@ let status = {
     name: "invincible",
     val: 0,
     type: "invincible",
-    active: 1
+    active: 2
   },
   steroids: {
     name: "Inner Sakura",
@@ -33,6 +33,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 0,
+    description: "Deal 20 physical damage.",
     move: function(payload) {
       payload.target.hp -= payload.val;      
     }
@@ -42,6 +43,7 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 2,    
+    description: "Restore 15 health, for 2 turns.",
     target: 'ally',
     move: function(payload) {
       payload.target.status.onSelf.push(
@@ -54,6 +56,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
+    description: "Deals 5 affliction damage, for 3 turns.",
     target: "enemy",
     move: function(payload) {
       payload.target.status.onSelf.push(
@@ -66,6 +69,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: "Become invulnerable, for 1 turn.",
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(

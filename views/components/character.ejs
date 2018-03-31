@@ -1,4 +1,29 @@
 <div class="w-100 characters">
+    <div class="characters--info">
+        <p>
+            <b>Roadmap:</b> More Characters. Better UI. Rank/Ladder. Tournaments. Forum. Clan/Guild. Character Builder. Cosmetics.
+            iOS and Android App.
+        </p>
+        <p>
+            <b>Info:</b> To Challenge or Accept challenges, please Select 3 Characters first.
+        </p>
+        <p>
+            Join our Discord here:
+            <a href="https://discord.gg/ZsTQu8V" target="_blank">https://discord.gg/ZsTQu8V</a>
+        </p>
+    </div>
+
+    <div class="characters--selected w-100">
+        <p class="title-1">Selected Characters
+            <button @click="lineup = []" v-if="lineup.length !== 0" class="btn-color4 ml-2">Reset Selection</button>
+        </p>
+        <div class="d-flex flex-row">
+            <div v-for="item in lineup" class="p-2">
+                <img :src="'/assets/character/'+item+'/avatar.jpg'">
+            </div>
+        </div>
+    </div>
+
     <div class="characters--choice">
         <p class="title-1">Choose Character</p>
         <div class="d-flex flex-row">
@@ -13,19 +38,4 @@
             </div>
         </div>
     </div>
-
-    <div class="">
-        <div class="characters--selected w-100">
-            <p class="title-1">Selected Characters
-                <button @click="lineup = []" v-if="lineup.length !== 0" class="btn-color4 ml-2">Reset Selection</button>
-            </p>
-            <div class="d-flex flex-row">
-                <div v-for="item in lineup" class="p-2">
-                    <img :src="'/assets/character/'+item+'/avatar.jpg'">
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 </div>

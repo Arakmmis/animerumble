@@ -1,6 +1,7 @@
 @import 'palette';
 
 .btn--small {
+    cursor: pointer;
     border-radius: 5px;
     border-color: $color1;
     background: $color1;
@@ -14,6 +15,7 @@
     color: #fefefe;
 }
 .btn-color4 {
+    cursor: pointer;
     background-color: $color1;
     border-color: $color1;
     color: #fefefe;
@@ -40,4 +42,14 @@
 
 .color-white{
     color: #fefefe;
+}
+.color1{
+    color: $color1;
+}
+.color5{
+    color: $color5;
+}
+
+.width-300{
+    max-width: 300px;
 }

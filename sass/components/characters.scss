@@ -12,6 +12,17 @@
   min-height: 160px;
   margin-top: 20px;
 }
+.characters--info {
+  background: rgba(lighten($color2, 1%), 0.8);
+  padding: 10px 10px;
+  border-radius: 5px;
+  min-height: 80px;
+  margin-top: 20px;
+  font-size: 12px;
+  p {
+    margin-bottom: 5px;
+  }
+}
 .characters {
   padding: 20px;
   background: url("https://i.imgur.com/gh6yr99.jpg") no-repeat center center
@@ -20,6 +31,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  overflow-y: scroll;
 }
 .characters--card {
   border: 1px solid $color5;

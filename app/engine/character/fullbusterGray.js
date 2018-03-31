@@ -6,24 +6,6 @@ let status = {
     val: 0,
     type: "invincible",
     active: 1
-  },
-  steroids: {
-    name: "Inner Sakura",
-    val: 10,
-    type: "self",
-    active: 2,
-    modify: function(payload) {
-      payload.offense.hp -= this.val;
-    }
-  },
-  chakraHeal: {
-    name: "Chakra Heal",
-    val: 15,
-    type: "self",
-    active: 2,
-    modify: function(payload) {      
-      payload.target.hp -= this.val;
-    }
   },  
   boost: {
     name: "boost",
@@ -43,32 +25,7 @@ let status = {
     modify: function(payload) {      
       payload.val -= this.val;
     }
-  },
-  protect: {
-    name: "protect",
-    type: "modifier",
-    val: 15,
-    cooldown: 3,
-    target: 'ally',
-    move: function(payload) {
-      payload.target.status.onReceive.push(new constructor.status(status.protect));      
-    }
-  },
-  waterLock: {
-    name: "Water Lock",
-    val: 10,
-    type: "skill",
-    active: 2,
-    modify: function(payload) {
-      console.log(payload.offense.skill[payload.skill].name);
-      if (
-        payload.offense.skill[payload.skill].name === "Water Nebula"
-      ) {
-        console.log("Shadow Clone");
-        payload.val += this.val;
-      }
-    }
-  },
+  },    
 };
 
 let skills = {
@@ -77,6 +34,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 0,
+    description: 'Deal 10 physical damage',
     target: 'enemy',
     move: function(payload) {
       payload.target.hp -= payload.val;
@@ -90,6 +48,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 1,    
+    description: 'Deal 20 physical damage.',
     target: 'enemy',
     move: function(payload) {
       payload.target.hp -= payload.val;
@@ -100,6 +59,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 3,
+    description: 'Grant 15 defense to melee, for 3 turns.',
     target: "ally",
     move: function(payload) {
       payload.target.status.onReceive.push(
@@ -108,11 +68,11 @@ let skills = {
     }
   },
   skill4: {
-    name: "Ice Make: Shield",
-    id: "iceMakeShield",
+    name: "Ice Make: Shield",    
     type: "attack",
     val: 10,
     cooldown: 4,
+    description: 'Become invulnerable, for 1 turn.',
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(

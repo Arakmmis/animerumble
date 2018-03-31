@@ -1,0 +1,5 @@
+<div v-if="state.description !== null" class="game--description w-50">
+    <p class="l--title">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
+    <p class="l--desc">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
+    <p class="l--info text-right">Mana - {{source.ally[state.description.heroIndex].skill[state.description.skill].mana}} | Cooldown - {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
+</div>

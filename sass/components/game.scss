@@ -87,6 +87,16 @@
 
 .game--box {
   padding: 10px 20px;
+
+  .l--disabled{
+    opacity: 1;
+    //   border: 2px solid $color5;
+      background: #fefefe;
+      cursor: normal;
+      img {
+        opacity: 0.3;
+      }
+  }
 }
 
 .game--char {
@@ -103,7 +113,7 @@
         opacity: 0.3;
       }
     }
-  }
+  }  
 
   .l--turn {
     height: 20px;
@@ -136,5 +146,26 @@
         background: $color5;
       }
     }
+  }
+}
+
+.game--description{
+  background: #fefefe;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  .l--title{
+    font-size: 14px;
+    color: $color1;
+    font-weight: bold;
+  }
+  .l--desc{
+    font-size: 12px;    
+  }
+
+  .l--info{
+    font-size: 12px;
+    color: $color5;
   }
 }

@@ -12,7 +12,12 @@
             </div>
         </div>
         <div v-for="(skill, skillIndex) in item.skill" class="game--skill">
-            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">
+            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button"
+                v-if="!state.button.ally[index].skill[skillIndex].button">
+                <img :src="'/assets/character/'+item.nameId+'/skill'+(skillIndex+1)+'/avatar.jpg'">
+            </button>
+            <button @click="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
+                v-if="state.button.ally[index].skill[skillIndex].button" class="l--disabled">
                 <img :src="'/assets/character/'+item.nameId+'/skill'+(skillIndex+1)+'/avatar.jpg'">
             </button>
         </div>
