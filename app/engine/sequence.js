@@ -126,6 +126,7 @@ function sequence(payload, store, callback) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
           x.status.onSelf[t].active -= 1;
+          console.log(x)
           x.status.onSelf[t].modify({ offense: x });
         });
         x.status.onSelf = x.status.onSelf.filter(x => x.active > 0);

@@ -109,6 +109,7 @@ let skills = {
   },
   skill4: {
     name: "Ice Make: Shield",
+    id: "iceMakeShield",
     type: "attack",
     val: 10,
     cooldown: 4,

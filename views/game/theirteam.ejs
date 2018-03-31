@@ -1,0 +1,15 @@
+<div class="w-50 d-flex flex-column align-items-end">
+        <div v-for="(item, index) in source.enemy" class="game--box">
+            <div class="game--char">
+                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">
+                    <img :src="'/assets/character/'+item.nameId+'/avatar.jpg'">
+                </button>
+                <div class="l--turn">
+                        <p>HP {{item.hp}}</p>
+                        <div class="l--bar">
+                            <div :style="{width: '100%'}" class="l--fill"></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>

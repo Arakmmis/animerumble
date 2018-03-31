@@ -33,7 +33,7 @@ let skills = {
     move: function(payload) {
       payload.target.hp -= payload.val;      
       payload.target.status.onState.push(
-        new constructor.status(status.steroids)
+        new constructor.status(status.allowRasengan)
       );
     }
   },

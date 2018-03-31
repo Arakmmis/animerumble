@@ -1,0 +1,21 @@
+<div class="w-50">
+    <div v-for="(item, index) in source.ally" class="d-flex flex-row game--box">
+        <div class="game--char">
+            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">
+                <img :src="'/assets/character/'+item.nameId+'/avatar.jpg'">
+            </button>
+            <div class="l--turn">
+                <p>HP {{item.hp}}</p>
+                <div class="l--bar">
+                    <div :style="{width: '100%'}" class="l--fill"></div>
+                </div>
+            </div>
+        </div>
+        <div v-for="(skill, skillIndex) in item.skill" class="game--skill">
+            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">
+                <img :src="'/assets/character/'+item.nameId+'/skill'+(skillIndex+1)+'/avatar.jpg'">
+            </button>
+        </div>
+
+    </div>
+</div>

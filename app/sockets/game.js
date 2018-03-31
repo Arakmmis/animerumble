@@ -11,39 +11,40 @@ module.exports = function(io, socket) {
     console.log("a user connected");
     //Check Matches
     let match = model.getMatch(payload.room);
-    if(match === undefined){
-      return
+    if (match === undefined) {
+      socket.emit("noMatch", {});
+      console.log(socket.id);
+      return;
     }
     let user = model.getUser(payload.token);
     let team = {
-      teamOdd: '',
+      teamOdd: "",
       teamOddChar: [],
-      teamEven: '',
-      teamEvenChar: [],
+      teamEven: "",
+      teamEvenChar: []
     };
-    if(match.challenger.order === 1){
-      team.teamOdd = match.challenger.name
-      team.teamOddChar = match.challenger.char
-      team.teamEven = match.accept.name
-      team.teamEvenChar = match.accept.char
+    if (match.challenger.order === 1) {
+      team.teamOdd = match.challenger.name;
+      team.teamOddChar = match.challenger.char;
+      team.teamEven = match.accept.name;
+      team.teamEvenChar = match.accept.char;
+    } else {
+      team.teamOdd = match.accept.name;
+      team.teamOddChar = match.accept.char;
+      team.teamEven = match.challenger.name;
+      team.teamEvenChar = match.challenger.char;
     }
-    else{
-      team.teamOdd = match.accept.name
-      team.teamOddChar = match.accept.char
-      team.teamEven = match.challenger.name
-      team.teamEvenChar = match.challenger.char
-    }    
 
     let roomName = payload.room;
     let roomCheck = roomSpace.some(x => x === roomName) ? true : false;
-    console.log(roomSpace)
+    console.log(roomSpace);
     socket.join(payload.room);
     //Engine Initiate
     connection = connection + 1;
 
     console.log(connection);
     if (!roomCheck) {
-      engine.main({team: team, room: roomName}, payload => {
+      engine.main({ team: team, room: roomName }, payload => {
         store[roomName] = [];
         store[roomName].push(payload);
         console.log("apply", payload);
@@ -62,6 +63,11 @@ module.exports = function(io, socket) {
 
   socket.on("sequence", payload => {
     let roomName = payload.room;
+    if (store[roomName] === undefined) {
+      socket.emit("noMatch", {});
+      console.log(socket.id);
+      return;
+    }
     sequence(
       payload.packet,
       store[roomName][store[roomName].length - 1],

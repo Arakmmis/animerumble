@@ -1,0 +1,16 @@
+<div class="w-100 game--info d-flex flex-column align-items-center">
+    <div class="l--turn">
+        <p>TURN {{source.turn}}</p>
+        <div class="l--bar">
+            <div :style="{width: state.timer.turn+'%'}" class="l--fill"></div>
+        </div>
+    </div>
+    <div class="l--turn">
+        <p>MANA {{source.mana.ally}}</p>
+        <div class="l--bar">
+            <div :style="{width: '50%'}" class="l--fill"></div>
+        </div>
+    </div>
+
+    <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false" class="btn-color4">Attack</button>
+</div>

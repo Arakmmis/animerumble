@@ -22,7 +22,7 @@ let status = {
     type: "self",
     active: 2,
     modify: function(payload) {      
-      payload.target.hp -= this.val;
+      payload.offense.hp += this.val;
     }
   },  
 };

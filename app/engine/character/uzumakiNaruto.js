@@ -59,7 +59,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.steroids)
+        new constructor.status(status.protect)
       );      
     }
   },

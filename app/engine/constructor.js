@@ -17,6 +17,7 @@ module.exports = {
       onState: []
     };
     this.skill = payload.skill;
+    this.nameId = payload.id;
   },
   skill: function(payload) {
     this.name = payload.name;
