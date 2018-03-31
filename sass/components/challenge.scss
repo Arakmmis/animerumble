@@ -1,11 +1,27 @@
 .challenge {
   width: 300px;
-  border-left: 1px solid $color5;
-  background: lighten($color5, 10%);
-  color: darken($color5, 30%);
+  border-left: 1px solid $color4;
+  background: $color2;
+  color: $color5;
+  font-size: 14px;  
 
   .l--head {
-    background-color: darken($color5, 60%);
+    background-color: darken($color5, 30%);
     color: lighten($color5, 10%);
+    padding: 10px 20px;
+  }
+  .l--body {
+    padding-top: 10px;
+    padding-left: 20px;
+    .l--title{
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    p {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: darken($color5, 10%);
+    }
   }
 }

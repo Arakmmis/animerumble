@@ -3,29 +3,34 @@
 <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 
 <div id="app">
-    <div class="d-flex flex-row w-100">
-        <div class="">
+    <div class="d-flex flex-column w-100">
+
+        <div class="w-100">
             <p>Turn: {{source.turn}}</p>
             <p>Mana: {{source.mana.ally}}</p>
-            <div v-for="(item, index) in source.ally">
-                <p>{{item.name.substring(0, item.name.length - 1)}}</p>
-                <p>HP: {{item.hp}}</p>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="w-50">
+                <div v-for="(item, index) in source.ally">
+                    <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+                    <p>HP: {{item.hp}}</p>
 
-                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">{{item.name}}</button>
-                <div v-for="(skill, skillIndex) in item.skill">
-                    <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">{{skill.name}}</button>
+                    <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">{{item.name}}</button>
+                    <div v-for="(skill, skillIndex) in item.skill">
+                        <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button">{{skill.name}}</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="">
-            <div v-for="(item, index) in source.enemy">
-                <p>{{item.name.substring(0, item.name.length - 1)}}</p>
-                <p>HP: {{item.hp}}</p>
+            <div class="w-50">
+                <div v-for="(item, index) in source.enemy">
+                    <p>{{item.name.substring(0, item.name.length - 1)}}</p>
+                    <p>HP: {{item.hp}}</p>
 
-                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
+                    <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">{{item.name}}</button>
+                </div>
+
+                <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false">Attack</button>
             </div>
-
-            <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false">Attack</button>
         </div>
     </div>
 </div>

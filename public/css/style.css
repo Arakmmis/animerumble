@@ -7,7 +7,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -6500,29 +6500,112 @@ body, #images, #images a {
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
+.btn--small {
+  border-radius: 5px;
+  border-color: #667ED5;
+  background: #667ED5;
+  color: #fefefe;
+  padding: 4px 2px; }
+
+.btn--small:disabled {
+  border-radius: 5px;
+  border-color: #dad8de;
+  background: #dad8de;
+  color: #fefefe; }
+
 .btn-color4 {
-  background-color: #9368B7; }
+  background-color: #667ED5;
+  border-color: #667ED5;
+  color: #fefefe;
+  font-weight: 300;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 5px 10px; }
+
+.btn-color4:disabled {
+  background-color: #dad8de;
+  border-color: #dad8de;
+  color: #fefefe;
+  font-weight: 300;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 5px 10px; }
 
 .title-1 {
   font-size: 20px;
-  font-weight: bold; }
+  font-weight: bold;
+  color: #24262A; }
+
+.color-white {
+  color: #fefefe; }
 
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
 .chatbox {
   width: 300px;
-  border-left: 1px solid #e0e0e0;
-  background: #e0e0e0;
-  color: #949494; }
+  border-left: 1px solid #8EA0AC;
+  background: #8EA0AC;
+  color: #44535d; }
 
 .challenge {
   width: 300px;
-  border-left: 1px solid #e0e0e0;
-  background: #fafafa;
-  color: #949494; }
+  border-left: 1px solid #dad8de;
+  background: #ffffff;
+  color: #8EA0AC;
+  font-size: 14px; }
   .challenge .l--head {
-    background-color: #474747;
-    color: #fafafa; }
+    background-color: #44535d;
+    color: #abb9c2;
+    padding: 10px 20px; }
+  .challenge .l--body {
+    padding-top: 10px;
+    padding-left: 20px; }
+    .challenge .l--body .l--title {
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 300; }
+    .challenge .l--body p {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #718796; }
+
+.characters--selected {
+  background: rgba(145, 162, 174, 0.8);
+  padding: 10px 10px;
+  border-radius: 5px;
+  min-height: 160px;
+  margin-top: 20px; }
+
+.characters--choice {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 10px;
+  border-radius: 5px;
+  min-height: 160px;
+  margin-top: 20px; }
+
+.characters {
+  padding: 20px;
+  background: url("https://i.imgur.com/gh6yr99.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
+.characters--card {
+  border: 1px solid #8EA0AC;
+  border-radius: 5px;
+  align-items: center;
+  margin: 5px;
+  background: #fefefe; }
+  .characters--card .l--title {
+    padding: 5px; }
+    .characters--card .l--title p {
+      font-size: 14px;
+      color: #24262A;
+      font-weight: bold; }
+  .characters--card .btn-color4 {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px; }
 
 /*# sourceMappingURL=style.css.map */

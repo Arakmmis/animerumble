@@ -1,21 +1,27 @@
-<div class="p-2">
-    <div class="">
+<div class="w-100 characters">
+    <div class="characters--choice">
         <p class="title-1">Choose Character</p>
         <div class="d-flex flex-row">
-            <div v-for="char in characters" class="p-2">
-                <p>{{char.name}}</p>
-                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3">Select</button>
+            <div v-for="char in characters" class="characters--card d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'">
+                    <div class="d-flex l--title ">
+                        <p>{{char.name}}</p>
+                    </div>
+                </div>
+                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3" class="btn-color4 w-100">Select</button>
             </div>
         </div>
     </div>
 
     <div class="">
-        <p class="title-1">Selected Characters</p>
-        <div class="characters--selected">
-            <button @click="lineup = []">Reset Selection</button>
+        <div class="characters--selected w-100">
+            <p class="title-1">Selected Characters
+                <button @click="lineup = []" v-if="lineup.length !== 0" class="btn-color4 ml-2">Reset Selection</button>
+            </p>
             <div class="d-flex flex-row">
                 <div v-for="item in lineup" class="p-2">
-                    <p>{{item}}</p>
+                    <img :src="'/assets/character/'+item+'/avatar.jpg'">
                 </div>
             </div>
         </div>
