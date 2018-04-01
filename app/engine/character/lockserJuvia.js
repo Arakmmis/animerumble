@@ -40,7 +40,7 @@ let skills = {
     name: "Water Nebula",
     type: "attack",
     val: 25,
-    cooldown: 0,
+    cooldown: 2,
     description: "Deal 25 damage.",
     target: "enemy",
     mana: 3,

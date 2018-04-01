@@ -15,6 +15,10 @@ let status = {
   protect: library.protect({    
     val: 5,    
     owner: info.id,
+  }),
+  bleed: library.bleed({    
+    val: 5,    
+    owner: info.id,
   })
 };
 
@@ -22,10 +26,10 @@ let skills = {
   skill1: {
     name: "Rasengan",
     type: "attack",
-    val: 5,
+    val: 25,
     cooldown: 1,
     mana: 2,
-    description: "Deal 5 physical damage. Stun, for 1 turn.",
+    description: "Deal 25 physical damage. Stun, for 1 turn.",
     move: function(payload) {
       payload.target.hp -= payload.val;
       payload.target.status.onState.push(new constructor.status(status.stun, this.name, 1));
@@ -34,14 +38,14 @@ let skills = {
   skill2: {
     name: "Mass Shadow Clones",
     type: "attack",
-    val: 25,
+    val: 5,
     cooldown: 2,
-    description: "Grant 5 defense, for 2 turns.",
+    description: "Deal 5 damage, for 2 turns.",
     mana: 1,
-    target: "self",
+    target: "enemy",
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 2)
+        new constructor.status(status.bleed, this.name, 2)
       );
     }
   },

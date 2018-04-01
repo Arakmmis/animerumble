@@ -47,7 +47,7 @@ let skills = {
     name: "Flash Rasengan",
     type: "attack",
     val: 30,
-    cooldown: 0,
+    cooldown: 3,
     description: "Deal 30 melee damage.",
     required: true,
     target: "enemy",
