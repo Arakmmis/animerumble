@@ -3,7 +3,7 @@ let express = require("express");
 let app = require("express")();
 let http = require("http").Server(app);
 let path = require("path");
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 5000;
 
 const _ = require("lodash");
 app.set("view engine", "ejs");
