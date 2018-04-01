@@ -13,7 +13,8 @@
     "uniqid": "^4.1.1"
   },
   "scripts": {
-    "sass": "sass --watch sass/style.scss:public/css/style.css"
+    "sass": "sass --watch sass/style.scss:public/css/style.css",
+    "deploy": "pm2 deploy ecosystem.config.js production"
   },
   "author": "Marcel Christianis",
   "devDependencies": {},
