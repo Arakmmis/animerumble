@@ -3,6 +3,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
 </head>
 
 <body>
@@ -23,10 +24,14 @@
         </div>
         <div v-if="seen" class="d-flex flex-row w-100 justify-content-between h-100">
             <% include components/character.ejs %>
-                <% include components/challenge.ejs %>
+                <% include components/challenge.ejs %>                                
+                <!-- use the modal component, pass in the prop -->
+                <modal v-if="showModal" @close="showModal = false" v-bind:char="modalData">
         </div>
 
     </div>
+
+    <% include components/modal.ejs %>
 
     <script>
         var socket = io();
@@ -43,9 +48,16 @@
                     char: ''
                 },
                 lineup: [],
-                characters: []
+                characters: [],
+                showModal: false,
+                modalData: 'test'
             },
             methods: {
+                onShowModal: function(payload){                    
+                    console.log(payload)
+                    this.modalData = payload
+                    this.showModal = true
+                },
                 login: function (payload) {
                     console.log(this.username)
                     socket.emit('log', {

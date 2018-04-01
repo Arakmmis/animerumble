@@ -26,12 +26,13 @@
 
     <div class="characters--choice">
         <p class="title-1">Choose Character</p>
-        <div class="d-flex flex-row">
-            <div v-for="char in characters" class="characters--card d-flex flex-column">
+        <div class="d-flex flex-wrap">
+            <div v-for="char in characters" class="characters--card d-flex flex-column width-char">
                 <div class="d-flex flex-row">
                     <img :src="'/assets/character/'+char.id+'/avatar.jpg'">
-                    <div class="d-flex l--title ">
-                        <p>{{char.name}}</p>
+                    <div class="d-flex l--title flex-column justify-content-between">
+                        <p class="mb-0">{{char.name}}</p>
+                        <p id="show-modal" @click="onShowModal(char.id)" class="btn--text"><i class="icon-point-y"></i> Info</p>
                     </div>
                 </div>
                 <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3" class="btn-color4 w-100">Select</button>

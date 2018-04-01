@@ -13,7 +13,7 @@ let status = {
     owner: info.id,
   }),
   protect: library.protect({    
-    val: 10,    
+    val: 5,    
     owner: info.id,
   })
 };
@@ -24,6 +24,7 @@ let skills = {
     type: "attack",
     val: 5,
     cooldown: 1,
+    mana: 2,
     description: "Deal 5 physical damage. Stun, for 1 turn.",
     move: function(payload) {
       payload.target.hp -= payload.val;
@@ -36,7 +37,8 @@ let skills = {
     val: 25,
     cooldown: 2,
     description: "Grant 5 defense, for 2 turns.",
-    target: "enemy",
+    mana: 1,
+    target: "self",
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.protect, this.name, 2)
@@ -50,6 +52,7 @@ let skills = {
     cooldown: 3,
     description: "Protect 10 damage for 3 turns.",
     target: "enemy",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onSelf.push(new constructor.status(status.protect, this.name, 3));
     }
@@ -61,6 +64,7 @@ let skills = {
     cooldown: 4,
     description: "Become invulnerable, for 1 turn.",
     target: "self",
+    mana: 1,
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible, this.name, 4)
