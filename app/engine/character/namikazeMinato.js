@@ -32,6 +32,7 @@ let skills = {
     cooldown: 1,
     description:
       "Deal 15 physical damage. Allow Flash Rasengan, the following turn.",
+    mana: 3,
     move: function(payload) {
       payload.target.hp -= payload.val;
       payload.offense.status.onState.push(
@@ -47,6 +48,7 @@ let skills = {
     description: "Deal 30 melee damage.",
     required: true,
     target: "enemy",
+    mana: 3,
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -58,6 +60,7 @@ let skills = {
     cooldown: 4,
     description: "Increases physical damage taken by 5, for 3 turns.",
     target: "enemy",
+    mana: 1,
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.kunaiStab)
@@ -71,6 +74,7 @@ let skills = {
     cooldown: 4,
     description: "Become invulnerable, for 1 turn.",
     target: "self",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible)

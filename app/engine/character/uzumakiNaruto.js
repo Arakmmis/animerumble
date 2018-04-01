@@ -43,7 +43,7 @@ let skills = {
     val: 25,
     cooldown: 2,
     description: "Grant 5 defense, for 2 turns.",
-    target: "ally",
+    target: "enemy",
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.protect)

@@ -33,6 +33,7 @@ let skills = {
     val: 15,
     cooldown: 0,
     description: "Deal 15 physical damage.",
+    mana: 1,
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -44,6 +45,7 @@ let skills = {
     cooldown: 3,
     description: "Increase physical damage taken by 10, this turn.",
     target: "enemy",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.boost)
@@ -57,6 +59,7 @@ let skills = {
     cooldown: 3,
     description: "Stun, for 1 turn.",
     target: "enemy",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(new constructor.status(status.stun));
     }
@@ -68,6 +71,7 @@ let skills = {
     cooldown: 4,
     description: "Become invulnerable, for 1 turn.",
     target: "self",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible)

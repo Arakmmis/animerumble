@@ -34,6 +34,7 @@ let skills = {
     val: 20,
     cooldown: 0,
     description: "Deal 20 physical damage.",
+    mana: 2,
     move: function(payload) {
       payload.target.hp -= payload.val;      
     }
@@ -45,6 +46,7 @@ let skills = {
     cooldown: 2,    
     description: "Restore 15 health, for 2 turns.",
     target: 'ally',
+    mana: 2,
     move: function(payload) {
       payload.target.status.onSelf.push(
         new constructor.status(status.chakraHeal)
@@ -58,6 +60,7 @@ let skills = {
     cooldown: 3,
     description: "Deals 5 affliction damage, for 3 turns.",
     target: "enemy",
+    mana: 3,
     move: function(payload) {
       payload.target.status.onSelf.push(
         new constructor.status(status.steroids)
@@ -71,6 +74,7 @@ let skills = {
     cooldown: 4,
     description: "Become invulnerable, for 1 turn.",
     target: "self",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible)

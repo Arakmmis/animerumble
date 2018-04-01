@@ -6770,9 +6770,14 @@ body, #images, #images a {
     color: #667ED5;
     font-weight: bold; }
   .game--description .l--desc {
-    font-size: 12px; }
-  .game--description .l--info {
     font-size: 12px;
+    margin-bottom: 10px; }
+  .game--description .l--info {
+    font-size: 10px;
     color: #8EA0AC; }
+
+.game--status img {
+  width: 20px;
+  height: 20px; }
 
 /*# sourceMappingURL=style.css.map */

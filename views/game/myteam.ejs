@@ -2,7 +2,7 @@
     <div v-for="(item, index) in source.ally" class="d-flex flex-row game--box">
         <div class="game--char">
             <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">
-                <img :src="'/assets/character/'+item.nameId+'/avatar.jpg'">
+                <img :src="onGetImage({nameId: item.nameId}, 'char')">
             </button>
             <div class="l--turn">
                 <p>HP {{item.hp}}</p>
@@ -11,16 +11,24 @@
                 </div>
             </div>
         </div>
-        <div v-for="(skill, skillIndex) in item.skill" class="game--skill">
-            <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" :disabled="state.button.ally[index].skill[skillIndex].button"
-                v-if="!state.button.ally[index].skill[skillIndex].button">
-                <img :src="'/assets/character/'+item.nameId+'/skill'+(skillIndex+1)+'/avatar.jpg'">
-            </button>
-            <button @click="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
-                v-if="state.button.ally[index].skill[skillIndex].button" class="l--disabled">
-                <img :src="'/assets/character/'+item.nameId+'/skill'+(skillIndex+1)+'/avatar.jpg'">
-            </button>
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row">
+                <div v-for="(skill, skillIndex) in item.skill" class="game--skill">
+                    <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
+                        :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button">
+                        <img :src="onGetImage({nameId: item.nameId, skill: skillIndex},'skill')">
+                    </button>
+                    <button @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" v-if="state.button.ally[index].skill[skillIndex].button"
+                        class="l--disabled">
+                        <img :src="onGetImage({nameId: item.nameId, skill: skillIndex},'skill')">
+                    </button>
+                </div>
+            </div>
+            <div class="d-flex flex-row game--status">
+                <div v-for="status in item.status.onReceive">
+                    <img :src="onGetImage({nameId: 'uzumakiNaruto'}, 'char')">
+                </div>
+            </div>
         </div>
-
     </div>
 </div>

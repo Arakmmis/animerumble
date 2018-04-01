@@ -1,15 +1,23 @@
 <div class="w-50 d-flex flex-column align-items-end">
-        <div v-for="(item, index) in source.enemy" class="game--box">
-            <div class="game--char">
-                <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">
-                    <img :src="'/assets/character/'+item.nameId+'/avatar.jpg'">
-                </button>
-                <div class="l--turn">
-                        <p>HP {{item.hp}}</p>
-                        <div class="l--bar">
-                            <div :style="{width: '100%'}" class="l--fill"></div>
-                        </div>
-                    </div>
+    <div v-for="(item, index) in source.enemy" class="game--box d-flex flex-row">
+        <div class="d-flex flex-row game--status">            
+            <div v-for="action in packet">
+                    <img :src="onGetImage({offense: action.offense, skill: action.skill, heroIndex: action.heroIndex}, 'packet')" v-if="action.target === item.name">
+            </div>
+            <div v-for="status in item.status.onReceive">
+                    <img :src="onGetImage({nameId: 'uzumakiNaruto'}, 'char')">
+            </div>
+        </div>
+        <div class="game--char">
+            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">
+                <img :src="onGetImage({nameId: item.nameId}, 'char')">
+            </button>
+            <div class="l--turn">
+                <p>HP {{item.hp}}</p>
+                <div class="l--bar">
+                    <div :style="{width: '100%'}" class="l--fill"></div>
+                </div>
             </div>
         </div>
     </div>
+</div>

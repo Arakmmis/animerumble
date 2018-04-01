@@ -62,16 +62,11 @@
                         //Buffer Skill                    
                         state.skill = temporary
                         this.source.mana.ally -= this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
-                        state.description = {
-                            skill: temporary.skill,
-                            heroIndex: temporary.heroIndex
-                        }
                         //Button Management
                         buttonManagement(temporary, 'onSkill')
                     }
                     else {
                         this.source.mana.ally += this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
-                        state.description = null
                         //Button Management
                         if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex === null) {
                             buttonManagement(temporary, 'onSelf')
@@ -79,9 +74,9 @@
                         else if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex !== null) {
                             buttonManagement(temporary, 'onCancel')
                         }
-                        else {
-                            buttonManagement(temporary, 'onSkill')
-                        }
+                        // else {
+                        //     buttonManagement(temporary, 'onSkill')
+                        // }
                         this.packet = this.packet.filter(x => x.offense !== temporary.offense)
                         //Clean Skill Buffer
                         state.skill = {
@@ -135,14 +130,24 @@
                         heroIndex: payload.heroIndex
                     }
 
-                    if (state.description === null) {
-                        //Buffer Skill                                            
-                        state.description = {
-                            skill: temporary.skill,
-                            heroIndex: temporary.heroIndex
-                        }                        
-                    }else{
-                        state.description = null
+                    //Buffer Skill                                            
+                    state.description = {
+                        skill: temporary.skill,
+                        heroIndex: temporary.heroIndex
+                    }
+                },
+                onGetImage: function (payload, option) {
+                    if (option === 'packet') {
+                        let index = this.source.ally.findIndex(x => x.name === payload.offense)
+                        let nameId = this.source.ally[index].nameId
+
+                        return '/assets/character/' + nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+                    }
+                    else if (option === 'char') {
+                        return '/assets/character/' + payload.nameId + '/avatar.jpg'
+                    }
+                    else if (option === 'skill') {
+                        return '/assets/character/' + payload.nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
                     }
                 }
             }
@@ -150,23 +155,25 @@
 
         function buttonManagement(payload, option) {
             //Target Button
-            if (payload.aim === 'enemy') {
-                app.state.button.enemy.forEach(x => x.button = x.disabled === false ? !x.button : true)
-            }
-            else if (payload.aim === 'ally') {
-                app.state.button.ally.forEach(x => x.button = x.disabled === false ? !x.button : true)
-            }
-            else if (payload.aim === 'self') {
-                app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled === false ? !app.state.button.ally[payload.heroIndex].button : true
+            if (option !== 'onSelf') {
+                if (payload.aim === 'enemy') {
+                    app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
+                }
+                else if (payload.aim === 'ally') {
+                    app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
+                }
+                else if (payload.aim === 'self') {
+                    app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button
+                }
             }
 
             //Skill Button
             if (option === 'onSkill') {
+                console.log('onSkill')
                 app.state.button.ally.forEach(x => {
                     if (x.onSkill === false) {
                         x.skill.forEach(s => {
-                            // s.disabled = s.mana >= app.source.mana.ally ? true : false
-                            s.button = s.disabled === false ? !s.button : true
+                            s.button = true
                             if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
                                 s.button = false
                             }
@@ -175,31 +182,49 @@
                 })
             }
             if (option === 'onCancel') {
+                console.log('onCancel')
                 app.state.button.ally.forEach(x => {
-                    x.skill.forEach(s => {
-                        // s.disabled = s.mana >= app.source.mana.ally ? true : false
-                        s.button = s.disabled === false ? !s.button : true
-                        if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
-                            s.button = false
-                        }
-                    })
+                    if (x.onSkill === false || x.name === payload.offense) {
+                        x.skill.forEach(s => {
+                            s.button = s.disabled ? true : false
+                            if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                                s.button = false
+                            }
+                        })
+                    }
                 })
             }
             else if (option === 'onTarget') {
+                console.log('onTarget')
                 app.state.button.ally.forEach(x => {
                     let index = app.packet.findIndex(s => s.offense === x.name)
                     if (index < 0) {
                         x.skill.forEach(s => {
-                            // s.disabled = s.mana >= app.source.mana.ally ? true : false
-                            s.button = s.disabled === false ? !s.button : true
+                            s.button = s.disabled ? true : false
                         })
                     }
                 })
             }
             else if (option === 'onSelf') {
+                console.log('onSelf')
                 app.state.button.ally[payload.heroIndex].skill.forEach(s => {
-                    // s.disabled = s.mana >= app.source.mana.ally ? true : false
-                    s.button = s.disabled === false ? false : true
+                    s.button = s.disabled ? true : false
+                })
+            }
+
+            //Mana Management
+            if (option !== 'onSkill') {
+                app.state.button.ally.forEach(x => {
+                    if (x.onSkill === false && x.name !== payload.offense) {
+                        console.log(x.name)
+                        x.skill.forEach(s => {
+                            let mana = s.mana > app.source.mana.ally ? true : false
+                            s.button = s.disabled || mana ? true : false
+                            if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                                s.button = false
+                            }
+                        })
+                    }
                 })
             }
         }
@@ -308,18 +333,18 @@
         initiate()
 
         setInterval(() => {
-            if(app.source.turn == undefined){
+            if (app.source.turn == undefined) {
                 return
             }
             if (app.state.timer.turn > 0) {
                 app.state.timer.turn -= 3.3;
-            } else if(app.state.timer.turn <= 0 && app.source.myTurn === true) {
-                app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-                socket.emit('sequence', {
-                    packet: app.packet,
-                    room: app.source.room
-                })
-                app.packet = []
+            } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
+                // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                // socket.emit('sequence', {
+                //     packet: app.packet,
+                //     room: app.source.room
+                // })
+                // app.packet = []
             }
         }, 1000)
 

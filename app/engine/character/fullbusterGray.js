@@ -36,6 +36,7 @@ let skills = {
     cooldown: 0,
     description: 'Deal 10 physical damage',
     target: 'enemy',
+    mana: 1,
     move: function(payload) {
       payload.target.hp -= payload.val;
       payload.offense.status.onAttack.push(
@@ -50,6 +51,7 @@ let skills = {
     cooldown: 1,    
     description: 'Deal 20 physical damage.',
     target: 'enemy',
+    mana: 3,
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -61,6 +63,7 @@ let skills = {
     cooldown: 3,
     description: 'Grant 15 defense to melee, for 3 turns.',
     target: "ally",
+    mana: 3,
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.protect)
@@ -74,6 +77,7 @@ let skills = {
     cooldown: 4,
     description: 'Become invulnerable, for 1 turn.',
     target: "self",
+    mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible)

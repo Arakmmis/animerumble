@@ -162,10 +162,18 @@
   }
   .l--desc{
     font-size: 12px;    
+    margin-bottom: 10px;
   }
 
   .l--info{
-    font-size: 12px;
+    font-size: 10px;
     color: $color5;
   }
+}
+
+.game--status{
+  img{
+    width: 20px;
+    height: 20px;
+  }  
 }
