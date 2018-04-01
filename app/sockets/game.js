@@ -12,6 +12,7 @@ module.exports = function(io, socket) {
     //Check Matches
     let match = model.getMatch(payload.room);
     if (match === undefined) {
+      roomSpace = roomSpace.filter(x => x === payload.room)
       socket.emit("noMatch", {});
       console.log(socket.id);
       return;
@@ -75,6 +76,11 @@ module.exports = function(io, socket) {
         store[roomName].push(payload);
         console.log("view", payload);
         io.to(roomName).emit("apply", payload);
+
+        if(payload.winner.state === true){
+          console.log('Winner')
+          model.deleteMatch(roomName)
+        }
       }
     );
   });

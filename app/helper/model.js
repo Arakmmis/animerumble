@@ -61,11 +61,17 @@ function getMatch(payload = undefined) {
   return undefined
 }
 
+function deleteMatch(payload) {
+  match = match.filter(x => x.room !== payload);
+  console.log(match)
+}
+
 module.exports = {
   setUser: setUser,
   getUser: getUser,
   updateUser: updateUser,
   deleteUser: deleteUser,
   setMatch: setMatch,
-  getMatch: getMatch
+  getMatch: getMatch,
+  deleteMatch: deleteMatch
 };

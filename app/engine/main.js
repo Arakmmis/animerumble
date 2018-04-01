@@ -23,7 +23,10 @@ function main(payload, callback) {
             teamEven: 0,
         },
         turn: 1,        
-        winner: 'tbd',
+        winner: {
+            state: false,
+            name: ''
+        },
         team: {
             teamOdd: payload.team.teamOdd,
             teamEven: payload.team.teamEven

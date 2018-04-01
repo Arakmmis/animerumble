@@ -1,0 +1,37 @@
+<script type="text/x-template" id="modal-winner">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+  
+            <div class="modal-header">
+              <slot name="header">
+                <p class="title-1">Game End! {{name}} Wins!</p>
+              </slot>
+            </div>            
+  
+            <div class="modal-footer">
+              <slot name="footer">                
+                <button class="modal-default-button btn-color4 w-100" @click="close()">
+                  Exit Game
+                </button>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </script>
+
+<script>
+    Vue.component('modal', {
+        props: ['name'],
+        template: '#modal-winner',
+        methods: {
+            close: function(){
+                // window.close()
+                window.location.replace('/');
+            }
+        }
+    })
+</script>

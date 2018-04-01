@@ -135,18 +135,16 @@
             app.challenge.char = payload.char
         })
 
-        socket.on('accepted', payload => {
-            console.log('start')
+        socket.on('accepted', payload => {            
             let url = "/game/" + payload
-            newwindow = window.open(url, 'myWindow', 'height=600,width=800');
-            if (window.focus) { newwindow.focus() }
+            window.location.replace(url);
+            // newwindow = window.open(url, 'Game', '_blank');
+            // if (window.focus) { newwindow.focus() }
             // window.location.replace()
         })
 
-        socket.on('users', payload => {
-            console.log('test')
+        socket.on('users', payload => {            
             app.players = payload
-
         })
     </script>
 </body>

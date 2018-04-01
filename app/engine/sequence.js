@@ -126,7 +126,7 @@ function sequence(payload, store, callback) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
           x.status.onSelf[t].active -= 1;
-          console.log(x)
+          console.log(x);
           x.status.onSelf[t].modify({ offense: x });
         });
         x.status.onSelf = x.status.onSelf.filter(x => x.active > 0);
@@ -156,26 +156,33 @@ function sequence(payload, store, callback) {
     }
   }
 
-  state.teamEven.forEach(x => {      
+  state.teamEven.forEach(x => {
     postSequence(x, 0);
-    cleanup(x)
+    cleanup(x);
   });
   state.teamOdd.forEach(x => {
     postSequence(x, 1);
-    cleanup(x)
+    cleanup(x);
   });
 
   //Mana Distribution
   if (state.turn % 2 === 0) {
     state.mana.teamOdd += state.teamOdd.filter(x => x.hp > 0).length;
-    // if(state.mana.teamOdd === 0){
-    //     state.winner = 'teamEven'
-    // }
   } else {
     state.mana.teamEven += state.teamEven.filter(x => x.hp > 0).length;
-    // if(state.mana.teamOdd === 0){
-    //     state.winner = 'teamOdd'
-    // }
+  }
+
+  //Winner
+  if (state.teamOdd.filter(x => x.hp > 0).length === 0) {
+    state.winner = {
+      state: true,
+      name: state.team.teamEven
+    };
+  } else if (state.teamEven.filter(x => x.hp > 0).length === 0) {
+    state.winner = {
+      state: true,
+      name: state.team.teamOdd
+    };
   }
 
   //Exit
