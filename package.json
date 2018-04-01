@@ -14,7 +14,8 @@
   },
   "scripts": {
     "sass": "sass --watch sass/style.scss:public/css/style.css",
-    "deploy": "pm2 deploy ecosystem.config.js production"
+    "deploy": "pm2 deploy ecosystem.config.js production",
+    "start": "node index.js"
   },
   "author": "Marcel Christianis",
   "devDependencies": {},
