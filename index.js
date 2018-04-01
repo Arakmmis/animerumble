@@ -15,6 +15,6 @@ require("./app/routes/index.js")(app);
 require("./app/sockets/index.js")(http);
 
 //Initiate
-http.listen(3001, 'localhost', function() {
-  console.log("listening on *:3001");
+http.listen(3000, 'localhost', function() {
+  console.log("listening on *:3000");
 });
