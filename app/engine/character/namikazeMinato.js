@@ -1,26 +1,29 @@
 let constructor = require("../constructor.js");
+let library = require("../library/status.js");
+
+let info = {
+  id: "namikazeMinato"
+};
 
 let status = {
-  invincible: {
-    name: "invincible",
-    val: 0,
-    type: "invincible",
-    active: 1
-  },
-  kunaiStab: {
+  invincible: library.invincible({
+    owner: info.id
+  }),
+  kunaiStab: library.bleed({
     name: "Inner Sakura",
-    val: 5,
-    type: "self",
+    val: 5,   
     active: 3,
-    modify: function(payload) {
-      payload.val -= this.val;
-    }
-  },
+    owner: info.id    
+  }),
   allowRasengan: {
     name: "allowRasengan",
     type: "allow",
     active: 4,
-    allow: "Flash Rasengan"
+    allow: "Flash Rasengan",
+    modify: function(payload) {
+      payload.val -= this.val;
+    },
+    owner: info.id
   }
 };
 
@@ -36,7 +39,7 @@ let skills = {
     move: function(payload) {
       payload.target.hp -= payload.val;
       payload.offense.status.onState.push(
-        new constructor.status(status.allowRasengan)
+        new constructor.status(status.allowRasengan, this.name, 1)
       );
     }
   },
@@ -63,7 +66,7 @@ let skills = {
     mana: 1,
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.kunaiStab)
+        new constructor.status(status.kunaiStab, this.name, 3)
       );
     }
   },
@@ -77,7 +80,7 @@ let skills = {
     mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
+        new constructor.status(status.invincible, this.name, 4)
       );
     }
   }

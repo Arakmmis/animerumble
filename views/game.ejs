@@ -149,6 +149,9 @@
                     else if (option === 'skill') {
                         return '/assets/character/' + payload.nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
                     }
+                    else if(option === 'status'){
+                        return '/assets/character/' + payload.nameId + '/skill' + (payload.skill) + '/avatar.jpg'
+                    }
                 }
             }
         })

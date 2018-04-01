@@ -1,12 +1,14 @@
 let constructor = require("../constructor.js");
+let library = require("../library/status.js");
+
+let info = {
+  id: "lockserJuvia"
+};
 
 let status = {
-  invincible: {
-    name: "invincible",
-    val: 0,
-    type: "invincible",
-    active: 1
-  },  
+  invincible: library.invincible({
+    owner: info.id
+  }),  
   waterLock: {
     name: "Water Lock",
     val: 10,
@@ -30,7 +32,7 @@ let skills = {
     mana: 2,
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.waterLock)
+        new constructor.status(status.waterLock, this.name, 1)
       );
     }
   },
@@ -68,7 +70,7 @@ let skills = {
     mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
+        new constructor.status(status.invincible, this.name, 4)
       );
     }
   }

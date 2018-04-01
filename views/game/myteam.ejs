@@ -25,8 +25,17 @@
                 </div>
             </div>
             <div class="d-flex flex-row game--status">
+                <div v-for="status in item.status.onAttack">
+                    <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
+                </div>
                 <div v-for="status in item.status.onReceive">
-                    <img :src="onGetImage({nameId: 'uzumakiNaruto'}, 'char')">
+                    <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
+                </div>
+                <div v-for="status in item.status.onState">
+                    <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
+                </div>
+                <div v-for="status in item.status.onSelf">
+                    <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
                 </div>
             </div>
         </div>

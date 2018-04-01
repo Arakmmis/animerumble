@@ -1,11 +1,20 @@
 <div class="w-50 d-flex flex-column align-items-end">
     <div v-for="(item, index) in source.enemy" class="game--box d-flex flex-row">
-        <div class="d-flex flex-row game--status">            
+        <div class="d-flex flex-row game--status">
             <div v-for="action in packet">
-                    <img :src="onGetImage({offense: action.offense, skill: action.skill, heroIndex: action.heroIndex}, 'packet')" v-if="action.target === item.name">
+                <img :src="onGetImage({offense: action.offense, skill: action.skill, heroIndex: action.heroIndex}, 'packet')" v-if="action.target === item.name">
+            </div>
+            <div v-for="status in item.status.onAttack">
+                <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
             </div>
             <div v-for="status in item.status.onReceive">
-                    <img :src="onGetImage({nameId: 'uzumakiNaruto'}, 'char')">
+                <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
+            </div>
+            <div v-for="status in item.status.onState">
+                <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
+            </div>
+            <div v-for="status in item.status.onSelf">
+                <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
             </div>
         </div>
         <div class="game--char">

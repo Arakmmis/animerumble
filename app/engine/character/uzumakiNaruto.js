@@ -1,28 +1,21 @@
 let constructor = require("../constructor.js");
+let library = require("../library/status.js");
+
+let info = {
+  id: "uzumakiNaruto",  
+}
 
 let status = {
-  invincible: {
-    name: "invincible",
-    val: 0,
-    type: "invincible",
-    active: 1
-  },
-  stun: {
-    name: "stun",
-    val: 0,
-    type: "stun",
-    active: 1,
-    modify: function(payload) {}
-  },
-  protect: {
-    name: "protect",
-    val: 10,
-    type: "skill",
-    active: 2,
-    modify: function(payload) {
-      payload.val -= this.val;
-    }
-  }
+  invincible: library.invincible({
+    owner: info.id,
+  }),
+  stun: library.stun({    
+    owner: info.id,
+  }),
+  protect: library.protect({    
+    val: 10,    
+    owner: info.id,
+  })
 };
 
 let skills = {
@@ -34,7 +27,7 @@ let skills = {
     description: "Deal 5 physical damage. Stun, for 1 turn.",
     move: function(payload) {
       payload.target.hp -= payload.val;
-      payload.target.status.onState.push(new constructor.status(status.stun));
+      payload.target.status.onState.push(new constructor.status(status.stun, this.name, 1));
     }
   },
   skill2: {
@@ -46,7 +39,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect)
+        new constructor.status(status.protect, this.name, 2)
       );
     }
   },
@@ -58,7 +51,7 @@ let skills = {
     description: "Protect 10 damage for 3 turns.",
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onSelf.push(new constructor.status(status.protect));
+      payload.target.status.onSelf.push(new constructor.status(status.protect, this.name, 3));
     }
   },
   skill4: {
@@ -70,7 +63,7 @@ let skills = {
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
+        new constructor.status(status.invincible, this.name, 4)
       );
     }
   }

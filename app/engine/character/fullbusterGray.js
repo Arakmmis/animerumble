@@ -1,31 +1,23 @@
 let constructor = require("../constructor.js");
+let library = require("../library/status.js");
+
+let info = {
+  id: "fullbusterGray",  
+}
 
 let status = {
-  invincible: {
-    name: "invincible",
-    val: 0,
-    type: "invincible",
-    active: 1
-  },  
-  boost: {
-    name: "boost",
-    val: 10,
-    type: "skill",
-    active: 2,
-    modify: function(payload) {
-      console.log('boost')
-      payload.val += this.val;
-    }
-  },
-  protect: {
-    name: "protect",
+  invincible: library.invincible({    
+    owner: info.id,
+  }),
+  boost: library.boost({    
+    val: 10,        
+    owner: info.id,
+  }),
+  protect: library.protect({    
     val: 15,
-    type: "skill",
     active: 3,
-    modify: function(payload) {      
-      payload.val -= this.val;
-    }
-  },    
+    owner: info.id,
+  }),    
 };
 
 let skills = {
@@ -40,7 +32,7 @@ let skills = {
     move: function(payload) {
       payload.target.hp -= payload.val;
       payload.offense.status.onAttack.push(
-        new constructor.status(status.boost)
+        new constructor.status(status.boost, this.name, 1)
       );
     }
   },
@@ -66,8 +58,8 @@ let skills = {
     mana: 3,
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect)
-      );
+        new constructor.status(status.protect, this.name, 3)
+      );      
     }
   },
   skill4: {
@@ -80,8 +72,8 @@ let skills = {
     mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
-      );
+        new constructor.status(status.invincible, this.name, 4)
+      );      
     }
   }
 };

@@ -31,20 +31,15 @@ module.exports = {
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false
     this.mana = payload.mana ? payload.mana : 1
-  },
-  modifier: function(payload) {
-    this.name = payload.name;
-    this.active = 2;
-    this.val = payload.val;
-    this.modify = payload.modify;
-    this.type = payload.type;
-  },
-  status: function(payload) {
-    this.name = payload.name;
+  },  
+  status: function(payload, name, skill) {
+    this.name = name ? name : payload.name;
     this.active = payload.active;
     this.val = payload.val;
     this.modify = payload.modify ? payload.modify : empty;
     this.type = payload.type;
     this.allow = payload.allow ? payload.allow : false;
+    this.owner = payload.owner    
+    this.skillIndex = skill ? skill : 0
   }
 };

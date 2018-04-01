@@ -1,30 +1,24 @@
 let constructor = require("../constructor.js");
+let library = require("../library/status.js");
+
+let info = {
+  id: "sakuraHinata"
+};
 
 let status = {
-  invincible: {
-    name: "invincible",
-    val: 0,
-    type: "invincible",
-    active: 2
-  },
-  steroids: {
-    name: "Inner Sakura",
+  invincible: library.invincible({
+    owner: info.id
+  }),
+  bleed: library.bleed({
     val: 10,
-    type: "self",
     active: 2,
-    modify: function(payload) {
-      payload.offense.hp -= this.val;
-    }
-  },
-  chakraHeal: {
+    owner: info.id
+  }),
+  heal: library.heal({
     name: "Chakra Heal",
     val: 15,
-    type: "self",
-    active: 2,
-    modify: function(payload) {      
-      payload.offense.hp += this.val;
-    }
-  },  
+    owner: info.id
+  })
 };
 
 let skills = {
@@ -36,20 +30,20 @@ let skills = {
     description: "Deal 20 physical damage.",
     mana: 2,
     move: function(payload) {
-      payload.target.hp -= payload.val;      
+      payload.target.hp -= payload.val;
     }
   },
   skill2: {
     name: "Chakra Heal",
     type: "attack",
     val: 25,
-    cooldown: 2,    
+    cooldown: 2,
     description: "Restore 15 health, for 2 turns.",
-    target: 'ally',
+    target: "ally",
     mana: 2,
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.chakraHeal)
+        new constructor.status(status.heal, this.name, 2)
       );
     }
   },
@@ -63,8 +57,8 @@ let skills = {
     mana: 3,
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.steroids)
-      );      
+        new constructor.status(status.bleed, this.name, 3)
+      );
     }
   },
   skill4: {
@@ -77,7 +71,7 @@ let skills = {
     mana: 2,
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
+        new constructor.status(status.invincible, this.name, 4)
       );
     }
   }
