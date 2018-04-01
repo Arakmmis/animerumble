@@ -347,10 +347,7 @@
 
             initiate()
 
-            setInterval(() => {
-                if(payload.team.teamEven !== username && payload.team.teamOdd !== username){
-                    return
-                }
+            setInterval(() => {                
                 if (app.source.turn == undefined || app.state.winner.state !== false) {
                     return
                 }
