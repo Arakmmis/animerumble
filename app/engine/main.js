@@ -22,6 +22,20 @@ function main(payload, callback) {
             teamOdd: 1,
             teamEven: 0,
         },
+        energy: {
+            teamOdd: {
+                a,
+                s,
+                i,
+                w
+            },
+            teamEven: {
+                a,
+                s,
+                i,
+                w
+            }
+        },
         turn: 1,        
         winner: {
             state: false,
