@@ -17,81 +17,125 @@
                 <% include game/description.ejs %>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
+        <modalenergy v-if="state.energy.modal" :energy="source.energy.ally" :random="state.energy.random" @close="state.energy.modal = false" @done="onDone"></modalenergy>
     </div>
 
     <% include game/modal.ejs %>
+        <% include game/modalEnergy.ejs %>
 
-        <script>
-            var socket = io();
+            <script>
+                var socket = io();
 
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    message: 'Hello Vuee.js!',
-                    source: {
-                        mana: {},
-                        energy: {
-                            ally: {}
-                        }
-                    },
-                    packet: [],
-                    state: {
-                        skill: {
-                            offense: '',
-                            skill: null,
-                            target: '',
-                            aim: ''
-                        },
-                        timer: {
-                            turn: 100,
-                            mana: 0,
-                        },
-                        onSkill: false,
-                        button: {},
-                        description: null,
-                        winner: {
-                            state: false,
-                            name: ''
-                        }
-                    },
-                    showModal: true
-                },
-                methods: {
-                    onSkill: function (payload) {
-                        //Define and Switch State            
-                        let state = this.state
-                        let temporary = {
-                            offense: payload.name,
-                            skill: payload.skillIndex,
-                            target: '',
-                            aim: payload.target,
-                            heroIndex: payload.heroIndex
-                        }
-                        console.log(state)
-                        console.log(payload)
-
-                        if (state.button.ally[temporary.heroIndex].onSkill === false) {
-                            //Buffer Skill                    
-                            state.skill = temporary
-                            this.source.mana.ally -= this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
-                            energyManagement(temporary, 'substract')
-                            //Button Management
-                            buttonManagement(temporary, 'onSkill')
-                        }
-                        else {
-                            this.source.mana.ally += this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
-                            energyManagement(temporary, 'add')
-                            //Button Management
-                            if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex === null) {
-                                buttonManagement(temporary, 'onSelf')
+                var app = new Vue({
+                    el: '#app',
+                    data: {
+                        message: 'Hello Vuee.js!',
+                        source: {
+                            mana: {},
+                            energy: {
+                                ally: {}
                             }
-                            else if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex !== null) {
-                                buttonManagement(temporary, 'onCancel')
+                        },
+                        packet: [],
+                        state: {
+                            skill: {
+                                offense: '',
+                                skill: null,
+                                target: '',
+                                aim: ''
+                            },
+                            timer: {
+                                turn: 100,
+                                mana: 0,
+                            },
+                            onSkill: false,
+                            button: {},
+                            description: null,
+                            winner: {
+                                state: false,
+                                name: ''
+                            },
+                            energy: {
+                                modal: false,
+                                random: 0
                             }
-                            // else {
-                            //     buttonManagement(temporary, 'onSkill')
-                            // }
-                            this.packet = this.packet.filter(x => x.offense !== temporary.offense)
+                        },
+                        showModal: true
+                    },
+                    methods: {
+                        onDone: function(e){
+                            this.state.energy.modal = false
+                            console.log(this.packet)
+                            this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                            this.packet.unshift(e)
+                            console.log(this.packet)
+                            socket.emit('sequence', {
+                                packet: this.packet,
+                                room: this.source.room
+                            })
+                            this.state.energy.random = 0
+                            this.packet = []
+                            console.log(e)
+                        },
+                        onSkill: function (payload) {
+                            //Define and Switch State            
+                            let state = this.state
+                            let temporary = {
+                                offense: payload.name,
+                                skill: payload.skillIndex,
+                                target: '',
+                                aim: payload.target,
+                                heroIndex: payload.heroIndex
+                            }
+                            console.log(state)
+                            console.log(payload)
+
+                            if (state.button.ally[temporary.heroIndex].onSkill === false) {
+                                //Buffer Skill                    
+                                state.skill = temporary
+                                this.source.mana.ally -= this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
+                                energyManagement(temporary, 'substract')
+                                //Button Management
+                                buttonManagement(temporary, 'onSkill')
+                            }
+                            else {
+                                this.source.mana.ally += this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
+                                energyManagement(temporary, 'add')
+                                //Button Management
+                                if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex === null) {
+                                    buttonManagement(temporary, 'onSelf')
+                                }
+                                else if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex !== null) {
+                                    buttonManagement(temporary, 'onCancel')
+                                }
+                                // else {
+                                //     buttonManagement(temporary, 'onSkill')
+                                // }
+                                this.packet = this.packet.filter(x => x.offense !== temporary.offense)
+                                //Clean Skill Buffer
+                                state.skill = {
+                                    offense: '',
+                                    skill: null,
+                                    target: '',
+                                    aim: '',
+                                    heroIndex: null
+                                }
+                            }
+
+                            //State Management
+                            state.button.ally[temporary.heroIndex].onSkill = !state.button.ally[temporary.heroIndex].onSkill
+                        },
+                        onTarget: function (payload) {
+                            //Define State
+                            let state = this.state
+                            //Buffer Skill          
+                            state.skill.target = payload.name
+                            //Register Skill
+                            this.packet.push(this.state.skill)
+
+                            //Button Management
+                            buttonManagement(state.skill, 'onTarget')
+
                             //Clean Skill Buffer
                             state.skill = {
                                 offense: '',
@@ -100,361 +144,344 @@
                                 aim: '',
                                 heroIndex: null
                             }
-                        }
-
-                        //State Management
-                        state.button.ally[temporary.heroIndex].onSkill = !state.button.ally[temporary.heroIndex].onSkill
-                    },
-                    onTarget: function (payload) {
-                        //Define State
-                        let state = this.state
-                        //Buffer Skill          
-                        state.skill.target = payload.name
-                        //Register Skill
-                        this.packet.push(this.state.skill)
-
-                        //Button Management
-                        buttonManagement(state.skill, 'onTarget')
-
-                        //Clean Skill Buffer
-                        state.skill = {
-                            offense: '',
-                            skill: null,
-                            target: '',
-                            aim: '',
-                            heroIndex: null
-                        }
-                    },
-                    onAttack: function (payload) {
-                        console.log(this.packet)
-                        this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-                        socket.emit('sequence', {
-                            packet: this.packet,
-                            room: this.source.room
-                        })
-                        this.packet = []
-                    },
-                    onDescription: function (payload) {
-                        let state = this.state
-                        let temporary = {
-                            offense: payload.name,
-                            skill: payload.skillIndex,
-                            target: '',
-                            aim: payload.target,
-                            heroIndex: payload.heroIndex
-                        }
-
-                        //Buffer Skill                                            
-                        state.description = {
-                            skill: temporary.skill,
-                            heroIndex: temporary.heroIndex
-                        }
-                    },
-                    onGetImage: function (payload, option) {
-                        if (option === 'packet') {
-                            let index = this.source.ally.findIndex(x => x.name === payload.offense)
-                            let nameId = this.source.ally[index].nameId
-
-                            return '/assets/character/' + nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
-                        }
-                        else if (option === 'char') {
-                            return '/assets/character/' + payload.nameId + '/avatar.jpg'
-                        }
-                        else if (option === 'skill') {
-                            return '/assets/character/' + payload.nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
-                        }
-                        else if (option === 'status') {
-                            return '/assets/character/' + payload.nameId + '/skill' + (payload.skill) + '/avatar.jpg'
-                        }
-                    }
-                }
-            })
-
-            function energyManagement(temporary, option) {
-                let energy = temporary.energy ? temporary.energy : app.source.energy.ally
-                let skill = temporary.skillBind ? temporary.skillBind : app.source.ally[temporary.heroIndex].skill[temporary.skill].energy
-                let total = {
-                    energy: energy.a + energy.i + energy.s + energy.w,
-                    skill: skill.a + skill.i + skill.s + skill.w
-                }
-
-                console.log(total.skill)
-
-                if (option === 'substract') {
-                    console.log('test')
-                    if (skill.a > 0) {
-                        energy.a -= skill.a
-                        energy.r -= skill.a
-                    }
-                    if (skill.i > 0) {
-                        energy.i -= skill.i
-                        energy.r -= skill.i
-                    }
-                    if (skill.s > 0) {
-                        energy.s -= skill.s
-                        energy.r -= skill.s
-                    }
-                    if (skill.w > 0) {
-                        energy.w -= skill.w
-                        energy.r -= skill.w
-                    }
-                }
-                else if (option === 'add') {
-                    if (skill.a > 0) {
-                        energy.a += skill.a
-                        energy.r += skill.a
-                    }
-                    if (skill.i > 0) {
-                        energy.i += skill.i
-                        energy.r += skill.i
-                    }
-                    if (skill.s > 0) {
-                        energy.s += skill.s
-                        energy.r += skill.s
-                    }
-                    if (skill.w > 0) {
-                        energy.w += skill.w
-                        energy.r += skill.w
-                    }
-                }
-                else if (option === 'check') {
-                    let active = true
-                    console.log('test')
-                    if (total.energy >= total.skill) {
-                        let count = []
-                        if (skill.a >= 0) {
-                            count[0] = energy.a >= skill.a ? false : true
-                        }
-                        if (skill.i >= 0) {
-                            count[1] = energy.i >= skill.i ? false : true
-                        }
-                        if (skill.s >= 0) {
-                            if (skill.s === 1) {
-                                console.log('s', energy.s, skill.s, energy.s >= skill.s ? false : true)
-
+                        },
+                        onAttack: function (payload) {
+                            this.state.energy.modal = true
+                            // console.log(this.packet)
+                            // this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                            // socket.emit('sequence', {
+                            //     packet: this.packet,
+                            //     room: this.source.room
+                            // })
+                            // this.packet = []
+                        },
+                        onDescription: function (payload) {
+                            let state = this.state
+                            let temporary = {
+                                offense: payload.name,
+                                skill: payload.skillIndex,
+                                target: '',
+                                aim: payload.target,
+                                heroIndex: payload.heroIndex
                             }
-                            count[2] = energy.s >= skill.s ? false : true
-                        }
-                        if (skill.w >= 0) {
-                            count[3] = energy.w >= skill.w ? false : true
-                        }
 
-                        if (count.filter(x => x === false).length === 4) {
-                            active = false
-                        }
-                        else {
-                            active = true
+                            //Buffer Skill                                            
+                            state.description = {
+                                skill: temporary.skill,
+                                heroIndex: temporary.heroIndex
+                            }
+                        },
+                        onGetImage: function (payload, option) {
+                            if (option === 'packet') {
+                                let index = this.source.ally.findIndex(x => x.name === payload.offense)
+                                let nameId = this.source.ally[index].nameId
+
+                                return '/assets/character/' + nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+                            }
+                            else if (option === 'char') {
+                                return '/assets/character/' + payload.nameId + '/avatar.jpg'
+                            }
+                            else if (option === 'skill') {
+                                return '/assets/character/' + payload.nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+                            }
+                            else if (option === 'status') {
+                                return '/assets/character/' + payload.nameId + '/skill' + (payload.skill) + '/avatar.jpg'
+                            }
                         }
                     }
-                    return active
-                }
-            }
+                })
 
-            function buttonManagement(payload, option) {
-                //Target Button
-                if (option !== 'onSelf') {
-                    if (payload.aim === 'enemy') {
-                        app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
+                function energyManagement(temporary, option) {
+                    let energy = temporary.energy ? temporary.energy : app.source.energy.ally
+                    let skill = temporary.skillBind ? temporary.skillBind : app.source.ally[temporary.heroIndex].skill[temporary.skill].energy
+                    let total = {
+                        energy: energy.a + energy.i + energy.s + energy.w,
+                        skill: skill.a + skill.i + skill.s + skill.w
+                    }                    
+
+                    if (option === 'substract') {
+                        console.log('test')
+                        if (skill.a > 0) {
+                            energy.a -= skill.a
+                            console.log(skill.a)
+                            energy.r -= skill.a
+                        }
+                        if (skill.i > 0) {
+                            energy.i -= skill.i
+                            console.log(skill.i)
+                            energy.r -= skill.i
+                        }
+                        if (skill.s > 0) {
+                            energy.s -= skill.s
+                            console.log(skill.s)
+                            energy.r -= skill.s
+                        }
+                        if (skill.w > 0) {
+                            energy.w -= skill.w
+                            console.log(skill.w)
+                            energy.r -= skill.w
+                        }
+                        if (skill.r > 0) {
+                            energy.r -= skill.r
+                            console.log(energy.r)
+                            app.state.energy.random += skill.r
+                        }
                     }
-                    else if (payload.aim === 'ally') {
-                        app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
+                    else if (option === 'add') {
+                        if (skill.a > 0) {
+                            energy.a += skill.a
+                            energy.r += skill.a
+                        }
+                        if (skill.i > 0) {
+                            energy.i += skill.i
+                            energy.r += skill.i
+                        }
+                        if (skill.s > 0) {
+                            energy.s += skill.s
+                            energy.r += skill.s
+                        }
+                        if (skill.w > 0) {
+                            energy.w += skill.w
+                            energy.r += skill.w
+                        }
+                        if (skill.r > 0) {
+                            energy.r += skill.r
+                            app.state.energy.random -= skill.r
+                        }
                     }
-                    else if (payload.aim === 'self') {
-                        app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button
+                    else if (option === 'check') {
+                        let active = true                        
+                        if (total.energy >= total.skill) {
+                            let count = []
+                            if (skill.a >= 0) {
+                                count[0] = energy.a >= skill.a ? false : true
+                            }
+                            if (skill.i >= 0) {
+                                count[1] = energy.i >= skill.i ? false : true
+                            }
+                            if (skill.s >= 0) {                                
+                                count[2] = energy.s >= skill.s ? false : true
+                            }
+                            if (skill.w >= 0) {
+                                count[3] = energy.w >= skill.w ? false : true
+                            }
+
+                            if (count.filter(x => x === false).length === 4) {
+                                active = false
+                            }
+                            else {
+                                active = true
+                            }
+                        }
+                        return active
                     }
                 }
 
-                //Skill Button
-                if (option === 'onSkill') {
-                    console.log('onSkill')
-                    app.state.button.ally.forEach(x => {
-                        if (x.onSkill === false) {
-                            x.skill.forEach(s => {
-                                s.button = true
-                                if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
-                                    s.button = false
-                                }
-                            })
+                function buttonManagement(payload, option) {
+                    //Target Button
+                    if (option !== 'onSelf') {
+                        if (payload.aim === 'enemy') {
+                            app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
                         }
-                    })
-                }
-                if (option === 'onCancel') {
-                    console.log('onCancel')
-                    app.state.button.ally.forEach(x => {
-                        if (x.onSkill === false || x.name === payload.offense) {
-                            x.skill.forEach(s => {
-                                s.button = s.disabled ? true : false
-                                if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
-                                    s.button = false
-                                }
-                            })
+                        else if (payload.aim === 'ally') {
+                            app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
                         }
-                    })
-                }
-                else if (option === 'onTarget') {
-                    console.log('onTarget')
-                    app.state.button.ally.forEach(x => {
-                        let index = app.packet.findIndex(s => s.offense === x.name)
-                        if (index < 0) {
-                            x.skill.forEach(s => {
-                                s.button = s.disabled ? true : false
-                            })
+                        else if (payload.aim === 'self') {
+                            app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button
                         }
-                    })
+                    }
+
+                    //Skill Button
+                    if (option === 'onSkill') {
+                        console.log('onSkill')
+                        app.state.button.ally.forEach(x => {
+                            if (x.onSkill === false) {
+                                x.skill.forEach(s => {
+                                    s.button = true
+                                    if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                                        s.button = false
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    if (option === 'onCancel') {
+                        console.log('onCancel')
+                        app.state.button.ally.forEach(x => {
+                            if (x.onSkill === false || x.name === payload.offense) {
+                                x.skill.forEach(s => {
+                                    s.button = s.disabled ? true : false
+                                    if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                                        s.button = false
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    else if (option === 'onTarget') {
+                        console.log('onTarget')
+                        app.state.button.ally.forEach(x => {
+                            let index = app.packet.findIndex(s => s.offense === x.name)
+                            if (index < 0) {
+                                x.skill.forEach(s => {
+                                    s.button = s.disabled ? true : false
+                                })
+                            }
+                        })
+                    }
+                    else if (option === 'onSelf') {
+                        console.log('onSelf')
+                        app.state.button.ally[payload.heroIndex].skill.forEach(s => {
+                            s.button = s.disabled ? true : false
+                        })
+                    }
+
+                    //Mana Management
+                    if (option !== 'onSkill') {
+                        app.state.button.ally.forEach(x => {
+                            if (x.onSkill === false && x.name !== payload.offense) {
+                                console.log(x.name)
+                                x.skill.forEach(s => {
+                                    let energy = energyManagement({ heroIndex: payload.heroIndex, skill: payload.skill }, 'check')
+                                    let mana = s.mana > app.source.mana.ally ? true : false
+                                    s.button = s.disabled || energy ? true : false
+                                    if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
+                                        s.button = false
+                                    }
+                                })
+                            }
+                        })
+                    }
                 }
-                else if (option === 'onSelf') {
-                    console.log('onSelf')
-                    app.state.button.ally[payload.heroIndex].skill.forEach(s => {
-                        s.button = s.disabled ? true : false
-                    })
+
+                function getParameterName(name, url) {
+                    if (!url) url = window.location.href;
+                    name = name.replace(/[\[\]]/g, "\\$&");
+                    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                        results = regex.exec(url);
+                    if (!results) return null;
+                    if (!results[2]) return '';
+                    return decodeURIComponent(results[2].replace(/\+/g, " "));
                 }
 
-                //Mana Management
-                if (option !== 'onSkill') {
-                    app.state.button.ally.forEach(x => {
-                        if (x.onSkill === false && x.name !== payload.offense) {
-                            console.log(x.name)
-                            x.skill.forEach(s => {
-                                let energy = energyManagement({ heroIndex: payload.heroIndex, skill: payload.skill }, 'check')
-                                let mana = s.mana > app.source.mana.ally ? true : false
-                                s.button = s.disabled || mana || energy ? true : false
-                                if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
-                                    s.button = false
-                                }
-                            })
-                        }
-                    })
+                const setCookie = (name, value, days = 7, path = '/') => {
+                    const expires = new Date(Date.now() + days * 864e5).toGMTString()
+                    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
                 }
-            }
 
-            function getParameterName(name, url) {
-                if (!url) url = window.location.href;
-                name = name.replace(/[\[\]]/g, "\\$&");
-                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(url);
-                if (!results) return null;
-                if (!results[2]) return '';
-                return decodeURIComponent(results[2].replace(/\+/g, " "));
-            }
-
-            const setCookie = (name, value, days = 7, path = '/') => {
-                const expires = new Date(Date.now() + days * 864e5).toGMTString()
-                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-            }
-
-            const getCookie = (name) => {
-                return document.cookie.split('; ').reduce((r, v) => {
-                    const parts = v.split('=')
-                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
-                }, '')
-            }
-
-            const deleteCookie = (name, path) => {
-                setCookie(name, '', -1, path)
-            }
-
-            function vueBind(payload) {
-                let username = getCookie('username')
-                if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
-                    return
+                const getCookie = (name) => {
+                    return document.cookie.split('; ').reduce((r, v) => {
+                        const parts = v.split('=')
+                        return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                    }, '')
                 }
-                console.log(payload)
-                let ally = payload.team.teamEven === username ? 'teamEven' : 'teamOdd'
-                let enemy = payload.team.teamEven === username ? 'teamOdd' : 'teamEven'
-                let turn = ally === 'teamEven' ? 1 : 0
-                let myTurn = payload.turn % 2 === turn ? true : false
-                let store = {
-                    mana: {
-                        ally: payload.mana[ally],
-                        enemy: payload.mana[enemy]
-                    },
-                    energy: {
-                        ally: payload.energy[ally],
-                        enemy: payload.energy[enemy]
-                    },
-                    ally: payload[ally],
-                    enemy: payload[enemy],
-                    turn: payload.turn,
-                    myTurn: myTurn,
-                    room: payload.room
+
+                const deleteCookie = (name, path) => {
+                    setCookie(name, '', -1, path)
                 }
-                store.energy.ally.r = store.energy.ally.a + store.energy.ally.i + store.energy.ally.s + store.energy.ally.w
-                console.log(store)
-                let button = {
-                    ally: store.ally.map(x => {
-                        let stun = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
-                        return {
-                            name: x.name,
-                            button: true,
-                            onSkill: false,
-                            disabled: stun,
-                            skill: x.skill.map(s => {
-                                let energy = energyManagement({ energy: store.energy.ally, skillBind: s.energy }, 'check')
-                                console.log(energy)
-                                let disabled = energy || stun || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
-                                return {
-                                    name: s.name,
-                                    mana: s.mana,
-                                    disabled: disabled,
-                                    button: disabled
-                                }
-                            })
-                        }
-                    }),
-                    enemy: store.enemy.map(x => {
-                        let disabled = x.status.onState.findIndex(x => x.type === 'invincible') > -1 || x.hp <= 0 ? true : false
-                        return {
-                            name: x.name,
-                            disabled: disabled,
-                            button: true
-                        }
-                    })
+
+                function vueBind(payload) {
+                    let username = getCookie('username')
+                    if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
+                        return
+                    }
+                    console.log(payload)
+                    let ally = payload.team.teamEven === username ? 'teamEven' : 'teamOdd'
+                    let enemy = payload.team.teamEven === username ? 'teamOdd' : 'teamEven'
+                    let turn = ally === 'teamEven' ? 1 : 0
+                    let myTurn = payload.turn % 2 === turn ? true : false
+                    let store = {
+                        mana: {
+                            ally: payload.mana[ally],
+                            enemy: payload.mana[enemy]
+                        },
+                        energy: {
+                            ally: payload.energy[ally],
+                            enemy: payload.energy[enemy]
+                        },
+                        ally: payload[ally],
+                        enemy: payload[enemy],
+                        turn: payload.turn,
+                        myTurn: myTurn,
+                        room: payload.room
+                    }
+                    store.energy.ally.r = store.energy.ally.a + store.energy.ally.i + store.energy.ally.s + store.energy.ally.w
+                    console.log(store)
+                    let button = {
+                        ally: store.ally.map(x => {
+                            let stun = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
+                            return {
+                                name: x.name,
+                                button: true,
+                                onSkill: false,
+                                disabled: stun,
+                                skill: x.skill.map(s => {
+                                    let energy = energyManagement({ energy: store.energy.ally, skillBind: s.energy }, 'check')
+                                    console.log(energy)
+                                    let disabled = energy || stun || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
+                                    return {
+                                        name: s.name,
+                                        mana: s.mana,
+                                        disabled: disabled,
+                                        button: disabled
+                                    }
+                                })
+                            }
+                        }),
+                        enemy: store.enemy.map(x => {
+                            let disabled = x.status.onState.findIndex(x => x.type === 'invincible') > -1 || x.hp <= 0 ? true : false
+                            return {
+                                name: x.name,
+                                disabled: disabled,
+                                button: true
+                            }
+                        })
+                    }
+                    app.source = store
+                    app.state.button = button
+                    app.state.timer.turn = 100
+                    app.state.timer.mana = store.mana.ally
+                    app.state.winner = payload.winner
                 }
-                app.source = store
-                app.state.button = button
-                app.state.timer.turn = 100
-                app.state.timer.mana = store.mana.ally
-                app.state.winner = payload.winner
-            }
 
-            socket.on('apply', (payload) => {
-                vueBind(payload)
-            })
+                socket.on('apply', (payload) => {
+                    vueBind(payload)
+                })
 
-            socket.on('noMatch', (payload) => {
-                console.log('none')
-                window.location.replace('/');
-            })
+                socket.on('noMatch', (payload) => {
+                    console.log('none')
+                    window.location.replace('/');
+                })
 
-            function initiate() {
-                let url = window.location.href.split('/')
-                let room = url[url.length - 1]
-                if (room !== '') {
-                    socket.emit('initiate', {
-                        room: room,
-                    })
-                } else {
-                    // window.location.replace('/');
+                function initiate() {
+                    let url = window.location.href.split('/')
+                    let room = url[url.length - 1]
+                    if (room !== '') {
+                        socket.emit('initiate', {
+                            room: room,
+                        })
+                    } else {
+                        // window.location.replace('/');
+                    }
                 }
-            }
 
-            initiate()
+                initiate()
 
-            setInterval(() => {
-                if (app.source.turn == undefined || app.state.winner.state !== false) {
-                    return
-                }
-                if (app.state.timer.turn > 0) {
-                    app.state.timer.turn -= 3.3;
-                } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
-                    // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-                    // socket.emit('sequence', {
-                    //     packet: app.packet,
-                    //     room: app.source.room
-                    // })
-                    // app.packet = []
-                }
-            }, 1000)
+                setInterval(() => {
+                    if (app.source.turn == undefined || app.state.winner.state !== false) {
+                        return
+                    }
+                    if (app.state.timer.turn > 0) {
+                        app.state.timer.turn -= 3.3;
+                    } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
+                        // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                        // socket.emit('sequence', {
+                        //     packet: app.packet,
+                        //     room: app.source.room
+                        // })
+                        // app.packet = []
+                    }
+                }, 1000)
 
-        </script>
+            </script>
 </body>

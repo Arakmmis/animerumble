@@ -98,7 +98,9 @@ function sequence(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
   let myTurn = state.turn % 2 === 1 ? "teamOdd" : "teamEven";
-  console.log(myTurn);
+  console.log(myTurn);  
+  energyManagement(state.energy[myTurn], payload[0])
+  payload.shift()
 
   //Sequence
   payload.forEach(payload => {

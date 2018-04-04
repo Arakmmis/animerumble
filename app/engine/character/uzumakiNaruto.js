@@ -30,7 +30,7 @@ let skills = {
     cooldown: 1,
     mana: 2,
     energy: {
-      s: 1
+      a: 1
     },
     description: "Deal 25 physical damage. Stun, for 1 turn.",
     move: function(payload) {
@@ -46,7 +46,8 @@ let skills = {
     description: "Deal 5 damage, for 2 turns.",
     mana: 1,
     energy: {
-      s: 1
+      a: 1,
+      r: 1
     },
     target: "enemy",
     move: function(payload) {
@@ -64,8 +65,8 @@ let skills = {
     target: "enemy",
     mana: 2,
     energy: {
-      s: 1,
-      a: 10
+      a: 1,
+      a: 2
     },
     move: function(payload) {
       payload.target.status.onSelf.push(new constructor.status(status.protect, this.name, 3));
@@ -80,7 +81,8 @@ let skills = {
     target: "self",
     mana: 1,
     energy: {
-      s: 1
+      a: 1,
+      r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(

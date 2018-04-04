@@ -1,0 +1,88 @@
+<script type="text/x-template" id="modal-energy">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+  
+            <div class="modal-header">
+              <slot name="header">
+                <p class="title-1">Energy</p>
+              </slot>
+            </div>    
+            
+            <div class="modal-body">
+              <slot name="body">      
+                <p>Reimburse {{reimbursed}} Random Energy</p>
+                <p>A {{pool.a}} <button @click="select('a')" :disabled="disabled('a','select')">+</button><button @click="deselect('a')" :disabled="disabled('a','deselect')">-</button></p>
+                <p>I {{pool.i}} <button @click="select('i')" :disabled="disabled('i','select')">+</button><button @click="deselect('i')" :disabled="disabled('i','deselect')">-</button></p>
+                <p>S {{pool.s}} <button @click="select('s')" :disabled="disabled('s','select')">+</button><button @click="deselect('s')" :disabled="disabled('s','deselect')">-</button></p>
+                <p>W {{pool.w}} <button @click="select('w')" :disabled="disabled('w','select')">+</button><button @click="deselect('w')" :disabled="disabled('w','deselect')">-</button></p>
+              </slot>
+            </div>
+  
+            <div class="modal-footer">
+              <slot name="footer">                
+                <button class="modal-default-button btn-color4 w-100" @click="done()">
+                    Accept
+                </button>
+                <button class="modal-default-button btn-color4 w-100" @click="$emit('close')">
+                  Back
+                </button>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </script>
+
+<script>
+  Vue.component('modalenergy', {
+    props: ['energy', 'random'],
+    template: '#modal-energy',
+    data: function () {
+      return {
+        cost: {
+          a: 0,
+          i: 0,
+          s: 0,
+          w: 0
+        },
+        pool: {
+          a: this.energy.a,
+          i: this.energy.i,
+          s: this.energy.s,
+          w: this.energy.w
+        },
+        reimbursed: this.random
+      }
+    },
+    methods: {
+      select: function (payload) {
+        this.pool[payload] -= 1
+        this.reimbursed -= 1
+      },
+      deselect: function (payload) {
+        this.pool[payload] += 1
+        this.reimbursed += 1
+      },
+      disabled: function (energy, option) {
+        if (option === 'select') {
+          return !(this.energy[energy] > 0) || (0 === this.pool[energy]) || this.reimbursed === 0
+        } else if (option === 'deselect') {
+          return !(this.energy[energy] > 0) || (this.energy[energy] === this.pool[energy])
+        }
+
+      },
+      done: function () {
+        let result = {
+          a: this.energy.a - this.pool.a,
+          i: this.energy.i - this.pool.i,
+          s: this.energy.s - this.pool.s,
+          w: this.energy.w - this.pool.w,
+        }
+        this.$emit('done', result)
+      }
+    }
+  })
+</script>

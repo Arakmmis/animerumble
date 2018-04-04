@@ -4,13 +4,7 @@
         <div class="l--bar">
             <div :style="{width: state.timer.turn+'%'}" class="l--fill"></div>
         </div>
-    </div>
-    <div class="l--turn">
-        <p>MANA {{source.mana.ally}}</p>
-        <div class="l--bar">
-            <div :style="{width: ((source.mana.ally/state.timer.mana)*100)+'%'}" class="l--fill"></div>
-        </div>
-    </div>
+    </div>    
 
     <div class="l--turn">
         <p>A {{source.energy.ally.a}} | I {{source.energy.ally.i}} | S {{source.energy.ally.s}} | W {{source.energy.ally.w}} | R {{source.energy.ally.r}}</p>

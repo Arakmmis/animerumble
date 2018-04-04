@@ -30,6 +30,10 @@ let skills = {
     description: "Increase damage taken from Water Nebula by 10, for 2 turns.",
     target: "self",
     mana: 2,
+    energy: {
+      s: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.status.onAttack.push(
         new constructor.status(status.waterLock, this.name, 1)
@@ -44,6 +48,10 @@ let skills = {
     description: "Deal 25 damage.",
     target: "enemy",
     mana: 3,
+    energy: {
+      s: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -56,6 +64,10 @@ let skills = {
     description: "Deal 15 damage.",
     target: "enemy",
     mana: 1,
+    energy: {
+      s: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -68,6 +80,10 @@ let skills = {
     description: "Become invulnerable, for 1 turn.",
     target: "self",
     mana: 2,
+    energy: {
+      s: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible, this.name, 4)

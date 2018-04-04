@@ -1,5 +1,13 @@
 <div v-if="state.description !== null" class="game--description w-50">
     <p class="l--title">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
     <p class="l--desc">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
-    <p class="l--info text-right">TARGET {{source.ally[state.description.heroIndex].skill[state.description.skill].target.toUpperCase()}} | MANA  {{source.ally[state.description.heroIndex].skill[state.description.skill].mana}} | COOLDOWN {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
+
+    <p class="l--info text-right">
+        TARGET {{source.ally[state.description.heroIndex].skill[state.description.skill].target}}
+        | A {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.a}} 
+        | I {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.i}} 
+        | S {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.s}} 
+        | W {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.w}} 
+        | R {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.r}}        
+        | COOLDOWN {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
 </div>

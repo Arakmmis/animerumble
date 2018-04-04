@@ -29,6 +29,10 @@ let skills = {
     cooldown: 0,
     description: "Deal 20 physical damage.",
     mana: 2,
+    energy: {
+      s: 1,
+      a: 1
+    },
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
@@ -41,6 +45,10 @@ let skills = {
     description: "Restore 15 health, for 2 turns.",
     target: "ally",
     mana: 2,
+    energy: {
+      s: 1,
+      i: 1
+    },
     move: function(payload) {
       payload.target.status.onSelf.push(
         new constructor.status(status.heal, this.name, 2)
@@ -55,6 +63,10 @@ let skills = {
     description: "Deals 5 affliction damage, for 3 turns.",
     target: "enemy",
     mana: 3,
+    energy: {
+      s: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.status.onSelf.push(
         new constructor.status(status.bleed, this.name, 3)
@@ -69,6 +81,10 @@ let skills = {
     description: "Become invulnerable, for 1 turn.",
     target: "self",
     mana: 2,
+    energy: {
+      w: 1,
+      r: 1
+    },
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible, this.name, 4)

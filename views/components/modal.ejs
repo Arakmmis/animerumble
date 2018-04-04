@@ -17,7 +17,14 @@
                       <div class="l--box w-100">
                             <p class="l--title">{{item.name}}</p>
                             <p class="l--desc">{{item.description}}</p>
-                            <p class="l--info text-right">TARGET {{item.target.toUpperCase()}} | MANA  {{item.mana}} | COOLDOWN {{item.cooldown}}</p>
+                            <p class="l--info text-right">
+                              TARGET {{item.target.toUpperCase()}} 
+                              | A {{item.energy.a}} 
+                              | I {{item.energy.i}} 
+                              | S {{item.energy.s}} 
+                              | W {{item.energy.w}} 
+                              | R {{item.energy.r}}        
+                              | COOLDOWN {{item.cooldown}}</p>
                       </div>                      
                   </div>
               </slot>
