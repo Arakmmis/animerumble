@@ -29,6 +29,9 @@ let skills = {
     val: 25,
     cooldown: 1,
     mana: 2,
+    energy: {
+      s: 1
+    },
     description: "Deal 25 physical damage. Stun, for 1 turn.",
     move: function(payload) {
       payload.target.hp -= payload.val;
@@ -42,6 +45,9 @@ let skills = {
     cooldown: 2,
     description: "Deal 5 damage, for 2 turns.",
     mana: 1,
+    energy: {
+      s: 1
+    },
     target: "enemy",
     move: function(payload) {
       payload.target.status.onReceive.push(
@@ -57,6 +63,10 @@ let skills = {
     description: "Protect 10 damage for 3 turns.",
     target: "enemy",
     mana: 2,
+    energy: {
+      s: 1,
+      a: 10
+    },
     move: function(payload) {
       payload.target.status.onSelf.push(new constructor.status(status.protect, this.name, 3));
     }
@@ -69,6 +79,9 @@ let skills = {
     description: "Become invulnerable, for 1 turn.",
     target: "self",
     mana: 1,
+    energy: {
+      s: 1
+    },
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.invincible, this.name, 4)

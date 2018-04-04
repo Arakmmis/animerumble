@@ -1,10 +1,12 @@
 let constructor = require('./constructor.js')
 let heroes = require('./heroes.js')
 let character = require('./character/index.js')
+let helper = require('./helper.js')
 
 function main(payload, callback) {
     console.log(payload)
     console.log(character)
+    let energy = helper.energy()
     //Define    
     let action = {}     
     let state = {
@@ -24,16 +26,16 @@ function main(payload, callback) {
         },
         energy: {
             teamOdd: {
-                a,
-                s,
-                i,
-                w
+                a: energy.a,
+                s: energy.s,
+                i: energy.i,
+                w: energy.w
             },
             teamEven: {
-                a,
-                s,
-                i,
-                w
+                a: 0,
+                s: 0,
+                i: 0,
+                w: 0
             }
         },
         turn: 1,        

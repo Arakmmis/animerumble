@@ -31,6 +31,13 @@ module.exports = {
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false
     this.mana = payload.mana ? payload.mana : 1
+    this.energy = {
+      a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
+      i: payload.energy ? (payload.energy.i ? payload.energy.i : 0) : 0,
+      s: payload.energy ? (payload.energy.s ? payload.energy.s : 0) : 0,
+      w: payload.energy ? (payload.energy.w ? payload.energy.w : 0) : 0,
+      r: payload.energy ? (payload.energy.r ? payload.energy.r : 0) : 0,
+    }
   },  
   status: function(payload, name, skill) {
     this.name = name ? name : payload.name;

@@ -1,4 +1,20 @@
 const _ = require("lodash");
+let helper = require("./helper.js");
+
+function energyManagement(energy, skill) {
+  if (skill.a > 0) {
+    energy.a -= skill.a;
+  }
+  if (skill.i > 0) {
+    energy.i -= skill.i;
+  }
+  if (skill.s > 0) {
+    energy.s -= skill.s;
+  }
+  if (skill.w > 0) {
+    energy.w -= skill.w;
+  }
+}
 
 function skillApply(payload, mana) {
   console.log(
@@ -28,6 +44,7 @@ function skillApply(payload, mana) {
   //Cleanup
   payload.offense.skill[payload.skill].state = "cooldown";
   payload.mana -= payload.offense.skill[payload.skill].mana;
+  energyManagement(payload.energy, payload.offense.skill[payload.skill].energy)
   mana(payload.mana);
 
   return payload.target;
@@ -100,7 +117,8 @@ function sequence(payload, store, callback) {
         offense: offense,
         target: target,
         skill: payload.skill,
-        mana: state.mana[myTurn]
+        mana: state.mana[myTurn],
+        energy: state.energy[myTurn]
       },
       mana => {
         state.mana[myTurn] = mana;
@@ -168,8 +186,18 @@ function sequence(payload, store, callback) {
   //Mana Distribution
   if (state.turn % 2 === 0) {
     state.mana.teamOdd += state.teamOdd.filter(x => x.hp > 0).length;
+    let energy = helper.energy();
+    state.energy.teamOdd.a += energy.a;
+    state.energy.teamOdd.i += energy.i;
+    state.energy.teamOdd.s += energy.s;
+    state.energy.teamOdd.w += energy.w;
   } else {
     state.mana.teamEven += state.teamEven.filter(x => x.hp > 0).length;
+    let energy = helper.energy();
+    state.energy.teamEven.a += energy.a;
+    state.energy.teamEven.i += energy.i;
+    state.energy.teamEven.s += energy.s;
+    state.energy.teamEven.w += energy.w;
   }
 
   //Winner

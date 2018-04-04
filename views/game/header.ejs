@@ -12,5 +12,12 @@
         </div>
     </div>
 
+    <div class="l--turn">
+        <p>A {{source.energy.ally.a}} | I {{source.energy.ally.i}} | S {{source.energy.ally.s}} | W {{source.energy.ally.w}} | R {{source.energy.ally.r}}</p>
+        <div class="l--bar">
+            <div :style="{width: '100%'}" class="l--fill"></div>
+        </div>
+    </div>
+
     <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false" class="btn-color4">Attack</button>
 </div>
