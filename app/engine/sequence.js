@@ -120,7 +120,8 @@ function sequence(payload, store, callback) {
         target: target,
         skill: payload.skill,
         mana: state.mana[myTurn],
-        energy: state.energy[myTurn]
+        energy: state.energy[myTurn],
+        store: state
       },
       mana => {
         state.mana[myTurn] = mana;
@@ -145,9 +146,9 @@ function sequence(payload, store, callback) {
     if (state.turn % 2 === turn) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
+          x.status.onSelf[t].modify({ offense: x, active: x.status.onSelf[t].active });
           x.status.onSelf[t].active -= 1;
-          console.log(x);
-          x.status.onSelf[t].modify({ offense: x });
+          console.log(x);          
         });
         x.status.onSelf = x.status.onSelf.filter(x => x.active > 0);
       }

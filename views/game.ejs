@@ -418,7 +418,7 @@
                                 skill: x.skill.map(s => {
                                     let energy = energyManagement({ energy: store.energy.ally, skillBind: s.energy }, 'check')
                                     console.log(energy)
-                                    let disabled = energy || stun || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
+                                    let disabled = energy || stun || s.required || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
                                     return {
                                         name: s.name,
                                         mana: s.mana,
