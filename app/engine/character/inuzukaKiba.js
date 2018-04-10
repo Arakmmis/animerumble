@@ -73,8 +73,7 @@ let skills = {
     cooldown: 3,
     description:
       "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",
-    mana: 1,
-    required: true,
+    mana: 1,    
     energy: {
       a: 1,
       i: 1
