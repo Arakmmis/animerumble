@@ -10,9 +10,10 @@
 <body>
 
     <div id="app">
-        <div v-if="!seen" class="d-flex flex-row justify-content-center align-items-center h-100">
+        <div v-if="!seen" class="d-flex flex-column justify-content-center align-items-center h-100">
+            <img src="/assets/animerumble.jpg" class="mb-2 img-fluid">
             <div class="width-300">
-                <div class="mb-4">
+                <div class="mb-4">                    
                     <p class="font-weight-bold color1">Anime Rumble</p>
                     <input v-model="username" class="form-control mb-2" placeholder="Choose any Username"></input>
                     <button @click="login" v-if="username.length !== 0" :disabled="players.some(x => x[1] === username)" class="btn-color4 w-100 mb-1">{{players.some(x => x[1] === username) ? 'Name Taken' : 'Enter'}}</button>

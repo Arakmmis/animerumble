@@ -97,9 +97,11 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.protect, this.name, 3),        
+      payload.target.status.onSelf.push(        
         new constructor.status(status.required, this.name, 3),
+      );
+      payload.target.status.onReceive.push(
+        new constructor.status(status.protect, this.name, 3),                
       );
       payload.target.status.onAttack.push(
         new constructor.status(status.boost, this.name, 3),

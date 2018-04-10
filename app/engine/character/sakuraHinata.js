@@ -9,6 +9,14 @@ let status = {
   invincible: library.invincible({
     owner: info.id
   }),
+  stun: library.stun({
+    owner: info.id
+  }),
+  protect: library.protect({
+    val: 10,
+    active: 4,
+    owner: info.id
+  }),
   bleed: library.bleed({
     val: 10,
     active: 2,
@@ -18,59 +26,71 @@ let status = {
     name: "Chakra Heal",
     val: 15,
     owner: info.id
-  })
+  }),
+  boost: {
+    name: "Inner Sakura",
+    val: 10,
+    type: "skill",
+    active: 4,
+    modify: function(payload) {      
+      if (payload.offense.skill[payload.skill].name === "KO Punch") {        
+        payload.val += this.val;
+      }
+    }
+  },
 };
 
 let skills = {
   skill1: {
-    name: "Earthquake Punch",
+    name: "KO Punch",
     type: "attack",
     val: 20,
     cooldown: 0,
-    description: "Deal 20 physical damage.",
+    description: "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",
     mana: 2,
     energy: {
-      s: 1,
-      a: 1
+      s: 1,      
     },
     move: function(payload) {
+      payload.target.status.onState.push(
+        new constructor.status(status.stun, this.name, 1)
+      );
       payload.target.hp -= payload.val;
     }
   },
   skill2: {
-    name: "Chakra Heal",
+    name: "Mystical Palm Healing",
     type: "attack",
     val: 25,
-    cooldown: 2,
-    description: "Restore 15 health, for 2 turns.",
+    cooldown: 0,
+    description: "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
     target: "ally",
     mana: 2,
-    energy: {
-      s: 1,
+    energy: {      
       i: 1
     },
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.heal, this.name, 2)
-      );
+      payload.target.hp += payload.val;
     }
   },
   skill3: {
-    name: "Steroids",
+    name: "Inner Sakura",
     type: "attack",
     val: 10,
-    cooldown: 3,
-    description: "Deals 5 affliction damage, for 3 turns.",
-    target: "enemy",
+    cooldown: 4,
+    description: "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",
+    target: "self",
     mana: 3,
-    energy: {
-      s: 1,
+    energy: {      
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, 3)
+      payload.target.status.onReceive.push(
+        new constructor.status(status.protect, this.name, 3),                
       );
+      payload.target.status.onAttack.push(
+        new constructor.status(status.boost, this.name, 3),
+      )
     }
   },
   skill4: {
@@ -78,11 +98,10 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
-    description: "Become invulnerable, for 1 turn.",
+    description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
     target: "self",
     mana: 2,
-    energy: {
-      w: 1,
+    energy: {      
       r: 1
     },
     move: function(payload) {
