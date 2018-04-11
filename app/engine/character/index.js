@@ -5,6 +5,7 @@ let kurotsuchi = require('./kurotsuchi.js')
 let fullbusterGray = require('./fullbusterGray.js')
 let lockserJuvia = require('./lockserJuvia.js')
 let inuzukaKiba = require('./inuzukaKiba.js')
+let akimichiChouji = require('./akimichiChouji.js')
 
 module.exports = [
     uzumakiNaruto,
@@ -13,5 +14,6 @@ module.exports = [
     kurotsuchi,
     lockserJuvia,
     fullbusterGray,
-    inuzukaKiba
+    inuzukaKiba,
+    akimichiChouji
 ]    

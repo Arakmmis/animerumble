@@ -31,6 +31,7 @@ module.exports = {
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false
     this.mana = payload.mana ? payload.mana : 1
+    this.usage = payload.usage ? payload.usage : 0
     this.energy = {
       a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
       i: payload.energy ? (payload.energy.i ? payload.energy.i : 0) : 0,

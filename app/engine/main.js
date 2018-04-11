@@ -2,6 +2,11 @@ let constructor = require('./constructor.js')
 let heroes = require('./heroes.js')
 let character = require('./character/index.js')
 let helper = require('./helper.js')
+let _ = require('lodash')
+
+function char(res){
+    return new constructor.character(_.cloneDeep(character[character.findIndex(x => x.id === res)]))
+}
 
 function main(payload, callback) {
     console.log(payload)
@@ -11,14 +16,20 @@ function main(payload, callback) {
     let action = {}     
     let state = {
         teamOdd: [
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[0])]),
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[1])]),
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[2])]),
+            char(payload.team.teamOddChar[0]),
+            char(payload.team.teamOddChar[1]),
+            char(payload.team.teamOddChar[2])
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[0])]),
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[1])]),
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[2])]),
         ],
         teamEven: [
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[0])]),
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[1])]),
-            new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[2])]),
+            char(payload.team.teamEvenChar[0]),
+            char(payload.team.teamEvenChar[1]),
+            char(payload.team.teamEvenChar[2]),
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[0])]),
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[1])]),
+            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[2])]),
         ],
         mana: {
             teamOdd: 1,
