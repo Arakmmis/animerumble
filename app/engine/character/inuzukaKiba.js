@@ -27,8 +27,11 @@ let status = {
     val: 5,
     type: "skill",
     active: 3,
-    modify: function(payload) {      
-      if (payload.offense.skill[payload.skill].name === "Double-Headed Wolf" || payload.offense.skill[payload.skill].name === "Garouga") {        
+    modify: function(payload) {
+      if (
+        payload.offense.skill[payload.skill].name === "Double-Headed Wolf" ||
+        payload.offense.skill[payload.skill].name === "Garouga"
+      ) {
         payload.val += this.val;
       }
     }
@@ -41,8 +44,7 @@ let status = {
       if (index !== -1) {
         if (payload.active !== 0) {
           payload.offense.skill[index].energy.r = 0;
-        }
-        else{
+        } else {
           payload.offense.skill[index].energy.r = 1;
         }
       }
@@ -70,20 +72,24 @@ let skills = {
   skill2: {
     name: "Double-Headed Wolf",
     type: "attack",
-    val: 45,
+    val: 15,
     cooldown: 3,
     description:
       "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",
-    mana: 1,    
+    mana: 1,
     energy: {
       a: 1,
       i: 1
     },
-    target: "enemy",
+    target: "allenemy",
     move: function(payload) {
-      payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 2)
-      );
+      console.log("KIBA", payload)
+      if (payload.recursive === 0) {
+        console.log("RECURSIVE")
+        payload.offense.status.onReceive.push(
+          new constructor.status(status.protect, this.name, 2)
+        );
+      }
       payload.target.status.onSelf.push(
         new constructor.status(status.bleed, this.name, 2)
       );
@@ -95,17 +101,18 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 0,
-    description: "Akamaru sprays urine on one enemy who cannot reduce damage or become invulnerable for 3 turns. During this time, 'Double-Headed Wolf' and 'Garouga' will deal 5 additional damage to them. Dynamic Marking cannot be used on an enemy already being affected.",
+    description:
+      "Akamaru sprays urine on one enemy who cannot reduce damage or become invulnerable for 3 turns. During this time, 'Double-Headed Wolf' and 'Garouga' will deal 5 additional damage to them. Dynamic Marking cannot be used on an enemy already being affected.",
     target: "enemy",
     mana: 2,
     energy: {},
-    move: function(payload) {      
+    move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, 3),
-      )
+        new constructor.status(status.boost, this.name, 3)
+      );
       payload.offense.status.onSelf.push(
-        new constructor.status(status.energy, this.name, 3),
-      )
+        new constructor.status(status.energy, this.name, 3)
+      );
     }
   },
   skill4: {

@@ -29,7 +29,8 @@ function skillApply(payload) {
     target: payload.target,
     val: payload.offense.skill[payload.skill].val,
     skill: payload.skill,
-    move: payload.offense.skill[payload.skill].move
+    move: payload.offense.skill[payload.skill].move,
+    recursive: payload.recursive
   };
   if (payload.offense.status.onAttack.length > 0) {
     statusApply(package, package.move, "offense");
@@ -43,7 +44,12 @@ function skillApply(payload) {
 
   //Cleanup
   payload.offense.skill[payload.skill].state = "cooldown";
-  energyManagement(payload.energy, payload.offense.skill[payload.skill].energy);
+  if (package.recursive === 0) {
+    energyManagement(
+      payload.energy,
+      payload.offense.skill[payload.skill].energy
+    );
+  }
 
   return payload.target;
 }
@@ -96,6 +102,7 @@ function sequence(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
   let myTurn = state.turn % 2 === 1 ? "teamOdd" : "teamEven";
+  let theirTurn = state.turn % 2 === 0 ? "teamOdd" : "teamEven";
   console.log(myTurn);
   energyManagement(state.energy[myTurn], payload[0]);
   payload.shift();
@@ -110,14 +117,23 @@ function sequence(payload, store, callback) {
         return state.teamEven[state.teamEven.findIndex(x => x.name === owner)];
       }
     }
+    // function char(turn, name){
+    //   let index = state[turn].findIndex(x => x.name === name);
+    //   return state[turn][index]
+    // }
+    // let offense = team(payload.offense);
+    // let target = team(payload.target);
     let offense = team(payload.offense);
-    let target = team(payload.target);
-    target = skillApply({
-      offense: offense,
-      target: target,
-      skill: payload.skill,
-      energy: state.energy[myTurn],
-      store: state
+    payload.target.forEach((x, t) => {
+      let target = team(x);
+      target = skillApply({
+        offense: offense,
+        target: target,
+        skill: payload.skill,
+        energy: state.energy[myTurn],
+        store: state,
+        recursive: t
+      });
     });
   });
 
@@ -182,13 +198,13 @@ function sequence(payload, store, callback) {
   });
 
   //Mana Distribution
-  if (state.turn % 2 === 0) {    
+  if (state.turn % 2 === 0) {
     let energy = helper.energy();
     state.energy.teamOdd.a += energy.a;
     state.energy.teamOdd.i += energy.i;
     state.energy.teamOdd.s += energy.s;
     state.energy.teamOdd.w += energy.w;
-  } else {    
+  } else {
     let energy = helper.energy();
     state.energy.teamEven.a += energy.a;
     state.energy.teamEven.i += energy.i;

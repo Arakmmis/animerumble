@@ -38,11 +38,13 @@ let status = {
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Rasengan");
       if (index !== -1) {
-        if (payload.active !== 0) {
+        if (payload.active > 1) {
           payload.offense.skill[index].required = false;
+          console.log('ZERO', payload.active)
         }
-        else if(payload.active === this.active -1){
+        else if(payload.active === 1){
           payload.offense.skill[index].required = true;
+          console.log('LAST', payload.active)
         }
       }
     }
