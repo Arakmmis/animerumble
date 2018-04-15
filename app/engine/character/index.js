@@ -9,11 +9,7 @@ let akimichiChouji = require('./akimichiChouji.js')
 
 module.exports = [
     uzumakiNaruto,
-    sakuraHinata,
-    namikazeMinato,
-    kurotsuchi,
-    lockserJuvia,
-    fullbusterGray,
+    sakuraHinata,    
     inuzukaKiba,
     akimichiChouji
 ]    

@@ -29,6 +29,7 @@ let status = {
   }),
   boost: {
     name: "Inner Sakura",
+    owner: info.id,
     val: 10,
     type: "skill",
     active: 4,

@@ -12,11 +12,11 @@
             
             <div class="modal-body">
               <slot name="body">      
-                <p>Reimburse {{reimbursed}} Random Energy</p>
-                <p>A {{pool.a}} <button @click="select('a')" :disabled="disabled('a','select')">+</button><button @click="deselect('a')" :disabled="disabled('a','deselect')">-</button></p>
-                <p>I {{pool.i}} <button @click="select('i')" :disabled="disabled('i','select')">+</button><button @click="deselect('i')" :disabled="disabled('i','deselect')">-</button></p>
-                <p>S {{pool.s}} <button @click="select('s')" :disabled="disabled('s','select')">+</button><button @click="deselect('s')" :disabled="disabled('s','deselect')">-</button></p>
-                <p>W {{pool.w}} <button @click="select('w')" :disabled="disabled('w','select')">+</button><button @click="deselect('w')" :disabled="disabled('w','deselect')">-</button></p>
+                <p>Reimburse <img src="/assets/energy/energy_random.gif"/> {{reimbursed}} Random Energy</p>
+                <p><img src="/assets/energy/energy_0.gif" /> {{pool.a}} <button @click="select('a')" :disabled="disabled('a','select')">+</button><button @click="deselect('a')" :disabled="disabled('a','deselect')">-</button></p>
+                <p><img src="/assets/energy/energy_1.gif" /> {{pool.i}} <button @click="select('i')" :disabled="disabled('i','select')">+</button><button @click="deselect('i')" :disabled="disabled('i','deselect')">-</button></p>
+                <p><img src="/assets/energy/energy_2.gif" /> {{pool.s}} <button @click="select('s')" :disabled="disabled('s','select')">+</button><button @click="deselect('s')" :disabled="disabled('s','deselect')">-</button></p>
+                <p><img src="/assets/energy/energy_3.gif" /> {{pool.w}} <button @click="select('w')" :disabled="disabled('w','select')">+</button><button @click="deselect('w')" :disabled="disabled('w','deselect')">-</button></p>
               </slot>
             </div>
   

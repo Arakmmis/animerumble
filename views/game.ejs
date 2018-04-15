@@ -284,7 +284,7 @@
                             app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
                         }
                         else if (payload.aim === 'ally') {
-                            app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
+                            app.state.button.ally.forEach(x => x.button = x.disabled ? false : !x.button)
                         }
                         else if (payload.aim === 'self') {
                             app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button

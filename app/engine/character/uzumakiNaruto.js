@@ -22,6 +22,7 @@ let status = {
   }),
   boost: {
     name: "Shadow Clones",
+    owner: info.id,
     val: 10,
     type: "skill",
     active: 4,
@@ -40,7 +41,7 @@ let status = {
         if (payload.active !== 0) {
           payload.offense.skill[index].required = false;
         }
-        else{
+        else if(payload.active === this.active -1){
           payload.offense.skill[index].required = true;
         }
       }

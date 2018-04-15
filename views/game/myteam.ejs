@@ -19,8 +19,9 @@
                         <img :src="onGetImage({nameId: item.nameId, skill: skillIndex},'skill')">
                     </button>
                     <button @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" v-if="state.button.ally[index].skill[skillIndex].button"
-                        class="l--disabled">
+                        class="l--disabled game--skill-button">
                         <img :src="onGetImage({nameId: item.nameId, skill: skillIndex},'skill')">
+                        <p class="game--skill-cooldown">{{skill.counter !== 0 ? (skill.cooldown - skill.counter)+1 : ''}}</p>
                     </button>
                 </div>
             </div>

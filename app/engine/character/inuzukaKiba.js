@@ -23,6 +23,7 @@ let status = {
   }),
   boost: {
     name: "Shadow Clones",
+    owner: info.id,
     val: 5,
     type: "skill",
     active: 3,
@@ -101,6 +102,9 @@ let skills = {
     move: function(payload) {      
       payload.target.status.onReceive.push(
         new constructor.status(status.boost, this.name, 3),
+      )
+      payload.offense.status.onSelf.push(
+        new constructor.status(status.energy, this.name, 3),
       )
     }
   },

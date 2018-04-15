@@ -16,7 +16,7 @@ function energyManagement(energy, skill) {
   }
 }
 
-function skillApply(payload, mana) {
+function skillApply(payload) {
   console.log(
     "apply",
     payload.target.name,
@@ -43,9 +43,7 @@ function skillApply(payload, mana) {
 
   //Cleanup
   payload.offense.skill[payload.skill].state = "cooldown";
-  payload.mana -= payload.offense.skill[payload.skill].mana;
-  energyManagement(payload.energy, payload.offense.skill[payload.skill].energy)
-  mana(payload.mana);
+  energyManagement(payload.energy, payload.offense.skill[payload.skill].energy);
 
   return payload.target;
 }
@@ -98,9 +96,9 @@ function sequence(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
   let myTurn = state.turn % 2 === 1 ? "teamOdd" : "teamEven";
-  console.log(myTurn);  
-  energyManagement(state.energy[myTurn], payload[0])
-  payload.shift()
+  console.log(myTurn);
+  energyManagement(state.energy[myTurn], payload[0]);
+  payload.shift();
 
   //Sequence
   payload.forEach(payload => {
@@ -114,19 +112,13 @@ function sequence(payload, store, callback) {
     }
     let offense = team(payload.offense);
     let target = team(payload.target);
-    target = skillApply(
-      {
-        offense: offense,
-        target: target,
-        skill: payload.skill,
-        mana: state.mana[myTurn],
-        energy: state.energy[myTurn],
-        store: state
-      },
-      mana => {
-        state.mana[myTurn] = mana;
-      }
-    );
+    target = skillApply({
+      offense: offense,
+      target: target,
+      skill: payload.skill,
+      energy: state.energy[myTurn],
+      store: state
+    });
   });
 
   //Post Sequence
@@ -146,9 +138,12 @@ function sequence(payload, store, callback) {
     if (state.turn % 2 === turn) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
-          x.status.onSelf[t].modify({ offense: x, active: x.status.onSelf[t].active });
+          x.status.onSelf[t].modify({
+            offense: x,
+            active: x.status.onSelf[t].active
+          });
           x.status.onSelf[t].active -= 1;
-          console.log(x);          
+          console.log(x);
         });
         x.status.onSelf = x.status.onSelf.filter(x => x.active > 0);
       }
@@ -187,15 +182,13 @@ function sequence(payload, store, callback) {
   });
 
   //Mana Distribution
-  if (state.turn % 2 === 0) {
-    state.mana.teamOdd += state.teamOdd.filter(x => x.hp > 0).length;
+  if (state.turn % 2 === 0) {    
     let energy = helper.energy();
     state.energy.teamOdd.a += energy.a;
     state.energy.teamOdd.i += energy.i;
     state.energy.teamOdd.s += energy.s;
     state.energy.teamOdd.w += energy.w;
-  } else {
-    state.mana.teamEven += state.teamEven.filter(x => x.hp > 0).length;
+  } else {    
     let energy = helper.energy();
     state.energy.teamEven.a += energy.a;
     state.energy.teamEven.i += energy.i;
