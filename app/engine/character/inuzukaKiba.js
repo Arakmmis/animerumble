@@ -38,14 +38,16 @@ let status = {
   },
   energy: {
     owner: info.id,
-    active: 3,
+    active: 4,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
       if (index !== -1) {
-        if (payload.active !== 0) {
+        if (payload.active > 1) {
           payload.offense.skill[index].energy.r = 0;
-        } else {
+          console.log("KIBA Start", payload.active);
+        } else if (payload.active === 1) {
           payload.offense.skill[index].energy.r = 1;
+          console.log("KIBA", payload.active);
         }
       }
     }
@@ -89,6 +91,9 @@ let skills = {
         payload.offense.status.onReceive.push(
           new constructor.status(status.protect, this.name, 2)
         );
+        payload.offense.status.onSelf.push(
+          new constructor.status(status.energy, this.name, 3)
+        );
       }
       payload.target.status.onSelf.push(
         new constructor.status(status.bleed, this.name, 2)
@@ -109,9 +114,6 @@ let skills = {
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.boost, this.name, 3)
-      );
-      payload.offense.status.onSelf.push(
-        new constructor.status(status.energy, this.name, 3)
       );
     }
   },
