@@ -83,9 +83,9 @@ let skills = {
     },
     target: "allenemy",
     move: function(payload) {
-      console.log("KIBA", payload)
+      console.log("KIBA", payload);
       if (payload.recursive === 0) {
-        console.log("RECURSIVE")
+        console.log("RECURSIVE");
         payload.offense.status.onReceive.push(
           new constructor.status(status.protect, this.name, 2)
         );

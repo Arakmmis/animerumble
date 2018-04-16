@@ -30,7 +30,7 @@
 
 .game {
   padding: 5px;
-  background: url("https://i.imgur.com/gh6yr99.jpg") no-repeat center center
+  background: url("/assets/bg.jpg") no-repeat center center
     fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -151,10 +151,12 @@
 
 .game--description{
   background: #fefefe;
-  margin-top: 10px;
-  margin-left: 20px;
+  // margin-top: 10px;
+  // margin-left: 20px;
   padding: 10px;
+  width: 400px;
   border-radius: 5px;
+  text-align: left;
   .l--title{
     font-size: 14px;
     color: $color1;

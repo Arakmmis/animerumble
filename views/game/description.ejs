@@ -1,13 +1,14 @@
-<div v-if="state.description !== null" class="game--description w-50">
-    <p class="l--title">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
+<div v-if="state.description !== null" class="game--description">
+    <p class="l--title mb-0">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
     <p class="l--desc">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
 
-    <p class="l--info text-right">
+    <p class="l--info text-right mb-0">
         TARGET {{source.ally[state.description.heroIndex].skill[state.description.skill].target}}
-        | <img src="/assets/energy/energy_0.gif" /> {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.a}} 
-        | <img src="/assets/energy/energy_1.gif" /> {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.i}} 
-        | <img src="/assets/energy/energy_2.gif" /> {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.s}} 
-        | <img src="/assets/energy/energy_3.gif" /> {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.w}} 
-        | <img src="/assets/energy/energy_random.gif" /> {{source.ally[state.description.heroIndex].skill[state.description.skill].energy.r}}        
+        | <img src="/assets/energy/energy_0.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.a"/>
+         <img src="/assets/energy/energy_1.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.i"/>
+         <img src="/assets/energy/energy_2.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.s"/>
+         <img src="/assets/energy/energy_3.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.w"/>
+         <img src="/assets/energy/energy_random.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.r"/>
+         <span v-if="source.ally[state.description.heroIndex].skill[state.description.skill].energy.r === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.w === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.a === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.i === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.s === 0">No Cost</span>
         | COOLDOWN {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
 </div>

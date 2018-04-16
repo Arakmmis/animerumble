@@ -1,7 +1,8 @@
 <head>
     <title>Anime Rumble</title>
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/v-tooltip.min.js"></script>
+    <script src="/js/socket.io.js"></script>
     <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 </head>
 
@@ -13,8 +14,7 @@
                 <div class="d-flex flex-row game--body">
                     <% include game/myteam.ejs %>
                         <% include game/theirteam.ejs %>
-                </div>
-                <% include game/description.ejs %>
+                </div>                
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
         <modalenergy v-if="state.energy.modal" :energy="source.energy.ally" :random="state.energy.random" @close="state.energy.modal = false" @done="onDone"></modalenergy>
@@ -25,7 +25,8 @@
 
             <script>
                 var socket = io();
-
+                
+                Vue.use(VTooltip)
                 var app = new Vue({
                     el: '#app',
                     data: {

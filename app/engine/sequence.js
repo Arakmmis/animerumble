@@ -152,6 +152,7 @@ function sequence(payload, store, callback) {
     }
 
     if (state.turn % 2 === turn) {
+      console.log(x)
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
           x.status.onSelf[t].modify({
