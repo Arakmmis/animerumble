@@ -63,9 +63,10 @@ function bleed(x) {
     name: x.name ? x.name : "bleed",
     val: x.val ? x.val : 5,
     type: "self",
+    period: 'instant',
     active: x.active ? x.active : 3,
     modify: function(payload) {
-      payload.val -= this.val;
+      payload.offense.hp -= this.val;
     },
     owner: x.owner
   };

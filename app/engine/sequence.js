@@ -145,24 +145,42 @@ function sequence(payload, store, callback) {
           source[t].name;
           source[t].active -= 1;
         });
-        return source.filter(x => x.active > 0);
+        return source.filter(x => x.active !== 0);
       } else {
         return [];
       }
     }
 
-    if (state.turn % 2 === turn) {
-      console.log('turn', x)
+    if (state.turn % 2 !== turn) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
-          x.status.onSelf[t].modify({
-            offense: x,
-            active: x.status.onSelf[t].active
-          });
-          x.status.onSelf[t].active -= 1;
-          console.log(x);
+          if (x.status.onSelf[t].period === "instant") {
+            x.status.onSelf[t].modify({
+              offense: x,
+              active: x.status.onSelf[t].active
+            });
+            x.status.onSelf[t].active -= 1;
+            console.log(x);
+          }
         });
-        x.status.onSelf = x.status.onSelf.filter(x => x.active > 0 || x.active === -1);
+        // x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);
+      }
+    }
+
+    if (state.turn % 2 === turn) {
+      console.log("turn", x);
+      if (x.status.onSelf.length > 0) {
+        x.status.onSelf.forEach((s, t) => {
+          if (x.status.onSelf[t].period !== "instant") {
+            x.status.onSelf[t].modify({
+              offense: x,
+              active: x.status.onSelf[t].active
+            });
+            x.status.onSelf[t].active -= 1;
+            console.log(x);
+          }
+        });
+        x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);
       }
       x.status.onAttack = pattern(x.status.onAttack);
       x.status.onReceive = pattern(x.status.onReceive);

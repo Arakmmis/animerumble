@@ -25,12 +25,12 @@ let status = {
     active: 2,
     owner: info.id
   }),
-  boost: {
-    name: "Shadow Clones",
+  boost1: {
+    name: "Partial Multi-Size",
+    owner: info.id,
     val: 20,
     type: "skill",
-    active: 3,
-    usage: 0,
+    active: -1,
     modify: function(payload) {
       this.usage += 1;
       if (payload.offense.skill[payload.skill].name === "Partial Multi-Size") {
@@ -38,17 +38,16 @@ let status = {
       }
     }
   },
-  energy: {
+  boost2: {
+    name: "Meat Tank",
     owner: info.id,
-    active: 3,
+    val: 10,
+    type: "skill",
+    active: -1,
     modify: function(payload) {
-      let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
-      if (index !== -1) {
-        if (payload.active !== 0) {
-          payload.offense.skill[index].energy.r = 0;
-        } else {
-          payload.offense.skill[index].energy.r = 1;
-        }
+      this.usage += 1;
+      if (payload.offense.skill[payload.skill].name === "Meat Tank") {
+        payload.val += this.val;
       }
     }
   }
@@ -89,14 +88,15 @@ let skills = {
       payload.target.status.onSelf.push(
         new constructor.status(
           library.bleed({
-            val: this.val,
-            active: 2,
+            val: payload.val,
+            active: 3,
             owner: info.id
           }),
           this.name,
           2
         )
       );
+      console.log('Chouji Bleed', payload.target.status.onSelf, payload.val)
     }
   },
   skill3: {
@@ -107,26 +107,26 @@ let skills = {
     description:
       "Chouji eats a pill improving his skills, 'Partial Multi-Size' will deal 20 additional damage and 'Meat Tank' will deal 10 additional damage per turn. Chouji takes 20 affliction damage. Chouji can only eat three pills and this skill is permanent.",
     target: "self",
-    mana: 2,
-    usage: 1,
+    usage: 0,
     required: false,
     energy: {
       r: 1
     },
     move: function(payload) {
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.boost, this.name, 3),
-      // )
-
-      if (this.usage < 3) {
-        payload.target.hp -= this.val;
-        payload.target.skill[0].val += 20;
-        payload.target.skill[1].val += 1;
+      console.log("chouji", payload, payload.offense.skill);
+      if (payload.offense.skill[2].usage === 2) {
+        payload.offense.skill[2].required = true;
       }
-      else{
-        this.required = true
-      }
-      this.usage += 1;
+      payload.target.status.onAttack.push(
+        new constructor.status(status.boost1, this.name, 3)
+      );
+      payload.target.status.onAttack.push(
+        new constructor.status(status.boost2, this.name, 3)
+      );
+      console.log("Chouji Stats!", payload.target.status.onAttack);
+      payload.offense.skill[2].usage += 1;
+      payload.target.hp -= 20;
+      console.log("chouji hp", 20, payload.target.hp);
     }
   },
   skill4: {
