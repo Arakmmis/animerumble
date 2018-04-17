@@ -285,9 +285,9 @@
                             app.state.button.enemy.forEach(x => {
                                 x.button = x.disabled ? true : !x.button
                                 if (payload.marking === true) {
-                                    let skillName = app.source.ally[payload.heroIndex].skill[payload.skill].name                                    
-                                    let marking = app.source.enemy[x.index].status.onReceive.some(x => x.name === skillName)                                    
-                                    if(marking === true){
+                                    let skillName = app.source.ally[payload.heroIndex].skill[payload.skill].name
+                                    let marking = app.source.enemy[x.index].status.onReceive.some(x => x.name === skillName)
+                                    if (marking === true) {
                                         x.button = true
                                     }
                                 }
@@ -454,6 +454,7 @@
                 }
 
                 socket.on('apply', (payload) => {
+                    document.title = "(!) Anime Rumble"
                     vueBind(payload)
                 })
 
@@ -491,6 +492,10 @@
                         // app.packet = []
                     }
                 }, 1000)
+
+                window.onfocus = function () {
+                    document.title = "Anime Rumble"
+                };
 
             </script>
 </body>

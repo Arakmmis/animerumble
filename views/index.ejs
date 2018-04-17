@@ -132,6 +132,7 @@
         })
 
         socket.on('challenge', payload => {
+            document.title = "(!)Challenged - Anime Rumble"
             app.challenge.seen = true
             app.challenge.challenger = payload.challenger
             app.challenge.char = payload.char
