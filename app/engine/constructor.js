@@ -30,8 +30,13 @@ module.exports = {
     this.target = payload.target ? payload.target :  "enemy";
     this.state = payload.state ? payload.state : "active";
     this.required = payload.required ? true : false
-    this.mana = payload.mana ? payload.mana : 1
+    this.marking = payload.marking ? payload.marking : false
     this.usage = payload.usage ? payload.usage : 0
+
+    this.range = payload.range ? payload.range : false
+    this.class = payload.class ? payload.class : false
+    this.persistence = payload.persistence ? payload.persistence : false
+
     this.energy = {
       a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
       i: payload.energy ? (payload.energy.i ? payload.energy.i : 0) : 0,

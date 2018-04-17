@@ -18,10 +18,10 @@ function shuffle(array) {
   return array;
 }
 
-function energy() {
+function energy(amount = 3) {  
   let arr = ["a", "a", "a", "s", "s", "s", "i", "i", "i", "w", "w", "w"];
-  let energy = shuffle(arr).splice(0,3);
-  console.log(energy)
+  let energy = shuffle(arr).splice(0, amount);  
+  console.log(energy);
   return {
     a: energy.reduce((a, b) => (b == "a" ? a + 1 : a), 0),
     i: energy.reduce((a, b) => (b == "i" ? a + 1 : a), 0),
@@ -29,6 +29,23 @@ function energy() {
     w: energy.reduce((a, b) => (b == "w" ? a + 1 : a), 0)
   };
 }
+
+function stealEnergy(en) {
+  let arr = [
+    { e: en.a, n: "a" },
+    { e: en.i, n: "i" },
+    { e: en.s, n: "s" },
+    { e: en.w, n: "w" }
+  ].filter(x => x.e > 0);
+  if (arr.length !== 0) {
+    let energy = shuffle(arr).splice(0, 1);
+    return energy[0].n;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
-    energy
+  energy,
+  stealEnergy
 };

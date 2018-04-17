@@ -22,7 +22,7 @@ let status = {
     owner: info.id
   }),
   boost: {
-    name: "Shadow Clones",
+    name: "Dynamic Marking",
     owner: info.id,
     val: 5,
     type: "skill",
@@ -109,7 +109,7 @@ let skills = {
     description:
       "Akamaru sprays urine on one enemy who cannot reduce damage or become invulnerable for 3 turns. During this time, 'Double-Headed Wolf' and 'Garouga' will deal 5 additional damage to them. Dynamic Marking cannot be used on an enemy already being affected.",
     target: "enemy",
-    mana: 2,
+    marking: true,
     energy: {},
     move: function(payload) {
       payload.target.status.onReceive.push(

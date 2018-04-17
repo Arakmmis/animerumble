@@ -30,7 +30,9 @@ function skillApply(payload) {
     val: payload.offense.skill[payload.skill].val,
     skill: payload.skill,
     move: payload.offense.skill[payload.skill].move,
-    recursive: payload.recursive
+    recursive: payload.recursive,
+    myEnergy: payload.myEnergy,
+    theirEnergy: payload.theirEnergy
   };
   if (payload.offense.status.onAttack.length > 0) {
     statusApply(package, package.move, "offense");
@@ -46,7 +48,7 @@ function skillApply(payload) {
   payload.offense.skill[payload.skill].state = "cooldown";
   if (package.recursive === 0) {
     energyManagement(
-      payload.energy,
+      payload.myEnergy,
       payload.offense.skill[payload.skill].energy
     );
   }
@@ -130,7 +132,8 @@ function sequence(payload, store, callback) {
         offense: offense,
         target: target,
         skill: payload.skill,
-        energy: state.energy[myTurn],
+        myEnergy: state.energy[myTurn],
+        theirEnergy: state.energy[theirTurn],
         store: state,
         recursive: t
       });
@@ -144,6 +147,9 @@ function sequence(payload, store, callback) {
         source.forEach((s, t) => {
           source[t].name;
           source[t].active -= 1;
+          if (source[t].type == "dd" && source[t].val <= 0) {
+            source[t].active = 0;
+          }
         });
         return source.filter(x => x.active !== 0);
       } else {
@@ -218,13 +224,15 @@ function sequence(payload, store, callback) {
 
   //Mana Distribution
   if (state.turn % 2 === 0) {
-    let energy = helper.energy();
+    let alive = state.teamOdd.filter(x => x.hp > 0).length;
+    let energy = helper.energy(alive);
     state.energy.teamOdd.a += energy.a;
     state.energy.teamOdd.i += energy.i;
     state.energy.teamOdd.s += energy.s;
     state.energy.teamOdd.w += energy.w;
   } else {
-    let energy = helper.energy();
+    let alive = state.teamEven.filter(x => x.hp > 0).length;
+    let energy = helper.energy(alive);
     state.energy.teamEven.a += energy.a;
     state.energy.teamEven.i += energy.i;
     state.energy.teamEven.s += energy.s;

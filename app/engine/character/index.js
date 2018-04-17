@@ -6,10 +6,12 @@ let fullbusterGray = require('./fullbusterGray.js')
 let lockserJuvia = require('./lockserJuvia.js')
 let inuzukaKiba = require('./inuzukaKiba.js')
 let akimichiChouji = require('./akimichiChouji.js')
+let aburameShino = require('./aburameShino.js')
 
 module.exports = [
     uzumakiNaruto,
     sakuraHinata,    
     inuzukaKiba,
-    akimichiChouji
+    akimichiChouji,
+    aburameShino
 ]    

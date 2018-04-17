@@ -11,25 +11,19 @@ function char(res){
 function main(payload, callback) {
     console.log(payload)
     console.log(character)
-    let energy = helper.energy()
+    let energy = helper.energy(1)
     //Define    
     let action = {}     
     let state = {
         teamOdd: [
             char(payload.team.teamOddChar[0]),
             char(payload.team.teamOddChar[1]),
-            char(payload.team.teamOddChar[2])
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[0])]),
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[1])]),
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamOddChar[2])]),
+            char(payload.team.teamOddChar[2])            
         ],
         teamEven: [
             char(payload.team.teamEvenChar[0]),
             char(payload.team.teamEvenChar[1]),
-            char(payload.team.teamEvenChar[2]),
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[0])]),
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[1])]),
-            // new constructor.character(character[character.findIndex(x => x.id === payload.team.teamEvenChar[2])]),
+            char(payload.team.teamEvenChar[2]),            
         ],
         mana: {
             teamOdd: 1,

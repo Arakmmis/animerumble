@@ -11,6 +11,19 @@ function boost(x) {
   };
 }
 
+function reduce(x) {
+  return {
+    name: x.name ? x.name : "Reduce",
+    val: x.val ? x.val : 5,
+    type: "skill",
+    active: x.active ? x.active : 2,
+    modify: function(payload) {
+      payload.val -= this.val;
+    },
+    owner: x.owner
+  };
+}
+
 function protect(x) {
   return {
     name: x.name ? x.name : "Protect",
@@ -78,5 +91,6 @@ module.exports = {
     invincible,
     stun,
     heal,
-    bleed
+    bleed,
+    reduce
 }

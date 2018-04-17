@@ -14,10 +14,12 @@
                 <div class="d-flex flex-row game--body">
                     <% include game/myteam.ejs %>
                         <% include game/theirteam.ejs %>
-                </div>                
+                </div>
+                <% include game/description.ejs %>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
-        <modalenergy v-if="state.energy.modal" :energy="source.energy.ally" :random="state.energy.random" @close="state.energy.modal = false" @done="onDone"></modalenergy>
+        <modalenergy v-if="state.energy.modal" :energy="source.energy.ally" :random="state.energy.random" @close="state.energy.modal = false"
+            @done="onDone"></modalenergy>
     </div>
 
     <% include game/modal.ejs %>
@@ -25,14 +27,13 @@
 
             <script>
                 var socket = io();
-                
+
                 Vue.use(VTooltip)
                 var app = new Vue({
                     el: '#app',
                     data: {
                         message: 'Hello Vuee.js!',
                         source: {
-                            mana: {},
                             energy: {
                                 ally: {}
                             }
@@ -47,7 +48,6 @@
                             },
                             timer: {
                                 turn: 100,
-                                mana: 0,
                             },
                             onSkill: false,
                             button: {},
@@ -64,7 +64,7 @@
                         showModal: true
                     },
                     methods: {
-                        onDone: function(e){
+                        onDone: function (e) {
                             this.state.energy.modal = false
                             console.log(this.packet)
                             this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
@@ -81,12 +81,15 @@
                         onSkill: function (payload) {
                             //Define and Switch State            
                             let state = this.state
+                            let marking = this.source.ally[payload.heroIndex].skill[payload.skillIndex].marking
+                            console.log(marking)
                             let temporary = {
                                 offense: payload.name,
                                 skill: payload.skillIndex,
                                 target: '',
                                 aim: payload.target,
-                                heroIndex: payload.heroIndex
+                                heroIndex: payload.heroIndex,
+                                marking: marking
                             }
                             console.log(state)
                             console.log(payload)
@@ -94,13 +97,11 @@
                             if (state.button.ally[temporary.heroIndex].onSkill === false) {
                                 //Buffer Skill                    
                                 state.skill = temporary
-                                this.source.mana.ally -= this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
                                 energyManagement(temporary, 'substract')
                                 //Button Management
                                 buttonManagement(temporary, 'onSkill')
                             }
                             else {
-                                this.source.mana.ally += this.source.ally[temporary.heroIndex].skill[temporary.skill].mana
                                 energyManagement(temporary, 'add')
                                 //Button Management
                                 if (state.button.ally[temporary.heroIndex].onSkill && state.skill.heroIndex === null) {
@@ -130,13 +131,13 @@
                             //Define State
                             let state = this.state
                             //Buffer Skill          
-                            if(state.skill.aim === 'allenemy'){
+                            if (state.skill.aim === 'allenemy') {
                                 state.skill.target = state.button.enemy.filter(x => x.disabled !== true).map(x => x.name)
                                 console.log(state.skill.target)
                             }
-                            else{
+                            else {
                                 state.skill.target = [payload.name]
-                            }                            
+                            }
                             //Register Skill
                             this.packet.push(this.state.skill)
 
@@ -153,7 +154,7 @@
                             }
                         },
                         onAttack: function (payload) {
-                            this.state.energy.modal = true                            
+                            this.state.energy.modal = true
                         },
                         onDescription: function (payload) {
                             let state = this.state
@@ -197,7 +198,7 @@
                     let total = {
                         energy: energy.a + energy.i + energy.s + energy.w,
                         skill: skill.a + skill.i + skill.s + skill.w
-                    }                    
+                    }
 
                     if (option === 'substract') {
                         console.log('test')
@@ -250,7 +251,7 @@
                         }
                     }
                     else if (option === 'check') {
-                        let active = true                        
+                        let active = true
                         if (total.energy >= total.skill) {
                             let count = []
                             if (skill.a >= 0) {
@@ -259,7 +260,7 @@
                             if (skill.i >= 0) {
                                 count[1] = energy.i >= skill.i ? false : true
                             }
-                            if (skill.s >= 0) {                                
+                            if (skill.s >= 0) {
                                 count[2] = energy.s >= skill.s ? false : true
                             }
                             if (skill.w >= 0) {
@@ -281,7 +282,16 @@
                     //Target Button
                     if (option !== 'onSelf') {
                         if (payload.aim === 'enemy') {
-                            app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
+                            app.state.button.enemy.forEach(x => {
+                                x.button = x.disabled ? true : !x.button
+                                if (payload.marking === true) {
+                                    let skillName = app.source.ally[payload.heroIndex].skill[payload.skill].name                                    
+                                    let marking = app.source.enemy[x.index].status.onReceive.some(x => x.name === skillName)                                    
+                                    if(marking === true){
+                                        x.button = true
+                                    }
+                                }
+                            })
                         }
                         else if (payload.aim === 'allenemy') {
                             app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
@@ -339,14 +349,13 @@
                         })
                     }
 
-                    //Mana Management
+                    //Energy Management
                     if (option !== 'onSkill') {
                         app.state.button.ally.forEach(x => {
                             if (x.onSkill === false && x.name !== payload.offense) {
                                 console.log(x.name)
                                 x.skill.forEach(s => {
                                     let energy = energyManagement({ heroIndex: payload.heroIndex, skill: payload.skill }, 'check')
-                                    let mana = s.mana > app.source.mana.ally ? true : false
                                     s.button = s.disabled || energy ? true : false
                                     if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
                                         s.button = false
@@ -394,10 +403,6 @@
                     let turn = ally === 'teamEven' ? 1 : 0
                     let myTurn = payload.turn % 2 === turn ? true : false
                     let store = {
-                        mana: {
-                            ally: payload.mana[ally],
-                            enemy: payload.mana[enemy]
-                        },
                         energy: {
                             ally: payload.energy[ally],
                             enemy: payload.energy[enemy]
@@ -426,17 +431,17 @@
                                     let disabled = energy || stun || s.required || s.state === 'cooldown' || !myTurn === false || x.hp <= 0 ? true : false
                                     return {
                                         name: s.name,
-                                        mana: s.mana,
                                         disabled: disabled,
                                         button: disabled
                                     }
                                 })
                             }
                         }),
-                        enemy: store.enemy.map(x => {
+                        enemy: store.enemy.map((x, i) => {
                             let disabled = x.status.onState.findIndex(x => x.type === 'invincible') > -1 || x.hp <= 0 ? true : false
                             return {
                                 name: x.name,
+                                index: i,
                                 disabled: disabled,
                                 button: true
                             }
@@ -445,7 +450,6 @@
                     app.source = store
                     app.state.button = button
                     app.state.timer.turn = 100
-                    app.state.timer.mana = store.mana.ally
                     app.state.winner = payload.winner
                 }
 
