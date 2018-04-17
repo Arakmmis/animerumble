@@ -287,7 +287,7 @@
                             app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
                         }
                         else if (payload.aim === 'ally') {
-                            app.state.button.ally.forEach(x => x.button = x.disabled ? false : !x.button)
+                            app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
                         }
                         else if (payload.aim === 'self') {
                             app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button
@@ -412,12 +412,14 @@
                     console.log(store)
                     let button = {
                         ally: store.ally.map(x => {
-                            let stun = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
+                            // let disabled = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
+                            let disabled = x.hp <= 0 ? true : false
+                            let stun = x.status.onState.findIndex(x => x.type === 'stun') > -1 ? true : false
                             return {
                                 name: x.name,
                                 button: true,
                                 onSkill: false,
-                                disabled: stun,
+                                disabled: disabled,
                                 skill: x.skill.map(s => {
                                     let energy = energyManagement({ energy: store.energy.ally, skillBind: s.energy }, 'check')
                                     console.log(energy)
