@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="game--char">
-            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button">
+            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.enemy[index].button" class="l--char">
                 <img :src="onGetImage({nameId: item.nameId}, 'char')">
             </button>
             <div class="l--turn">

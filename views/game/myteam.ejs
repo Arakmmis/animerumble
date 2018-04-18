@@ -1,7 +1,7 @@
 <div class="w-50">
     <div v-for="(item, index) in source.ally" class="d-flex flex-row game--box">
         <div class="game--char">
-            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button">
+            <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button" class="l--char">
                 <img :src="onGetImage({nameId: item.nameId}, 'char')">
             </button>
             <div class="l--turn">
@@ -19,7 +19,7 @@
                     placement="bottom-start"
                     trigger="hover">                     -->
                             <button @click="onSkill({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
-                                :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button" class="tooltip-target">
+                                :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button" class="l--skill">
                                 <img :src="onGetImage({nameId: item.nameId, skill: skillIndex},'skill')">
                             </button>
                             <button @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})" v-if="state.button.ally[index].skill[skillIndex].button"

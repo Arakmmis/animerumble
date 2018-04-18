@@ -253,7 +253,7 @@
                     else if (option === 'check') {
                         let active = true
                         if (total.energy >= total.skill) {
-                            let count = []
+                            let count = [true, true, true, true, true]
                             if (skill.a >= 0) {
                                 count[0] = energy.a >= skill.a ? false : true
                             }
@@ -266,8 +266,11 @@
                             if (skill.w >= 0) {
                                 count[3] = energy.w >= skill.w ? false : true
                             }
+                            if (skill.r >= 0) {
+                                count[4] = energy.r >= skill.r ? false : true
+                            }
 
-                            if (count.filter(x => x === false).length === 4) {
+                            if (count.filter(x => x === false).length === 5) {
                                 active = false
                             }
                             else {
@@ -351,15 +354,23 @@
 
                     //Energy Management
                     if (option !== 'onSkill') {
-                        app.state.button.ally.forEach(x => {
+                        app.state.button.ally.forEach((x, xi) => {
                             if (x.onSkill === false && x.name !== payload.offense) {
                                 console.log(x.name)
-                                x.skill.forEach(s => {
-                                    let energy = energyManagement({ heroIndex: payload.heroIndex, skill: payload.skill }, 'check')
+                                console.log(option)
+                                x.skill.forEach((s, si) => {
+                                    let energy = energyManagement({ heroIndex: xi, skill: si }, 'check')
                                     s.button = s.disabled || energy ? true : false
                                     if (x.name === payload.offense && s.name === app.source.ally[payload.heroIndex].skill[payload.skill].name) {
                                         s.button = false
                                     }
+                                })
+                            }
+
+                            if (option === 'onSelf' && x.name === payload.offense) {
+                                x.skill.forEach((s, si) => {
+                                    let energy = energyManagement({ heroIndex: xi, skill: si }, 'check')
+                                    s.button = s.disabled || energy ? true : false
                                 })
                             }
                         })

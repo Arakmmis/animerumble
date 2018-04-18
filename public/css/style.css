@@ -6738,6 +6738,24 @@ body, #images, #images a {
 
 .game--char {
   position: relative; }
+  .game--char button.l--char {
+    background: #f4cb42; }
+    .game--char button.l--char img {
+      animation: pulse 2s infinite; }
+    .game--char button.l--char:disabled {
+      opacity: 1;
+      background: #f4cb42;
+      cursor: normal; }
+      .game--char button.l--char:disabled img {
+        opacity: 1;
+        animation: none; }
+@keyframes pulse {
+  0% {
+    opacity: 0.3; }
+  70% {
+    opacity: 1; }
+  100% {
+    opacity: 0.3; } }
   .game--char button:disabled {
     opacity: 1;
     background: #fefefe;
