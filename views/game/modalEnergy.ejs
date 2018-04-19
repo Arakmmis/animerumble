@@ -17,6 +17,12 @@
                 <p><img src="/assets/energy/energy_1.gif" /> {{pool.i}} <button @click="select('i')" :disabled="disabled('i','select')">+</button><button @click="deselect('i')" :disabled="disabled('i','deselect')">-</button></p>
                 <p><img src="/assets/energy/energy_2.gif" /> {{pool.s}} <button @click="select('s')" :disabled="disabled('s','select')">+</button><button @click="deselect('s')" :disabled="disabled('s','deselect')">-</button></p>
                 <p><img src="/assets/energy/energy_3.gif" /> {{pool.w}} <button @click="select('w')" :disabled="disabled('w','select')">+</button><button @click="deselect('w')" :disabled="disabled('w','deselect')">-</button></p>
+                
+                <draggable v-model="reorder" :options="{group:'people'}" @start="drag=true" @end="drag=false" class="d-flex flex-row">
+                  <div v-for="element in reorder" :key="element.id" class="p-1 cursor">
+                    <img :src="onGetImage({offense: element.offense, skill: element.skill},'packet')">
+                  </div>
+               </draggable>
               </slot>
             </div>
   
@@ -38,10 +44,11 @@
 
 <script>
   Vue.component('modalenergy', {
-    props: ['energy', 'random'],
+    props: ['energy', 'random', 'packet', 'source'],
     template: '#modal-energy',
     data: function () {
       return {
+        drag: false,
         cost: {
           a: 0,
           i: 0,
@@ -54,6 +61,12 @@
           s: this.energy.s,
           w: this.energy.w
         },
+        reorder: this.packet.map((x, i) => {
+          return {
+            ...x,
+            id: i
+          }
+        }),
         reimbursed: this.random
       }
     },
@@ -75,13 +88,34 @@
 
       },
       done: function () {
-        let result = {
+        let energy = {
           a: this.energy.a - this.pool.a,
           i: this.energy.i - this.pool.i,
           s: this.energy.s - this.pool.s,
           w: this.energy.w - this.pool.w,
         }
-        this.$emit('done', result)
+        let packet = this.reorder
+        this.$emit('done', {
+          energy,
+          packet
+        })
+      },
+      onGetImage: function (payload, option) {
+        if (option === 'packet') {
+          let index = this.source.ally.findIndex(x => x.name === payload.offense)
+          let nameId = this.source.ally[index].nameId
+
+          return '/assets/character/' + nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+        }
+        // else if (option === 'char') {
+        //   return '/assets/character/' + payload.nameId + '/avatar.jpg'
+        // }
+        // else if (option === 'skill') {
+        //   return '/assets/character/' + payload.nameId + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+        // }
+        // else if (option === 'status') {
+        //   return '/assets/character/' + payload.nameId + '/skill' + (payload.skill) + '/avatar.jpg'
+        // }
       }
     }
   })

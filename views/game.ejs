@@ -3,6 +3,8 @@
     <script src="/js/vue.js"></script>
     <script src="/js/v-tooltip.min.js"></script>
     <script src="/js/socket.io.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.7.0/Sortable.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.16.0/vuedraggable.min.js"></script>
     <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 </head>
 
@@ -18,8 +20,8 @@
                 <% include game/description.ejs %>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
-        <modalenergy v-if="state.energy.modal" :energy="source.energy.ally" :random="state.energy.random" @close="state.energy.modal = false"
-            @done="onDone"></modalenergy>
+        <modalenergy v-if="state.energy.modal" :source="source" :packet="packet" :energy="source.energy.ally" :random="state.energy.random"
+            @close="state.energy.modal = false" @done="onDone"></modalenergy>
     </div>
 
     <% include game/modal.ejs %>
@@ -66,12 +68,15 @@
                     methods: {
                         onDone: function (e) {
                             this.state.energy.modal = false
-                            console.log(this.packet)
-                            this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-                            this.packet.unshift(e)
-                            console.log(this.packet)
+                            console.log(e.packet)
+                            let packet = e.packet
+                            packet = packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                            packet.unshift(e.energy)
+                            // this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
+                            // this.packet.unshift(e.energy)
+                            console.log(packet)
                             socket.emit('sequence', {
-                                packet: this.packet,
+                                packet: packet,
                                 room: this.source.room
                             })
                             this.state.energy.random = 0
