@@ -2,23 +2,38 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "inuzukaKiba"
+  id: "naraShikamaru"
 };
 
 let status = {
   invincible: library.invincible({
     owner: info.id
   }),
-  stun: library.stun({
+  state: library.state({
+    name: "Meditate",
+    active: 5,
     owner: info.id
+  }),
+  stun2: library.stun({
+    owner: info.id,
+    active: 4
+  }),
+  stun: library.stun({
+    owner: info.id,
+    active: 2
   }),
   protect: library.protect({
     val: 15,
     owner: info.id
   }),
+  bleed2: library.bleed({
+    val: 15,
+    active: 2,
+    owner: info.id
+  }),
   bleed: library.bleed({
     val: 15,
-    active: 3,
+    active: 1,
     owner: info.id
   }),
   boost: {
@@ -56,73 +71,75 @@ let status = {
 
 let skills = {
   skill1: {
-    name: "Garouga",
+    name: "Meditate",
     type: "attack",
     val: 30,
     cooldown: 0,
-    mana: 2,
-    energy: {
-      a: 1,
-      r: 1
-    },
+    marking: true,
+    energy: {},
     description:
-      "This skill does 30 damage to one enemy. During 'Double-Headed Wolf' this skill is improved and costs 1 less random chakra.",
+      "Shikamaru sits down and begins thinking up a strategy against one enemy for 5 turns. This skill cannot be countered or reflected and cannot used on an enemy already affected by it.",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      payload.target.status.onState.push(
+        new constructor.status(status.state, this.name, 1)
+      );
     }
   },
   skill2: {
-    name: "Double-Headed Wolf",
+    name: "Shadow-Neck Bind",
     type: "attack",
     val: 15,
-    cooldown: 3,
+    cooldown: 1,
     description:
-      "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",
-    mana: 1,
+      "Shikamaru chokes all enemies, dealing 15 damage to them and making them unable to reduce damage or become invulnerable for 1 turn. If an enemy is affected by 'Meditate', this skill will last 2 turns instead.",
     energy: {
-      a: 1,
-      i: 1
+      w: 1
     },
     target: "allenemy",
     move: function(payload) {
-      console.log("KIBA", payload);
-      if (payload.recursive === 0) {
-        console.log("RECURSIVE");
-        payload.offense.status.onReceive.push(
-          new constructor.status(status.protect, this.name, 2)
+      // console.log("KIBA", payload);
+      if (payload.target.status.onState.some(x => x.name === "Meditate")) {
+        payload.target.status.onSelf.push(
+          new constructor.status(status.bleed2, this.name, 2)
         );
-        payload.offense.status.onSelf.push(
-          new constructor.status(status.energy, this.name, 3)
+      } else {
+        payload.target.status.onSelf.push(
+          new constructor.status(status.bleed, this.name, 2)
         );
       }
-      payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, 2)
-      );
       // payload.target.hp -= payload.val;
     }
   },
   skill3: {
-    name: "Dynamic Marking",
+    name: "Shadow Imitation",
     type: "attack",
     val: 10,
     cooldown: 0,
     description:
-      "Akamaru sprays urine on one enemy who cannot reduce damage or become invulnerable for 3 turns. During this time, 'Double-Headed Wolf' and 'Garouga' will deal 5 additional damage to them. Dynamic Marking cannot be used on an enemy already being affected.",
+      "Shikamaru captures one enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
     target: "enemy",
-    marking: true,
-    energy: {},
+    energy: {
+      w: 1,
+      r: 1
+    },
     move: function(payload) {
-      payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, 3)
-      );
+      if (payload.target.status.onState.some(x => x.name === "Meditate")) {
+        payload.target.status.onSelf.push(
+          new constructor.status(status.stun2, this.name, 2)
+        );
+      } else {
+        payload.target.status.onState.push(
+          new constructor.status(status.stun, this.name, 3)
+        );
+      }
     }
   },
   skill4: {
-    name: "Smoke Bomb",
+    name: "Shikamaru Hide",
     type: "attack",
     val: 10,
     cooldown: 4,
-    description: "This skill makes Inuzuka Kiba invulnerable for 1 turn.",
+    description: "This skill makes Nara Shikamaru invulnerable for 1 turn.",
     target: "self",
     mana: 1,
     energy: {
@@ -137,8 +154,8 @@ let skills = {
 };
 
 let character = {
-  name: "Inuzuka Kiba",
-  id: "inuzukaKiba",
+  name: "Nara Shikamaru",
+  id: "naraShikamaru",
   hp: 100,
   skill: [
     new constructor.skill(skills.skill1),

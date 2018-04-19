@@ -58,6 +58,17 @@ function stun(x) {
   };
 }
 
+function state(x) {
+  return {
+    name: x.name,
+    val: 0,
+    type: "state",
+    active: x.active ? x.active : 2,
+    modify: function(payload) {},
+    owner: x.owner
+  };
+}
+
 function heal(x) {
   return {
     name: x.name ? x.name : "heal",
@@ -92,5 +103,6 @@ module.exports = {
     stun,
     heal,
     bleed,
-    reduce
+    reduce,
+    state
 }

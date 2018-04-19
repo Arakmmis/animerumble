@@ -289,7 +289,7 @@
                                 x.button = x.disabled ? true : !x.button
                                 if (payload.marking === true) {
                                     let skillName = app.source.ally[payload.heroIndex].skill[payload.skill].name
-                                    let marking = app.source.enemy[x.index].status.onReceive.some(x => x.name === skillName)
+                                    let marking = app.source.enemy[x.index].status.onReceive.some(x => x.name === skillName) || app.source.enemy[x.index].status.onState.some(x => x.name === skillName)
                                     if (marking === true) {
                                         x.button = true
                                     }
