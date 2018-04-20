@@ -137,7 +137,8 @@
                             let state = this.state
                             //Buffer Skill          
                             if (state.skill.aim === 'allenemy') {
-                                state.skill.target = state.button.enemy.filter(x => x.disabled !== true).map(x => x.name)
+                                state.skill.target = state.button.enemy.filter(x => x.disabled !== true && x.name !== payload.name).map(x => x.name)
+                                state.skill.target.unshift(payload.name)
                                 console.log(state.skill.target)
                             }
                             else {
