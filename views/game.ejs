@@ -92,6 +92,7 @@
                             },
                             onDone: function (e) {
                                 this.state.energy.modal = false
+                                this.state.exchange.used === false
                                 console.log(e.packet)
                                 let packet = e.packet
                                 packet = packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
