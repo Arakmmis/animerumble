@@ -26,7 +26,7 @@ let status = {
     owner: info.id
   }),
   boost: {
-    name: " Twin Rising Dragons",
+    name: "Twin Rising Dragons",
     owner: info.id,
     val: 10,
     type: "skill",
@@ -116,6 +116,7 @@ let skills = {
       if (state) {
         count = 2;
       }
+
       if (
         payload.offense.status.onAttack.some(
           x => x.name === "Twin Rising Dragons"
