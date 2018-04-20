@@ -18,5 +18,6 @@
         </div>
     </div>
 
-    <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false" class="btn-color4">Attack</button>
+    <button @click="onAttack('hi')" :disabled="(state.skill.skill !== null || source.myTurn !== false) ? true : false" class="btn-color4 mb-1">Attack</button>
+    <button @click="state.exchange.modal = !state.exchange.modal" :disabled="source.energy.ally.r < 5" class="btn-color4">Energy Exchange</button>
 </div>
