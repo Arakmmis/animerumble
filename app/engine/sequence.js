@@ -106,8 +106,15 @@ function sequence(payload, store, callback) {
   let myTurn = state.turn % 2 === 1 ? "teamOdd" : "teamEven";
   let theirTurn = state.turn % 2 === 0 ? "teamOdd" : "teamEven";
   console.log(myTurn);
-  energyManagement(state.energy[myTurn], payload[0]);
-  payload.shift();
+  if (payload[0].msg === "exchange") {
+    state.energy[myTurn][payload[0].val] += 1
+    energyManagement(state.energy[myTurn], payload[1]);
+    energyManagement(state.energy[myTurn], payload[2]);
+    payload.splice(0,3)
+  } else {
+    energyManagement(state.energy[myTurn], payload[0]);
+    payload.shift();
+  }  
 
   //Sequence
   payload.forEach(payload => {

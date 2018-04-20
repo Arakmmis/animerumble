@@ -5,6 +5,7 @@
     <script src="/js/socket.io.js"></script>
     <script src="/js/Sortable.min.js"></script>
     <script src="/js/vuedraggable.min.js"></script>
+    <script src="/js/lodash.min.js"></script>
     <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 </head>
 
@@ -67,7 +68,9 @@
                                 },
                                 exchange: {
                                     modal: false,
-                                    used: false
+                                    used: false,
+                                    energy: {},
+                                    val: ''
                                 }
                             },
                             showModal: true,
@@ -76,8 +79,10 @@
                             onExchange: function (e) {
                                 console.log(e)
                                 this.source.energy.ally = e.energy
+                                this.state.exchange.energy = e.cost
                                 this.state.exchange.modal = false
                                 this.state.exchange.used = true
+                                this.state.exchange.val = e.exchange
 
                                 this.state.button.ally.forEach((x, xi) => {
                                     if (x.onSkill === false) {
@@ -92,11 +97,14 @@
                             },
                             onDone: function (e) {
                                 this.state.energy.modal = false
-                                this.state.exchange.used === false
                                 console.log(e.packet)
                                 let packet = e.packet
                                 packet = packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
                                 packet.unshift(e.energy)
+                                if (this.state.exchange.used === true) {
+                                    packet.unshift({ msg: 'exchange', val: this.state.exchange.val }, this.state.exchange.energy)
+                                    this.state.exchange.used = false
+                                }
                                 // this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
                                 // this.packet.unshift(e.energy)
                                 console.log(packet)

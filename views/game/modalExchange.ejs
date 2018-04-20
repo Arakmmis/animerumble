@@ -96,11 +96,22 @@
           s: this.pool.s,
           w: this.pool.w,
         }
-        energy[this.exchange] += 1
+        energy[this.exchange] += 1        
         energy.r = energy.a + energy.i + energy.s + energy.w
-        console.log(energy)
+
+        let cost = {
+          a: this.energy.a - this.pool.a,
+          i: this.energy.i - this.pool.i,
+          s: this.energy.s - this.pool.s,
+          w: this.energy.w - this.pool.w,
+        }
+        // cost[this.exchange] -= 1        
+
+        let exchange = this.exchange        
         this.$emit('done', {
-          energy
+          energy,
+          cost,
+          exchange
         })
       }
     }
