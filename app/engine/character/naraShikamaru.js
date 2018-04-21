@@ -114,7 +114,7 @@ let skills = {
     name: "Shadow Imitation",
     type: "attack",
     val: 10,
-    cooldown: 0,
+    cooldown: 3,
     description:
       "Shikamaru captures one enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
     target: "enemy",

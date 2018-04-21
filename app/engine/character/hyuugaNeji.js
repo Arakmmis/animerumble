@@ -105,7 +105,7 @@ let skills = {
     name: "Eight Trigram Sixty-Four Palms",
     type: "attack",
     val: 40,
-    cooldown: 0,
+    cooldown: 1,
     description:
       "Neji closes all of one enemy's chakra nodes dealing 40 damage to one enemy and that enemy loses 1 random chakra.",
     target: "enemy",

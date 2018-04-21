@@ -44,6 +44,23 @@ let status = {
         payload.val += this.val;
       }
     }
+  },
+  required: {
+    owner: info.id,
+    active: 4,
+    modify: function(payload) {
+      let index = payload.offense.skill.findIndex(x => x.name === "Chidori");
+      if (index !== -1) {
+        if (payload.active > 1) {
+          payload.offense.skill[index].required = false;
+          console.log('ZERO', payload.active)
+        }
+        else if(payload.active === 1){
+          payload.offense.skill[index].required = true;
+          console.log('LAST', payload.active)
+        }
+      }
+    }
   }
 };
 
@@ -69,9 +86,7 @@ let skills = {
     val: 30,
     cooldown: 1,
     description:
-      "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",
-    mana: 1,
-    required: true,
+      "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",       
     energy: {
       s: 1,
       r: 1
@@ -94,9 +109,10 @@ let skills = {
     move: function(payload) {      
       payload.offense.status.onReceive.push(
         new constructor.status(status.protect, this.name, 3),                
-      );
+      );      
       payload.target.status.onReceive.push(
         new constructor.status(status.boost1, this.name, 3),
+        new constructor.status(status.boost2, this.name, 3),
       )
     }
   },
