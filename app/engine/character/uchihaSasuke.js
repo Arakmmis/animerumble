@@ -96,7 +96,7 @@ let skills = {
         new constructor.status(status.protect, this.name, 3),                
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, 3),
+        new constructor.status(status.boost1, this.name, 3),
       )
     }
   },
