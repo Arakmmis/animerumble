@@ -65,7 +65,7 @@ let status = {
 
 let skills = {
   skill1: {
-    name: " Twin Rising Dragons",
+    name: "Twin Rising Dragons",
     type: "attack",
     val: 0,
     cooldown: 0,
@@ -151,8 +151,8 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4),
-        new constructor.status(status.state, this.name, 4)
+        new constructor.status(status.invincible, this.name, 3),
+        new constructor.status(status.state, this.name, 3)
       );
     }
   },
