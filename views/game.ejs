@@ -174,6 +174,18 @@
                                     state.skill.target.unshift(payload.name)
                                     console.log(state.skill.target)
                                 }
+                                else if (state.skill.aim === 'allally') {
+                                    state.skill.target = state.button.ally.map(x => x.name)
+                                }
+                                else if (state.skill.aim === 'allenemyallally') {
+                                    state.skill.target = state.button.enemy.filter(x => x.disabled !== true && x.name !== payload.name).map(x => x.name)
+                                    state.skill.target.unshift(payload.name)
+                                    let ally = state.button.ally.map(x => x.name)
+                                    state.skill.target.push(ally)
+                                }
+                                else if (state.skill.aim === 'otherally') {
+                                    state.skill.target = state.button.ally.filter(x => x.name !== state.skill.offense).map(x => x.name)
+                                }
                                 else {
                                     state.skill.target = [payload.name]
                                 }
@@ -340,6 +352,12 @@
                             }
                             else if (payload.aim === 'ally') {
                                 app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
+                            }
+                            else if (payload.aim === 'otherally') {
+                                app.state.button.ally.forEach(x => {
+                                    let name = app.state.button.ally[payload.heroIndex].name
+                                    if (x.name !== name) { x.button = x.disabled ? true : !x.button }
+                                })
                             }
                             else if (payload.aim === 'self') {
                                 app.state.button.ally[payload.heroIndex].button = app.state.button.ally[payload.heroIndex].disabled ? true : !app.state.button.ally[payload.heroIndex].button

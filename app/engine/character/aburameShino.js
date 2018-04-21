@@ -100,7 +100,7 @@ let skills = {
     cooldown: 3,
     description:
       "Shino sends millions of bugs to create a wall around his team, making them gain 20 points of destructible defense.",
-    target: "ally",
+    target: "allally",
     marking: true,
     energy: {
       i: 1,

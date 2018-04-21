@@ -10,6 +10,7 @@ let aburameShino = require('./aburameShino.js')
 let uchihaSasuke = require('./uchihaSasuke.js')
 let naraShikamaru = require('./naraShikamaru.js')
 let tenten = require('./tenten.js')
+let hyuugaNeji = require('./hyuugaNeji.js')
 
 module.exports = [
     uzumakiNaruto,
@@ -19,5 +20,6 @@ module.exports = [
     akimichiChouji,
     aburameShino,  
     naraShikamaru,
-    tenten
+    tenten,
+    hyuugaNeji
 ]    
