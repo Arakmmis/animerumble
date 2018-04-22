@@ -427,7 +427,7 @@
                                     })
                                 }
 
-                                if (option === 'onSelf' && x.name === payload.offense) {
+                                if ((option === 'onSelf' || option === 'onCancel') && x.name === payload.offense) {
                                     x.skill.forEach((s, si) => {
                                         let energy = energyManagement({ heroIndex: xi, skill: si }, 'check')
                                         s.button = s.disabled || energy ? true : false
