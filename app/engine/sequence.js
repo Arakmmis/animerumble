@@ -32,7 +32,8 @@ function skillApply(payload) {
     move: payload.offense.skill[payload.skill].move,
     recursive: payload.recursive,
     myEnergy: payload.myEnergy,
-    theirEnergy: payload.theirEnergy
+    theirEnergy: payload.theirEnergy,
+    myTurn: payload.myTurn,
   };
   if (payload.offense.status.onAttack.length > 0) {
     statusApply(package, package.move, "offense");
@@ -54,10 +55,6 @@ function skillApply(payload) {
   }
 
   return payload.target;
-}
-
-function calculateMana(payload) {
-  return (payload.mana -= payload.offense.skill[payload.skill].mana);
 }
 
 function statusApply(payload, move, owner) {
@@ -107,14 +104,14 @@ function sequence(payload, store, callback) {
   let theirTurn = state.turn % 2 === 0 ? "teamOdd" : "teamEven";
   console.log(myTurn);
   if (payload[0].msg === "exchange") {
-    state.energy[myTurn][payload[0].val] += 1
+    state.energy[myTurn][payload[0].val] += 1;
     energyManagement(state.energy[myTurn], payload[1]);
     energyManagement(state.energy[myTurn], payload[2]);
-    payload.splice(0,3)
+    payload.splice(0, 3);
   } else {
     energyManagement(state.energy[myTurn], payload[0]);
     payload.shift();
-  }  
+  }
 
   //Sequence
   payload.forEach(payload => {
@@ -142,6 +139,7 @@ function sequence(payload, store, callback) {
         myEnergy: state.energy[myTurn],
         theirEnergy: state.energy[theirTurn],
         store: state,
+        myTurn: myTurn,
         recursive: t
       });
     });
@@ -170,7 +168,9 @@ function sequence(payload, store, callback) {
           if (x.status.onSelf[t].period === "instant") {
             x.status.onSelf[t].modify({
               offense: x,
-              active: x.status.onSelf[t].active
+              active: x.status.onSelf[t].active,
+              myEnergy: state.energy[myTurn],
+              theirEnergy: state.energy[theirTurn]
             });
             x.status.onSelf[t].active -= 1;
             console.log(x);
@@ -187,7 +187,9 @@ function sequence(payload, store, callback) {
           if (x.status.onSelf[t].period !== "instant") {
             x.status.onSelf[t].modify({
               offense: x,
-              active: x.status.onSelf[t].active
+              active: x.status.onSelf[t].active,
+              myEnergy: state.energy[myTurn],
+              theirEnergy: state.energy[theirTurn]
             });
             x.status.onSelf[t].active -= 1;
             console.log(x);

@@ -11,33 +11,34 @@ let status = {
     owner: info.id
   }),
   bleed: library.bleed({
-    val: 5,
-    active: -1,
+    val: 20,
+    active: 2,
     owner: info.id
   }),
-  reduce: library.reduce({
-    val: 5,
-    active: -1,
+  protect: library.protect({
+    val: 10,
+    active: 4,
     owner: info.id
   }),
-  boost: {
-    name: "Chakra Leech",
+  drain: {
+    name: "Hinata Gentle Fist",
     owner: info.id,
-    val: 5,
+    val: 0,
     type: "skill",
-    active: -1,
+    active: 2,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Chakra Leech") {
-        payload.val += this.val;
+      let energy = helper.stealEnergy(payload.theirEnergy);
+      if (energy !== false) {
+        payload.theirEnergy[energy] -= 1;
       }
     }
   },
   dd: {
-    name: "Bug Wall",
+    name: "Protective Eight Trigrams Sixty-Four Palms",
     owner: info.id,
     val: 20,
     type: "dd",
-    active: -1,
+    active: 1,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === "Bug Wall");
@@ -48,76 +49,92 @@ let status = {
         payload.val = 0;
       }
     }
-  }
+  },
+  state: library.state({
+    name: "Byakugan",
+    active: 4,
+    owner: info.id
+  })
 };
 
 let skills = {
   skill1: {
-    name: "Chakra Leech",
+    name: "Hinata Gentle Fist",
     type: "attack",
-    val: 20,
+    val: 0,
     cooldown: 1,
     energy: {
-      i: 1,
+      a: 1,
       r: 1
     },
     description:
-      "Shino directs his chakra draining bugs to attack one enemy dealing 20 affliction damage and steals 1 random chakra.",
+      "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
-      let energy = helper.stealEnergy(payload.theirEnergy);
-      if (energy !== false) {
-        payload.theirEnergy[energy] -= 1;
-        payload.myEnergy[energy] += 1;
+      payload.target.status.onSelf.push(
+        new constructor.status(status.bleed, this.name, 2)
+      );
+      if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
+        payload.target.status.onSelf.push(
+          new constructor.status(status.drain, this.name, 2)
+        );
       }
-      payload.target.hp -= payload.val;
     }
   },
   skill2: {
-    name: "Female Bug",
+    name: "Protective Eight Trigrams Sixty-Four Palms",
     type: "attack",
     val: 15,
     cooldown: 1,
     description:
-      "Shino directs one of his female bugs to attach itself to one enemy. For 4 turns, new non-affliction damage that enemy deals is reduced by 5 points. During this time, 'Chakra Leech' will deal 5 additional damage to them. These effects stack.",
+      "Hinata deals 15 damage to all enemies,* and all allies, including her will gain 10 destructible defense for 1 turn. If used during 'Byakugan' this skill will deal 20 damage.",
     mana: 1,
     energy: {
+      s: 1,
       r: 1
     },
-    target: "enemy",
+    target: "allenemyallally",
     move: function(payload) {
-      payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this.name, 2)
-      );
-      payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, 2)
-      );
+      if (
+        payload.store[payload.myTurn].some(x => x.name === payload.target.name)
+      ) {
+        payload.target.status.onReceive.push(
+          new constructor.status(status.dd, this.name, 2)
+        );
+      } else {
+        if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
+          payload.val += 5;
+        }
+        payload.target.hp -= payload.val;
+      }
     }
   },
   skill3: {
-    name: "Bug Wall",
+    name: "Byakugan",
     type: "attack",
     val: 10,
-    cooldown: 3,
+    cooldown: 4,
     description:
-      "Shino sends millions of bugs to create a wall around his team, making them gain 20 points of destructible defense.",
-    target: "ally",
+      "Hinata activates her Byakugan gaining 15 points of damage reduction for 4 turns. The following 4 turns, 'Hinata Gentle Fist' and 'Protective Eight Trigrams Sixty-Four Palms' will be improved.",
+    target: "self",
     marking: true,
-    energy: {
-      i: 1,
+    energy: {      
       r: 1
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this.name, 3)
+        new constructor.status(status.protect, this.name, 3)
+      );
+      payload.target.status.onState.push(
+        new constructor.status(status.state, this.name, 3)
       );
     }
   },
   skill4: {
-    name: "Shino Hide",
+    name: "Hinata Block",
     type: "attack",
     val: 10,
     cooldown: 4,
-    description: "This skill makes Aburame Shino invulnerable for 1 turn.",
+    description: "This skill makes Hyuuga Hinata invulnerable for 1 turn.",
     target: "self",
     mana: 1,
     energy: {
