@@ -77,7 +77,7 @@ let skills = {
     mana: 1,
     required: true,
     energy: {
-      i: 1,
+      s: 1,
       r: 1
     },
     target: "enemy",

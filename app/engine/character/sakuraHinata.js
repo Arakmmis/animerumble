@@ -68,7 +68,7 @@ let skills = {
     target: "ally",
     mana: 2,
     energy: {      
-      i: 1
+      s: 1
     },
     move: function(payload) {
       payload.target.hp += payload.val;
