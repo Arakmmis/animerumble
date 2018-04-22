@@ -202,10 +202,10 @@ function sequence(payload, store, callback) {
       x.status.onState = pattern(x.status.onState);
       x.skill.forEach(s => {
         if (s.state === "cooldown") {
-          if (s.counter < s.cooldown) {
-            s.counter += 1;
+          if (s.counter > 0) {
+            s.counter -= 1;
           } else {
-            s.counter = 0;
+            s.counter = s.cooldown;
             s.state = "active";
           }
         }

@@ -1,9 +1,5 @@
 let uzumakiNaruto = require('./uzumakiNaruto.js')
 let sakuraHinata = require('./sakuraHinata.js')
-let namikazeMinato = require('./namikazeMinato.js')
-let kurotsuchi = require('./kurotsuchi.js')
-let fullbusterGray = require('./fullbusterGray.js')
-let lockserJuvia = require('./lockserJuvia.js')
 let inuzukaKiba = require('./inuzukaKiba.js')
 let akimichiChouji = require('./akimichiChouji.js')
 let aburameShino = require('./aburameShino.js')
@@ -12,16 +8,20 @@ let naraShikamaru = require('./naraShikamaru.js')
 let tenten = require('./tenten.js')
 let hyuugaNeji = require('./hyuugaNeji.js')
 let rockLee = require('./rockLee.js')
+let hyuugaHinata = require('./hyuugaHinata.js')
+let yamanakaIno = require('./yamanakaIno.js')
 
 module.exports = [
     uzumakiNaruto,
     sakuraHinata,
     uchihaSasuke,    
     inuzukaKiba,
-    akimichiChouji,
-    aburameShino,  
+    aburameShino,
+    hyuugaHinata,
     naraShikamaru,
+    akimichiChouji,
+    yamanakaIno,
+    rockLee,
     tenten,
-    hyuugaNeji,
-    rockLee
+    hyuugaNeji,    
 ]    

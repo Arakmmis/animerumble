@@ -3,7 +3,7 @@ let helper = require("../helper.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "rockLee"
+  id: "yamanakaIno"
 };
 
 let status = {
@@ -16,70 +16,36 @@ let status = {
   stun2: library.stun({
     owner: info.id,
     active: 4
-  }),
-  bleed: library.bleed({
-    val: 10,
-    active: 3,
-    owner: info.id
-  }),
-  bleed2: library.bleed({
-    val: 25,
-    active: 3,
-    owner: info.id
-  }),
+  }),  
   protect: library.reduce({
     val: 10,
     active: 3,
     owner: info.id
-  }),
-  reduce2: library.reduce({
-    val: 15,
-    active: 1,
-    owner: info.id
-  }),
-  boost1: {
+  }),  
+  cooldownIncrease: {
     name: "Front Lotus",
     owner: info.id,
     val: 30,
     type: "skill",
-    active: 2,
+    active: 1,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Front Lotus") {
-        payload.val += this.val;
-      }
+      payload.offense.skill[payload.skill].counter += 1      
     }
-  },
-  boost2: {
-    name: "Front Lotus",
-    owner: info.id,
-    val: 10,
-    type: "skill",
-    active: 3,
-    modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Front Lotus") {
-        payload.val += this.val;
-      }
-    }
-  },
-  state: library.state({
-    name: "Fifth Gate Opening",
-    active: 2,
-    owner: info.id
-  }),
+  },  
   transform: {
     name: "Transform",
     owner: info.id,
     active: 3,
     modify: function(payload) {
       if (payload.active === 3) {
-        let swap = payload.offense.skill[2];
-        payload.offense.skill[2] = payload.offense.skill[4];
+        let swap = payload.offense.skill[1];
+        payload.offense.skill[1] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
         console.log("SWAP", swap);
         console.log("ZERO", payload.active);
       } else if (payload.active === 1) {
-        let swap = payload.offense.skill[2];
-        payload.offense.skill[2] = payload.offense.skill[4];
+        let swap = payload.offense.skill[1];
+        payload.offense.skill[1] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
         console.log("SWAP", swap);
         console.log("LAST", payload.active);
@@ -90,16 +56,17 @@ let status = {
 
 let skills = {
   skill1: {
-    name: "High Speed Taijutsu",
+    name: "Mind Body Disturbance",
     type: "attack",
     val: 30,
     cooldown: 0,
     energy: {
-      a: 1
+      w: 1,
+      r: 1
     },
     target: "enemy",
     description:
-      "Lee deals 10 damage to one enemy for 3 turns. The following 3 turns, Lee will gain 10 points of damage reduction and that enemy will receive an additional 10 damage from 'Front Lotus'.* This skill stacks and will deal 15 additional damage during 'Fifth Gate Opening'",
+      "Using this skill Ino stuns the non-mental skills of one enemy for 1 turn and does 30 piercing damage that ignores invulnerability to one random enemy. During this time the target is unable to reduce damage or become invulnerable.",
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.stun, this.name, 2)
@@ -108,52 +75,45 @@ let skills = {
     }
   },
   skill2: {
-    name: "Front Lotus",
+    name: "Mind Body Switch",
     type: "attack",
     val: 30,
     cooldown: 0,
     description:
-      "Opening the first gate, Lee uses a high powered taijutsu to deal 30 damage to one enemy. This skill will deal 30 additional damage during 'Fifth Gate Opening'.",
+      "Ino takes over the mind of an enemy. For 4 turns one enemy cannot reduce damage or become invulnerable. During this time, their skills are stunned, and this skill will be replaced by 'Art of the Valentine'.",
     energy: {
-      a: 1,
-      r: 1
+      w: 2      
     },
     target: "enemy",
     move: function(payload) {
+      payload.offense.status.onSelf.push(
+        new constructor.status(status.transform, this.name, 2)
+      );      
       payload.target.status.onState.push(
-        new constructor.status(status.stun, this.name, 2)
-      );
-      payload.target.hp -= payload.val;
+        new constructor.status(status.stun2, this.name, 2)
+      );      
     }
   },
   skill3: {
-    name: "Fifth Gate Opening",
+    name: "Chakra Hair Strand Trap",
     cooldown: 4,
     description:
-      "Lee removes all harmful effects on him, losing 50 health*, and then becoming invulnerable to all harmful skills for 2 turns. The following 2 turns, this skill will be replaced by 'Final Lotus'. The affliction damage this skill deals cannot be ignored and cannot kill Lee.",
+      "Ino uses a strand of chakra endowed hair to create a trap. For 1 turn, if one enemy uses a new harmful skill, they will have the cooldowns of their skills increased by 1 for 2 turns. This skill is invisible.",
     target: "self",
     energy: {
-      a: 1
+      r: 1
     },
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this.name, 3)
-      );
-      payload.target.status.onSelf.push(
-        new constructor.status(status.transform, this.name, 3)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 3),
-        new constructor.status(status.state, this.name, 3)
-      );
-      payload.target.hp -= 50;
+        new constructor.status(status.cooldownIncrease, this.name, 3)
+      );      
     }
   },
   skill4: {
-    name: "Lee Block",
+    name: "Ino Block",
     type: "attack",
     cooldown: 4,
-    description: "This skill makes Rock Lee invulnerable for 1 turn.",
+    description: "This skill makes Yamanaka Ino invulnerable for 1 turn.",
     target: "self",
     mana: 1,
     energy: {
@@ -166,15 +126,15 @@ let skills = {
     }
   },
   skill5: {
-    name: "Final Lotus",
+    name: "Art of the Valentine",
     type: "attack",
-    val: 100,
+    val: 25,
     cooldown: 0,
     description:
-      "Lee uses his strongest ability, expending all his chakra and dealing 100 damage to one enemy.",
+      "This skill does 25 damage to one enemy.",
     target: "enemy",
     energy: {
-      a: 2
+      r: 1
     },
     move: function(payload) {
       payload.target.hp -= 100;
@@ -183,8 +143,8 @@ let skills = {
 };
 
 let character = {
-  name: "Rock Lee",
-  id: "rockLee",
+  name: "Yamanaka Ino",
+  id: "yamanakaIno",
   hp: 100,
   skill: [
     new constructor.skill(skills.skill1),
