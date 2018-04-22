@@ -56,9 +56,29 @@ let status = {
   },
   state: library.state({
     name: "Fifth Gate Opening",
-    active: -1,
+    active: 2,
     owner: info.id
-  })
+  }),
+  transform: {
+    name: "Transform",
+    owner: info.id,
+    active: 3,
+    modify: function(payload) {
+      if (payload.active === 3) {
+        let swap = payload.offense.skill[2];
+        payload.offense.skill[2] = payload.offense.skill[4];
+        payload.offense.skill[4] = swap;
+        console.log("SWAP", swap);
+        console.log("ZERO", payload.active);
+      } else if (payload.active === 1) {
+        let swap = payload.offense.skill[2];
+        payload.offense.skill[2] = payload.offense.skill[4];
+        payload.offense.skill[4] = swap;
+        console.log("SWAP", swap);
+        console.log("LAST", payload.active);
+      }
+    }
+  }
 };
 
 let skills = {
@@ -123,6 +143,9 @@ let skills = {
       payload.target.status.onAttack.push(
         new constructor.status(status.boost1, this.name, 3)
       );
+      payload.target.status.onSelf.push(
+        new constructor.status(status.transform, this.name, 3)
+      );
       payload.target.status.onState.push(
         new constructor.status(status.invincible, this.name, 3),
         new constructor.status(status.state, this.name, 3)
@@ -145,6 +168,21 @@ let skills = {
         new constructor.status(status.invincible, this.name, 4)
       );
     }
+  },
+  skill5: {
+    name: "Final Lotus",
+    type: "attack",
+    val: 100,
+    cooldown: 0,
+    description:
+      "Lee uses his strongest ability, expending all his chakra and dealing 100 damage to one enemy.",
+    target: "enemy",
+    energy: {
+      a: 2
+    },
+    move: function(payload) {
+      payload.target.hp -= 100;
+    }
   }
 };
 
@@ -156,7 +194,8 @@ let character = {
     new constructor.skill(skills.skill1),
     new constructor.skill(skills.skill2),
     new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
+    new constructor.skill(skills.skill4),
+    new constructor.skill(skills.skill5)
   ]
 };
 

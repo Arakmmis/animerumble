@@ -16,35 +16,40 @@ module.exports = {
       onSelf: [],
       onState: []
     };
-    this.skill = payload.skill;
+    this.skill = payload.skill.map((x, i) => {
+      return {
+        ...x,
+        id: i
+      };
+    });
     this.nameId = payload.id;
   },
   skill: function(payload) {
     this.name = payload.name;
-    this.type = payload.type ? payload.type : 'attack';
+    this.type = payload.type ? payload.type : "attack";
     this.cooldown = payload.cooldown ? payload.cooldown : 0;
-    this.counter = 0
+    this.counter = 0;
     this.val = payload.val ? payload.val : 0;
     this.move = payload.move;
-    this.description = payload.description
-    this.target = payload.target ? payload.target :  "enemy";
+    this.description = payload.description;
+    this.target = payload.target ? payload.target : "enemy";
     this.state = payload.state ? payload.state : "active";
-    this.required = payload.required ? true : false
-    this.marking = payload.marking ? payload.marking : false
-    this.usage = payload.usage ? payload.usage : 0
+    this.required = payload.required ? true : false;
+    this.marking = payload.marking ? payload.marking : false;
+    this.usage = payload.usage ? payload.usage : 0;
 
-    this.range = payload.range ? payload.range : false
-    this.class = payload.class ? payload.class : false
-    this.persistence = payload.persistence ? payload.persistence : false
+    this.range = payload.range ? payload.range : false;
+    this.class = payload.class ? payload.class : false;
+    this.persistence = payload.persistence ? payload.persistence : false;
 
     this.energy = {
       a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
       i: payload.energy ? (payload.energy.i ? payload.energy.i : 0) : 0,
       s: payload.energy ? (payload.energy.s ? payload.energy.s : 0) : 0,
       w: payload.energy ? (payload.energy.w ? payload.energy.w : 0) : 0,
-      r: payload.energy ? (payload.energy.r ? payload.energy.r : 0) : 0,
-    }
-  },  
+      r: payload.energy ? (payload.energy.r ? payload.energy.r : 0) : 0
+    };
+  },
   status: function(payload, name, skill) {
     this.name = name ? name : payload.name;
     this.active = payload.active;
@@ -53,7 +58,7 @@ module.exports = {
     this.type = payload.type;
     this.allow = payload.allow ? payload.allow : false;
     this.period = payload.period ? payload.period : false;
-    this.owner = payload.owner    
-    this.skillIndex = skill ? skill : 0
+    this.owner = payload.owner;
+    this.skillIndex = skill ? skill : 0;
   }
 };

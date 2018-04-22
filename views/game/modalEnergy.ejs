@@ -20,7 +20,7 @@
                 
                 <draggable v-model="reorder" :options="{group:'people'}" @start="drag=true" @end="drag=false" class="d-flex flex-row">
                   <div v-for="element in reorder" :key="element.id" class="p-1 cursor">
-                    <img :src="onGetImage({offense: element.offense, skill: element.skill},'packet')">
+                    <img :src="onGetImage({offense: element.offense, skill: element.skillId},'packet')">
                   </div>
                </draggable>
               </slot>

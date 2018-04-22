@@ -124,6 +124,7 @@
                                 let temporary = {
                                     offense: payload.name,
                                     skill: payload.skillIndex,
+                                    skillId: payload.skillId,
                                     target: '',
                                     aim: payload.target,
                                     heroIndex: payload.heroIndex,
@@ -156,6 +157,7 @@
                                     state.skill = {
                                         offense: '',
                                         skill: null,
+                                        skillId: null,
                                         target: '',
                                         aim: '',
                                         heroIndex: null
@@ -199,6 +201,7 @@
                                 state.skill = {
                                     offense: '',
                                     skill: null,
+                                    skillId: null,
                                     target: '',
                                     aim: '',
                                     heroIndex: null

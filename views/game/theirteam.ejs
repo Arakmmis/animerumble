@@ -2,7 +2,7 @@
     <div v-for="(item, index) in source.enemy" class="game--box d-flex flex-row">
         <div class="d-flex flex-row game--status">
             <div v-for="action in packet">
-                <img :src="onGetImage({offense: action.offense, skill: action.skill, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
+                <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
             </div>
             <div v-for="status in item.status.onAttack">
                 <img :src="onGetImage({nameId: status.owner, skill: status.skillIndex}, 'status')">
