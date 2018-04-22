@@ -352,6 +352,9 @@
                             else if (payload.aim === 'ally') {
                                 app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
                             }
+                            else if (payload.aim === 'allally') {
+                                app.state.button.ally.forEach(x => x.button = x.disabled ? true : !x.button)
+                            }
                             else if (payload.aim === 'otherally') {
                                 app.state.button.ally.forEach(x => {
                                     let name = app.state.button.ally[payload.heroIndex].name
