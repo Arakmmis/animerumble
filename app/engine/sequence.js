@@ -34,6 +34,7 @@ function skillApply(payload) {
     myEnergy: payload.myEnergy,
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
+    store: payload.store,
   };
   if (payload.offense.status.onAttack.length > 0) {
     statusApply(package, package.move, "offense");
