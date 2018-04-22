@@ -50,7 +50,7 @@ let skills = {
     description: "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",
     mana: 2,
     energy: {
-      s: 1,      
+      a: 1,      
     },
     move: function(payload) {
       payload.target.status.onState.push(
