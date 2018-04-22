@@ -257,28 +257,23 @@
                         if (option === 'substract') {
                             console.log('test')
                             if (skill.a > 0) {
-                                energy.a -= skill.a
-                                console.log(skill.a)
+                                energy.a -= skill.a                                
                                 energy.r -= skill.a
                             }
                             if (skill.i > 0) {
-                                energy.i -= skill.i
-                                console.log(skill.i)
+                                energy.i -= skill.i                                
                                 energy.r -= skill.i
                             }
                             if (skill.s > 0) {
-                                energy.s -= skill.s
-                                console.log(skill.s)
+                                energy.s -= skill.s                                
                                 energy.r -= skill.s
                             }
                             if (skill.w > 0) {
-                                energy.w -= skill.w
-                                console.log(skill.w)
+                                energy.w -= skill.w                                
                                 energy.r -= skill.w
                             }
                             if (skill.r > 0) {
-                                energy.r -= skill.r
-                                console.log(energy.r)
+                                energy.r -= skill.r                                
                                 app.state.energy.random += skill.r
                             }
                         }
@@ -321,7 +316,8 @@
                                     count[3] = energy.w >= skill.w ? false : true
                                 }
                                 if (skill.r >= 0) {
-                                    count[4] = energy.r >= skill.r ? false : true
+                                    count[4] = energy.r >= (total.skill+skill.r) ? false : true
+                                    console.log(energy.r, total.skill+skill.r)
                                 }
 
                                 if (count.filter(x => x === false).length === 5) {
