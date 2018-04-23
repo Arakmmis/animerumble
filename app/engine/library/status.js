@@ -52,7 +52,7 @@ function stun(x) {
     name: x.name ? x.name : "stun",
     val: 0,
     type: "stun",
-    active: x.active ? x.active : 2,
+    active: x.active ? x.active : 1,
     modify: function(payload) {},
     owner: x.owner
   };

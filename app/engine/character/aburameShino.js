@@ -37,7 +37,7 @@ let status = {
     owner: info.id,
     val: 20,
     type: "dd",
-    active: -1,
+    active: 3,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === "Bug Wall");

@@ -15,7 +15,7 @@ let status = {
   }),
   stun2: library.stun({
     owner: info.id,
-    active: 4
+    active: 3
   }),  
   protect: library.reduce({
     val: 10,
@@ -23,11 +23,11 @@ let status = {
     owner: info.id
   }),  
   cooldownIncrease: {
-    name: "Front Lotus",
+    name: "Chakra Hair Strand Trap",
     owner: info.id,
     val: 30,
     type: "skill",
-    active: 1,
+    active: 2,
     modify: function(payload) {
       payload.offense.skill[payload.skill].counter += 1      
     }
@@ -104,7 +104,7 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onAttack.push(
+      payload.target.status.onReceive.push(
         new constructor.status(status.cooldownIncrease, this.name, 3)
       );      
     }

@@ -38,10 +38,10 @@ let status = {
     owner: info.id,
     val: 20,
     type: "dd",
-    active: 1,
+    active: 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === "Bug Wall");
+      let index = onReceive.findIndex(x => x.name === "Protective Eight Trigrams Sixty-Four Palms");
       onReceive[index].val -= this.val;
       if (onReceive[index.val] <= 0) {
         payload.val += onReceive[index.val];
@@ -71,11 +71,11 @@ let skills = {
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, 2)
+        new constructor.status(status.bleed, this.name, 1)
       );
       if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.drain, this.name, 2)
+          new constructor.status(status.drain, this.name, 1)
         );
       }
     }
@@ -94,6 +94,7 @@ let skills = {
     },
     target: "allenemyallally",
     move: function(payload) {
+      console.log(payload.target)
       if (
         payload.store[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
