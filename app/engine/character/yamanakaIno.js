@@ -137,7 +137,7 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.hp -= 100;
+      payload.target.hp -= payload.val;
     }
   }
 };
