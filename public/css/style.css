@@ -6634,7 +6634,7 @@ body, #images, #images a {
 
 .characters {
   padding: 20px;
-  background: url("https://i.imgur.com/gh6yr99.jpg") no-repeat center center fixed;
+  background: url("/assets/bgnew.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -6681,7 +6681,7 @@ body, #images, #images a {
 
 .game {
   padding: 5px;
-  background: url("/assets/bg.jpg") no-repeat center center fixed;
+  background: url("/assets/bgnew.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
