@@ -87,6 +87,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 0,
+    classes: ['action', 'melee', 'physical'],
     energy: {
       a: 1
     },
@@ -119,6 +120,7 @@ let skills = {
     type: "attack",
     val: 30,
     cooldown: 0,
+    classes: ['instant', 'melee', 'physical'],
     description:
       "Opening the first gate, Lee uses a high powered taijutsu to deal 30 damage to one enemy. This skill will deal 30 additional damage during 'Fifth Gate Opening'.",
     energy: {
@@ -136,6 +138,7 @@ let skills = {
     description:
       "Lee removes all harmful effects on him, losing 50 health*, and then becoming invulnerable to all harmful skills for 2 turns. The following 2 turns, this skill will be replaced by 'Final Lotus'. The affliction damage this skill deals cannot be ignored and cannot kill Lee.",
     target: "self",
+    classes: ['instant', 'mental'],
     energy: {
       a: 1
     },
@@ -159,6 +162,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Rock Lee invulnerable for 1 turn.",
     target: "self",    
+    classes: ['instant', 'physical'],
     energy: {
       r: 1
     },
@@ -176,6 +180,7 @@ let skills = {
     description:
       "Lee uses his strongest ability, expending all his chakra and dealing 100 damage to one enemy.",
     target: "enemy",
+    classes: ['instant', 'melee', 'physical'],
     energy: {
       a: 2
     },

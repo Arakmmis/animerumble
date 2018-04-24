@@ -59,7 +59,8 @@ let skills = {
     name: "Garouga",
     type: "attack",
     val: 30,
-    cooldown: 0,    
+    cooldown: 0,  
+    classes: ['instant', 'melee', 'physical'],  
     energy: {
       a: 1,
       r: 1
@@ -75,6 +76,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 3,
+    classes: ['action', 'melee', 'physical'],
     description:
       "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",    
     energy: {
@@ -104,6 +106,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 0,
+    classes: ['instant', 'ranged', 'affliction'],
     description:
       "Akamaru sprays urine on one enemy who cannot reduce damage or become invulnerable for 3 turns. During this time, 'Double-Headed Wolf' and 'Garouga' will deal 5 additional damage to them. Dynamic Marking cannot be used on an enemy already being affected.",
     target: "enemy",
@@ -122,6 +125,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Inuzuka Kiba invulnerable for 1 turn.",
     target: "self",    
+    classes: ['instant', 'physical'],
     energy: {
       r: 1
     },

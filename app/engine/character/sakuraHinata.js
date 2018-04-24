@@ -51,6 +51,7 @@ let skills = {
     energy: {
       a: 1,      
     },
+    classes: ['instant', 'melee', 'physical'],
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.stun, this.name, 1)
@@ -63,6 +64,7 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 0,
+    classes: ['instant', 'chakra'],
     description: "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
     target: "ally",    
     energy: {      
@@ -77,6 +79,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    classes: ['instant', 'mental'],
     description: "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",
     target: "self",    
     energy: {      
@@ -96,6 +99,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
+    classes: ['instant', 'chakra'],
     description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
     target: "self",    
     energy: {      

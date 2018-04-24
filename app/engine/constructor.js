@@ -38,9 +38,10 @@ module.exports = {
     this.marking = payload.marking ? payload.marking : false;
     this.usage = payload.usage ? payload.usage : 0;
 
-    this.range = payload.range ? payload.range : false;
-    this.class = payload.class ? payload.class : false;
-    this.persistence = payload.persistence ? payload.persistence : false;
+    // this.range = payload.range ? payload.range : false;
+    // this.class = payload.class ? payload.class : false;
+    // this.persistence = payload.persistence ? payload.persistence : false;
+    this.classes = payload.classes
 
     this.energy = {
       a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
@@ -60,6 +61,7 @@ module.exports = {
     this.allow = payload.allow ? payload.allow : false;
     this.period = payload.period ? payload.period : false;
     this.owner = payload.owner;
+    this.usage = payload.usage ? payload.usage : 0;
     this.skillIndex = skill ? skill : 0;
   }
 };

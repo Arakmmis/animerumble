@@ -59,6 +59,8 @@ let status = {
           x => x.name !== "Bug Wall"
         );
       }
+
+      console.log('BUG', dd, val, onReceive[index].val)
     }
   }
 };
@@ -72,7 +74,8 @@ let skills = {
     energy: {
       i: 1,
       r: 1
-    },
+    },    
+    classes: ['instant', 'ranged', 'affliction'],
     description:
       "Shino directs his chakra draining bugs to attack one enemy dealing 20 affliction damage and steals 1 random chakra.",
     move: function(payload) {
@@ -94,6 +97,7 @@ let skills = {
     energy: {
       r: 1
     },
+    classes: ['instant', 'ranged', 'physical'],
     target: "enemy",
     move: function(payload) {
       payload.target.status.onAttack.push(
@@ -106,13 +110,13 @@ let skills = {
   },
   skill3: {
     name: "Bug Wall",
-    type: "attack",
-    val: 10,
+    type: "attack",    
     cooldown: 3,
     description:
       "Shino sends millions of bugs to create a wall around his team, making them gain 20 points of destructible defense.",
     target: "allally",
     marking: true,
+    classes: ['instant', 'ranged'],
     energy: {
       i: 1,
       r: 1
@@ -130,6 +134,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Aburame Shino invulnerable for 1 turn.",
     target: "self",
+    classes: ['instant', 'mental'],
     energy: {
       r: 1
     },

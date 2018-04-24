@@ -58,7 +58,8 @@ let skills = {
     name: "Partial Multi-Size",
     type: "attack",
     val: 20,
-    cooldown: 0,    
+    cooldown: 0,
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1
     },
@@ -74,14 +75,15 @@ let skills = {
     val: 10,
     cooldown: 2,
     description:
-      "Chouji transforms into a Meat Tank dealing 10 damage to one enemy for 2 turns. Chouji is invulnerable for 2 turns.",    
+      "Chouji transforms into a Meat Tank dealing 10 damage to one enemy for 2 turns. Chouji is invulnerable for 2 turns.",
+    classes: ["action", "ranged", "physical"],
     energy: {
       i: 1
     },
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onState.push(
-        new constructor.status(status.invincible3, this.name, 4)
+        new constructor.status(status.invincible3, this.name, 2)
       );
       payload.target.status.onSelf.push(
         new constructor.status(
@@ -94,7 +96,7 @@ let skills = {
           2
         )
       );
-      console.log('Chouji Bleed', payload.target.status.onSelf, payload.val)
+      console.log("Chouji Bleed", payload.target.status.onSelf, payload.val);
     }
   },
   skill3: {
@@ -104,6 +106,7 @@ let skills = {
     cooldown: 0,
     description:
       "Chouji eats a pill improving his skills, 'Partial Multi-Size' will deal 20 additional damage and 'Meat Tank' will deal 10 additional damage per turn. Chouji takes 20 affliction damage. Chouji can only eat three pills and this skill is permanent.",
+    classes: ["instant", "affliction"],
     target: "self",
     usage: 0,
     required: false,
@@ -133,7 +136,8 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Akimichi Chouji invulnerable for 1 turn.",
-    target: "self",    
+    target: "self",
+    classes: ['instant', 'physical'],
     energy: {
       r: 1
     },

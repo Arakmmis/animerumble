@@ -15,10 +15,16 @@ function reduce(x) {
   return {
     name: x.name ? x.name : "Reduce",
     val: x.val ? x.val : 5,
-    type: "skill",
+    type: "reduce",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.val -= this.val;
+      let onReceive = payload.target.status.onReceive;
+      let index = onReceive.findIndex(x => x.name === this.name);
+      if (onReceive[index].usage === 0) {
+        payload.val -= this.val;
+        onReceive[index].usage += 1;
+      }
+      console.log('REDUCE', onReceive[index])
     },
     owner: x.owner
   };
@@ -28,10 +34,16 @@ function protect(x) {
   return {
     name: x.name ? x.name : "Protect",
     val: x.val ? x.val : 15,
-    type: "skill",
+    type: "reduce",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.val -= this.val;
+      let onReceive = payload.target.status.onReceive;
+      let index = onReceive.findIndex(x => x.name === this.name);
+      if (onReceive[index].usage === 0) {
+        payload.val -= this.val;
+        onReceive[index].usage += 1;
+      }
+      console.log('REDUCE', onReceive[index])
     },
     owner: x.owner
   };
@@ -87,22 +99,25 @@ function bleed(x) {
     name: x.name ? x.name : "bleed",
     val: x.val ? x.val : 5,
     type: "self",
-    period: 'instant',
+    period: "instant",
     active: x.active ? x.active : 3,
     modify: function(payload) {
-      payload.offense.hp -= this.val;
+      console.log(x)
+      console.log('BLEED', this.val)
+      console.log(payload.offense)
+      payload.offense.hp -= x.val;
     },
     owner: x.owner
   };
 }
 
 module.exports = {
-    boost,
-    protect,
-    invincible,
-    stun,
-    heal,
-    bleed,
-    reduce,
-    state
-}
+  boost,
+  protect,
+  invincible,
+  stun,
+  heal,
+  bleed,
+  reduce,
+  state
+};

@@ -66,6 +66,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 1,
+    classes: ['action', 'melee', 'physical'],
     energy: {
       a: 1,
       r: 1
@@ -86,6 +87,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
+    classes: ['instant', 'melee', 'chakra'],
     description:
       "Neji becomes invulnerable for 1 turn while dealing 15 damage to all enemies.",    
     energy: {
@@ -106,6 +108,7 @@ let skills = {
     type: "attack",
     val: 40,
     cooldown: 1,
+    classes: ['instant', 'melee', 'physical'],
     description:
       "Neji closes all of one enemy's chakra nodes dealing 40 damage to one enemy and that enemy loses 1 random chakra.",
     target: "enemy",
@@ -129,6 +132,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Hyuuga Neji invulnerable for 1 turn.",
     target: "self",    
+    classes: ['instant', 'mental'],
     energy: {
       r: 1
     },

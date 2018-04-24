@@ -34,7 +34,7 @@ function skillApply(payload) {
     myEnergy: payload.myEnergy,
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
-    store: payload.store,
+    store: payload.store
   };
   if (payload.offense.status.onAttack.length > 0) {
     statusApply(package, package.move, "offense");
@@ -148,14 +148,18 @@ function sequence(payload, store, callback) {
 
   //Post Sequence
   function postSequence(x, turn) {
+    console.log(x)
     function pattern(source) {
       if (source.length > 0) {
         source.forEach((s, t) => {
           source[t].name;
           source[t].active -= 1;
-          if (source[t].type == "dd" && source[t].val <= 0) {
-            console.log(source)
+          if (source[t].type === "dd" && source[t].val <= 0) {
             source[t].active = 0;
+          }
+          if (source[t].type === "reduce" && source[t].usage > 0) {
+            source[t].usage = 0;
+            console.log(source)
           }
         });
         return source.filter(x => x.active !== 0);

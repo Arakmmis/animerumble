@@ -14,7 +14,8 @@ let status = {
   }),
   protect: library.protect({
     val: 15,
-    owner: info.id
+    owner: info.id,
+    active: 4
   }),
   bleed: library.bleed({
     val: 5,
@@ -57,6 +58,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 0,    
+    classes: ['instant', 'melee', 'physical'],
     energy: {
       a: 1
     },
@@ -74,6 +76,7 @@ let skills = {
     description:
       "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",    
     required: true,
+    classes: ['instant', 'melee', 'chakra'],
     energy: {
       s: 1,
       r: 1
@@ -92,7 +95,8 @@ let skills = {
     val: 10,
     cooldown: 3,
     description: "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
-    target: "self",    
+    target: "self",   
+    classes: ['instant', 'chakra'], 
     energy: {      
       r: 1
     },
@@ -115,6 +119,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Uzumaki Naruto invulnerable for 1 turn.",
     target: "self",    
+    classes: ['instant', 'chakra'],
     energy: {
       r: 1
     },

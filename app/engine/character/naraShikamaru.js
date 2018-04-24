@@ -77,6 +77,7 @@ let skills = {
     cooldown: 0,
     marking: true,
     energy: {},
+    classes: ['instant', 'ranged', 'mental'],
     description:
       "Shikamaru sits down and begins thinking up a strategy against one enemy for 5 turns. This skill cannot be countered or reflected and cannot used on an enemy already affected by it.",
     move: function(payload) {
@@ -90,6 +91,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
+    classes: ['action', 'ranged', 'chakra'],
     description:
       "Shikamaru chokes all enemies, dealing 15 damage to them and making them unable to reduce damage or become invulnerable for 1 turn. If an enemy is affected by 'Meditate', this skill will last 2 turns instead.",
     energy: {
@@ -115,6 +117,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
+    classes: ['control', 'ranged', 'chakra'],
     description:
       "Shikamaru captures one enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
     target: "enemy",
@@ -124,8 +127,8 @@ let skills = {
     },
     move: function(payload) {
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.stun2, this.name, 2)
+        payload.target.status.onState.push(
+          new constructor.status(status.stun2, this.name, 3)
         );
       } else {
         payload.target.status.onState.push(
@@ -141,6 +144,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Nara Shikamaru invulnerable for 1 turn.",
     target: "self",    
+    classes: ['instant', 'mental'],
     energy: {
       r: 1
     },

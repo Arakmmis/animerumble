@@ -70,6 +70,7 @@ let skills = {
     type: "attack",
     val: 30,
     cooldown: 0,  
+    classes: ['instant', 'melee', 'physical'],
     energy: {
       a: 1,
       r:1
@@ -85,6 +86,7 @@ let skills = {
     type: "attack",
     val: 30,
     cooldown: 1,
+    classes: ['instant', 'melee', 'chakra'],
     description:
       "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",       
     energy: {
@@ -102,7 +104,8 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "Sasuke targets one enemy. For 4 turns, Sasuke will gain 15 points of damage reduction. During this time, that enemy will be unable to reduce damage or become invulnerable.* This will end if Sasuke dies.",
-    target: "enemy",    
+    target: "enemy",   
+    classes: ['instant', 'mental'], 
     energy: {      
       r: 1
     },
@@ -122,7 +125,8 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Uchiha Sasuke invulnerable for 1 turn.",
-    target: "self",    
+    target: "self",  
+    classes: ['instant', 'physical'],
     energy: {
       r: 1
     },
