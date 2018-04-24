@@ -47,8 +47,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 0,
-    description: "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",
-    mana: 2,
+    description: "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",    
     energy: {
       a: 1,      
     },
@@ -65,8 +64,7 @@ let skills = {
     val: 25,
     cooldown: 0,
     description: "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
-    target: "ally",
-    mana: 2,
+    target: "ally",    
     energy: {      
       s: 1
     },
@@ -80,8 +78,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",
-    target: "self",
-    mana: 3,
+    target: "self",    
     energy: {      
       r: 1
     },
@@ -100,8 +97,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
-    target: "self",
-    mana: 2,
+    target: "self",    
     energy: {      
       r: 1
     },

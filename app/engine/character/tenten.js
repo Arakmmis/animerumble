@@ -102,8 +102,7 @@ let skills = {
     val: 5,
     cooldown: 1,
     description:
-      "Tenten deals 5 damage to all enemies. For 1 turn, their physical and chakra damage will be lowered by 5. All stacks of 'Twin Rising Dragons' will be removed from all targets afterwards. This skill cannot be countered.",
-    mana: 1,
+      "Tenten deals 5 damage to all enemies. For 1 turn, their physical and chakra damage will be lowered by 5. All stacks of 'Twin Rising Dragons' will be removed from all targets afterwards. This skill cannot be countered.",    
     energy: {
       r: 1
     },
@@ -161,8 +160,7 @@ let skills = {
     type: "attack",
     cooldown: 4,
     description: "This skill makes Tenten invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },

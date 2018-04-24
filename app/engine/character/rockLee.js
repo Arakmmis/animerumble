@@ -158,8 +158,7 @@ let skills = {
     type: "attack",
     cooldown: 4,
     description: "This skill makes Rock Lee invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },

@@ -47,8 +47,7 @@ module.exports = {
     type: "attack",
     val: 10,
     cooldown: 2,
-    target: 'enemy',
-    mana: 10,
+    target: 'enemy',    
     move: function(payload) {
       console.log(
         "inside",

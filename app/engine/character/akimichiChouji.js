@@ -58,8 +58,7 @@ let skills = {
     name: "Partial Multi-Size",
     type: "attack",
     val: 20,
-    cooldown: 0,
-    mana: 2,
+    cooldown: 0,    
     energy: {
       a: 1
     },
@@ -75,8 +74,7 @@ let skills = {
     val: 10,
     cooldown: 2,
     description:
-      "Chouji transforms into a Meat Tank dealing 10 damage to one enemy for 2 turns. Chouji is invulnerable for 2 turns.",
-    mana: 1,
+      "Chouji transforms into a Meat Tank dealing 10 damage to one enemy for 2 turns. Chouji is invulnerable for 2 turns.",    
     energy: {
       i: 1
     },
@@ -135,8 +133,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Akimichi Chouji invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },

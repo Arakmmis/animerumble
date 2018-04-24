@@ -24,11 +24,7 @@ function main(payload, callback) {
             char(payload.team.teamEvenChar[0]),
             char(payload.team.teamEvenChar[1]),
             char(payload.team.teamEvenChar[2]),            
-        ],
-        mana: {
-            teamOdd: 1,
-            teamEven: 0,
-        },
+        ],        
         energy: {
             teamOdd: {
                 a: energy.a,

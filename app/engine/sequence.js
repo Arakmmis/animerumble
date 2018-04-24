@@ -154,6 +154,7 @@ function sequence(payload, store, callback) {
           source[t].name;
           source[t].active -= 1;
           if (source[t].type == "dd" && source[t].val <= 0) {
+            console.log(source)
             source[t].active = 0;
           }
         });

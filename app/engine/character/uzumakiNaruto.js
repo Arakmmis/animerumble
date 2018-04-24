@@ -56,8 +56,7 @@ let skills = {
     name: "Uzumaki Naruto Combo",
     type: "attack",
     val: 20,
-    cooldown: 0,
-    mana: 2,
+    cooldown: 0,    
     energy: {
       a: 1
     },
@@ -73,8 +72,7 @@ let skills = {
     val: 45,
     cooldown: 1,
     description:
-      "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
-    mana: 1,
+      "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",    
     required: true,
     energy: {
       s: 1,
@@ -94,8 +92,7 @@ let skills = {
     val: 10,
     cooldown: 3,
     description: "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
-    target: "self",
-    mana: 2,
+    target: "self",    
     energy: {      
       r: 1
     },
@@ -117,8 +114,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Uzumaki Naruto invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },

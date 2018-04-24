@@ -17,7 +17,7 @@ let status = {
   }),
   reduce: library.reduce({
     val: 5,
-    active: -1,
+    active: 4,
     owner: info.id
   }),
   boost: {
@@ -41,11 +41,23 @@ let status = {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === "Bug Wall");
-      onReceive[index].val -= this.val;
-      if (onReceive[index.val] <= 0) {
-        payload.val += onReceive[index.val];
-      } else {
+
+      let dd = onReceive[index].val;
+      let val = payload.val;
+      let diff = dd - val;
+      onReceive[index].val = diff;
+
+      let newVal = val - dd;
+      if (diff >= 0) {
         payload.val = 0;
+      } else {
+        payload.val = Math.abs(diff);
+      }
+
+      if (diff <= 0) {
+        payload.target.status.onReceive = payload.target.status.onReceive.filter(
+          x => x.name !== "Bug Wall"
+        );
       }
     }
   }
@@ -79,7 +91,6 @@ let skills = {
     cooldown: 1,
     description:
       "Shino directs one of his female bugs to attach itself to one enemy. For 4 turns, new non-affliction damage that enemy deals is reduced by 5 points. During this time, 'Chakra Leech' will deal 5 additional damage to them. These effects stack.",
-    mana: 1,
     energy: {
       r: 1
     },
@@ -119,7 +130,6 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Aburame Shino invulnerable for 1 turn.",
     target: "self",
-    mana: 1,
     energy: {
       r: 1
     },

@@ -59,8 +59,7 @@ let skills = {
     name: "Garouga",
     type: "attack",
     val: 30,
-    cooldown: 0,
-    mana: 2,
+    cooldown: 0,    
     energy: {
       a: 1,
       r: 1
@@ -77,8 +76,7 @@ let skills = {
     val: 15,
     cooldown: 3,
     description:
-      "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",
-    mana: 1,
+      "Kiba and Akamaru turn into giant beasts attacking all enemies dealing 15 damage each turn for 3 turns. The following 3 turns 'Garouga' is improved and costs 1 less random chakra.* During this time Kiba gains 15 points of damage reduction.",    
     energy: {
       a: 1,
       i: 1
@@ -123,8 +121,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Inuzuka Kiba invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },

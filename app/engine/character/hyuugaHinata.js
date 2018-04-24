@@ -41,12 +41,26 @@ let status = {
     active: 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === "Protective Eight Trigrams Sixty-Four Palms");
-      onReceive[index].val -= this.val;
-      if (onReceive[index.val] <= 0) {
-        payload.val += onReceive[index.val];
-      } else {
+      let index = onReceive.findIndex(
+        x => x.name === "Protective Eight Trigrams Sixty-Four Palms"
+      );
+
+      let dd = onReceive[index].val;
+      let val = payload.val;
+      let diff = dd - val;
+      onReceive[index].val = diff;
+
+      let newVal = val - dd;
+      if (diff >= 0) {
         payload.val = 0;
+      } else {
+        payload.val = Math.abs(diff);
+      }
+
+      if (diff <= 0) {
+        payload.target.status.onReceive = payload.target.status.onReceive.filter(
+          x => x.name !== "Protective Eight Trigrams Sixty-Four Palms"
+        );
       }
     }
   },
@@ -87,14 +101,13 @@ let skills = {
     cooldown: 1,
     description:
       "Hinata deals 15 damage to all enemies,* and all allies, including her will gain 10 destructible defense for 1 turn. If used during 'Byakugan' this skill will deal 20 damage.",
-    mana: 1,
     energy: {
       s: 1,
       r: 1
     },
     target: "allenemyallally",
     move: function(payload) {
-      console.log(payload.target)
+      console.log(payload.target);
       if (
         payload.store[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
@@ -118,7 +131,7 @@ let skills = {
       "Hinata activates her Byakugan gaining 15 points of damage reduction for 4 turns. The following 4 turns, 'Hinata Gentle Fist' and 'Protective Eight Trigrams Sixty-Four Palms' will be improved.",
     target: "self",
     marking: true,
-    energy: {      
+    energy: {
       r: 1
     },
     move: function(payload) {
@@ -137,7 +150,6 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Hyuuga Hinata invulnerable for 1 turn.",
     target: "self",
-    mana: 1,
     energy: {
       r: 1
     },

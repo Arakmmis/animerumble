@@ -122,8 +122,7 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Uchiha Sasuke invulnerable for 1 turn.",
-    target: "self",
-    mana: 1,
+    target: "self",    
     energy: {
       r: 1
     },
