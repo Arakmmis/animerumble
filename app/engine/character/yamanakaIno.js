@@ -16,12 +16,12 @@ let status = {
   stun2: library.stun({
     owner: info.id,
     active: 3
-  }),  
+  }),
   protect: library.reduce({
     val: 10,
     active: 3,
     owner: info.id
-  }),  
+  }),
   cooldownIncrease: {
     name: "Chakra Hair Strand Trap",
     owner: info.id,
@@ -29,9 +29,9 @@ let status = {
     type: "skill",
     active: 2,
     modify: function(payload) {
-      payload.offense.skill[payload.skill].counter += 1      
+      payload.offense.skill[payload.skill].counter += 1;
     }
-  },  
+  },
   transform: {
     name: "Transform",
     owner: info.id,
@@ -64,15 +64,18 @@ let skills = {
       w: 1,
       r: 1
     },
-    target: "enemy",
-    classes: ['instant', 'ranged', 'mental'],
+    target: "randomenemy",
+    classes: ["instant", "ranged", "mental"],
     description:
       "Using this skill Ino stuns the non-mental skills of one enemy for 1 turn and does 30 piercing damage that ignores invulnerability to one random enemy. During this time the target is unable to reduce damage or become invulnerable.",
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.stun, this.name, 2)
-      );
-      payload.target.hp -= payload.val
+      if (payload.recursive === 0) {
+        payload.target.status.onState.push(
+          new constructor.status(status.stun, this.name, 2)
+        );
+      } else {
+        payload.target.hp -= payload.val;
+      }
     }
   },
   skill2: {
@@ -80,20 +83,20 @@ let skills = {
     type: "attack",
     val: 30,
     cooldown: 0,
-    classes: ['control', 'ranged', 'mental'],
+    classes: ["control", "ranged", "mental"],
     description:
       "Ino takes over the mind of an enemy. For 4 turns one enemy cannot reduce damage or become invulnerable. During this time, their skills are stunned, and this skill will be replaced by 'Art of the Valentine'.",
     energy: {
-      w: 2      
+      w: 2
     },
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onSelf.push(
         new constructor.status(status.transform, this.name, 2)
-      );      
+      );
       payload.target.status.onState.push(
         new constructor.status(status.stun2, this.name, 2)
-      );      
+      );
     }
   },
   skill3: {
@@ -102,14 +105,14 @@ let skills = {
     description:
       "Ino uses a strand of chakra endowed hair to create a trap. For 1 turn, if one enemy uses a new harmful skill, they will have the cooldowns of their skills increased by 1 for 2 turns. This skill is invisible.",
     target: "self",
-    classes: ['instant', 'ranged', 'chakra'],
+    classes: ["instant", "ranged", "chakra"],
     energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
         new constructor.status(status.cooldownIncrease, this.name, 3)
-      );      
+      );
     }
   },
   skill4: {
@@ -117,8 +120,8 @@ let skills = {
     type: "attack",
     cooldown: 4,
     description: "This skill makes Yamanaka Ino invulnerable for 1 turn.",
-    target: "self",    
-    classes: ['instant', 'physical'],
+    target: "self",
+    classes: ["instant", "physical"],
     energy: {
       r: 1
     },
@@ -133,9 +136,8 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 0,
-    classes: ['instant', 'ranged', 'physical'],
-    description:
-      "This skill does 25 damage to one enemy.",
+    classes: ["instant", "ranged", "physical"],
+    description: "This skill does 25 damage to one enemy.",
     target: "enemy",
     energy: {
       r: 1

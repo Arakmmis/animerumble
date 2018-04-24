@@ -84,10 +84,8 @@ let skills = {
       i: 1
     },
     target: "allenemy",
-    move: function(payload) {
-      console.log("KIBA", payload);
-      if (payload.recursive === 0) {
-        console.log("RECURSIVE");
+    move: function(payload) {      
+      if (payload.recursive === 0) {        
         payload.offense.status.onReceive.push(
           new constructor.status(status.protect, this.name, 2)
         );
@@ -97,8 +95,7 @@ let skills = {
       }
       payload.target.status.onSelf.push(
         new constructor.status(status.bleed, this.name, 2)
-      );
-      // payload.target.hp -= payload.val;
+      );      
     }
   },
   skill3: {

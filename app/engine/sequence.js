@@ -131,6 +131,11 @@ function sequence(payload, store, callback) {
     // let offense = team(payload.offense);
     // let target = team(payload.target);
     let offense = team(payload.offense);
+    if(payload.aim === 'randomenemy'){
+      let target = payload.target.splice(0,1)
+      let random = payload.target[helper.getRandomInt(2)]
+      payload.target = target.concat(random)
+    }
     payload.target.forEach((x, t) => {
       let target = team(x);
       target = skillApply({

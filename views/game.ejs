@@ -171,7 +171,7 @@
                                 //Define State
                                 let state = this.state
                                 //Buffer Skill          
-                                if (state.skill.aim === 'allenemy') {
+                                if (state.skill.aim === 'allenemy' || state.skill.aim === 'randomenemy') {
                                     state.skill.target = state.button.enemy.filter(x => x.disabled !== true && x.name !== payload.name).map(x => x.name)
                                     state.skill.target.unshift(payload.name)
                                     console.log(state.skill.target)
@@ -346,7 +346,7 @@
                                     }
                                 })
                             }
-                            else if (payload.aim === 'allenemy') {
+                            else if (payload.aim === 'allenemy' || payload.aim === 'randomenemy') {
                                 app.state.button.enemy.forEach(x => x.button = x.disabled ? true : !x.button)
                             }
                             else if (payload.aim === 'allenemyallally') {
