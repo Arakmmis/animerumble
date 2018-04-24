@@ -221,3 +221,7 @@
   font-size: 40;
   width: 100%;
 }
+
+.game--flip-img {
+  transform: scaleX(-1);
+}

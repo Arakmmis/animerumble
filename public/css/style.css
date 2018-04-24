@@ -6822,6 +6822,9 @@ body, #images, #images a {
   font-size: 40;
   width: 100%; }
 
+.game--flip-img {
+  transform: scaleX(-1); }
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
