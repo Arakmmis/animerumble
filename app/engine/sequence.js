@@ -147,8 +147,7 @@ function sequence(payload, store, callback) {
   });
 
   //Post Sequence
-  function postSequence(x, turn) {
-    console.log(x)
+  function postSequence(x, turn) {    
     function pattern(source) {
       if (source.length > 0) {
         source.forEach((s, t) => {
@@ -172,6 +171,7 @@ function sequence(payload, store, callback) {
       if (x.status.onSelf.length > 0) {
         x.status.onSelf.forEach((s, t) => {
           if (x.status.onSelf[t].period === "instant") {
+            console.log('BEFORE',x)
             x.status.onSelf[t].modify({
               offense: x,
               active: x.status.onSelf[t].active,

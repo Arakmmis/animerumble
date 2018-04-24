@@ -99,11 +99,11 @@ let skills = {
         x => x.name === "Fifth Gate Opening"
       );
       if (state) {
-        payload.target.status.onAttack.push(
+        payload.target.status.onSelf.push(
           new constructor.status(status.bleed2, this.name, 1)
         );
       } else {
-        payload.target.status.onAttack.push(
+        payload.target.status.onSelf.push(
           new constructor.status(status.bleed, this.name, 1)
         );
       }

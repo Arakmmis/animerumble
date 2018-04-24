@@ -101,10 +101,7 @@ function bleed(x) {
     type: "self",
     period: "instant",
     active: x.active ? x.active : 3,
-    modify: function(payload) {
-      console.log(x)
-      console.log('BLEED', this.val)
-      console.log(payload.offense)
+    modify: function(payload) {      
       payload.offense.hp -= x.val;
     },
     owner: x.owner
