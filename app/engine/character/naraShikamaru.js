@@ -16,11 +16,11 @@ let status = {
   }),
   stun2: library.stun({
     owner: info.id,
-    active: 4
+    active: 2
   }),
   stun: library.stun({
     owner: info.id,
-    active: 2
+    active: 1
   }),
   protect: library.protect({
     val: 15,

@@ -72,13 +72,12 @@ module.exports = function(io, socket) {
       accept: payload.from,
       challengerChar: payload.challengerChar,
       acceptChar: payload.acceptChar
+    }, (roomName) => {
+      console.log(model.getMatch())
+      console.log(model.getUser(payload.to)[0])
+      io.to(model.getUser(payload.to)[0]).emit('accepted', roomName)
+      io.to(model.getUser(payload.from)[0]).emit('accepted', roomName)
     })
-
-    console.log(model.getMatch())
-    console.log(model.getUser(payload.to)[0])
-    io.to(model.getUser(payload.to)[0]).emit('accepted', payload.to+payload.from)
-    io.to(model.getUser(payload.from)[0]).emit('accepted', payload.to+payload.from)
-
   })
 
   socket.on("disconnect", function() {

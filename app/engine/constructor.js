@@ -56,9 +56,38 @@ module.exports = {
     this.val = payload.val;
     this.modify = payload.modify ? payload.modify : empty;
     this.type = payload.type;
+    this.effect = payload.effect ? payload.effect : 'none'
     this.allow = payload.allow ? payload.allow : false;
     this.period = payload.period ? payload.period : false;
     this.owner = payload.owner;
     this.skillIndex = skill ? skill : 0;
   }
 };
+
+/*
+Effects:
+Stun
+Drain
+Leech
+Earn
+Invulnerability
+DD
+DR
+Heal
+Bleed
+Boost
+Protect
+Reduce
+
+Cooldown
+Duration
+Chakra Cost
+
+class
+physical
+energy
+mental
+affliction
+strategic
+
+*/
