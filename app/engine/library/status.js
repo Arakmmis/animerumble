@@ -2,7 +2,7 @@ function boost(x) {
   return {
     name: x.name ? x.name : "Boost",
     val: x.val ? x.val : 10,
-    type: "skill",
+    type: "boost",
     active: x.active ? x.active : 2,
     modify: function(payload) {
       payload.val += this.val;

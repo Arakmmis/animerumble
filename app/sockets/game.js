@@ -1,5 +1,5 @@
 let engine = require("../engine/main.js");
-let sequence = require("../engine/sequence.js");
+let battle = require("../engine/battle.js");
 let model = require("../helper/model.js");
 
 let connection = 0;
@@ -69,7 +69,7 @@ module.exports = function(io, socket) {
       console.log(socket.id);
       return;
     }
-    sequence(
+    battle(
       payload.packet,
       store[roomName][store[roomName].length - 1],
       payload => {

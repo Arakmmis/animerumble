@@ -21,6 +21,12 @@ let status = {
     val: 5,
     owner: info.id
   }),
+  state: library.state({
+    name: 'Sharingan',
+    type: '',
+    active: 4,
+    owner: info.id
+  }),
   boost1: {
     name: "Sharingan",
     owner: info.id,
