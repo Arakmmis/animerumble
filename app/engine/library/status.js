@@ -28,7 +28,7 @@ function reduce(x) {
       );
 
       if (
-        onReceive[index].usage === 0 &&
+        // onReceive[index].usage === 0 &&
         payload.skillStore.type !== "piercing" &&
         disableDrIv === -1
       ) {
@@ -58,7 +58,7 @@ function protect(x) {
       );
 
       if (
-        onReceive[index].usage === 0 &&
+        // onReceive[index].usage === 0 &&
         payload.skillStore.type !== "piercing" &&
         disableDrIv === -1
       ) {
