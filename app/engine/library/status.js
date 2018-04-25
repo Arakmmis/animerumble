@@ -20,7 +20,7 @@ function reduce(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === this.name);
-      if (onReceive[index].usage === 0) {
+      if (onReceive[index].usage === 0 && payload.skillStore.type !== 'piercing') {
         payload.val -= this.val;
         onReceive[index].usage += 1;
       }
@@ -39,7 +39,7 @@ function protect(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === this.name);
-      if (onReceive[index].usage === 0) {
+      if (onReceive[index].usage === 0 && payload.skillStore.type !== 'piercing') {
         payload.val -= this.val;
         onReceive[index].usage += 1;
       }
@@ -49,11 +49,11 @@ function protect(x) {
   };
 }
 
-function invincible(x) {
+function invulnerable(x) {
   return {
-    name: x.name ? x.name : "invincible",
+    name: x.name ? x.name : "invulnerable",
     val: 0,
-    type: "invincible",
+    type: "invulnerable",
     active: x.active ? x.active : 2,
     owner: x.owner
   };
@@ -111,7 +111,7 @@ function bleed(x) {
 module.exports = {
   boost,
   protect,
-  invincible,
+  invulnerable,
   stun,
   heal,
   bleed,

@@ -27,10 +27,10 @@ module.exports = {
       payload.offense.hp -= this.val;
     }
   },
-  invincible: {
-    name: "invincible",
+  invulnerable: {
+    name: "invulnerable",
     val: 0,
-    type: "invincible",
+    type: "invulnerable",
     active: 2,    
   },
   shadowClones: {

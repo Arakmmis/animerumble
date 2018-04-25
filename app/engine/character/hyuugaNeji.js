@@ -7,7 +7,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   stun: library.stun({
@@ -97,7 +97,7 @@ let skills = {
     move: function(payload) {      
       if (payload.recursive === 0) {        
         payload.offense.status.onState.push(
-          new constructor.status(status.invincible, this.name, 2)
+          new constructor.status(status.invulnerable, this.name, 2)
         );
       }
       payload.target.hp -= payload.val;
@@ -127,7 +127,7 @@ let skills = {
   },
   skill4: {
     name: "Byakugan Insight",
-    type: "attack",
+    type: "invulnerable",
     val: 10,
     cooldown: 4,
     description: "This skill makes Hyuuga Neji invulnerable for 1 turn.",
@@ -138,7 +138,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   }

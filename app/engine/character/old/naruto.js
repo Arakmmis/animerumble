@@ -1,10 +1,10 @@
 let constructor = require("../constructor.js");
 
 let status = {
-  invincible: {
-    name: "invincible",
+  invulnerable: {
+    name: "invulnerable",
     val: 0,
-    type: "invincible",
+    type: "invulnerable",
     active: 1
   },
   shadowClones: {
@@ -72,15 +72,15 @@ let skills = {
       );
     }
   },
-  invincible: {
-    name: "Invincible",
+  invulnerable: {
+    name: "invulnerable",
     type: "attack",
     val: 10,
     cooldown: 2,
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible)
+        new constructor.status(status.invulnerable)
       );
     }
   }
@@ -93,7 +93,7 @@ let character = {
     new constructor.skill(skills.uzumakiNarutoCombo),
     new constructor.skill(skills.rasengan),
     new constructor.skill(skills.shadowClones),
-    new constructor.skill(skills.invincible)
+    new constructor.skill(skills.invulnerable)
   ]
 };
 

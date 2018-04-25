@@ -6,7 +6,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   stun: library.stun({
@@ -89,7 +89,7 @@ let skills = {
   },
   skill2: {
     name: "Chidori",
-    type: "attack",
+    type: "piercing",
     val: 30,
     cooldown: 1,
     classes: ['instant', 'melee', 'chakra'],
@@ -127,7 +127,7 @@ let skills = {
   },
   skill4: {
     name: "Swift Block",
-    type: "attack",
+    type: "invulnerable",
     val: 10,
     cooldown: 4,
     description: "This skill makes Uchiha Sasuke invulnerable for 1 turn.",
@@ -138,7 +138,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   }

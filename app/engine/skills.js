@@ -32,14 +32,14 @@ module.exports = {
       payload.target.status.onAttack.push(new constructor.status(status.shadowClones));
     }
   },
-  invincible: {
-    name: "Invincible",
+  invulnerable: {
+    name: "invulnerable",
     type: "attack",
     val: 10,
     cooldown: 2,
     target: 'self',
     move: function(payload) {      
-      payload.target.status.onState.push(new constructor.status(status.invincible));
+      payload.target.status.onState.push(new constructor.status(status.invulnerable));
     }
   },
   attack: {

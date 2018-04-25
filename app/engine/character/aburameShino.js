@@ -7,7 +7,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   bleed: library.bleed({
@@ -129,7 +129,7 @@ let skills = {
   },
   skill4: {
     name: "Shino Hide",
-    type: "attack",
+    type: "invulnerable",
     val: 10,
     cooldown: 4,
     description: "This skill makes Aburame Shino invulnerable for 1 turn.",
@@ -140,7 +140,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   }

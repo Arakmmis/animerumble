@@ -6,10 +6,10 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
-  invincible3: library.invincible({
+  invulnerable3: library.invulnerable({
     owner: info.id,
     active: 3
   }),
@@ -83,7 +83,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onState.push(
-        new constructor.status(status.invincible3, this.name, 2)
+        new constructor.status(status.invulnerable3, this.name, 2)
       );
       payload.target.status.onSelf.push(
         new constructor.status(
@@ -132,7 +132,7 @@ let skills = {
   },
   skill4: {
     name: "Effortless Block",
-    type: "attack",
+    type: "invulnerable",
     val: 10,
     cooldown: 4,
     description: "This skill makes Akimichi Chouji invulnerable for 1 turn.",
@@ -143,7 +143,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   }

@@ -511,7 +511,7 @@
                                 }
                             }),
                             enemy: store.enemy.map((x, i) => {
-                                let disabled = x.status.onState.findIndex(x => x.type === 'invincible') > -1 || x.hp <= 0 ? true : false
+                                let disabled = x.status.onState.findIndex(x => x.type === 'invulnerable') > -1 || x.hp <= 0 ? true : false
                                 return {
                                     name: x.name,
                                     index: i,

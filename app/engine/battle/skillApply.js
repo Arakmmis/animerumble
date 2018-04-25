@@ -7,6 +7,7 @@ function skillApply(payload) {
     target: payload.target,
     val: payload.offense.skill[payload.skill].val,
     skill: payload.skill,
+    skillStore: payload.offense.skill[payload.skill],
     move: payload.offense.skill[payload.skill].move,
     recursive: payload.recursive,
     myEnergy: payload.myEnergy,

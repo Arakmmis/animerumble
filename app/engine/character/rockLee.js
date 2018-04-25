@@ -7,7 +7,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   bleed: library.bleed({
@@ -150,7 +150,7 @@ let skills = {
         new constructor.status(status.transform, this.name, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 3),
+        new constructor.status(status.invulnerable, this.name, 3),
         new constructor.status(status.state, this.name, 3)
       );
       payload.target.hp -= 50;
@@ -158,7 +158,7 @@ let skills = {
   },
   skill4: {
     name: "Lee Block",
-    type: "attack",
+    type: "invulnerable",
     cooldown: 4,
     description: "This skill makes Rock Lee invulnerable for 1 turn.",
     target: "self",    
@@ -168,7 +168,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   },

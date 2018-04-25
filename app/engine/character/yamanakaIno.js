@@ -7,7 +7,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   stun: library.stun({
@@ -117,7 +117,7 @@ let skills = {
   },
   skill4: {
     name: "Ino Block",
-    type: "attack",
+    type: "invulnerable",
     cooldown: 4,
     description: "This skill makes Yamanaka Ino invulnerable for 1 turn.",
     target: "self",
@@ -127,7 +127,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   },

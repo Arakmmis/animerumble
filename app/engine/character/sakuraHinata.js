@@ -6,7 +6,7 @@ let info = {
 };
 
 let status = {
-  invincible: library.invincible({
+  invulnerable: library.invulnerable({
     owner: info.id
   }),
   stun: library.stun({
@@ -96,7 +96,7 @@ let skills = {
   },
   skill4: {
     name: "Sakura Hide",
-    type: "attack",
+    type: "invulnerable",
     val: 10,
     cooldown: 4,
     classes: ['instant', 'chakra'],
@@ -107,7 +107,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invincible, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, 4)
       );
     }
   }
