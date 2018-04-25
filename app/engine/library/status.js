@@ -20,22 +20,25 @@ function reduce(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(s => {
-        return s.name === this.name;
+        return s.type === this.type;
       });
 
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
-
-      if (
-        // onReceive[index].usage === 0 &&
-        payload.skillStore.type !== "piercing" &&
-        disableDrIv === -1
-      ) {
-        payload.val -= this.val;
-        onReceive[index].usage += 1;
+      if (index > -1) {
+        if (
+          onReceive[index].usage === 0 &&
+          payload.skillStore.type !== "piercing" &&
+          disableDrIv === -1
+        ) {
+          payload.val -= this.val;
+          onReceive[index].usage += 1;
+        }
       }
-      console.log("REDUCE", onReceive[index]);
+      if (index === -1) {
+        console.log("REDUCE!!", onReceive[index], onReceive, index, payload);
+      }
     },
     owner: x.owner
   };
@@ -50,21 +53,24 @@ function protect(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(s => {
-        return s.name === this.name;
+        return s.type === this.type;
       });
 
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
-
-      if (
-        // onReceive[index].usage === 0 &&
-        payload.skillStore.type !== "piercing" &&
-        disableDrIv === -1
-      ) {
-        payload.val -= this.val;
-        onReceive[index].usage += 1;
-        console.log("REDUCE", onReceive[index]);
+      if (index > -1) {
+        if (
+          onReceive[index].usage === 0 &&
+          payload.skillStore.type !== "piercing" &&
+          disableDrIv === -1
+        ) {
+          payload.val -= this.val;
+          onReceive[index].usage += 1;
+        }
+      }
+      if (index === -1) {
+        console.log("REDUCE!!", onReceive[index], onReceive, index, payload);
       }
     },
     owner: x.owner
