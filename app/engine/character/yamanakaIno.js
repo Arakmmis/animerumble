@@ -10,6 +10,14 @@ let status = {
   invulnerable: library.invulnerable({
     owner: info.id
   }),
+  disableDrIv: library.disableDrIv({
+    owner: info.id,
+    active: 1
+  }),
+  disableDrIv2: library.disableDrIv({
+    owner: info.id,
+    active: 2
+  }),
   stun: library.stun({
     owner: info.id
   }),
@@ -74,6 +82,9 @@ let skills = {
           new constructor.status(status.stun, this.name, 2)
         );
       } else {
+        payload.target.status.onState.push(
+          new constructor.status(status.disableDrIv, this.name, 2)
+        );        
         payload.target.hp -= payload.val;
       }
     }

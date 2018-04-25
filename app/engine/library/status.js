@@ -20,11 +20,20 @@ function reduce(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === this.name);
-      if (onReceive[index].usage === 0 && payload.skillStore.type !== 'piercing') {
+
+      let disableDrIv = payload.target.status.onState.some(
+        x => x.type !== "disableDrIv"
+      );
+
+      if (
+        onReceive[index].usage === 0 &&
+        payload.skillStore.type !== "piercing" &&
+        disableDrIv
+      ) {
         payload.val -= this.val;
         onReceive[index].usage += 1;
       }
-      console.log('REDUCE', onReceive[index])
+      console.log("REDUCE", onReceive[index]);
     },
     owner: x.owner
   };
@@ -39,11 +48,20 @@ function protect(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(x => x.name === this.name);
-      if (onReceive[index].usage === 0 && payload.skillStore.type !== 'piercing') {
+
+      let disableDrIv = payload.target.status.onState.some(
+        x => x.type !== "disableDrIv"
+      );
+
+      if (
+        onReceive[index].usage === 0 &&
+        payload.skillStore.type !== "piercing" &&
+        disableDrIv
+      ) {
         payload.val -= this.val;
         onReceive[index].usage += 1;
       }
-      console.log('REDUCE', onReceive[index])
+      console.log("REDUCE", onReceive[index]);
     },
     owner: x.owner
   };
@@ -112,7 +130,7 @@ function bleed(x) {
     type: "self",
     period: "instant",
     active: x.active ? x.active : 3,
-    modify: function(payload) {      
+    modify: function(payload) {
       payload.offense.hp -= x.val;
     },
     owner: x.owner

@@ -1,6 +1,16 @@
 var gulp = require("gulp");
 var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
+var nodemon = require("gulp-nodemon");
+
+gulp.task("start", function() {
+  nodemon({
+    script: "index.js",
+    ext: "js json",
+    ignore: ["script/", "public/", "node_modules/"],
+    env: { NODE_ENV: "development" }
+  });
+});
 
 gulp.task("js-game", function() {
   function task() {
@@ -23,10 +33,10 @@ gulp.task("js-game", function() {
       .pipe(gulp.dest("public/build"));
   }
   task();
-  let watcher = gulp.watch("script/*.js");
+  let watcher = gulp.watch("script/game/*.js");
   watcher.on("change", function(path, stats) {
     console.log("File " + path + " was changed");
-    task()
+    task();
   });
 
   watcher.on("unlink", function(path) {
@@ -34,4 +44,4 @@ gulp.task("js-game", function() {
   });
 });
 
-gulp.task("default", ["js-game"]);
+gulp.task("default", ["start", "js-game"]);
