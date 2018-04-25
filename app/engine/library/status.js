@@ -18,27 +18,7 @@ function reduce(x) {
     type: "reduce",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(s => {
-        return s.type === this.type;
-      });
-
-      let disableDrIv = payload.target.status.onState.findIndex(
-        x => x.type === "disableDrIv"
-      );
-      if (index > -1) {
-        if (
-          onReceive[index].usage === 0 &&
-          payload.skillStore.type !== "piercing" &&
-          disableDrIv === -1
-        ) {
-          payload.val -= this.val;
-          onReceive[index].usage += 1;
-        }
-      }
-      if (index === -1) {
-        console.log("REDUCE!!", onReceive[index], onReceive, index, payload);
-      }
+      payload.val -= this.val;
     },
     owner: x.owner
   };
