@@ -70,6 +70,17 @@ function stun(x) {
   };
 }
 
+function disableDrIv(x) {
+  return {
+    name: x.name ? x.name : "disableDrIv",
+    val: 0,
+    type: "disableDrIv",
+    active: x.active ? x.active : 1,
+    modify: function(payload) {},
+    owner: x.owner
+  };
+}
+
 function state(x) {
   return {
     name: x.name,
@@ -116,5 +127,6 @@ module.exports = {
   heal,
   bleed,
   reduce,
-  state
+  state,
+  disableDrIv
 };

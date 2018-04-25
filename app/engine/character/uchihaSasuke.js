@@ -9,6 +9,10 @@ let status = {
   invulnerable: library.invulnerable({
     owner: info.id
   }),
+  disableDrIv: library.disableDrIv({
+    owner: info.id,
+    active: 4
+  }),
   stun: library.stun({
     owner: info.id
   }),
@@ -21,12 +25,7 @@ let status = {
     val: 5,
     owner: info.id
   }),
-  state: library.state({
-    name: 'Sharingan',
-    type: '',
-    active: 4,
-    owner: info.id
-  }),
+  
   boost1: {
     name: "Sharingan",
     owner: info.id,
@@ -122,6 +121,9 @@ let skills = {
       payload.target.status.onReceive.push(
         new constructor.status(status.boost1, this.name, 3),
         new constructor.status(status.boost2, this.name, 3),
+      )
+      payload.target.status.onState.push(
+        new constructor.status(status.disableDrIv, this.name, 3),        
       )
     }
   },

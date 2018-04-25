@@ -9,7 +9,6 @@ function energyManagement(temporary, option) {
   };
 
   if (option === "substract") {
-    console.log("test");
     if (skill.a > 0) {
       energy.a -= skill.a;
       energy.r -= skill.a;
@@ -87,6 +86,17 @@ function buttonManagement(payload, option) {
     if (payload.aim === "enemy") {
       app.state.button.enemy.forEach(x => {
         x.button = x.disabled ? true : !x.button;
+
+        //Prevent Invulnerability
+        if (
+          app.source.enemy[x.index].status.onState.some(
+            x => x.type === "disableDrIv"
+          )
+        ) {
+          x.button = false;
+        }
+
+        //Marking
         if (payload.marking === true) {
           let skillName =
             app.source.ally[payload.heroIndex].skill[payload.skill].name;
@@ -102,19 +112,24 @@ function buttonManagement(payload, option) {
           }
         }
       });
-    } else if (payload.aim === "allenemy" || payload.aim === "randomenemy") {
-      app.state.button.enemy.forEach(
-        x => (x.button = x.disabled ? true : !x.button)
-      );
-    } else if (payload.aim === "allenemyallally") {
-      app.state.button.enemy.forEach(
-        x => (x.button = x.disabled ? true : !x.button)
-      );
-    } else if (payload.aim === "ally") {
-      app.state.button.ally.forEach(
-        x => (x.button = x.disabled ? true : !x.button)
-      );
-    } else if (payload.aim === "allally") {
+    } else if (
+      payload.aim === "allenemy" ||
+      payload.aim === "randomenemy" ||
+      payload.aim === "allenemyallally"
+    ) {
+      app.state.button.enemy.forEach(x => {
+        x.button = x.disabled ? true : !x.button;
+
+        //Prevent Invulnerability
+        if (
+          app.source.enemy[x.index].status.onState.some(
+            x => x.type === "disableDrIv"
+          )
+        ) {
+          x.button = false;
+        }
+      });
+    } else if (payload.aim === "ally" || payload.aim === "allally") {
       app.state.button.ally.forEach(
         x => (x.button = x.disabled ? true : !x.button)
       );
