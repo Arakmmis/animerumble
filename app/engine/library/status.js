@@ -19,16 +19,18 @@ function reduce(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === this.name);
+      let index = onReceive.findIndex(s => {
+        return s.name === this.name;
+      });
 
-      let disableDrIv = payload.target.status.onState.some(
-        x => x.type !== "disableDrIv"
+      let disableDrIv = payload.target.status.onState.findIndex(
+        x => x.type === "disableDrIv"
       );
 
       if (
         onReceive[index].usage === 0 &&
         payload.skillStore.type !== "piercing" &&
-        disableDrIv
+        disableDrIv === -1
       ) {
         payload.val -= this.val;
         onReceive[index].usage += 1;
@@ -47,21 +49,23 @@ function protect(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === this.name);
+      let index = onReceive.findIndex(s => {
+        return s.name === this.name;
+      });
 
-      let disableDrIv = payload.target.status.onState.some(
-        x => x.type !== "disableDrIv"
+      let disableDrIv = payload.target.status.onState.findIndex(
+        x => x.type === "disableDrIv"
       );
 
       if (
         onReceive[index].usage === 0 &&
         payload.skillStore.type !== "piercing" &&
-        disableDrIv
+        disableDrIv === -1
       ) {
         payload.val -= this.val;
         onReceive[index].usage += 1;
+        console.log("REDUCE", onReceive[index]);
       }
-      console.log("REDUCE", onReceive[index]);
     },
     owner: x.owner
   };

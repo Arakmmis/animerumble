@@ -8,7 +8,8 @@ gulp.task("start", function() {
     script: "index.js",
     ext: "js json",
     ignore: ["script/", "public/", "node_modules/"],
-    env: { NODE_ENV: "development" }
+    env: { NODE_ENV: "development" },
+    debug: true
   });
 });
 
