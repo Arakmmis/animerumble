@@ -9,7 +9,7 @@ gulp.task("start", function() {
     ext: "js json",
     ignore: ["script/", "public/", "node_modules/"],
     env: { NODE_ENV: "development" },
-    debug: true
+    exec: 'node-inspector & node --inspect',
   });
 });
 

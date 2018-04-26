@@ -89,10 +89,12 @@ function buttonManagement(payload, option) {
 
         //Prevent Invulnerability
         if (
+          option === "onSkill" &&          
           app.source.enemy[x.index].status.onState.some(
             x => x.type === "disableDrIv"
           )
         ) {
+          console.log('booop', option)
           x.button = false;
         }
 
@@ -122,6 +124,8 @@ function buttonManagement(payload, option) {
 
         //Prevent Invulnerability
         if (
+          option !== "onCancel" &&
+          option !== "onSelf" &&
           app.source.enemy[x.index].status.onState.some(
             x => x.type === "disableDrIv"
           )

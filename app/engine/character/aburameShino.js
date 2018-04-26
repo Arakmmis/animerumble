@@ -9,12 +9,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({
     owner: info.id
-  }),
-  bleed: library.bleed({
-    val: 5,
-    active: -1,
-    owner: info.id
-  }),
+  }),  
   reduce: library.reduce({
     val: 5,
     active: 4,
@@ -25,7 +20,7 @@ let status = {
     owner: info.id,
     val: 5,
     type: "skill",
-    active: -1,
+    active: 4,
     modify: function(payload) {
       if (payload.offense.skill[payload.skill].name === "Chakra Leech") {
         payload.val += this.val;
