@@ -1,4 +1,4 @@
-function vueBind(payload) {  
+function vueBind(payload) {
   let username = getCookie("username");
   if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
     return;
@@ -24,32 +24,30 @@ function vueBind(payload) {
     store.energy.ally.i +
     store.energy.ally.s +
     store.energy.ally.w;
-  console.log(store);  
+  console.log(store);
   let button = {
     ally: store.ally.map(x => {
       // let disabled = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
       let disabled = x.hp <= 0 ? true : false;
-      let stun =
-        x.status.onState.some(x => x.type === "stun") ? true : false;
+      let stun = x.status.onState.some(x => x.type === "stun") ? true : false;
       return {
         name: x.name,
         button: true,
         onSkill: false,
         disabled: disabled,
         skill: x.skill.map(s => {
-          console.log(s.type)
+          console.log(s.type);
           let energy = energyManagement(
             { energy: store.energy.ally, skillBind: s.energy },
             "check"
           );
-          let disableDrVr =
-            s.type === "invulnerable" &&
-            x.status.onState.some(x => x.type === "disableDrIv")
-              ? true
-              : false;
+          // let disableDrVr =
+          //   s.type === "invulnerable" &&
+          //   x.status.onState.some(x => x.type === "disableDrIv")
+          //     ? true
+          //     : false;
           let disabled =
             stun ||
-            disableDrVr ||
             s.required ||
             s.state === "cooldown" ||
             !myTurn === false ||
