@@ -72,6 +72,19 @@ function stun(x) {
     name: x.name ? x.name : "stun",
     val: 0,
     type: "stun",
+    info: x.info ? x.info : "inclusive",
+    persistance: x.persistance ? x.persistance : "instant",
+    classes: x.classes
+      ? x.classes
+      : [
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "range",
+          "melee"
+        ],
     active: x.active ? x.active : 1,
     modify: function(payload) {},
     owner: x.owner
@@ -96,6 +109,7 @@ function state(x) {
     type: "state",
     active: x.active ? x.active : 2,
     modify: function(payload) {},
+    persistance: x.persistance ? x.persistance : "instant",
     owner: x.owner
   };
 }
@@ -119,6 +133,7 @@ function bleed(x) {
     val: x.val ? x.val : 5,
     type: "self",
     period: "instant",
+    persistance: x.persistance ? x.persistance : "instant",
     active: x.active ? x.active : 3,
     modify: function(payload) {
       payload.offense.hp -= x.val;

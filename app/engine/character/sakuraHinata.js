@@ -2,7 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "sakuraHinata"
+  id: "sakuraHinata",
+  name: "Sakura Hinata"
 };
 
 let status = {
@@ -10,7 +11,8 @@ let status = {
     owner: info.id
   }),
   stun: library.stun({
-    owner: info.id
+    owner: info.id,
+    classes: ['physical']
   }),
   protect: library.protect({
     val: 10,

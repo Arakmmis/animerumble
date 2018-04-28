@@ -2,7 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "uzumakiNaruto"
+  id: "uzumakiNaruto",
+  name: "Uzumaki Naruto"
 };
 
 let status = {
@@ -132,8 +133,8 @@ let skills = {
 };
 
 let character = {
-  name: "Uzumaki Naruto",
-  id: "uzumakiNaruto",
+  name: info.name,
+  id: info.id,
   hp: 100,
   skill: [
     new constructor.skill(skills.skill1),

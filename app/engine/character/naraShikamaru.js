@@ -2,7 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "naraShikamaru"
+  id: "naraShikamaru",
+  name: "Nara Shikamaru"
 };
 
 let status = {
@@ -24,11 +25,15 @@ let status = {
   }),
   stun2: library.stun({
     owner: info.id,
-    active: 2
+    active: 2,
+    info: "declusive",
+    classes: ["mental"]
   }),
   stun: library.stun({
     owner: info.id,
-    active: 1
+    active: 1,
+    info: "declusive",
+    classes: ["mental"]
   }),
   protect: library.protect({
     val: 15,

@@ -2,7 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "akimichiChouji"
+  id: "akimichiChouji",
+  name: "Akimichi Chouji"
 };
 
 let status = {

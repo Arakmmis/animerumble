@@ -3,7 +3,8 @@ let helper = require("../helper.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "yamanakaIno"
+  id: "yamanakaIno",
+  name: "Yamanaka Ino"
 };
 
 let status = {
@@ -23,6 +24,7 @@ let status = {
   }),
   stun2: library.stun({
     owner: info.id,
+    persistance: 'control',
     active: 3
   }),
   protect: library.reduce({

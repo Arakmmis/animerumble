@@ -6842,13 +6842,15 @@ body, #images, #images a {
 
 .modal-container {
   width: 500px;
+  height: 100vh;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif; }
+  font-family: Helvetica, Arial, sans-serif;
+  overflow-y: scroll; }
 
 .modal-header h3 {
   margin-top: 0;
@@ -6883,7 +6885,7 @@ body, #images, #images a {
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #8EA0AC; }
-  .modal-info img {
+  .modal-info .l--avatar {
     width: 75px;
     height: 75px; }
   .modal-info .l--box {

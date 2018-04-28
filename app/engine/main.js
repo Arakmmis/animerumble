@@ -4,8 +4,8 @@ let character = require('./character/index.js')
 let helper = require('./helper.js')
 let _ = require('lodash')
 
-function char(res){
-    return new constructor.character(_.cloneDeep(character[character.findIndex(x => x.id === res)]))
+function char(nameId){
+    return new constructor.character(_.cloneDeep(character[character.findIndex(x => x.id === nameId)]))
 }
 
 function main(payload, callback) {
@@ -51,12 +51,12 @@ function main(payload, callback) {
         room: payload.room
     }
     state.teamEven.forEach((x, i) => {
-        x.name += 0
+        x.name += 0        
         x.id = i
         x.team = 'teamEven'
     })
     state.teamOdd.forEach((x, i) => {
-        x.name += 1
+        x.name += 1        
         x.id = i
         x.team = 'teamOdd'
     })

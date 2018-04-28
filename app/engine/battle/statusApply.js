@@ -1,40 +1,41 @@
-function statusIterator(package, source, callback) {
-  source.forEach((x, i, a) => {
-    x.modify(package);
+function statusIterator(package, owner, status, callback) {
+  let source = package[owner].status;
+  let evaluate;
+  if (owner === "offense") {
+    evaluate = source.onState.some(x => x.type === "stun") ? true : false;
+  } else if (owner === "target") {
+    evaluate = source.onState.some(x => x.type === "invulnerable")
+      ? true
+      : false;
+  }
+
+  source[status].forEach((x, i, a) => {
+    if (x.persistence === "action" && evaluate === false) {
+      x.modify(package);
+    } else if (x.persistence === "instant" || x.persistence === "control") {
+      x.modify(package);
+    }
     if (i === a.length - 1) {
-      callback(package, source, callback);
+      callback(package, callback);
     }
   });
 }
 
 function statusApply(payload, move, owner) {
   if (owner === "offense") {
-    statusIterator(
-      payload,
-      payload.offense.status.onAttack,
-      (payload, source, callback) => {
-        console.log("test");
-        if (payload.target.status.onReceive.length > 0) {
-          statusIterator(
-            payload,
-            payload.target.status.onReceive,
-            (payload, source, callback) => {
-              move(payload);
-            }
-          );
-        } else {
+    statusIterator(payload, "offense", "onAttack", (payload, callback) => {
+      if (payload.target.status.onReceive.length > 0) {
+        statusIterator(payload, "target", "onReceive", (payload, callback) => {
           move(payload);
-        }
-      }
-    );
-  } else {
-    statusIterator(
-      payload,
-      payload.target.status.onReceive,
-      (payload, source, callback) => {
+        });
+      } else {
         move(payload);
       }
-    );
+    });
+  } else {
+    statusIterator(payload, "target", "onReceive", (payload, callback) => {
+      move(payload);
+    });
   }
 }
 

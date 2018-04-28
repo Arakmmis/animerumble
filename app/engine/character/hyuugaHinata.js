@@ -3,7 +3,8 @@ let helper = require("../helper.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "hyuugaHinata"
+  id: "hyuugaHinata",
+  name: "Hyuuga Hinata"
 };
 
 let status = {

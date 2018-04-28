@@ -2,7 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "inuzukaKiba"
+  id: "inuzukaKiba",
+  name: "Inuzuka Kiba"
 };
 
 let status = {
@@ -23,7 +24,8 @@ let status = {
   bleed: library.bleed({
     val: 15,
     active: 3,
-    owner: info.id
+    owner: info.id,
+    persistance: 'action',
   }),
   boost: {
     name: "Dynamic Marking",

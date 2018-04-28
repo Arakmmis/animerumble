@@ -29,7 +29,7 @@ function vueBind(payload) {
     ally: store.ally.map(x => {
       // let disabled = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
       let disabled = x.hp <= 0 ? true : false;
-      let stun = x.status.onState.some(x => x.type === "stun") ? true : false;
+      // let stun = x.status.onState.some(x => x.type === "stun") ? true : false;
       return {
         name: x.name,
         button: true,
@@ -41,6 +41,7 @@ function vueBind(payload) {
             { energy: store.energy.ally, skillBind: s.energy },
             "check"
           );
+          let stun = stunManagement(x.status.onState, s);
           // let disableDrVr =
           //   s.type === "invulnerable" &&
           //   x.status.onState.some(x => x.type === "disableDrIv")

@@ -3,6 +3,7 @@
     <p class="l--desc">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
 
     <p class="l--info text-right mb-0">
+        CLASS {{source.ally[state.description.heroIndex].skill[state.description.skill].classes.join(', ')}} |
         TARGET {{source.ally[state.description.heroIndex].skill[state.description.skill].target}}
         | <img src="/assets/energy/energy_0.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.a"/>
          <img src="/assets/energy/energy_1.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.i"/>

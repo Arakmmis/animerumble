@@ -41,7 +41,7 @@ module.exports = {
     // this.range = payload.range ? payload.range : false;
     // this.class = payload.class ? payload.class : false;
     // this.persistence = payload.persistence ? payload.persistence : false;
-    this.classes = payload.classes
+    this.classes = payload.classes;
 
     this.energy = {
       a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
@@ -57,12 +57,25 @@ module.exports = {
     this.val = payload.val;
     this.modify = payload.modify ? payload.modify : empty;
     this.type = payload.type;
-    this.effect = payload.effect ? payload.effect : 'none'
+    this.effect = payload.effect ? payload.effect : "none";
     this.allow = payload.allow ? payload.allow : false;
     this.period = payload.period ? payload.period : false;
     this.owner = payload.owner;
     this.usage = payload.usage ? payload.usage : 0;
     this.skillIndex = skill ? skill : 0;
+    this.classes = payload.classes
+      ? payload.classes
+      : [
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "range",
+          "melee"
+        ];
+    this.info = payload.info ? payload.info : "inclusive";
+    this.persistance = payload.persistance ? payload.persistance : "instant";
   }
 };
 

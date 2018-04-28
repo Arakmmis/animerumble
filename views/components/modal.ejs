@@ -13,17 +13,18 @@
             <div class="modal-body">
               <slot name="body">      
                   <div v-for="(item, index) in info.skill" class="modal-info d-flex flex-row w-100">
-                      <img :src="'/assets/character/'+info.id+'/skill'+(index+1)+'/avatar.jpg'">
+                      <img :src="'/assets/character/'+info.id+'/skill'+(index+1)+'/avatar.jpg'" class="l--avatar">
                       <div class="l--box w-100">
                             <p class="l--title">{{item.name}}</p>
                             <p class="l--desc">{{item.description}}</p>
                             <p class="l--info text-right">
+                              CLASS {{item.classes.join(', ')}} |
                               TARGET {{item.target.toUpperCase()}} 
-                              | A {{item.energy.a}} 
-                              | I {{item.energy.i}} 
-                              | S {{item.energy.s}} 
-                              | W {{item.energy.w}} 
-                              | R {{item.energy.r}}        
+                              | <img src="/assets/energy/energy_0.gif" v-for="i in item.energy.a"/>
+                              <img src="/assets/energy/energy_1.gif" v-for="i in item.energy.i"/>
+                              <img src="/assets/energy/energy_2.gif" v-for="i in item.energy.s"/>
+                              <img src="/assets/energy/energy_3.gif" v-for="i in item.energy.w"/>
+                              <img src="/assets/energy/energy_random.gif" v-for="i in item.energy.r"/>
                               | COOLDOWN {{item.cooldown}}</p>
                       </div>                      
                   </div>
@@ -44,24 +45,24 @@
 </script>
 
 <script>
-    // register modal component
-    Vue.component('modal', {
-        props: ['char'],
-        data: function () {
-            return {
-                info: {}
-            }
-        },
-        created: function () {
-            console.log('created')
-            console.log(this.char)
-            let self = this;
-            this.$http.get('/char/' + this.char).then(function (response) {
-                if (response.status == "200") {
-                    self.info = response.body[0]
-                }
-            })
-        },
-        template: '#modal-template',
-    })
+  // register modal component
+  Vue.component('modal', {
+    props: ['char'],
+    data: function () {
+      return {
+        info: {}
+      }
+    },
+    created: function () {
+      console.log('created')
+      console.log(this.char)
+      let self = this;
+      this.$http.get('/char/' + this.char).then(function (response) {
+        if (response.status == "200") {
+          self.info = response.body[0]
+        }
+      })
+    },
+    template: '#modal-template',
+  })
 </script>
