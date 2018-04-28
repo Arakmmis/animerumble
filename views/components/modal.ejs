@@ -18,8 +18,7 @@
                             <p class="l--title">{{item.name}}</p>
                             <p class="l--desc">{{item.description}}</p>
                             <p class="l--info text-right">
-                              CLASS {{item.classes.join(', ')}} |
-                              TARGET {{item.target.toUpperCase()}} 
+                              CLASS {{item.classes.join(', ')}}                              
                               | <img src="/assets/energy/energy_0.gif" v-for="i in item.energy.a"/>
                               <img src="/assets/energy/energy_1.gif" v-for="i in item.energy.i"/>
                               <img src="/assets/energy/energy_2.gif" v-for="i in item.energy.s"/>
@@ -60,6 +59,7 @@
       this.$http.get('/char/' + this.char).then(function (response) {
         if (response.status == "200") {
           self.info = response.body[0]
+          console.log(self.info)
         }
       })
     },
