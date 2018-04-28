@@ -27,13 +27,15 @@ let status = {
     owner: info.id,
     active: 2,
     info: "declusive",
-    classes: ["mental"]
+    classes: ["mental"],
+    persistence: "control"
   }),
   stun: library.stun({
     owner: info.id,
     active: 1,
     info: "declusive",
-    classes: ["mental"]
+    classes: ["mental"],
+    persistence: "control"
   }),
   protect: library.protect({
     val: 15,
