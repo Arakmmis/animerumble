@@ -9,7 +9,7 @@ function pattern(source) {
       if (source[t].type === "dd" && source[t].val <= 0) {
         source[t].active = 0;
       }
-      if (source[t].type === "reduce" && source[t].usage > 0) {
+      if (source[t].type === "protect" && source[t].usage > 0) {
         source[t].usage = 0;
       }
     });
@@ -79,6 +79,7 @@ function postSequence(x, turn, state) {
         if (s.period !== "instant") {
           s.modify({
             offense: x,
+            val: s.val,
             active: s.active,
             myEnergy: state.energy[myTurn],
             theirEnergy: state.energy[theirTurn]

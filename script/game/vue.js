@@ -214,6 +214,33 @@ let app = new Vue({
         heroIndex: temporary.heroIndex
       };
     },
+    onStatus: function(payload) {
+      console.log(payload);
+      let status = _.concat(
+        payload.onAttack,
+        payload.onReceive,
+        payload.onState,
+        payload.onSelf
+      );
+      console.log(status);
+      let group = _.groupBy(status, "nameId");
+      console.log(group);
+      let subgroup = _.toArray(group).map(x => _.toArray(_.groupBy(x, "skillIndex")));
+      let prep = subgroup.map(x => x[0])
+      let final = prep.map(x => {
+        console.log(x[0])
+        let info = x[0]
+        return {
+          nameId: info.nameId,
+          status: info.skillIndex,
+          val: x
+        }
+      })
+      console.log(prep)
+      console.log(final)
+      return final
+      // let subgroup = group.map(x => _.groupBy(x, "skillIndex"));
+    },    
     onGetImage: function(payload, option) {
       if (option === "packet") {
         let index = this.source.ally.findIndex(x => x.name === payload.offense);
@@ -221,17 +248,19 @@ let app = new Vue({
 
         return (
           "/assets/character/" +
-          nameId.slice(0,-1) +
+          nameId.slice(0, -1) +
           "/skill" +
           (payload.skill + 1) +
           "/avatar.jpg"
         );
       } else if (option === "char") {
-        return "/assets/character/" + payload.nameId.slice(0,-1) + "/avatar.jpg";
+        return (
+          "/assets/character/" + payload.nameId.slice(0, -1) + "/avatar.jpg"
+        );
       } else if (option === "skill") {
         return (
           "/assets/character/" +
-          payload.nameId.slice(0,-1) +
+          payload.nameId.slice(0, -1) +
           "/skill" +
           (payload.skill + 1) +
           "/avatar.jpg"
@@ -239,7 +268,7 @@ let app = new Vue({
       } else if (option === "status") {
         return (
           "/assets/character/" +
-          payload.nameId.slice(0,-1) +
+          payload.nameId.slice(0, -1) +
           "/skill" +
           payload.skill +
           "/avatar.jpg"

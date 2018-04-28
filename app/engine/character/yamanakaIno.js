@@ -27,7 +27,7 @@ let status = {
     persistence: "control",
     active: 3
   }),
-  protect: library.reduce({
+  protect: library.protect({
     val: 10,
     active: 3,
     owner: info.id

@@ -21,7 +21,7 @@ let status = {
     active: 3,
     owner: info.id
   }),
-  protect: library.reduce({
+  protect: library.protect({
     val: 10,
     active: 3,
     owner: info.id

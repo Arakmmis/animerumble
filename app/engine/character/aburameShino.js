@@ -20,7 +20,9 @@ let status = {
     name: "Chakra Leech",
     owner: info.id,
     val: 5,
-    type: "skill",
+    effect: "custom",
+    description: "Increase 5 damage received from Chakra Leech",
+    type: "boost",
     active: 4,
     modify: function(payload) {
       if (payload.offense.skill[payload.skill].name === "Chakra Leech") {

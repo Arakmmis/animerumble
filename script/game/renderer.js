@@ -3,7 +3,7 @@ function vueBind(payload) {
   if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
     return;
   }
-  console.log(payload);
+  // console.log(payload);
   let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
   let turn = ally === "teamEven" ? 1 : 0;
@@ -13,8 +13,18 @@ function vueBind(payload) {
       ally: payload.energy[ally],
       enemy: payload.energy[enemy]
     },
-    ally: payload[ally],
-    enemy: payload[enemy],
+    ally: payload[ally].map(x => {
+      return {
+        ...x,
+        indicator: statusView(x.name, x.status)
+      };
+    }),
+    enemy: payload[enemy].map(x => {
+      return {
+        ...x,
+        indicator: statusView(x.name, x.status)
+      };
+    }),
     turn: payload.turn,
     myTurn: myTurn,
     room: payload.room
@@ -36,7 +46,7 @@ function vueBind(payload) {
         onSkill: false,
         disabled: disabled,
         skill: x.skill.map(s => {
-          console.log(s.type);
+          // console.log(s.type);
           let energy = energyManagement(
             { energy: store.energy.ally, skillBind: s.energy },
             "check"
@@ -80,4 +90,30 @@ function vueBind(payload) {
   app.state.button = button;
   app.state.timer.turn = 100;
   app.state.winner = payload.winner;
+}
+
+function statusView(name, payload) {
+  let status = _.concat(
+    payload.onAttack,
+    payload.onReceive,
+    payload.onState,
+    payload.onSelf
+  );
+  let group = _.groupBy(status, "nameId");
+  let subgroup = _.toArray(group).map(x =>
+    _.toArray(_.groupBy(x, "skillIndex"))
+  );
+  let prep = subgroup.map(x => x[0]);
+  let final = prep.map(x => {
+    let info = x[0];
+    return {
+      name: info.name,
+      nameId: info.nameId,
+      skillIndex: info.skillIndex,
+      active: info.active,
+      val: x
+    };
+  });
+  console.log(final);
+  return final;
 }

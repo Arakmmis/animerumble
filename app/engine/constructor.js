@@ -68,11 +68,12 @@ function status(payload, name, nameId, skill) {
   this.nameId = nameId;
   this.owner = nameId;
   this.active = payload.active;
-  this.val = payload.val;  
+  this.val = payload.val;
   this.type = payload.type;
-  this.effect = payload.effect ? payload.effect : "none";
+  this.effect = payload.effect ? payload.effect : payload.type;
+  this.description = payload.description ? payload.description : "";
   this.allow = payload.allow ? payload.allow : false;
-  this.period = payload.period ? payload.period : false;  
+  this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.skillIndex = skill ? skill : 0;
   this.classes = payload.classes

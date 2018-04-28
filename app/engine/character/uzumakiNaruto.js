@@ -26,7 +26,9 @@ let status = {
     name: "Shadow Clones",
     owner: info.id,
     val: 10,
-    type: "skill",
+    type: "boost",
+    effect: "boostSpecific",
+    description: "Uzumaki Naruto Combo",
     active: 4,
     modify: function(payload) {
       if (
@@ -39,6 +41,9 @@ let status = {
   required: {
     owner: info.id,
     active: 4,
+    type: "allow",
+    effect: "allow",
+    description: "Rasengan",
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Rasengan");
       if (index !== -1) {
