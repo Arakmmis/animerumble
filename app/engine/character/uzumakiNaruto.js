@@ -28,8 +28,10 @@ let status = {
     val: 10,
     type: "skill",
     active: 4,
-    modify: function(payload) {      
-      if (payload.offense.skill[payload.skill].name === "Uzumaki Naruto Combo") {        
+    modify: function(payload) {
+      if (
+        payload.offense.skill[payload.skill].name === "Uzumaki Naruto Combo"
+      ) {
         payload.val += this.val;
       }
     }
@@ -42,11 +44,10 @@ let status = {
       if (index !== -1) {
         if (payload.active > 1) {
           payload.offense.skill[index].required = false;
-          console.log('ZERO', payload.active)
-        }
-        else if(payload.active === 1){
+          console.log("ZERO", payload.active);
+        } else if (payload.active === 1) {
           payload.offense.skill[index].required = true;
-          console.log('LAST', payload.active)
+          console.log("LAST", payload.active);
         }
       }
     }
@@ -58,8 +59,8 @@ let skills = {
     name: "Uzumaki Naruto Combo",
     type: "attack",
     val: 20,
-    cooldown: 0,    
-    classes: ['instant', 'melee', 'physical'],
+    cooldown: 0,
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1
     },
@@ -75,9 +76,9 @@ let skills = {
     val: 45,
     cooldown: 1,
     description:
-      "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",    
+      "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
     required: true,
-    classes: ['instant', 'melee', 'chakra'],
+    classes: ["instant", "melee", "chakra"],
     energy: {
       s: 1,
       r: 1
@@ -85,7 +86,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.stun, this.name, 2)
+        new constructor.status(status.stun, this.name, this.nameId, 2)
       );
       payload.target.hp -= payload.val;
     }
@@ -95,22 +96,23 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
-    description: "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
-    target: "self",   
-    classes: ['instant', 'chakra'], 
-    energy: {      
+    description:
+      "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
+    target: "self",
+    classes: ["instant", "chakra"],
+    energy: {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onSelf.push(        
-        new constructor.status(status.required, this.name, 3),
+      payload.target.status.onSelf.push(
+        new constructor.status(status.required, this.name, this.nameId, 3)
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 3),                
+        new constructor.status(status.protect, this.name, this.nameId, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this.name, 3),
-      )
+        new constructor.status(status.boost, this.name, this.nameId, 3)
+      );
     }
   },
   skill4: {
@@ -119,14 +121,14 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Uzumaki Naruto invulnerable for 1 turn.",
-    target: "self",    
-    classes: ['instant', 'chakra'],
+    target: "self",
+    classes: ["instant", "chakra"],
     energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
@@ -136,12 +138,7 @@ let character = {
   name: info.name,
   id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

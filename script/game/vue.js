@@ -221,17 +221,17 @@ let app = new Vue({
 
         return (
           "/assets/character/" +
-          nameId +
+          nameId.slice(0,-1) +
           "/skill" +
           (payload.skill + 1) +
           "/avatar.jpg"
         );
       } else if (option === "char") {
-        return "/assets/character/" + payload.nameId + "/avatar.jpg";
+        return "/assets/character/" + payload.nameId.slice(0,-1) + "/avatar.jpg";
       } else if (option === "skill") {
         return (
           "/assets/character/" +
-          payload.nameId +
+          payload.nameId.slice(0,-1) +
           "/skill" +
           (payload.skill + 1) +
           "/avatar.jpg"
@@ -239,7 +239,7 @@ let app = new Vue({
       } else if (option === "status") {
         return (
           "/assets/character/" +
-          payload.nameId +
+          payload.nameId.slice(0,-1) +
           "/skill" +
           payload.skill +
           "/avatar.jpg"

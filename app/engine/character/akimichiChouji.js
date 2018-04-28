@@ -84,7 +84,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onState.push(
-        new constructor.status(status.invulnerable3, this.name, 2)
+        new constructor.status(status.invulnerable3, this.name, this.nameId, 2)
       );
       payload.target.status.onSelf.push(
         new constructor.status(
@@ -94,6 +94,7 @@ let skills = {
             owner: info.id
           }),
           this.name,
+          this.nameId,
           2
         )
       );
@@ -120,10 +121,10 @@ let skills = {
         payload.offense.skill[2].required = true;
       }
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this.name, 3)
+        new constructor.status(status.boost1, this.name, this.nameId, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost2, this.name, 3)
+        new constructor.status(status.boost2, this.name, this.nameId, 3)
       );
       console.log("Chouji Stats!", payload.target.status.onAttack);
       payload.offense.skill[2].usage += 1;
@@ -144,22 +145,17 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Akimichi Chouji",
-  id: "akimichiChouji",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

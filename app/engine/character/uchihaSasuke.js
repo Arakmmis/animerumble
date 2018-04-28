@@ -26,15 +26,15 @@ let status = {
     val: 5,
     owner: info.id
   }),
-  
+
   boost1: {
     name: "Sharingan",
     owner: info.id,
     val: 25,
     type: "skill",
     active: 4,
-    modify: function(payload) {      
-      if (payload.offense.skill[payload.skill].name === "Chidori") {        
+    modify: function(payload) {
+      if (payload.offense.skill[payload.skill].name === "Chidori") {
         payload.val += this.val;
       }
     }
@@ -45,8 +45,8 @@ let status = {
     val: 15,
     type: "skill",
     active: 4,
-    modify: function(payload) {      
-      if (payload.offense.skill[payload.skill].name === "Lion Combo") {        
+    modify: function(payload) {
+      if (payload.offense.skill[payload.skill].name === "Lion Combo") {
         payload.val += this.val;
       }
     }
@@ -59,11 +59,10 @@ let status = {
       if (index !== -1) {
         if (payload.active > 1) {
           payload.offense.skill[index].required = false;
-          console.log('ZERO', payload.active)
-        }
-        else if(payload.active === 1){
+          console.log("ZERO", payload.active);
+        } else if (payload.active === 1) {
           payload.offense.skill[index].required = true;
-          console.log('LAST', payload.active)
+          console.log("LAST", payload.active);
         }
       }
     }
@@ -75,11 +74,11 @@ let skills = {
     name: "Lion Combo",
     type: "attack",
     val: 30,
-    cooldown: 0,  
-    classes: ['instant', 'melee', 'physical'],
+    cooldown: 0,
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1,
-      r:1
+      r: 1
     },
     description:
       "Copying a taijutsu combo that Lee used on him, Sasuke deals 30 damage to one enemy. This skill will deal an additional 15 damage to an enemy affected by 'Sharingan'.",
@@ -92,15 +91,15 @@ let skills = {
     type: "piercing",
     val: 30,
     cooldown: 1,
-    classes: ['instant', 'melee', 'chakra'],
+    classes: ["instant", "melee", "chakra"],
     description:
-      "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",       
+      "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",
     energy: {
       s: 1,
       r: 1
     },
     target: "enemy",
-    move: function(payload) {      
+    move: function(payload) {
       payload.target.hp -= payload.val;
     }
   },
@@ -109,23 +108,24 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
-    description: "Sasuke targets one enemy. For 4 turns, Sasuke will gain 15 points of damage reduction. During this time, that enemy will be unable to reduce damage or become invulnerable.* This will end if Sasuke dies.",
-    target: "enemy",   
-    classes: ['instant', 'mental'], 
-    energy: {      
+    description:
+      "Sasuke targets one enemy. For 4 turns, Sasuke will gain 15 points of damage reduction. During this time, that enemy will be unable to reduce damage or become invulnerable.* This will end if Sasuke dies.",
+    target: "enemy",
+    classes: ["instant", "mental"],
+    energy: {
       r: 1
     },
-    move: function(payload) {      
+    move: function(payload) {
       payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 3),                
-      );      
+        new constructor.status(status.protect, this.name, this.nameId, 3)
+      );
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost1, this.name, 3),
-        new constructor.status(status.boost2, this.name, 3),
-      )
+        new constructor.status(status.boost1, this.name, this.nameId, 3),
+        new constructor.status(status.boost2, this.name, this.nameId, 3)
+      );
       payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this.name, 3),        
-      )
+        new constructor.status(status.disableDrIv, this.name, this.nameId, 3)
+      );
     }
   },
   skill4: {
@@ -134,29 +134,24 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Uchiha Sasuke invulnerable for 1 turn.",
-    target: "self",  
-    classes: ['instant', 'physical'],
+    target: "self",
+    classes: ["instant", "physical"],
     energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Uchiha Sasuke",
-  id: "uchihaSasuke",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

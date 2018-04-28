@@ -1,5 +1,5 @@
 const indicateTurn = require("./indicateTurn.js");
-const _ = require('lodash')
+const _ = require("lodash");
 
 function pattern(source) {
   if (source.length > 0) {
@@ -30,11 +30,11 @@ function team(ownerid, state) {
 
 function persistenceCheck(skill, state) {
   let casterid = skill.owner;
-  console.log('persistence', casterid)
+  console.log("persistence", casterid);
   let caster = team(casterid, state);
   let stun = caster.status.onState.some(x => x.type === "stun");
-  console.log(casterid, caster, stun)
-  if (stun === true && x.persistence === 'action') {
+  console.log(casterid, caster, stun);
+  if (stun === true && skill.persistence === "action") {
     return true;
   } else {
     return false;
@@ -43,7 +43,7 @@ function persistenceCheck(skill, state) {
 
 function postSequence(x, turn, state) {
   let { myTurn, theirTurn } = indicateTurn(state);
-  let stateCopy = _.cloneDeep(state)
+  let stateCopy = _.cloneDeep(state);
 
   if (state.turn % 2 !== turn) {
     if (x.status.onSelf.length > 0) {
@@ -74,7 +74,7 @@ function postSequence(x, turn, state) {
             myEnergy: state.energy[myTurn],
             theirEnergy: state.energy[theirTurn]
           });
-          s.active -= 1;          
+          s.active -= 1;
         }
       });
       x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);

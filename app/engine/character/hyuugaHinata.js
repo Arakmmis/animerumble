@@ -87,11 +87,11 @@ let skills = {
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, 1)
+        new constructor.status(status.bleed, this.name, this.nameId, 1)
       );
       if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.drain, this.name, 1)
+          new constructor.status(status.drain, this.name, this.nameId, 1)
         );
       }
     }
@@ -115,7 +115,7 @@ let skills = {
         payload.store[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
         payload.target.status.onReceive.push(
-          new constructor.status(status.dd, this.name, 2)
+          new constructor.status(status.dd, this.name, this.nameId, 2)
         );
       } else {
         if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
@@ -140,10 +140,10 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 3)
+        new constructor.status(status.protect, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.state, this.name, 3)
+        new constructor.status(status.state, this.name, this.nameId, 3)
       );
     }
   },
@@ -160,22 +160,17 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Hyuga Hinata",
-  id: "hyuugaHinata",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

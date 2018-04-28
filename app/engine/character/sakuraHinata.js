@@ -12,7 +12,7 @@ let status = {
   }),
   stun: library.stun({
     owner: info.id,
-    classes: ['physical']
+    classes: ["physical"]
   }),
   protect: library.protect({
     val: 10,
@@ -35,12 +35,12 @@ let status = {
     val: 10,
     type: "skill",
     active: 4,
-    modify: function(payload) {      
-      if (payload.offense.skill[payload.skill].name === "KO Punch") {        
+    modify: function(payload) {
+      if (payload.offense.skill[payload.skill].name === "KO Punch") {
         payload.val += this.val;
       }
     }
-  },
+  }
 };
 
 let skills = {
@@ -49,14 +49,15 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 0,
-    description: "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",    
+    description:
+      "Sakura punches one enemy with all her strength dealing 20 damage to them and stunning their physical or mental skills for 1 turn. During 'Inner Sakura', KO Punch deals 10 additional damage.",
     energy: {
-      a: 1,      
+      a: 1
     },
-    classes: ['instant', 'melee', 'physical'],
+    classes: ["instant", "melee", "physical"],
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.stun, this.name, 1)
+        new constructor.status(status.stun, this.name, this.nameId, 1)
       );
       payload.target.hp -= payload.val;
     }
@@ -66,10 +67,11 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 0,
-    classes: ['instant', 'chakra'],
-    description: "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
-    target: "ally",    
-    energy: {      
+    classes: ["instant", "chakra"],
+    description:
+      "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
+    target: "ally",
+    energy: {
       s: 1
     },
     move: function(payload) {
@@ -81,19 +83,20 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 4,
-    classes: ['instant', 'mental'],
-    description: "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",
-    target: "self",    
-    energy: {      
+    classes: ["instant", "mental"],
+    description:
+      "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",
+    target: "self",
+    energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 3),                
+        new constructor.status(status.protect, this.name, this.nameId, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this.name, 3),
-      )
+        new constructor.status(status.boost, this.name, this.nameId, 3)
+      );
     }
   },
   skill4: {
@@ -101,30 +104,25 @@ let skills = {
     type: "invulnerable",
     val: 10,
     cooldown: 4,
-    classes: ['instant', 'chakra'],
+    classes: ["instant", "chakra"],
     description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
-    target: "self",    
-    energy: {      
+    target: "self",
+    energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Sakura Hinata",
-  id: "sakuraHinata",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

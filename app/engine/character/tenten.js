@@ -84,12 +84,12 @@ let skills = {
         );
         if (state) {
           payload.offense.status.onAttack.push(
-            new constructor.status(status.boost, this.name, 1),
-            new constructor.status(status.boost, this.name, 1)
+            new constructor.status(status.boost, this.name, this.nameId, 1),
+            new constructor.status(status.boost, this.name, this.nameId, 1)
           );
         } else {
           payload.offense.status.onAttack.push(
-            new constructor.status(status.boost, this.name, 1)
+            new constructor.status(status.boost, this.name, this.nameId, 1)
           );
         }
         payload.target.hp -= 20 + payload.val;
@@ -129,13 +129,13 @@ let skills = {
         );
         for (i = 0; i < count; i++) {
           payload.target.status.onAttack.push(
-            new constructor.status(status.reduce2, this.name, 2)
+            new constructor.status(status.reduce2, this.name, this.nameId, 2)
           );
         }
       } else {
         for (i = 0; i < count; i++) {
           payload.target.status.onAttack.push(
-            new constructor.status(status.reduce, this.name, 2)
+            new constructor.status(status.reduce, this.name, this.nameId, 2)
           );
         }
       }
@@ -154,8 +154,8 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 3),
-        new constructor.status(status.state, this.name, 3)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 3),
+        new constructor.status(status.state, this.name, this.nameId, 3)
       );
     }
   },
@@ -171,22 +171,17 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Tenten",
-  id: "tenten",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

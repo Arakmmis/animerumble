@@ -10,7 +10,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({
     owner: info.id
-  }),  
+  }),
   reduce: library.reduce({
     val: 5,
     active: 4,
@@ -56,7 +56,7 @@ let status = {
         );
       }
 
-      console.log('BUG', dd, val, onReceive[index].val)
+      console.log("BUG", dd, val, onReceive[index].val);
     }
   }
 };
@@ -70,8 +70,8 @@ let skills = {
     energy: {
       i: 1,
       r: 1
-    },    
-    classes: ['instant', 'ranged', 'affliction'],
+    },
+    classes: ["instant", "ranged", "affliction"],
     description:
       "Shino directs his chakra draining bugs to attack one enemy dealing 20 affliction damage and steals 1 random chakra.",
     move: function(payload) {
@@ -93,33 +93,33 @@ let skills = {
     energy: {
       r: 1
     },
-    classes: ['instant', 'ranged', 'physical'],
+    classes: ["instant", "ranged", "physical"],
     target: "enemy",
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this.name, 2)
+        new constructor.status(status.reduce, this.name, this.nameId, 2)
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, 2)
+        new constructor.status(status.boost, this.name, this.nameId, 2)
       );
     }
   },
   skill3: {
     name: "Bug Wall",
-    type: "attack",    
+    type: "attack",
     cooldown: 3,
     description:
       "Shino sends millions of bugs to create a wall around his team, making them gain 20 points of destructible defense.",
     target: "allally",
     marking: true,
-    classes: ['instant', 'ranged'],
+    classes: ["instant", "ranged"],
     energy: {
       i: 1,
       r: 1
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this.name, 3)
+        new constructor.status(status.dd, this.name, this.nameId, 3)
       );
     }
   },
@@ -130,28 +130,23 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Aburame Shino invulnerable for 1 turn.",
     target: "self",
-    classes: ['instant', 'mental'],
+    classes: ["instant", "mental"],
     energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   }
 };
 
 let character = {
-  name: "Aburame Shino",
-  id: "aburameShino",
+  name: info.name,
+  id: info.id,
   hp: 100,
-  skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4)
-  ]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };
 
 module.exports = character;

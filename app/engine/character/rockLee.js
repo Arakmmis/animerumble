@@ -69,14 +69,10 @@ let status = {
         let swap = payload.offense.skill[2];
         payload.offense.skill[2] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
-        console.log("SWAP", swap);
-        console.log("ZERO", payload.active);
       } else if (payload.active === 1) {
         let swap = payload.offense.skill[2];
         payload.offense.skill[2] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
-        console.log("SWAP", swap);
-        console.log("LAST", payload.active);
       }
     }
   }
@@ -88,7 +84,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 0,
-    classes: ['action', 'melee', 'physical'],
+    classes: ["action", "melee", "physical"],
     energy: {
       a: 1
     },
@@ -101,18 +97,18 @@ let skills = {
       );
       if (state) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this.name, 1)
+          new constructor.status(status.bleed2, this.name, this.nameId, 1)
         );
       } else {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed, this.name, 1)
+          new constructor.status(status.bleed, this.name, this.nameId, 1)
         );
       }
       payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this.name, 1)
+        new constructor.status(status.protect, this.name, this.nameId, 1)
       );
       payload.offense.status.onAttack.push(
-        new constructor.status(status.boost2, this.name, 1)
+        new constructor.status(status.boost2, this.name, this.nameId, 1)
       );
     }
   },
@@ -121,7 +117,7 @@ let skills = {
     type: "attack",
     val: 30,
     cooldown: 0,
-    classes: ['instant', 'melee', 'physical'],
+    classes: ["instant", "melee", "physical"],
     description:
       "Opening the first gate, Lee uses a high powered taijutsu to deal 30 damage to one enemy. This skill will deal 30 additional damage during 'Fifth Gate Opening'.",
     energy: {
@@ -139,20 +135,20 @@ let skills = {
     description:
       "Lee removes all harmful effects on him, losing 50 health*, and then becoming invulnerable to all harmful skills for 2 turns. The following 2 turns, this skill will be replaced by 'Final Lotus'. The affliction damage this skill deals cannot be ignored and cannot kill Lee.",
     target: "self",
-    classes: ['instant', 'mental'],
+    classes: ["instant", "mental"],
     energy: {
       a: 1
     },
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this.name, 3)
+        new constructor.status(status.boost1, this.name, this.nameId, 3)
       );
       payload.target.status.onSelf.push(
-        new constructor.status(status.transform, this.name, 3)
+        new constructor.status(status.transform, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 3),
-        new constructor.status(status.state, this.name, 3)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 3),
+        new constructor.status(status.state, this.name, this.nameId, 3)
       );
       payload.target.hp -= 50;
     }
@@ -162,14 +158,14 @@ let skills = {
     type: "invulnerable",
     cooldown: 4,
     description: "This skill makes Rock Lee invulnerable for 1 turn.",
-    target: "self",    
-    classes: ['instant', 'physical'],
+    target: "self",
+    classes: ["instant", "physical"],
     energy: {
       r: 1
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, 4)
+        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
       );
     }
   },
@@ -181,7 +177,7 @@ let skills = {
     description:
       "Lee uses his strongest ability, expending all his chakra and dealing 100 damage to one enemy.",
     target: "enemy",
-    classes: ['instant', 'melee', 'physical'],
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 2
     },
@@ -192,15 +188,15 @@ let skills = {
 };
 
 let character = {
-  name: "Rock Lee",
-  id: "rockLee",
+  name: info.name,
+  id: info.id,
   hp: 100,
   skill: [
-    new constructor.skill(skills.skill1),
-    new constructor.skill(skills.skill2),
-    new constructor.skill(skills.skill3),
-    new constructor.skill(skills.skill4),
-    new constructor.skill(skills.skill5)
+    skills.skill1,
+    skills.skill2,
+    skills.skill3,
+    skills.skill4,
+    skills.skill5
   ]
 };
 
