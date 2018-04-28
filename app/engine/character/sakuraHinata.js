@@ -12,7 +12,7 @@ let status = {
   }),
   stun: library.stun({
     owner: info.id,
-    classes: ["physical"]
+    classes: ["physical", "mental"]
   }),
   protect: library.protect({
     val: 10,

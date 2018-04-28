@@ -7,13 +7,14 @@ const indicateTurn = require("./battle/indicateTurn.js");
 const sequence = require("./battle/sequence.js");
 const postSequence = require("./battle/postSequence.js");
 const cleanup = require("./battle/cleanup.js");
+const controlManagement = require("./battle/controlManagement.js");
 const energyManagement = require("./battle/energyManagement.js");
 const energyDistribution = require("./battle/energyDistribution.js");
 
 function battle(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
-  let { myTurn, theirTurn } = indicateTurn(state);  
+  let { myTurn, theirTurn } = indicateTurn(state);
   console.log(myTurn);
 
   if (payload[0].msg === "exchange") {
@@ -30,6 +31,7 @@ function battle(payload, store, callback) {
   sequence(state, payload);
 
   //Post Sequence
+  controlManagement(state);
   state.teamEven.forEach(x => {
     postSequence(x, 0, state);
     cleanup(x);

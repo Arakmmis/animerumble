@@ -133,7 +133,7 @@ function bleed(x) {
     val: x.val ? x.val : 5,
     type: "self",
     period: "instant",
-    persistence: x.persistence ? x.persistence : "instant",
+    persistence: x.persistence ? x.persistence : "action",
     active: x.active ? x.active : 3,
     modify: function(payload) {
       payload.offense.hp -= x.val;

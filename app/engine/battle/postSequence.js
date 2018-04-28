@@ -28,13 +28,19 @@ function team(ownerid, state) {
   }
 }
 
-function persistenceCheck(skill, state) {
-  let casterid = skill.owner;
-  console.log("persistence", casterid);
+function persistenceCheck(skill, owner, state, context) {
+  let casterid = owner;
   let caster = team(casterid, state);
-  let stun = caster.status.onState.some(x => x.type === "stun");
-  console.log(casterid, caster, stun);
-  if (stun === true && skill.persistence === "action") {
+  let evaluate;
+  if (context === "attacker") {
+    evaluate = caster.status.onState.some(x => x.type === "stun");
+  } else if (context === "receiver") {
+    evaluate = caster.status.onState.some(x => x.type === "invulnerable");
+  }
+  if (
+    evaluate === true &&
+    (skill.persistence === "action" || skill.persistence === "control")
+  ) {
     return true;
   } else {
     return false;
@@ -48,14 +54,17 @@ function postSequence(x, turn, state) {
   if (state.turn % 2 !== turn) {
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
-        let persistence = persistenceCheck(s, stateCopy);
-        if (s.period === "instant" && persistence === false) {
-          s.modify({
-            offense: x,
-            active: s.active,
-            myEnergy: state.energy[myTurn],
-            theirEnergy: state.energy[theirTurn]
-          });
+        if (s.period === "instant") {
+          let attacker = persistenceCheck(s, s.owner, stateCopy, "attacker");
+          let receiver = persistenceCheck(s, x.nameId, stateCopy, "receiver");
+          if (attacker === false && receiver === false) {
+            s.modify({
+              offense: x,
+              active: s.active,
+              myEnergy: state.energy[myTurn],
+              theirEnergy: state.energy[theirTurn]
+            });
+          }
           s.active -= 1;
         }
       });

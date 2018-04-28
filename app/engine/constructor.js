@@ -19,7 +19,8 @@ function character(
     onAttack: [],
     onReceive: [],
     onSelf: [],
-    onState: []
+    onState: [],
+    onDesc: []
   };
   this.skill = payload.skill.map((x, i) => {
     return new skill(
