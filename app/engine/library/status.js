@@ -4,6 +4,7 @@ function boost(x) {
     val: x.val ? x.val : 10,
     type: "boost",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -19,6 +20,7 @@ function reduce(x) {
     val: x.val ? x.val : 5,
     type: "reduce",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -34,6 +36,7 @@ function protect(x) {
     val: x.val ? x.val : 15,
     type: "protect",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -45,11 +48,16 @@ function protect(x) {
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
+      let affliction = payload.offense.skill[payload.skill].classes.some(
+        x => x === "affliction"
+      );
+
       if (index > -1) {
         if (
           onReceive[index].usage === 0 &&
           payload.skillStore.type !== "piercing" &&
-          disableDrIv === -1
+          disableDrIv === -1 &&
+          affliction === false
         ) {
           payload.val -= this.val;
           onReceive[index].usage += 1;
@@ -68,6 +76,7 @@ function invulnerable(x) {
     name: x.name ? x.name : "invulnerable",
     val: 0,
     type: "invulnerable",
+    harmful: x.harmful ? x.harmful : false,
     effect: x.effect ? x.effect : x.type,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
@@ -81,6 +90,7 @@ function stun(x) {
     val: 0,
     type: "stun",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     info: x.info ? x.info : "inclusive",
     persistence: x.persistence ? x.persistence : "instant",
@@ -107,6 +117,7 @@ function disableDrIv(x) {
     val: 0,
     type: "disableDrIv",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 1,
     modify: function(payload) {},
@@ -119,6 +130,34 @@ function state(x) {
     name: x.name,
     val: 0,
     type: "state",
+    effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
+    description: x.description ? x.description : "",
+    active: x.active ? x.active : 2,
+    modify: function(payload) {},
+    persistence: x.persistence ? x.persistence : "instant",
+    owner: x.owner
+  };
+}
+
+function ignore(x) {
+  return {
+    name: x.name,
+    val: 0,
+    type: "ignore",
+    info: x.info ? x.info : "inclusive",
+    harmful: x.harmful ? x.harmful : false,
+    classes: x.classes
+    ? x.classes
+    : [
+        "mental",
+        "chakra",
+        "affliction",
+        "strategy",
+        "physical",
+        "range",
+        "melee"
+      ],
     effect: x.effect ? x.effect : x.type,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
@@ -134,6 +173,7 @@ function heal(x) {
     val: x.val ? x.val : 15,
     type: "heal",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -149,6 +189,7 @@ function bleed(x) {
     val: x.val ? x.val : 5,
     type: "bleed",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     period: "instant",
     persistence: x.persistence ? x.persistence : "action",
@@ -160,13 +201,14 @@ function bleed(x) {
   };
 }
 
-function drain() {
+function drain(x) {
   return {
     name: x.name ? x.name : "drain",
-    owner: info.id,
+    owner: x.owner,
     val: x.val ? x.val : 0,
     type: "drain",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -178,13 +220,14 @@ function drain() {
   };
 }
 
-function cooldownIncrease() {
+function cooldownIncrease(x) {
   return {
     name: x.name ? x.name : "cooldownIncrease",
-    owner: info.id,
+    owner: x.owner,
     val: x.val ? x.val : 0,
     type: "cooldownIncrease",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
@@ -195,13 +238,14 @@ function cooldownIncrease() {
 
 function decreaseEnergy(x) {
   return {
-    name: x.name ? x.name : "dd",
-    owner: info.id,
+    name: x.name ? x.name : "decreaseEnergy",
+    owner: x.owner,
     val: x.val ? x.val : 5,
     type: "decreaseEnergy",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
-    active: x.active ? x.active : 4,    
+    active: x.active ? x.active : 4,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(s => s.name === x.name);
       if (index !== -1) {
@@ -218,32 +262,49 @@ function decreaseEnergy(x) {
 function dd(x) {
   return {
     name: x.name ? x.name : "dd",
-    owner: info.id,
+    owner: x.owner,
     val: x.val ? x.val : 5,
     type: "dd",
     effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(s => s.name === x.name);
 
-      let dd = onReceive[index].val;
-      let val = payload.val;
-      let diff = dd - val;
-      onReceive[index].val = diff;
+      let disableDrIv = payload.target.status.onState.findIndex(
+        x => x.type === "disableDrIv"
+      );
+      let affliction = payload.offense.skill[payload.skill].classes.some(
+        x => x === "affliction"
+      );
 
-      let newVal = val - dd;
-      if (diff >= 0) {
-        payload.val = 0;
-      } else {
-        payload.val = Math.abs(diff);
-      }
+      if (index > -1) {
+        if (
+          onReceive[index].usage === 0 &&
+          payload.skillStore.type !== "piercing" &&
+          disableDrIv === -1 &&
+          affliction === false
+        ) {
+          let dd = onReceive[index].val;
+          let val = payload.val;
+          let diff = dd - val;
+          onReceive[index].val = diff;
 
-      if (diff <= 0) {
-        payload.target.status.onReceive = payload.target.status.onReceive.filter(
-          s => s.name !== x.name
-        );
+          let newVal = val - dd;
+          if (diff >= 0) {
+            payload.val = 0;
+          } else {
+            payload.val = Math.abs(diff);
+          }
+
+          if (diff <= 0) {
+            payload.target.status.onReceive = payload.target.status.onReceive.filter(
+              s => s.name !== x.name
+            );
+          }
+        }
       }
     }
   };

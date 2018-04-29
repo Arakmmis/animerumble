@@ -75,6 +75,7 @@ function status(payload, name, nameId, skill) {
   this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.skillIndex = skill ? skill : 0;
+  this.harmful = payload.harmful ? payload.harmful : true
   this.classes = payload.classes
     ? payload.classes
     : [

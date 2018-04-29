@@ -30,37 +30,13 @@ let status = {
       }
     }
   },
-  dd: {
+  dd: library.dd({
     name: "Bug Wall",
     owner: info.id,
     val: 20,
     type: "dd",
-    active: 3,
-    modify: function(payload) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === "Bug Wall");
-
-      let dd = onReceive[index].val;
-      let val = payload.val;
-      let diff = dd - val;
-      onReceive[index].val = diff;
-
-      let newVal = val - dd;
-      if (diff >= 0) {
-        payload.val = 0;
-      } else {
-        payload.val = Math.abs(diff);
-      }
-
-      if (diff <= 0) {
-        payload.target.status.onReceive = payload.target.status.onReceive.filter(
-          x => x.name !== "Bug Wall"
-        );
-      }
-
-      console.log("BUG", dd, val, onReceive[index].val);
-    }
-  }
+    active: 3,    
+  })
 };
 
 let skills = {

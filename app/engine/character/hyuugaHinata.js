@@ -21,50 +21,17 @@ let status = {
     active: 4,
     owner: info.id
   }),
-  drain: {
+  drain: library.drain({
     name: "Hinata Gentle Fist",
     owner: info.id,
-    val: 0,
-    type: "skill",
-    active: 2,
-    modify: function(payload) {
-      let energy = helper.stealEnergy(payload.theirEnergy);
-      if (energy !== false) {
-        payload.theirEnergy[energy] -= 1;
-      }
-    }
-  },
-  dd: {
+    active: 2
+  }),
+  dd: library.dd({
     name: "Protective Eight Trigrams Sixty-Four Palms",
     owner: info.id,
     val: 20,
-    type: "dd",
-    active: 2,
-    modify: function(payload) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(
-        x => x.name === "Protective Eight Trigrams Sixty-Four Palms"
-      );
-
-      let dd = onReceive[index].val;
-      let val = payload.val;
-      let diff = dd - val;
-      onReceive[index].val = diff;
-
-      let newVal = val - dd;
-      if (diff >= 0) {
-        payload.val = 0;
-      } else {
-        payload.val = Math.abs(diff);
-      }
-
-      if (diff <= 0) {
-        payload.target.status.onReceive = payload.target.status.onReceive.filter(
-          x => x.name !== "Protective Eight Trigrams Sixty-Four Palms"
-        );
-      }
-    }
-  },
+    active: 2
+  }),
   state: library.state({
     name: "Byakugan",
     active: 4,
@@ -82,7 +49,7 @@ let skills = {
       a: 1,
       r: 1
     },
-    classes: ['action', 'ranged', 'physical'],
+    classes: ["action", "ranged", "physical"],
     description:
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
@@ -101,7 +68,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
-    classes: ['instant', 'chakra'],
+    classes: ["instant", "chakra"],
     description:
       "Hinata deals 15 damage to all enemies,* and all allies, including her will gain 10 destructible defense for 1 turn. If used during 'Byakugan' this skill will deal 20 damage.",
     energy: {
@@ -133,7 +100,7 @@ let skills = {
     description:
       "Hinata activates her Byakugan gaining 15 points of damage reduction for 4 turns. The following 4 turns, 'Hinata Gentle Fist' and 'Protective Eight Trigrams Sixty-Four Palms' will be improved.",
     target: "self",
-    classes: ['instant', 'mental'],
+    classes: ["instant", "mental"],
     marking: true,
     energy: {
       r: 1
@@ -154,7 +121,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Hyuuga Hinata invulnerable for 1 turn.",
     target: "self",
-    classes: ['instant', 'physical'],
+    classes: ["instant", "physical"],
     energy: {
       r: 1
     },

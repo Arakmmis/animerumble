@@ -10,9 +10,12 @@ function statusIterator(package, owner, status, callback) {
   }
 
   source[status].forEach((x, i, a) => {
-    if (x.persistence === "action" && evaluate === false) {
+    if (
+      (x.persistence === "action" || x.persistence === "control") &&
+      evaluate === false
+    ) {
       x.modify(package);
-    } else if (x.persistence === "instant" || x.persistence === "control") {
+    } else if (x.persistence === "instant") {
       x.modify(package);
     }
     if (i === a.length - 1) {
