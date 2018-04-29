@@ -5,7 +5,7 @@
                 <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
             </div>
             <div v-for="status in item.indicator" v-if="item.indicator.length !== 0">
-                <v-popover offset="0" placement="bottom-start" trigger="hover">
+                <v-popover offset="0" placement="bottom-end" trigger="hover">
                     <img :src="onGetImage({nameId: status.nameId, skill: status.skillIndex}, 'status')">
                     <template slot="popover">
                         <% include indicator.ejs %>

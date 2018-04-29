@@ -3,7 +3,7 @@ let character = require('../engine/character/index.js')
 module.exports = function(app) {
   //Route  
   app.get("/", function(req, res) {
-    res.render("index");
+    res.render("selection");
   });
 
   app.get("/game/:match", function(req, res) {    

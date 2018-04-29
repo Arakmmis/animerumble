@@ -6566,6 +6566,12 @@ body, #images, #images a {
 .cursor {
   cursor: pointer; }
 
+.img-100 img {
+  width: 100%; }
+
+img.img-100 {
+  width: 100%; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
@@ -6576,7 +6582,7 @@ body, #images, #images a {
   color: #44535d; }
 
 .challenge {
-  width: 300px;
+  width: 400px;
   border-left: 1px solid #dad8de;
   background: #ffffff;
   color: #8EA0AC;
@@ -6659,6 +6665,10 @@ body, #images, #images a {
   .characters--card .btn-color4 {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px; }
+
+.game--width {
+  width: 100%;
+  max-width: 900px; }
 
 .game p {
   margin-bottom: 0px; }
@@ -6995,5 +7005,69 @@ body, #images, #images a {
     visibility: visible;
     opacity: 1;
     transition: opacity 0.15s; }
+
+.selection--info {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 10px;
+  border-radius: 5px;
+  min-height: 80px;
+  margin-top: 20px;
+  font-size: 12px; }
+  .selection--info p {
+    margin-bottom: 5px; }
+
+.selection {
+  padding: 20px;
+  background: url("/assets/bgnew.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow-y: scroll; }
+
+.selection--selected {
+  background: #ffffff;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 3px solid #8EA0AC;
+  margin-top: 20px;
+  max-width: 300px; }
+  .selection--selected .l--char {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    cursor: pointer; }
+    .selection--selected .l--char img {
+      border-radius: 5px; }
+    .selection--selected .l--char button:hover {
+      border-color: #667ED5;
+      opacity: 0.5; }
+    .selection--selected .l--char button:disabled:hover {
+      opacity: 1; }
+
+.selection--choice {
+  background: #ffffff;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 3px solid #8EA0AC;
+  min-height: 160px;
+  margin-top: 20px; }
+
+.selection--char {
+  border: 1px solid #222;
+  border-radius: 5px;
+  align-items: center;
+  margin: 5px;
+  background: #fefefe; }
+  .selection--char button.l--char {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    cursor: pointer; }
+    .selection--char button.l--char img {
+      border-radius: 5px; }
+    .selection--char button.l--char:hover {
+      border-color: #667ED5;
+      opacity: 0.5; }
 
 /*# sourceMappingURL=style.css.map */

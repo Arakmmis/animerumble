@@ -12,13 +12,15 @@
 <body>
 
     <div id="app">
-        <div class="d-flex flex-column w-100 game">
-            <% include game/header.ejs %>
-                <div class="d-flex flex-row game--body">
-                    <% include game/myteam.ejs %>
-                        <% include game/theirteam.ejs %>
-                </div>
-                <% include game/description.ejs %>
+        <div class="d-flex flex-column w-100 game align-items-center">
+            <div class="d-flex flex-column game--width">
+                <% include game/header.ejs %>
+                    <div class="d-flex flex-row game--body">
+                        <% include game/myteam.ejs %>
+                            <% include game/theirteam.ejs %>
+                    </div>
+                    <% include game/description.ejs %>
+            </div>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
         <modalenergy v-if="state.energy.modal" :source="source" :packet="packet" :energy="source.energy.ally" :random="state.energy.random"
@@ -31,5 +33,5 @@
         <% include game/modalEnergy.ejs %>
             <% include game/modalExchange.ejs %>
 
-    <script src="/build/game.min.js"></script>
+                <script src="/build/game.min.js"></script>
 </body>

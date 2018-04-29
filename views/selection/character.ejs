@@ -1,0 +1,27 @@
+<div class="w-100 selection d-flex flex-column align-items-center">
+    <div class="w-50 img-100">
+        <img src="/assets/animerumble2.jpg">
+    </div>
+    <div class="selection--selected d-flex flex-row justify-content-between">
+        <div v-for="item in lineup" class="selection--char">
+            <button @click="deselectCharacter(item)" class="l--char w-100">
+                <img :src="'/assets/character/'+item+'/avatar.jpg'">
+            </button>
+        </div>
+        <div v-for="item in (3-lineup.length)" class="selection--char">
+            <div class="l--char w-100">
+                <img :src="'/assets/theme/empty.jpg'">
+            </div>
+        </div>
+    </div>
+
+    <div class="selection--choice d-flex flex-row flex-wrap">
+        <div v-for="char in characters" class="d-flex flex-column">
+            <div class="d-flex flex-row selection--char">
+                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3" class="l--char w-100">
+                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

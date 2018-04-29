@@ -1,0 +1,159 @@
+<head>
+    <title>Anime Rumble</title>
+    <script src="/js/vue.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">
+    <script src="/js/vue-resource@1.5.0.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div v-if="!seen" class="d-flex flex-column justify-content-center align-items-center h-100">
+            <div class="img-100 w-50">
+                <img src="/assets/animerumble.jpg" class="mb-2 img-fluid">
+            </div>
+            <div class="width-300">
+                <div class="mb-4">
+                    <p class="font-weight-bold color1">Anime Rumble</p>
+                    <input v-model="username" class="form-control mb-2" placeholder="Choose any Username"></input>
+                    <button @click="login" v-if="username.length !== 0" :disabled="players.some(x => x[1] === username)" class="btn-color4 w-100 mb-1">{{players.some(x => x[1] === username) ? 'Name Taken' : 'Enter'}}</button>
+                </div>
+                <div class="mt-1">
+                    <p class="font-weight-light color5">Welcome to Anime Rumble [Alpha]. We're at a testing phase so there's no login yet. Enter any desired
+                        Username to test the game :)</p>
+                </div>
+            </div>
+        </div>
+        <div v-if="seen" class="d-flex flex-row w-100 justify-content-between h-100">
+            <% include selection/character.ejs %>
+                <% include selection/challenge.ejs %>
+                    <!-- use the modal component, pass in the prop -->
+                    <modal v-if="showModal" @close="showModal = false" v-bind:char="modalData">
+        </div>
+
+    </div>
+
+    <% include components/modal.ejs %>
+
+        <script>
+            var socket = io();
+
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    seen: false,
+                    username: '',
+                    players: [],
+                    challenge: {
+                        seen: false,
+                        challenger: '',
+                        char: ''
+                    },
+                    lineup: [],
+                    characters: [],
+                    showModal: false,
+                    modalData: 'test'
+                },
+                methods: {
+                    onShowModal: function (payload) {
+                        console.log(payload)
+                        this.modalData = payload
+                        this.showModal = true
+                    },
+                    login: function (payload) {
+                        console.log(this.username)
+                        socket.emit('log', {
+                            name: this.username
+                        })
+                    },
+                    onChallenge: function (payload, event) {
+                        console.log(event)
+                        socket.emit('challenge', {
+                            from: this.username,
+                            to: payload,
+                            char: this.lineup
+                        })
+                    },
+                    onAccept: function (payload) {
+                        socket.emit('accept', {
+                            from: this.username,
+                            to: payload,
+                            challengerChar: this.challenge.char,
+                            acceptChar: this.lineup
+                        })
+                        // window.location.replace("/game/"+payload+this.username)
+                    },
+                    selectCharacter: function (payload) {
+                        console.log(payload)
+                        console.log(this.lineup.some(x => x === payload))
+                        if (this.lineup.some(x => x === payload)) {
+                            this.lineup = this.lineup.filter(x => x !== payload)
+                        }
+                        else {
+                            this.lineup.push(payload)
+                        }
+                        console.log(this.lineup)
+                    },
+                    deselectCharacter: function (payload) {
+                        this.lineup = this.lineup.filter(x => x !== payload)
+                    }
+                }
+            })
+
+            const setCookie = (name, value, days = 7, path = '/') => {
+                const expires = new Date(Date.now() + days * 864e5).toGMTString()
+                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+            }
+
+            const getCookie = (name) => {
+                return document.cookie.split('; ').reduce((r, v) => {
+                    const parts = v.split('=')
+                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                }, '')
+            }
+
+            const deleteCookie = (name, path) => {
+                setCookie(name, '', -1, path)
+            }
+
+
+            let token = getCookie('token')
+            socket.emit('connectLobby', {
+                token: token
+            })
+            socket.on('logged', payload => {
+                app.seen = true
+                app.username = payload.user
+                app.characters = payload.character
+                console.log(payload)
+                console.log('logged in')
+                setCookie('token', payload.token)
+                setCookie('username', payload.user)
+            })
+            socket.on('exist', payload => {
+                console.log('exist')
+            })
+
+            socket.on('challenge', payload => {
+                document.title = "(!)Challenged - Anime Rumble"
+                app.challenge.seen = true
+                app.challenge.challenger = payload.challenger
+                app.challenge.char = payload.char
+            })
+
+            socket.on('accepted', payload => {
+                let url = "/game/" + payload
+                window.location.replace(url);
+                // newwindow = window.open(url, 'Game', '_blank');
+                // if (window.focus) { newwindow.focus() }
+                // window.location.replace()
+            })
+
+            socket.on('users', payload => {
+                console.log(payload)
+                app.players = payload
+            })
+        </script>
+</body>

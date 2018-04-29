@@ -1,0 +1,18 @@
+<div class="challenge">
+    <div class="l--body">
+        <p class="l--title">ONLINE - {{players.length}}</p>
+        <div v-if="challenge.seen" class="challenge--accept">
+            <p class="title-1">Challenge from {{challenge.challenger}}</p>
+            <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3" class="btn-color4 w-100">Accept?</button>
+        </div>
+        <div v-for="item in players">
+            <p>
+                <span class="mr-1">{{item[1]}}</span>
+                <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3" class="btn--small">
+                    <i class="icon-swords" aria-hidden="true"></i>
+                </button>
+            </p>
+        </div>        
+        <iframe src="https://discordapp.com/widget?id=429538988341198858&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0"></iframe>
+    </div>
+</div>
