@@ -15,20 +15,34 @@ function setUser(payload) {
 function getUser(payload = undefined) {
   if (payload === undefined) {
     return user;
-  }
-  let index = user.findIndex(x => x[1] === payload || x[2] === payload);
-  if (index !== -1) {
-    return user[index];
+  } else if (payload === "list") {
+    console.log(user);
+    return user.filter(x => x[3] === true);
+  } else {
+    let index = user.findIndex(
+      x => (x[1] === payload || x[2] === payload)
+    );
+    if (index !== -1) {
+      return user[index];
+    }
   }
 }
 
 function updateUser(payload) {
   var { index, position, package } = payload;
   user[index][position] = package;
+  user[index][3] = true;
+}
+
+function offline(payload) {
+  let index = user.findIndex(x => x[0] === payload);
+  if (index > -1) {
+    user[index][3] = false;
+  }
 }
 
 function deleteUser(payload) {
-  user = user.filter(x => x[2] !== payload);
+  user = user.filter(x => x[0] !== payload);
 }
 
 //Match
@@ -82,5 +96,6 @@ module.exports = {
   deleteUser: deleteUser,
   setMatch: setMatch,
   getMatch: getMatch,
-  deleteMatch: deleteMatch
+  deleteMatch: deleteMatch,
+  offline
 };

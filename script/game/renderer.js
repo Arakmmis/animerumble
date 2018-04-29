@@ -1,6 +1,7 @@
 function vueBind(payload) {
   let username = getCookie("username");
   if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
+    console.log(payload.team);
     return;
   }
   // console.log(payload);
@@ -74,10 +75,11 @@ function vueBind(payload) {
       };
     }),
     enemy: store.enemy.map((x, i) => {
-      let disabled =
-        x.status.onState.some(x => x.type === "invulnerable") || x.hp <= 0
-          ? true
-          : false;
+      // let disabled =
+      //   x.status.onState.some(x => x.type === "invulnerable") || x.hp <= 0
+      //     ? true
+      //     : false;
+      let disabled = x.hp <= 0 ? true : false;
       return {
         name: x.name,
         index: i,

@@ -85,29 +85,31 @@ function buttonManagement(payload, option) {
   if (option !== "onSelf") {
     if (payload.aim === "enemy") {
       app.state.button.enemy.forEach(x => {
-        x.button = x.disabled ? true : !x.button;
+        //Define
+        let skill = app.source.ally[payload.heroIndex].skill[payload.skill];
+        let enemyStatus = app.source.enemy[x.index].status;
+
+        //Invulnerability
+        let state = enemyStatus.onState;
+        let invulnerable = invulnerableManagement(state, skill);
+
+        //Disable
+        x.button = x.disabled || invulnerable ? true : !x.button;
 
         //Prevent Invulnerability
         if (
           option === "onSkill" &&
-          app.source.enemy[x.index].status.onState.some(
-            x => x.type === "disableDrIv"
-          )
+          enemyStatus.onState.some(x => x.type === "disableDrIv")
         ) {
           x.button = false;
         }
 
         //Marking
         if (payload.marking === true) {
-          let skillName =
-            app.source.ally[payload.heroIndex].skill[payload.skill].name;
+          let skillName = skill.name;
           let marking =
-            app.source.enemy[x.index].status.onReceive.some(
-              x => x.name === skillName
-            ) ||
-            app.source.enemy[x.index].status.onState.some(
-              x => x.name === skillName
-            );            
+            enemyStatus.onReceive.some(x => x.name === skillName) ||
+            enemyStatus.onState.some(x => x.name === skillName);
           if (marking === true) {
             x.button = true;
           }
@@ -119,14 +121,21 @@ function buttonManagement(payload, option) {
       payload.aim === "allenemyallally"
     ) {
       app.state.button.enemy.forEach(x => {
-        x.button = x.disabled ? true : !x.button;
+        //Define
+        let skill = app.source.ally[payload.heroIndex].skill[payload.skill];
+        let enemyStatus = app.source.enemy[x.index].status;
+
+        //Invulnerability
+        let state = enemyStatus.onState;
+        let invulnerable = invulnerableManagement(state, skill);
+
+        //Disable
+        x.button = x.disabled || invulnerable ? true : !x.button;
 
         //Prevent Invulnerability
         if (
           option === "onSkill" &&
-          app.source.enemy[x.index].status.onState.some(
-            x => x.type === "disableDrIv"
-          )
+          enemyStatus.onState.some(x => x.type === "disableDrIv")
         ) {
           x.button = false;
         }
@@ -143,11 +152,8 @@ function buttonManagement(payload, option) {
         }
       });
     } else if (payload.aim === "self") {
-      app.state.button.ally[payload.heroIndex].button = app.state.button.ally[
-        payload.heroIndex
-      ].disabled
-        ? true
-        : !app.state.button.ally[payload.heroIndex].button;
+      let ally = app.state.button.ally[payload.heroIndex];
+      ally.button = ally.disabled ? true : !ally.button;
     }
   }
 
@@ -256,6 +262,62 @@ function stunManagement(onState, skill) {
   });
 
   if (stun.filter(x => x === true).length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function invulnerableManagement(onState, skill) {
+  let invulnerable = onState.map(x => {
+    if (x.type === "invulnerable") {
+      let intersect = _.intersection(x.classes, skill.classes);
+
+      let evaluate;
+
+      if (x.info === "inclusive") {
+        evaluate = intersect.length > 0 ? true : false;
+      } else if (x.info === "declusive") {
+        evaluate = intersect.length === 0 ? true : false;
+      }
+
+      if (evaluate) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  });
+
+  if (invulnerable.filter(x => x === true).length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function ignoreManagement(onState, skill) {
+  let ignore = onState.map(x => {
+    if (x.type === "ignore") {
+      let intersect = _.intersection(x.classes, skill.classes);
+
+      let evaluate;
+
+      if (x.info === "inclusive") {
+        evaluate = intersect.length > 0 ? true : false;
+      } else if (x.info === "declusive") {
+        evaluate = intersect.length === 0 ? true : false;
+      }
+
+      if (evaluate) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  });
+
+  if (ignore.filter(x => x === true).length > 0) {
     return true;
   } else {
     return false;
