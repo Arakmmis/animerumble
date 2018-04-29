@@ -41,14 +41,14 @@ let app = new Vue({
   },
   methods: {
     onExchange: function(e) {
-      console.log(e);
+      let state = this.state;
       this.source.energy.ally = e.energy;
-      this.state.exchange.energy = e.cost;
-      this.state.exchange.modal = false;
-      this.state.exchange.used = true;
-      this.state.exchange.val = e.exchange;
+      state.exchange.energy = e.cost;
+      state.exchange.modal = false;
+      state.exchange.used = true;
+      state.exchange.val = e.exchange;
 
-      this.state.button.ally.forEach((x, xi) => {
+      state.button.ally.forEach((x, xi) => {
         if (x.onSkill === false) {
           console.log(x.name);
           x.skill.forEach((s, si) => {
@@ -61,11 +61,30 @@ let app = new Vue({
           });
         }
       });
+
+      //Clean Skill Buffer
+      if (state.skill.offense !== null && state.skill.target === null) {
+        //Switch Choice
+        //Button Management
+        buttonManagement(state.skill, "onCancel");
+        //Clean Buffer
+        state.skill = {
+          offense: null,
+          skill: null,
+          skillId: null,
+          target: null,
+          aim: null,
+          heroIndex: null
+        };
+      }
     },
     onDone: function(e) {
-      this.state.energy.modal = false;
-      console.log(e.packet);
+      //Define
+      let state = this.state;
       let packet = e.packet;
+
+      //Organize
+      state.energy.modal = false;
       packet = packet.filter(
         x =>
           x.skill !== null &&
@@ -75,23 +94,31 @@ let app = new Vue({
           x.heroIndex !== null
       );
       packet.unshift(e.energy);
-      if (this.state.exchange.used === true) {
+      if (state.exchange.used === true) {
         packet.unshift(
-          { msg: "exchange", val: this.state.exchange.val },
-          this.state.exchange.energy
+          { msg: "exchange", val: state.exchange.val },
+          state.exchange.energy
         );
-        this.state.exchange.used = false;
+        state.exchange.used = false;
       }
-      // this.packet = this.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-      // this.packet.unshift(e.energy)
-      console.log(packet);
+
+      //Send
       socket.emit("sequence", {
         packet: packet,
         room: this.source.room
       });
-      this.state.energy.random = 0;
+
+      //Reset
+      state.energy.random = 0;
       this.packet = [];
-      console.log(e);
+      state.skill = {
+        offense: null,
+        skill: null,
+        skillId: null,
+        target: null,
+        aim: null,
+        heroIndex: null
+      };
     },
     onSkill: function(payload) {
       //Define and Switch State
