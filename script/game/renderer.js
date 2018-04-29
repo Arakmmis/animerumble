@@ -93,18 +93,22 @@ function vueBind(payload) {
 }
 
 function statusView(name, payload) {
+  // console.log(name, payload);
   let status = _.concat(
     payload.onAttack,
     payload.onReceive,
     payload.onState,
     payload.onSelf
   );
-  let group = _.groupBy(status, "nameId");
-  let subgroup = _.toArray(group).map(x =>
-    _.toArray(_.groupBy(x, "skillIndex"))
-  );
-  let prep = subgroup.map(x => x[0]);
-  let final = prep.map(x => {
+  let groupByNameId = _.groupBy(status, "nameId");
+  let valuesByNameId = _.values(groupByNameId);
+  let groupBySkillIndex = valuesByNameId.map(x => _.groupBy(x, "skillIndex"));
+  let valuesBySkillIndex = _.values(groupBySkillIndex);
+  let concatValues = [];
+  valuesBySkillIndex.forEach(x => {
+    concatValues = concatValues.concat(_.values(x));
+  });
+  let final = concatValues.map(x => {
     let info = x[0];
     return {
       name: info.name,
@@ -114,6 +118,5 @@ function statusView(name, payload) {
       val: x
     };
   });
-  console.log(final);
   return final;
 }

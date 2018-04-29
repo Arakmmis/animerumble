@@ -107,7 +107,7 @@ function buttonManagement(payload, option) {
             ) ||
             app.source.enemy[x.index].status.onState.some(
               x => x.name === skillName
-            );
+            );            
           if (marking === true) {
             x.button = true;
           }
