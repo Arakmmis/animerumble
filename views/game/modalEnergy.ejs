@@ -63,7 +63,12 @@
         },
         reorder: this.packet.map((x, i) => {
           return {
-            ...x,
+            offense: x.offense,
+            skill: x.skill,
+            skillId: x.skillId,
+            target: x.target,
+            aim: x.aim,
+            heroIndex: x.heroIndex,
             id: i
           }
         }),
