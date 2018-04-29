@@ -2,6 +2,7 @@ var gulp = require("gulp");
 var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
 var nodemon = require("gulp-nodemon");
+const babel = require("gulp-babel");
 
 gulp.task("start", function() {
   nodemon({
@@ -9,7 +10,7 @@ gulp.task("start", function() {
     ext: "js json",
     ignore: ["script/", "public/", "node_modules/"],
     env: { NODE_ENV: "development" },
-    exec: 'node-inspector & node --inspect',
+    exec: "node-inspector & node --inspect"
   });
 });
 
@@ -29,6 +30,11 @@ gulp.task("js-game", function() {
     return gulp
       .src(source)
       .pipe(sourcemaps.init())
+      .pipe(
+        babel({
+          presets: ["@babel/env"]
+        })
+      )
       .pipe(concat("game.min.js"))
       .pipe(sourcemaps.write())
       .pipe(gulp.dest("public/build"));
