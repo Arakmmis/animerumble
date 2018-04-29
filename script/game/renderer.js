@@ -5,10 +5,11 @@ function vueBind(payload) {
     return;
   }
   // console.log(payload);
-  let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
+  let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";  
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
-  let turn = ally === "teamEven" ? 1 : 0;
-  let myTurn = payload.turn % 2 === turn ? true : false;
+  let turn = ally === "teamEven" ? 0 : 1;  
+  let myTurn = payload.turn % 2 === turn ? true : false;  
+  
   let store = {
     energy: {
       ally: payload.energy[ally],
@@ -62,7 +63,7 @@ function vueBind(payload) {
             stun ||
             s.required ||
             s.state === "cooldown" ||
-            !myTurn === false ||
+            myTurn === false ||
             x.hp <= 0
               ? true
               : false;

@@ -6563,11 +6563,14 @@ body, #images, #images a {
 .width-char {
   max-width: 150px; }
 
+.cursor {
+  cursor: pointer; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
 .chatbox {
-  width: 300px;
+  width: 500px;
   border-left: 1px solid #8EA0AC;
   background: #8EA0AC;
   color: #44535d; }
@@ -6671,6 +6674,9 @@ body, #images, #images a {
   padding: 5px; }
   .game--skill button {
     border: 2px solid #667ED5; }
+    .game--skill button:focus {
+      outline: none !important;
+      box-shadow: 0 0 10px #bbff00; }
     .game--skill button:disabled {
       opacity: 1;
       border: 2px solid #8EA0AC;
@@ -6678,6 +6684,8 @@ body, #images, #images a {
       cursor: normal; }
       .game--skill button:disabled img {
         opacity: 0.3; }
+  .game--skill button.l--skill-noborder:disabled img {
+    opacity: 1; }
 
 .game {
   padding: 5px;
@@ -6807,9 +6815,12 @@ body, #images, #images a {
     font-size: 10px;
     color: #8EA0AC; }
 
-.game--status img {
-  width: 20px;
+.game--status {
   height: 20px; }
+  .game--status img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px; }
 
 .game--skill-button {
   position: relative; }

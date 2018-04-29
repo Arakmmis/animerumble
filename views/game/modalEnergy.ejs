@@ -20,7 +20,7 @@
                 
                 <draggable v-model="reorder" :options="{group:'people'}" @start="drag=true" @end="drag=false" class="d-flex flex-row">
                   <div v-for="element in reorder" :key="element.id" class="p-1 cursor">
-                    <img :src="onGetImage({offense: element.offense, skill: element.skillId},'packet')">
+                    <img :src="onGetImage({offense: element.offense, skill: element.skillId},'packet')" class="cursor">
                   </div>
                </draggable>
               </slot>
@@ -105,7 +105,7 @@
           let index = this.source.ally.findIndex(x => x.name === payload.offense)
           let nameId = this.source.ally[index].nameId
 
-          return '/assets/character/' + nameId.slice(0,-1) + '/skill' + (payload.skill + 1) + '/avatar.jpg'
+          return '/assets/character/' + nameId.slice(0, -1) + '/skill' + (payload.skill + 1) + '/avatar.jpg'
         }
         // else if (option === 'char') {
         //   return '/assets/character/' + payload.nameId + '/avatar.jpg'

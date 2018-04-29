@@ -12,31 +12,6 @@
             </div>
         </div>
         <div class="d-flex flex-column">
-            <div class="d-flex flex-row">
-                <div v-for="(skill, skillIndex) in item.skill.slice(0, 4)" class="game--skill">
-                    <!-- <v-popover
-                    offset="15"
-                    placement="bottom-start"
-                    trigger="hover">                     -->
-                    <button @click="onSkill({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
-                        @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
-                        :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button"
-                        class="l--skill">
-                        <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
-                    </button>
-                    <button @mouseover="onDescription({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
-                        v-if="state.button.ally[index].skill[skillIndex].button" class="l--disabled game--skill-button">
-                        <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
-                        <!-- <p class="game--skill-cooldown">{{skill.counter !== 0 ? (skill.cooldown - skill.counter)+1 : ''}}</p> -->
-                        <p class="game--skill-cooldown">{{skill.state === 'cooldown' ? skill.counter+1 : ''}}</p>
-                    </button>
-
-                    <!-- <template slot="popover">
-                            <% include description.ejs %>
-                        </template>
-                    </v-popover> -->
-                </div>
-            </div>
             <div class="d-flex flex-row game--status">
                 <div v-for="action in packet">
                     <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
@@ -48,7 +23,41 @@
                             <% include indicator.ejs %>
                         </template>
                     </v-popover>
-                </div>                
+                </div>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="game--skill" v-if="source.myTurn === true">
+                    <div v-if="packet.some(x => x.offense === item.name)">
+                        <button @click="onSkill(targetingCue(item.name))" class="l--skill">
+                            <img :src="onGetImage({nameId: item.nameId, name: item.name},'targeting')">
+                        </button>
+                    </div>
+                    <div v-if="!packet.some(x => x.offense === item.name)">
+                        <button class="l--skill-noborder" disabled="true">
+                            <img src="/assets/theme/none.jpg">
+                        </button>
+                    </div>
+                </div>
+                <div v-for="(skill, skillIndex) in item.skill.slice(0, 4)" class="game--skill">
+                    <div v-if="!packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
+                        <button @click="onSkill({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
+                            @mouseover="onDescription({name: item.name, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
+                            :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button"
+                            class="l--skill">
+                            <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
+                        </button>
+                        <button @mouseover="onDescription({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
+                            v-if="state.button.ally[index].skill[skillIndex].button" class="l--disabled game--skill-button">
+                            <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
+                            <p class="game--skill-cooldown">{{skill.state === 'cooldown' ? skill.counter+1 : ''}}</p>
+                        </button>
+                    </div>
+                    <div v-if="packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
+                        <button class="l--skill-noborder" disabled="true">
+                            <img src="/assets/theme/empty.jpg">
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

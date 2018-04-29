@@ -11,10 +11,10 @@ let app = new Vue({
     packet: [],
     state: {
       skill: {
-        offense: "",
+        offense: null,
         skill: null,
-        target: "",
-        aim: ""
+        target: null,
+        aim: null
       },
       timer: {
         turn: 100
@@ -69,9 +69,9 @@ let app = new Vue({
       packet = packet.filter(
         x =>
           x.skill !== null &&
-          x.offense !== "" &&
-          x.target !== "" &&
-          x.aim !== "" &&
+          x.offense !== null &&
+          x.target !== null &&
+          x.aim !== null &&
           x.heroIndex !== null
       );
       packet.unshift(e.energy);
@@ -99,69 +99,82 @@ let app = new Vue({
       let marking = this.source.ally[payload.heroIndex].skill[
         payload.skillIndex
       ].marking;
-      console.log(marking);
       let temporary = {
         offense: payload.name,
         skill: payload.skillIndex,
         skillId: payload.skillId,
-        target: "",
+        target: null,
         aim: payload.target,
         heroIndex: payload.heroIndex,
         marking: marking
       };
-      console.log(state);
-      console.log(payload);
 
-      if (state.button.ally[temporary.heroIndex].onSkill === false) {
+      //Is Skill Chosen?
+      let isOnSkill = state.button.ally[temporary.heroIndex].onSkill;
+
+      if (
+        isOnSkill === false &&
+        state.skill.offense === null &&
+        state.skill.target === null
+      ) {
+        //First Choice
         //Buffer Skill
         state.skill = temporary;
-        energyManagement(temporary, "substract");
         //Button Management
         buttonManagement(temporary, "onSkill");
-      } else {
+      } else if (
+        isOnSkill === false &&
+        state.skill.offense !== null &&
+        state.skill.target === null
+      ) {
+        //Switch Choice
+        //Button Management
+        buttonManagement(state.skill, "onCancel");
+        buttonManagement(temporary, "onSkill");
+        //Buffer Skill
+        state.skill = temporary;
+      } else if (isOnSkill === true) {
+        console.log("cancel");
+        //Cancel Choice
         energyManagement(temporary, "add");
         //Button Management
-        if (
-          state.button.ally[temporary.heroIndex].onSkill &&
-          state.skill.heroIndex === null
-        ) {
-          buttonManagement(temporary, "onSelf");
-        } else if (
-          state.button.ally[temporary.heroIndex].onSkill &&
-          state.skill.heroIndex !== null
-        ) {
-          buttonManagement(temporary, "onCancel");
-        }
-        // else {
-        //     buttonManagement(temporary, 'onSkill')
+        buttonManagement(state.skill, "onCancel");
+        buttonManagement(temporary, "onSelf");
+        // if (
+        //   state.button.ally[temporary.heroIndex].onSkill &&
+        //   state.skill.heroIndex === null
+        // ) {
+        //   buttonManagement(temporary, "onSelf");
+        // } else if (
+        //   state.button.ally[temporary.heroIndex].onSkill &&
+        //   state.skill.heroIndex !== null
+        // ) {
+        //   buttonManagement(temporary, "onCancel");
         // }
         this.packet = this.packet.filter(x => x.offense !== temporary.offense);
         //Clean Skill Buffer
         state.skill = {
-          offense: "",
+          offense: null,
           skill: null,
           skillId: null,
-          target: "",
-          aim: "",
+          target: null,
+          aim: null,
           heroIndex: null
         };
+        //State Management
+        state.button.ally[temporary.heroIndex].onSkill = false;
       }
-
-      //State Management
-      state.button.ally[temporary.heroIndex].onSkill = !state.button.ally[
-        temporary.heroIndex
-      ].onSkill;
     },
     onTarget: function(payload) {
       //Define State
       let state = this.state;
+
       //Buffer Skill
       if (state.skill.aim === "allenemy" || state.skill.aim === "randomenemy") {
         state.skill.target = state.button.enemy
           .filter(x => x.disabled !== true && x.name !== payload.name)
           .map(x => x.name);
         state.skill.target.unshift(payload.name);
-        console.log(state.skill.target);
       } else if (state.skill.aim === "allally") {
         state.skill.target = state.button.ally.map(x => x.name);
       } else if (state.skill.aim === "allenemyallally") {
@@ -171,7 +184,6 @@ let app = new Vue({
         state.skill.target.unshift(payload.name);
         let ally = state.button.ally.map(x => x.name);
         state.skill.target = state.skill.target.concat(ally);
-        console.log(state.skill.target);
       } else if (state.skill.aim === "otherally") {
         state.skill.target = state.button.ally
           .filter(x => x.name !== state.skill.offense)
@@ -182,16 +194,21 @@ let app = new Vue({
       //Register Skill
       this.packet.push(this.state.skill);
 
+      //Energy Management
+      energyManagement(state.skill, "substract");
       //Button Management
+      // buttonManagement(state.skill, "onSkill");
       buttonManagement(state.skill, "onTarget");
+      //State Management
+      state.button.ally[state.skill.heroIndex].onSkill = true;
 
       //Clean Skill Buffer
       state.skill = {
-        offense: "",
+        offense: null,
         skill: null,
         skillId: null,
-        target: "",
-        aim: "",
+        target: null,
+        aim: null,
         heroIndex: null
       };
     },
@@ -225,22 +242,24 @@ let app = new Vue({
       console.log(status);
       let group = _.groupBy(status, "nameId");
       console.log(group);
-      let subgroup = _.toArray(group).map(x => _.toArray(_.groupBy(x, "skillIndex")));
-      let prep = subgroup.map(x => x[0])
+      let subgroup = _.toArray(group).map(x =>
+        _.toArray(_.groupBy(x, "skillIndex"))
+      );
+      let prep = subgroup.map(x => x[0]);
       let final = prep.map(x => {
-        console.log(x[0])
-        let info = x[0]
+        console.log(x[0]);
+        let info = x[0];
         return {
           nameId: info.nameId,
           status: info.skillIndex,
           val: x
-        }
-      })
-      console.log(prep)
-      console.log(final)
-      return final
+        };
+      });
+      console.log(prep);
+      console.log(final);
+      return final;
       // let subgroup = group.map(x => _.groupBy(x, "skillIndex"));
-    },    
+    },
     onGetImage: function(payload, option) {
       if (option === "packet") {
         let index = this.source.ally.findIndex(x => x.name === payload.offense);
@@ -273,7 +292,33 @@ let app = new Vue({
           payload.skill +
           "/avatar.jpg"
         );
+      } else if (option === "targeting") {
+        let index = this.packet.findIndex(x => x.offense === payload.name);
+        let skillId = this.packet[index].skillId;
+        return (
+          "/assets/character/" +
+          payload.nameId.slice(0, -1) +
+          "/skill" +
+          (skillId + 1) +
+          "/avatar.jpg"
+        );
       }
+    },
+    targetingCue: function(payload) {
+      let name = payload;
+      let index = this.packet.findIndex(x => x.offense === payload);
+      let packet = this.packet[index];
+
+      let result = {
+        name: name,
+        skillIndex: packet.skill,
+        skillId: packet.skillId,
+        heroIndex: packet.heroIndex,
+        target: packet.target
+      };
+      console.log(result);
+
+      return result;
     }
   }
 });

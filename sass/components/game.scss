@@ -16,6 +16,11 @@
   padding: 5px;
   button {
     border: 2px solid $color1;
+    &:focus {
+      outline: none !important;
+      // border-color: #719ece;
+      box-shadow: 0 0 10px #bbff00;
+    }
     &:disabled {
       opacity: 1;
       border: 2px solid $color5;
@@ -23,6 +28,13 @@
       cursor: normal;
       img {
         opacity: 0.3;
+      }
+    }
+  }
+  button.l--skill-noborder {
+    &:disabled {
+      img {
+        opacity: 1;
       }
     }
   }
@@ -204,9 +216,11 @@
 }
 
 .game--status {
+  height: 20px;  
   img {
     width: 20px;
-    height: 20px;
+    height: 20px;    
+    margin-left: 5px;
   }
 }
 

@@ -158,7 +158,7 @@ function buttonManagement(payload, option) {
   }
 
   //Skill Button
-  if (option === "onSkill") {
+  if (option === "onTarget") {
     console.log("onSkill");
     app.state.button.ally.forEach(x => {
       if (x.onSkill === false) {
