@@ -1,3 +1,5 @@
+const helper = require("../helper.js");
+
 function boost(x) {
   return {
     name: x.name ? x.name : "Boost",
@@ -148,16 +150,16 @@ function ignore(x) {
     info: x.info ? x.info : "inclusive",
     harmful: x.harmful ? x.harmful : false,
     classes: x.classes
-    ? x.classes
-    : [
-        "mental",
-        "chakra",
-        "affliction",
-        "strategy",
-        "physical",
-        "range",
-        "melee"
-      ],
+      ? x.classes
+      : [
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "range",
+          "melee"
+        ],
     effect: x.effect ? x.effect : x.type,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
