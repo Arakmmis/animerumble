@@ -15,6 +15,7 @@
   "scripts": {
     "sass": "sass --watch sass/style.scss:public/css/style.css",
     "deploy": "pm2 deploy ecosystem.config.js production",
+    "logs": "heroku logs -s app -t",
     "start": "node index.js"
   },
   "author": "Marcel Christianis",
