@@ -7026,10 +7026,7 @@ img.img-100 {
   overflow-y: scroll; }
 
 .selection--selected {
-  background: #ffffff;
   padding: 10px 10px;
-  border-radius: 5px;
-  border: 3px solid #8EA0AC;
   margin-top: 20px;
   max-width: 300px; }
   .selection--selected .l--char {
@@ -7038,7 +7035,7 @@ img.img-100 {
     padding: 0px;
     cursor: pointer; }
     .selection--selected .l--char img {
-      border-radius: 5px; }
+      border-radius: 4px; }
     .selection--selected .l--char button:hover {
       border-color: #667ED5;
       opacity: 0.5; }
@@ -7046,12 +7043,14 @@ img.img-100 {
       opacity: 1; }
 
 .selection--choice {
-  background: #ffffff;
-  padding: 10px 10px;
-  border-radius: 5px;
-  border: 3px solid #8EA0AC;
+  border: 19px solid #8EA0AC;
   min-height: 160px;
-  margin-top: 20px; }
+  margin-top: 20px;
+  border-image-source: url("https://i.imgur.com/xrF16uy.png");
+  border-image-slice: 19 fill;
+  border-image-width: 19px 19px 19px 19px;
+  border-image-repeat: round;
+  padding: 10px 10px; }
 
 .selection--char {
   border: 1px solid #222;
@@ -7065,7 +7064,7 @@ img.img-100 {
     padding: 0px;
     cursor: pointer; }
     .selection--char button.l--char img {
-      border-radius: 5px; }
+      border-radius: 4px; }
     .selection--char button.l--char:hover {
       border-color: #667ED5;
       opacity: 0.5; }

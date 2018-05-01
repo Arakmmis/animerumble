@@ -20,10 +20,10 @@
 }
 
 .selection--selected {
-  background: #ffffff;
+  // background: #ffffff;
   padding: 10px 10px;
-  border-radius: 5px;
-  border: 3px solid $color5;
+  // border-radius: 5px;
+  // border: 3px solid $color5;
   margin-top: 20px;
   max-width: 300px;
   .l--char {
@@ -32,7 +32,7 @@
     padding: 0px;
     cursor: pointer;
     img {
-      border-radius: 5px;
+      border-radius: 4px;
     }
     button {
       &:hover {
@@ -48,13 +48,22 @@
   }
 }
 
-.selection--choice {
-  background: #ffffff;
-  padding: 10px 10px;
-  border-radius: 5px;
-  border: 3px solid $color5;
+.selection--choice {  
+  // border-radius: 5px;
+  border: 19px solid $color5;
   min-height: 160px;
   margin-top: 20px;
+
+  // border: 19px solid #222;
+  border-image-source: url('https://i.imgur.com/xrF16uy.png');
+  border-image-slice: 19 fill;
+  border-image-width: 19px 19px 19px 19px;
+  border-image-repeat: round;
+  padding: 10px 10px;
+  // .l--inner{
+  //   // background: #f7f5f1;
+  //   padding: 10px 10px;
+  // }
 }
 .selection--char {
   border: 1px solid #222;
@@ -68,7 +77,7 @@
     padding: 0px;
     cursor: pointer;
     img {
-      border-radius: 5px;
+      border-radius: 4px;
     }
     &:hover {
       border-color: $color1;
