@@ -64,9 +64,10 @@
           a: this.energy.a,
           i: this.energy.i,
           s: this.energy.s,
-          w: this.energy.w
+          w: this.energy.w,
+          r: this.energy.r
         },
-        reimbursed: 3
+        reimbursed: 5
       }
     },
     methods: {
@@ -94,7 +95,7 @@
           a: this.pool.a,
           i: this.pool.i,
           s: this.pool.s,
-          w: this.pool.w,
+          w: this.pool.w,          
         }
         energy[this.exchange] += 1        
         energy.r = energy.a + energy.i + energy.s + energy.w

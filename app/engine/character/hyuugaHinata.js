@@ -24,6 +24,7 @@ let status = {
   drain: library.drain({
     name: "Hinata Gentle Fist",
     owner: info.id,
+    val: 1,
     active: 2
   }),
   dd: library.dd({

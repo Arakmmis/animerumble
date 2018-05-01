@@ -197,7 +197,7 @@ function bleed(x) {
     persistence: x.persistence ? x.persistence : "action",
     active: x.active ? x.active : 3,
     modify: function(payload) {
-      payload.offense.hp -= x.val;
+      payload.offense.hp -= this.val;
     },
     owner: x.owner
   };
@@ -207,8 +207,10 @@ function drain(x) {
   return {
     name: x.name ? x.name : "drain",
     owner: x.owner,
-    val: x.val ? x.val : 0,
+    val: x.val ? x.val : 1,
     type: "drain",
+    period: "instant",
+    persistence: x.persistence ? x.persistence : "action",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
@@ -216,7 +218,7 @@ function drain(x) {
     modify: function(payload) {
       let energy = helper.stealEnergy(payload.theirEnergy);
       if (energy !== false) {
-        payload.theirEnergy[energy] -= x.val;
+        payload.theirEnergy[energy] -= this.val;
       }
     }
   };

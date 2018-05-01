@@ -43,7 +43,8 @@ let app = new Vue({
     onExchange: function(e) {
       let state = this.state;
       this.source.energy.ally = e.energy;
-      state.exchange.energy = e.cost;
+      this.source.energy.ally.r = this.source.energy.ally.r - this.state.energy.random
+      state.exchange.energy = e.cost;      
       state.exchange.modal = false;
       state.exchange.used = true;
       state.exchange.val = e.exchange;

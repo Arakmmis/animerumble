@@ -140,8 +140,8 @@ let skills = {
     cooldown: 3,
     classes: ["control", "ranged", "chakra"],
     description:
-      "Shikamaru captures one enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
-    target: "enemy",
+      "Shikamaru captures all enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
+    target: "allenemy",
     energy: {
       w: 1,
       r: 1
