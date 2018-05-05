@@ -97,8 +97,8 @@ function buttonManagement(payload, option) {
         x.button = x.disabled || invulnerable ? true : !x.button;
 
         //Ignore
-        let ignore = ignoreManagement(state, skill)
-        console.log(ignore)
+        let ignore = ignoreManagement(state, skill);
+        console.log(ignore);
 
         //Prevent Invulnerability
         if (
@@ -117,6 +117,47 @@ function buttonManagement(payload, option) {
             enemyStatus.onState.some(x => x.name === skillName);
           if (marking === true) {
             x.button = true;
+          }
+        }
+      });
+    } else if (payload.aim === "enemylock") {
+      app.state.button.enemy.forEach(x => {
+        //Define
+        let skill = app.source.ally[payload.heroIndex].skill[payload.skill];
+        let enemyStatus = app.source.enemy[x.index].status;
+        let lock = enemyStatus.onState.some(
+          x => x.type === "state" && x.info === skill.name
+        );        
+
+        if (lock === true) {
+          //Invulnerability
+          let state = enemyStatus.onState;
+          let invulnerable = invulnerableManagement(state, skill);
+
+          //Disable
+          x.button = x.disabled || invulnerable ? true : !x.button;
+
+          //Ignore
+          let ignore = ignoreManagement(state, skill);          
+
+          //Prevent Invulnerability
+          if (
+            option === "onSkill" &&
+            enemyStatus.onState.some(x => x.type === "disableDrIv") &&
+            ignore === false
+          ) {
+            x.button = false;
+          }
+
+          //Marking
+          if (payload.marking === true) {
+            let skillName = skill.name;
+            let marking =
+              enemyStatus.onReceive.some(x => x.name === skillName) ||
+              enemyStatus.onState.some(x => x.name === skillName);
+            if (marking === true) {
+              x.button = true;
+            }
           }
         }
       });

@@ -76,20 +76,8 @@ function status(payload, inherit, name, nameId, skill) {
   this.usage = payload.usage ? payload.usage : 0;
   this.skillIndex = skill ? skill : 0;
   this.harmful = payload.harmful !== null ? payload.harmful : true;
-  this.classes = inherit.classes
-    ? inherit.classes
-    : payload.classes
-      ? payload.classes
-      : [
-          "mental",
-          "chakra",
-          "affliction",
-          "strategy",
-          "physical",
-          "range",
-          "melee"
-        ];
-  this.info = payload.info ? payload.info : "inclusive";
+  this.classes = payload.classes ? payload.classes : inherit.classes;
+  this.info = payload.info !== null ? payload.info : "inclusive";
   this.persistence = payload.persistence ? payload.persistence : "instant";
 
   this.modify = payload.modify ? payload.modify.bind(this) : empty;

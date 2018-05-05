@@ -6685,7 +6685,7 @@ img.img-100 {
   border-image-slice: 5 15 5 5 fill;
   border-image-width: 5px 15px 5px 5px;
   border-image-repeat: round;
-  padding: 5px 10px 5px 5px;
+  padding: 5px 20px 5px 5px;
   margin-top: 2px;
   margin-left: 5px; }
 
@@ -6695,8 +6695,8 @@ img.img-100 {
     border: 1px solid #222;
     cursor: pointer; }
     .game--skill button img {
-      width: 70px;
-      height: 70px; }
+      width: 55px;
+      height: 55px; }
     .game--skill button:focus {
       outline: none !important; }
     .game--skill button:disabled {
@@ -6815,10 +6815,11 @@ img.img-100 {
       height: 20px;
       width: 100%;
       z-index: 1;
-      background: #24262A; }
+      background: #24262A;
+      border: 1px solid #222; }
       .game--char .l--turn .l--bar .l--hp {
         border-radius: 2px;
-        height: 20px;
+        height: 18px;
         background: #25db01; }
       .game--char .l--turn .l--bar .l--fill {
         border-radius: 2px;
@@ -6875,7 +6876,7 @@ img.img-100 {
 .game--skill-cooldown {
   text-align: center;
   position: absolute;
-  top: 10;
+  top: 0;
   z-index: 2;
   font-size: 40;
   width: 100%; }
