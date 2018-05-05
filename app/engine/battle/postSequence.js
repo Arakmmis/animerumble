@@ -93,8 +93,7 @@ function postSequence(x, turn, state) {
     }
   }
 
-  if (state.turn % 2 === turn) {
-    console.log("turn", x);
+  if (state.turn % 2 === turn) {    
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
         if (s.period !== "instant") {

@@ -301,8 +301,9 @@ function dd(x) {
         ) {
           let dd = onReceive[index].val;
           let val = payload.val;
-          let diff = dd - val;
+          let diff = dd - val;          
           onReceive[index].val = diff;
+          console.log(diff, onReceive[index])
 
           let newVal = val - dd;
           if (diff >= 0) {
@@ -318,6 +319,8 @@ function dd(x) {
           }
         }
       }
+
+      console.log('DD', payload)
     }
   };
 }

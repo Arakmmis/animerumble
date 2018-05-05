@@ -56,10 +56,8 @@ function selfApply(package) {
   }
 }
 
-function receiveApply(package, callback) {
-  let packageCopy = _.cloneDeep(package);
-  package.target.status.onReceive.forEach(x => x.modify(packageCopy));  
-  package.val = packageCopy.val;  
+function receiveApply(package, callback) {  
+  package.target.status.onReceive.forEach(x => x.modify(package));    
   callback(package);
 }
 
