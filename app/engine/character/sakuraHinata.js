@@ -29,6 +29,11 @@ let status = {
     val: 15,
     owner: info.id
   }),
+  ignore: library.ignore({
+    name: "Inner Sakura",
+    active: 4,    
+    owner: info.id
+  }),
   boost: {
     name: "Inner Sakura",
     owner: info.id,
@@ -91,6 +96,9 @@ let skills = {
       r: 1
     },
     move: function(payload) {
+      payload.target.status.onState.push(
+        new constructor.status(status.ignore, this.name, this.nameId, 3)
+      )
       payload.target.status.onReceive.push(
         new constructor.status(status.protect, this.name, this.nameId, 3)
       );

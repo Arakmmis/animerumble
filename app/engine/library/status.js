@@ -327,5 +327,6 @@ module.exports = {
   drain,
   cooldownIncrease,
   dd,
-  decreaseEnergy
+  decreaseEnergy,
+  ignore
 };

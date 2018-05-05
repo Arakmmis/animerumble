@@ -1,3 +1,4 @@
+const management = require("./management.js");
 const indicateTurn = require("./indicateTurn.js");
 const _ = require("lodash");
 
@@ -33,9 +34,14 @@ function persistenceCheck(skill, owner, state, context) {
   let caster = team(casterid, state);
   let evaluate;
   if (context === "attacker") {
-    evaluate = caster.status.onState.some(x => x.type === "stun");
+    let onState = caster.status.onState
+    let stun = management.stun(onState, skill)    
+    evaluate = stun
   } else if (context === "receiver") {
-    evaluate = caster.status.onState.some(x => x.type === "invulnerable");
+    let onState = caster.status.onState
+    let invulnerable = management.invulnerable(onState, skill)
+    evaluate = invulnerable
+    // evaluate = caster.status.onState.some(x => x.type === "invulnerable");
   }
   if (
     evaluate === true &&

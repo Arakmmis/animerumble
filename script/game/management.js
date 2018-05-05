@@ -96,10 +96,15 @@ function buttonManagement(payload, option) {
         //Disable
         x.button = x.disabled || invulnerable ? true : !x.button;
 
+        //Ignore
+        let ignore = ignoreManagement(state, skill)
+        console.log(ignore)
+
         //Prevent Invulnerability
         if (
           option === "onSkill" &&
-          enemyStatus.onState.some(x => x.type === "disableDrIv")
+          enemyStatus.onState.some(x => x.type === "disableDrIv") &&
+          ignore === false
         ) {
           x.button = false;
         }

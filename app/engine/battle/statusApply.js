@@ -1,8 +1,14 @@
+const management = require("./management.js");
+
 function statusIterator(package, owner, status, callback) {
   let source = package[owner].status;
   let evaluate;
   if (owner === "offense") {
-    evaluate = source.onState.some(x => x.type === "stun") ? true : false;
+    let onState = source.onState;
+    let skill = package.offense.skill[package.skill];
+    let stun = management.stun(onState, skill);    
+    // evaluate = source.onState.some(x => x.type === "stun") ? true : false;
+    evaliate = stun;
   } else if (owner === "target") {
     evaluate = source.onState.some(x => x.type === "invulnerable")
       ? true
