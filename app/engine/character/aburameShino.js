@@ -25,7 +25,7 @@ let status = {
     type: "boost",
     active: 4,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Chakra Leech") {
+      if (payload.skillStore.name === "Chakra Leech") {
         payload.val += this.val;
       }
     }

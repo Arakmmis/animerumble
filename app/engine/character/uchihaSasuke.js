@@ -34,7 +34,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Chidori") {
+      if (payload.skillStore.name === "Chidori") {
         payload.val += this.val;
       }
     }
@@ -46,7 +46,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Lion Combo") {
+      if (payload.skillStore.name === "Lion Combo") {
         payload.val += this.val;
       }
     }
@@ -124,7 +124,13 @@ let skills = {
         new constructor.status(status.boost2, this, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this, this.name, this.nameId, 3)
+        new constructor.status(
+          status.disableDrIv,
+          this,
+          this.name,
+          this.nameId,
+          3
+        )
       );
     }
   },
@@ -141,7 +147,13 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
+        new constructor.status(
+          status.invulnerable,
+          this,
+          this.name,
+          this.nameId,
+          4
+        )
       );
     }
   }

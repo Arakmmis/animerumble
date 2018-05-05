@@ -63,7 +63,6 @@ function skill(payload, nameId) {
   this.move = payload.move.bind(this);
 }
 function status(payload, inherit, name, nameId, skill) {
-  console.log(inherit);
   this.name = inherit.name ? inherit.name : payload.name;
   this.nameId = inherit.nameId ? inherit.nameId : nameId;
   this.owner = inherit.nameId ? inherit.nameId : nameId;
@@ -76,7 +75,7 @@ function status(payload, inherit, name, nameId, skill) {
   this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.skillIndex = skill ? skill : 0;
-  this.harmful = payload.harmful ? payload.harmful : skill.harmful;
+  this.harmful = payload.harmful !== null ? payload.harmful : true;
   this.classes = inherit.classes
     ? inherit.classes
     : payload.classes

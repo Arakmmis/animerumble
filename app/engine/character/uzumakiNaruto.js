@@ -32,7 +32,7 @@ let status = {
     active: 4,
     modify: function(payload) {
       if (
-        payload.offense.skill[payload.skill].name === "Uzumaki Naruto Combo"
+        payload.skillStore.name === "Uzumaki Naruto Combo"
       ) {
         payload.val += this.val;
       }

@@ -1,4 +1,5 @@
 const helper = require("../helper.js");
+const management = require("../battle/management.js");
 
 function boost(x) {
   return {
@@ -50,23 +51,31 @@ function protect(x) {
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
-      let affliction = payload.offense.skill[payload.skill].classes.some(
-        x => x === "affliction"
-      );
+      if (disableDrIv !== -1) {
+        let ignore = management.ignore(
+          payload.target.status.onState,
+          payload.target.status.onState[disableDrIv]
+        );
+        if (ignore === true) {
+          disableDrIv = true;
+        }
+      } else {
+        disableDrIv = false;
+      }
 
-      if (index > -1) {
+      let affliction = payload.skillStore.classes.some(x => x === "affliction");
+      console.log("REDUCE VAL", payload.val);
+      if (index > -1 && payload.val !== 0 && payload.val > 0) {
         if (
           onReceive[index].usage === 0 &&
           payload.skillStore.type !== "piercing" &&
-          disableDrIv === -1 &&
+          disableDrIv === false &&
           affliction === false
         ) {
           payload.val -= this.val;
           onReceive[index].usage += 1;
+          console.log("REDUCE!!", onReceive[index], payload);
         }
-      }
-      if (index === -1) {
-        console.log("REDUCE!!", onReceive[index], onReceive, index, payload);
       }
     },
     owner: x.owner
@@ -197,7 +206,8 @@ function bleed(x) {
     persistence: x.persistence ? x.persistence : "action",
     active: x.active ? x.active : 3,
     modify: function(payload) {
-      payload.offense.hp -= this.val;
+      console.log(payload);
+      payload.offense.hp -= payload.val;
     },
     owner: x.owner
   };
@@ -235,7 +245,7 @@ function cooldownIncrease(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.offense.skill[payload.skill].counter += 1;
+      payload.skillStore.counter += 1;
     }
   };
 }
@@ -280,9 +290,7 @@ function dd(x) {
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
-      let affliction = payload.offense.skill[payload.skill].classes.some(
-        x => x === "affliction"
-      );
+      let affliction = payload.skillStore.classes.some(x => x === "affliction");
 
       if (index > -1) {
         if (

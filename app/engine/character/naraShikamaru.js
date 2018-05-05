@@ -50,38 +50,7 @@ let status = {
     val: 15,
     active: 1,
     owner: info.id
-  }),
-  boost: {
-    name: "Dynamic Marking",
-    owner: info.id,
-    val: 5,
-    type: "skill",
-    active: 3,
-    modify: function(payload) {
-      if (
-        payload.offense.skill[payload.skill].name === "Double-Headed Wolf" ||
-        payload.offense.skill[payload.skill].name === "Garouga"
-      ) {
-        payload.val += this.val;
-      }
-    }
-  },
-  energy: {
-    owner: info.id,
-    active: 4,
-    modify: function(payload) {
-      let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
-      if (index !== -1) {
-        if (payload.active > 1) {
-          payload.offense.skill[index].energy.r = 0;
-          console.log("KIBA Start", payload.active);
-        } else if (payload.active === 1) {
-          payload.offense.skill[index].energy.r = 1;
-          console.log("KIBA", payload.active);
-        }
-      }
-    }
-  }
+  })  
 };
 
 let skills = {

@@ -34,7 +34,7 @@ let status = {
     active: -1,
     modify: function(payload) {
       this.usage += 1;
-      if (payload.offense.skill[payload.skill].name === "Partial Multi-Size") {
+      if (payload.skillStore.name === "Partial Multi-Size") {
         payload.val += this.val;
       }
     }
@@ -47,7 +47,7 @@ let status = {
     active: -1,
     modify: function(payload) {
       this.usage += 1;
-      if (payload.offense.skill[payload.skill].name === "Meat Tank") {
+      if (payload.skillStore.name === "Meat Tank") {
         payload.val += this.val;
       }
     }

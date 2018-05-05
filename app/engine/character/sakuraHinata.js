@@ -41,7 +41,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "KO Punch") {
+      if (payload.skillStore.name === "KO Punch") {
         payload.val += this.val;
       }
     }

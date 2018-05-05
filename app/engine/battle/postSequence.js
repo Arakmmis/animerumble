@@ -1,5 +1,6 @@
 const management = require("./management.js");
 const indicateTurn = require("./indicateTurn.js");
+const onSelfApply = require("./onSelfApply.js");
 const _ = require("lodash");
 
 function pattern(source) {
@@ -34,14 +35,14 @@ function persistenceCheck(skill, owner, state, context) {
   let caster = team(casterid, state);
   let evaluate;
   if (context === "attacker") {
-    let onState = caster.status.onState
-    let stun = management.stun(onState, skill) 
-    console.log('persistence check', stun)   
-    evaluate = stun
+    let onState = caster.status.onState;
+    let stun = management.stun(onState, skill);
+    console.log("persistence check", stun);
+    evaluate = stun;
   } else if (context === "receiver") {
-    let onState = caster.status.onState
-    let invulnerable = management.invulnerable(onState, skill)
-    evaluate = invulnerable
+    let onState = caster.status.onState;
+    let invulnerable = management.invulnerable(onState, skill);
+    evaluate = invulnerable;
     // evaluate = caster.status.onState.some(x => x.type === "invulnerable");
   }
   if (
@@ -62,18 +63,31 @@ function postSequence(x, turn, state) {
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
         if (s.period === "instant") {
-          let attacker = persistenceCheck(s, s.owner, stateCopy, "attacker");
-          let receiver = persistenceCheck(s, x.nameId, stateCopy, "receiver");
-          if (attacker === false && receiver === false) {
-            s.modify({
-              offense: x,
-              active: s.active,
-              myEnergy: state.energy[myTurn],
-              theirEnergy: state.energy[theirTurn]
-            });
-          }
-          s.active -= 1;
+          onSelfApply({
+            offense: s.owner,
+            target: x.nameId,
+            skill: s,
+            myEnergy: state.energy[myTurn],
+            theirEnergy: state.energy[theirTurn],
+            store: state,
+            stateCopy: stateCopy,
+            myTurn: myTurn
+          });
         }
+        // if (s.period === "instant") {
+        //   let attacker = persistenceCheck(s, s.owner, stateCopy, "attacker");
+        //   let receiver = persistenceCheck(s, x.nameId, stateCopy, "receiver");
+        //   if (attacker === false && receiver === false) {
+        //     s.modify({
+        //       offense: x,
+        //       val: s.val,
+        //       active: s.active,
+        //       myEnergy: state.energy[myTurn],
+        //       theirEnergy: state.energy[theirTurn]
+        //     });
+        //   }
+        //   s.active -= 1;
+        // }
       });
       // x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);
     }

@@ -35,10 +35,11 @@ let status = {
     name: "Front Lotus",
     owner: info.id,
     val: 30,
-    type: "skill",
+    type: "boost",
+    harmful: false,
     active: 2,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Front Lotus") {
+      if (payload.skillStore.name === "Front Lotus") {
         payload.val += this.val;
       }
     }
@@ -47,10 +48,11 @@ let status = {
     name: "Front Lotus",
     owner: info.id,
     val: 10,
-    type: "skill",
+    type: "boost",
+    harmful: false,
     active: 3,
     modify: function(payload) {
-      if (payload.offense.skill[payload.skill].name === "Front Lotus") {
+      if (payload.skillStore.name === "Front Lotus") {
         payload.val += this.val;
       }
     }
@@ -58,12 +60,14 @@ let status = {
   state: library.state({
     name: "Fifth Gate Opening",
     active: 2,
+    harmful: false,
     owner: info.id
   }),
   transform: {
     name: "Transform",
     owner: info.id,
     active: 3,
+    harmful: false,
     modify: function(payload) {
       if (payload.active === 3) {
         let swap = payload.offense.skill[2];
@@ -144,13 +148,42 @@ let skills = {
         new constructor.status(status.boost1, this, this.name, this.nameId, 3)
       );
       payload.target.status.onSelf.push(
-        new constructor.status(status.transform, this, this.name, this.nameId, 3)
+        new constructor.status(
+          status.transform,
+          this,
+          this.name,
+          this.nameId,
+          3
+        )
       );
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, this.name, this.nameId, 3),
+        new constructor.status(
+          status.invulnerable,
+          this,
+          this.name,
+          this.nameId,
+          3
+        ),
         new constructor.status(status.state, this, this.name, this.nameId, 3)
       );
       payload.target.hp -= 50;
+      if (payload.target.hp <= 0) {
+        payload.target.hp = 5;
+      }
+
+      //Remove Harmful
+      payload.target.status.onAttack = payload.target.status.onAttack.filter(
+        x => x.harmful === false
+      );
+      payload.target.status.onReceive = payload.target.status.onReceive.filter(
+        x => x.harmful === false
+      );
+      payload.target.status.onSelf = payload.target.status.onSelf.filter(
+        x => x.harmful === false
+      );
+      payload.target.status.onState = payload.target.status.onState.filter(
+        x => x.harmful === false
+      );
     }
   },
   skill4: {
@@ -165,7 +198,13 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
+        new constructor.status(
+          status.invulnerable,
+          this,
+          this.name,
+          this.nameId,
+          4
+        )
       );
     }
   },
@@ -182,7 +221,7 @@ let skills = {
       a: 2
     },
     move: function(payload) {
-      payload.target.hp -= 100;
+      payload.target.hp -= payload.val;
     }
   }
 };

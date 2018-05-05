@@ -60,6 +60,7 @@ function invulnerable(onState, skill) {
 function ignore(onState, skill) {
   let ignore = onState.map(x => {
     if (x.type === "ignore") {
+      console.log(onState, skill)
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;

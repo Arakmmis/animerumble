@@ -34,7 +34,7 @@ let status = {
     active: -1,
     modify: function(payload) {
       if (
-        payload.offense.skill[payload.skill].name === "Twin Rising Dragons Trap"
+        payload.skillStore.name === "Twin Rising Dragons Trap"
       ) {
         payload.val += this.val;
       }
