@@ -19,7 +19,9 @@
                         <% include game/myteam.ejs %>
                             <% include game/theirteam.ejs %>
                     </div>
-                    <% include game/description.ejs %>
+                    <div class="d-flex flex-row justify-content-end">
+                        <% include game/description.ejs %>
+                    </div>                    
             </div>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>

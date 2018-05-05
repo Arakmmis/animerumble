@@ -1,4 +1,4 @@
-.game--width{
+.game--width {
   width: 100%;
   max-width: 900px;
 }
@@ -15,19 +15,34 @@
   }
 }
 
+.game--skill-container {
+  border-image-source: url("https://i.imgur.com/uwgJl9y.jpg");
+  border-image-slice: 5 15 5 5 fill;
+  border-image-width: 5px 15px 5px 5px;
+  border-image-repeat: round;
+  padding: 5px 10px 5px 5px;
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
 .game--skill {
   // background: #fefefe;
   padding: 5px;
-  button {    
-    border: 2px solid $color1;
+  button {
+    border: 1px solid #222;
+    cursor: pointer;
+    img {
+      width: 70px;
+      height: 70px;
+    }
     &:focus {
       outline: none !important;
       // border-color: #719ece;
-      box-shadow: 0 0 10px #bbff00;
+      // box-shadow: 0 0 10px #bbff00;
     }
     &:disabled {
       opacity: 1;
-      border: 2px solid $color5;
+      border: 1px solid #222;
       background: #fefefe;
       cursor: normal;
       img {
@@ -119,7 +134,7 @@
 
   button.l--char {
     background: #f4cb42;
-    // border: 2px solid $color1;
+    border: 1px solid #222;
     img {
       animation: pulse 2s infinite;
     }
@@ -185,6 +200,12 @@
       width: 100%;
       z-index: 1;
       background: $color3;
+      .l--hp{
+        border-radius: 2px;
+        height: 20px;
+        // width: 200px;
+        background: rgb(37, 219, 1);
+      }
       .l--fill {
         border-radius: 2px;
         height: 20px;
@@ -196,6 +217,36 @@
 }
 
 .game--description {
+  border-image-source: url("https://i.imgur.com/xrF16uy.png");
+  border-image-slice: 19 fill;
+  border-image-width: 19px 19px 19px 19px;
+  border-image-repeat: round;
+  padding: 25px;
+
+  // background: #fefefe;
+  // margin-top: 10px;
+  // margin-left: 20px;
+  // padding: 10px;
+  width: 500px;
+  border-radius: 5px;
+  text-align: left;
+  .l--title {
+    font-size: 14px;
+    color: $color1;
+    font-weight: bold;
+  }
+  .l--desc {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .l--info {
+    font-size: 10px;
+    color: $color5;
+  }
+}
+
+.game--status-popup {
   background: #fefefe;
   // margin-top: 10px;
   // margin-left: 20px;
@@ -220,10 +271,10 @@
 }
 
 .game--status {
-  height: 20px;  
+  height: 20px;
   img {
     width: 20px;
-    height: 20px;    
+    height: 20px;
     margin-left: 5px;
   }
 }

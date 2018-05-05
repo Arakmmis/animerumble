@@ -6680,16 +6680,28 @@ img.img-100 {
   .game button:disabled {
     opacity: 0.4; }
 
+.game--skill-container {
+  border-image-source: url("https://i.imgur.com/uwgJl9y.jpg");
+  border-image-slice: 5 15 5 5 fill;
+  border-image-width: 5px 15px 5px 5px;
+  border-image-repeat: round;
+  padding: 5px 10px 5px 5px;
+  margin-top: 2px;
+  margin-left: 5px; }
+
 .game--skill {
   padding: 5px; }
   .game--skill button {
-    border: 2px solid #667ED5; }
+    border: 1px solid #222;
+    cursor: pointer; }
+    .game--skill button img {
+      width: 70px;
+      height: 70px; }
     .game--skill button:focus {
-      outline: none !important;
-      box-shadow: 0 0 10px #bbff00; }
+      outline: none !important; }
     .game--skill button:disabled {
       opacity: 1;
-      border: 2px solid #8EA0AC;
+      border: 1px solid #222;
       background: #fefefe;
       cursor: normal; }
       .game--skill button:disabled img {
@@ -6757,7 +6769,8 @@ img.img-100 {
 .game--char {
   position: relative; }
   .game--char button.l--char {
-    background: #f4cb42; }
+    background: #f4cb42;
+    border: 1px solid #222; }
     .game--char button.l--char img {
       animation: pulse 2s infinite; }
     .game--char button.l--char:disabled {
@@ -6803,15 +6816,22 @@ img.img-100 {
       width: 100%;
       z-index: 1;
       background: #24262A; }
+      .game--char .l--turn .l--bar .l--hp {
+        border-radius: 2px;
+        height: 20px;
+        background: #25db01; }
       .game--char .l--turn .l--bar .l--fill {
         border-radius: 2px;
         height: 20px;
         background: #8EA0AC; }
 
 .game--description {
-  background: #fefefe;
-  padding: 10px;
-  width: 400px;
+  border-image-source: url("https://i.imgur.com/xrF16uy.png");
+  border-image-slice: 19 fill;
+  border-image-width: 19px 19px 19px 19px;
+  border-image-repeat: round;
+  padding: 25px;
+  width: 500px;
   border-radius: 5px;
   text-align: left; }
   .game--description .l--title {
@@ -6822,6 +6842,23 @@ img.img-100 {
     font-size: 12px;
     margin-bottom: 10px; }
   .game--description .l--info {
+    font-size: 10px;
+    color: #8EA0AC; }
+
+.game--status-popup {
+  background: #fefefe;
+  padding: 10px;
+  width: 400px;
+  border-radius: 5px;
+  text-align: left; }
+  .game--status-popup .l--title {
+    font-size: 14px;
+    color: #667ED5;
+    font-weight: bold; }
+  .game--status-popup .l--desc {
+    font-size: 12px;
+    margin-bottom: 10px; }
+  .game--status-popup .l--info {
     font-size: 10px;
     color: #8EA0AC; }
 

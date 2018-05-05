@@ -4,10 +4,10 @@
             <button @click="onTarget({name: item.name, hero: index})" :disabled="state.button.ally[index].button" class="l--char">
                 <img :src="onGetImage({nameId: item.nameId}, 'char')">
             </button>
-            <div class="l--turn">
-                <p>HP {{item.hp}}</p>
+            <div class="l--turn mt-1">
+                <p class="">HP {{item.hp}}</p>
                 <div class="l--bar">
-                    <div :style="{width: '100%'}" class="l--fill"></div>
+                    <div :style="{width: item.hp+'%'}" class="l--hp"></div>
                 </div>
             </div>
         </div>
@@ -25,10 +25,10 @@
                     </v-popover>
                 </div>
             </div>
-            <div class="d-flex flex-row">
+            <div class="d-flex flex-row game--skill-container">
                 <div class="game--skill" v-if="source.myTurn === true">
                     <div v-if="packet.some(x => x.offense === item.name)">
-                        <button @click="onSkill(targetingCue(item.name))" class="l--skill">
+                        <button @click="onSkill(targetingCue(item.name))" @mouseover="onDescription(targetingCue(item.name))" class="l--skill">
                             <img :src="onGetImage({nameId: item.nameId, name: item.name},'targeting')">
                         </button>
                     </div>

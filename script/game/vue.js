@@ -43,8 +43,9 @@ let app = new Vue({
     onExchange: function(e) {
       let state = this.state;
       this.source.energy.ally = e.energy;
-      this.source.energy.ally.r = this.source.energy.ally.r - this.state.energy.random
-      state.exchange.energy = e.cost;      
+      this.source.energy.ally.r =
+        this.source.energy.ally.r - this.state.energy.random;
+      state.exchange.energy = e.cost;
       state.exchange.modal = false;
       state.exchange.used = true;
       state.exchange.val = e.exchange;
@@ -158,27 +159,17 @@ let app = new Vue({
         //Switch Choice
         //Button Management
         buttonManagement(state.skill, "onCancel");
-        buttonManagement(temporary, "onSkill");
+        setTimeout(() => {
+          buttonManagement(temporary, "onSkill");
+        }, 100);
         //Buffer Skill
         state.skill = temporary;
       } else if (isOnSkill === true) {
-        console.log("cancel");
         //Cancel Choice
         energyManagement(temporary, "add");
         //Button Management
         buttonManagement(state.skill, "onCancel");
         buttonManagement(temporary, "onSelf");
-        // if (
-        //   state.button.ally[temporary.heroIndex].onSkill &&
-        //   state.skill.heroIndex === null
-        // ) {
-        //   buttonManagement(temporary, "onSelf");
-        // } else if (
-        //   state.button.ally[temporary.heroIndex].onSkill &&
-        //   state.skill.heroIndex !== null
-        // ) {
-        //   buttonManagement(temporary, "onCancel");
-        // }
         this.packet = this.packet.filter(x => x.offense !== temporary.offense);
         //Clean Skill Buffer
         state.skill = {
