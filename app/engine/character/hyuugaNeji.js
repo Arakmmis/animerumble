@@ -76,10 +76,10 @@ let skills = {
       "Using the Hyuuga clan's special form of taijutsu, Neji deals 25 damage to one enemy for 2 turns. During this time, that enemy will deal 5 less damage with any non-affliction skill.",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, this.nameId, 2)
+        new constructor.status(status.bleed, this, this.name, this.nameId, 2)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this.name, this.nameId, 2)
+        new constructor.status(status.reduce, this, this.name, this.nameId, 2)
       );
     }
   },
@@ -92,13 +92,13 @@ let skills = {
     description:
       "Neji becomes invulnerable for 1 turn while dealing 15 damage to all enemies.",    
     energy: {
-      s: 1,      
+      i: 1,      
     },
     target: "allenemy",
     move: function(payload) {      
       if (payload.recursive === 0) {        
         payload.offense.status.onState.push(
-          new constructor.status(status.invulnerable, this.name, this.nameId, 2)
+          new constructor.status(status.invulnerable, this, this.name, this.nameId, 2)
         );
       }
       payload.target.hp -= payload.val;
@@ -116,7 +116,7 @@ let skills = {
     marking: true,
     energy: {
       a:1,
-      s:1
+      i:1
     },
     move: function(payload) {
       let energy = helper.stealEnergy(payload.theirEnergy);
@@ -139,7 +139,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

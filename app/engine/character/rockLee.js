@@ -97,18 +97,18 @@ let skills = {
       );
       if (state) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this.name, this.nameId, 1)
+          new constructor.status(status.bleed2, this, this.name, this.nameId, 1)
         );
       } else {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed, this.name, this.nameId, 1)
+          new constructor.status(status.bleed, this, this.name, this.nameId, 1)
         );
       }
       payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this.name, this.nameId, 1)
+        new constructor.status(status.protect, this, this.name, this.nameId, 1)
       );
       payload.offense.status.onAttack.push(
-        new constructor.status(status.boost2, this.name, this.nameId, 1)
+        new constructor.status(status.boost2, this, this.name, this.nameId, 1)
       );
     }
   },
@@ -141,14 +141,14 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this.name, this.nameId, 3)
+        new constructor.status(status.boost1, this, this.name, this.nameId, 3)
       );
       payload.target.status.onSelf.push(
-        new constructor.status(status.transform, this.name, this.nameId, 3)
+        new constructor.status(status.transform, this, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 3),
-        new constructor.status(status.state, this.name, this.nameId, 3)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 3),
+        new constructor.status(status.state, this, this.name, this.nameId, 3)
       );
       payload.target.hp -= 50;
     }
@@ -165,7 +165,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   },

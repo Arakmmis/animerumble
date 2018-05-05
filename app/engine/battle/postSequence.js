@@ -35,7 +35,8 @@ function persistenceCheck(skill, owner, state, context) {
   let evaluate;
   if (context === "attacker") {
     let onState = caster.status.onState
-    let stun = management.stun(onState, skill)    
+    let stun = management.stun(onState, skill) 
+    console.log('persistence check', stun)   
     evaluate = stun
   } else if (context === "receiver") {
     let onState = caster.status.onState

@@ -97,7 +97,7 @@ let skills = {
       "Shikamaru sits down and begins thinking up a strategy against one enemy for 5 turns. This skill cannot be countered or reflected and cannot used on an enemy already affected by it.",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.state, this.name, this.nameId, 1)
+        new constructor.status(status.state, this, this.name, this.nameId, 1)
       );
     }
   },
@@ -117,17 +117,17 @@ let skills = {
       // console.log("KIBA", payload);
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this.name, this.nameId, 2)
+          new constructor.status(status.bleed2, this, this.name, this.nameId, 2)
         );
         payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv2, this.name, this.nameId, 2)
+          new constructor.status(status.disableDrIv2, this, this.name, this.nameId, 2)
         );
       } else {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed, this.name, this.nameId, 2)
+          new constructor.status(status.bleed, this, this.name, this.nameId, 2)
         );
         payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv, this.name, this.nameId, 2)
+          new constructor.status(status.disableDrIv, this, this.name, this.nameId, 2)
         );
       }
       // payload.target.hp -= payload.val;
@@ -149,11 +149,11 @@ let skills = {
     move: function(payload) {
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
         payload.target.status.onState.push(
-          new constructor.status(status.stun2, this.name, this.nameId, 3)
+          new constructor.status(status.stun2, this, this.name, this.nameId, 3)
         );
       } else {
         payload.target.status.onState.push(
-          new constructor.status(status.stun, this.name, this.nameId, 3)
+          new constructor.status(status.stun, this, this.name, this.nameId, 3)
         );
       }
     }
@@ -171,7 +171,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

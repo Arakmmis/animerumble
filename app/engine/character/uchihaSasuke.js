@@ -117,14 +117,14 @@ let skills = {
     },
     move: function(payload) {
       payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this.name, this.nameId, 3)
+        new constructor.status(status.protect, this, this.name, this.nameId, 3)
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost1, this.name, this.nameId, 3),
-        new constructor.status(status.boost2, this.name, this.nameId, 3)
+        new constructor.status(status.boost1, this, this.name, this.nameId, 3),
+        new constructor.status(status.boost2, this, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this.name, this.nameId, 3)
+        new constructor.status(status.disableDrIv, this, this.name, this.nameId, 3)
       );
     }
   },
@@ -141,7 +141,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

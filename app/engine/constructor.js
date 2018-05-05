@@ -62,10 +62,11 @@ function skill(payload, nameId) {
 
   this.move = payload.move.bind(this);
 }
-function status(payload, name, nameId, skill) {
-  this.name = name ? name : payload.name;
-  this.nameId = nameId;
-  this.owner = nameId;
+function status(payload, inherit, name, nameId, skill) {
+  console.log(inherit);
+  this.name = inherit.name ? inherit.name : payload.name;
+  this.nameId = inherit.nameId ? inherit.nameId : nameId;
+  this.owner = inherit.nameId ? inherit.nameId : nameId;
   this.active = payload.active;
   this.val = payload.val;
   this.type = payload.type;
@@ -75,18 +76,20 @@ function status(payload, name, nameId, skill) {
   this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.skillIndex = skill ? skill : 0;
-  this.harmful = payload.harmful ? payload.harmful : true
-  this.classes = payload.classes
-    ? payload.classes
-    : [
-        "mental",
-        "chakra",
-        "affliction",
-        "strategy",
-        "physical",
-        "range",
-        "melee"
-      ];
+  this.harmful = payload.harmful ? payload.harmful : skill.harmful;
+  this.classes = inherit.classes
+    ? inherit.classes
+    : payload.classes
+      ? payload.classes
+      : [
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "range",
+          "melee"
+        ];
   this.info = payload.info ? payload.info : "inclusive";
   this.persistence = payload.persistence ? payload.persistence : "instant";
 

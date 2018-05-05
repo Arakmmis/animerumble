@@ -84,7 +84,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onState.push(
-        new constructor.status(status.invulnerable3, this.name, this.nameId, 2)
+        new constructor.status(status.invulnerable3, this, this.name, this.nameId, 2)
       );
       payload.target.status.onSelf.push(
         new constructor.status(
@@ -93,6 +93,7 @@ let skills = {
             active: 3,
             owner: info.id
           }),
+          this,
           this.name,
           this.nameId,
           2
@@ -121,10 +122,10 @@ let skills = {
         payload.offense.skill[2].required = true;
       }
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this.name, this.nameId, 3)
+        new constructor.status(status.boost1, this, this.name, this.nameId, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost2, this.name, this.nameId, 3)
+        new constructor.status(status.boost2, this, this.name, this.nameId, 3)
       );
       console.log("Chouji Stats!", payload.target.status.onAttack);
       payload.offense.skill[2].usage += 1;
@@ -145,7 +146,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

@@ -75,10 +75,10 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this.name, this.nameId, 2)
+        new constructor.status(status.reduce, this, this.name, this.nameId, 2)
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, this.nameId, 2)
+        new constructor.status(status.boost, this, this.name, this.nameId, 2)
       );
     }
   },
@@ -97,7 +97,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this.name, this.nameId, 3)
+        new constructor.status(status.dd, this, this.name, this.nameId, 3)
       );
     }
   },
@@ -114,7 +114,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

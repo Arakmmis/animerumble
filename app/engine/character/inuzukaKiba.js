@@ -94,14 +94,14 @@ let skills = {
     move: function(payload) {
       if (payload.recursive === 0) {
         payload.offense.status.onReceive.push(
-          new constructor.status(status.protect, this.name, this.nameId, 2)
+          new constructor.status(status.protect, this, this.name, this.nameId, 2)
         );
         payload.offense.status.onSelf.push(
-          new constructor.status(status.energy, this.name, this.nameId, 2)
+          new constructor.status(status.energy, this, this.name, this.nameId, 2)
         );
       }
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, this.nameId, 2)
+        new constructor.status(status.bleed, this, this.name, this.nameId, 2)
       );
     }
   },
@@ -118,10 +118,10 @@ let skills = {
     energy: {},
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this.name, this.nameId, 3)
+        new constructor.status(status.boost, this, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this.name, this.nameId, 3)
+        new constructor.status(status.disableDrIv, this, this.name, this.nameId, 3)
       );
     }
   },
@@ -138,7 +138,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }

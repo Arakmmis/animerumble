@@ -81,11 +81,11 @@ let skills = {
     move: function(payload) {
       if (payload.recursive === 0) {
         payload.target.status.onState.push(
-          new constructor.status(status.stun, this.name, this.nameId, 1)
+          new constructor.status(status.stun, this, this.name, this.nameId, 1)
         );
       } else {
         payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv, this.name, this.nameId, 1)
+          new constructor.status(status.disableDrIv, this, this.name, this.nameId, 1)
         );
         payload.target.hp -= payload.val;
       }
@@ -105,10 +105,10 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.offense.status.onSelf.push(
-        new constructor.status(status.transform, this.name, this.nameId, 2)
+        new constructor.status(status.transform, this, this.name, this.nameId, 2)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.stun2, this.name, this.nameId, 2)
+        new constructor.status(status.stun2, this, this.name, this.nameId, 2)
       );
     }
   },
@@ -145,7 +145,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   },

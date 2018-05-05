@@ -55,11 +55,11 @@ let skills = {
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this.name, this.nameId, 1)
+        new constructor.status(status.bleed, this, this.name, this.nameId, 1)
       );
       if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.drain, this.name, this.nameId, 1)
+          new constructor.status(status.drain, this, this.name, this.nameId, 1)
         );
       }
     }
@@ -83,7 +83,7 @@ let skills = {
         payload.store[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
         payload.target.status.onReceive.push(
-          new constructor.status(status.dd, this.name, this.nameId, 2)
+          new constructor.status(status.dd, this, this.name, this.nameId, 2)
         );
       } else {
         if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
@@ -108,10 +108,10 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this.name, this.nameId, 3)
+        new constructor.status(status.protect, this, this.name, this.nameId, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.state, this.name, this.nameId, 3)
+        new constructor.status(status.state, this, this.name, this.nameId, 3)
       );
     }
   },
@@ -128,7 +128,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
       );
     }
   }
