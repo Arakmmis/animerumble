@@ -45,7 +45,7 @@ let status = {
     classes: ["physical", "chakra"],
     active: 2
   }),
-  dd: library.protect({
+  dd: library.dd({
     val: 15,
     owner: info.id,
     active: 3
