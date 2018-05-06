@@ -17,7 +17,7 @@ function sequence(state, payload) {
   payload.forEach(payload => {
     let offense = team(payload.offense);
     if (payload.aim === "randomenemy") {
-      let target = payload.target.splice(0, 1);
+      let target = payload.target[0];
       let random = payload.target[helper.getRandomInt(2)];
       payload.target = target.concat(random);
     }
