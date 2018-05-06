@@ -77,6 +77,7 @@ let skills = {
       s: 1,
       r: 1
     },
+    target: "allenemy",
     description:
       "Nami deals 5 affliction damage to all enemies for 5 turns. Nami's other skills deal 10 extra damage.",
     move: function(payload) {
