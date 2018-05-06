@@ -139,6 +139,7 @@ function buttonManagement(payload, option) {
 
           //Ignore
           let ignore = ignoreManagement(state, skill);          
+          console.log(invulnerable)
 
           //Prevent Invulnerability
           if (
@@ -316,9 +317,9 @@ function stunManagement(onState, skill) {
 
 function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
-    if (x.type === "invulnerable") {
+    if (x.type === "invulnerable") {      
       let intersect = _.intersection(x.classes, skill.classes);
-
+      console.log(x.info)
       let evaluate;
 
       if (x.info === "inclusive") {

@@ -89,6 +89,18 @@ function invulnerable(x) {
     type: "invulnerable",
     harmful: x.harmful ? x.harmful : false,
     effect: x.effect ? x.effect : x.type,
+    info: x.info ? x.info : "inclusive",
+    classes: x.classes
+      ? x.classes
+      : [
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "range",
+          "melee"
+        ],
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     owner: x.owner
@@ -144,7 +156,7 @@ function state(x) {
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
     info: x.info ? x.info : "",
-    description: x.description ? x.description : "",    
+    description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {},
     persistence: x.persistence ? x.persistence : "instant",
@@ -302,9 +314,9 @@ function dd(x) {
         ) {
           let dd = onReceive[index].val;
           let val = payload.val;
-          let diff = dd - val;          
+          let diff = dd - val;
           onReceive[index].val = diff;
-          console.log(diff, onReceive[index])
+          console.log(diff, onReceive[index]);
 
           let newVal = val - dd;
           if (diff >= 0) {
@@ -321,7 +333,7 @@ function dd(x) {
         }
       }
 
-      console.log('DD', payload)
+      console.log("DD", payload);
     }
   };
 }
