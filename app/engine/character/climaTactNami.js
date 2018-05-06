@@ -52,7 +52,18 @@ let status = {
   }),
   state: library.state({
     active: 5
-  })
+  }),
+  transform: {
+    name: "Transform",
+    owner: info.id,
+    active: 1,
+    harmful: false,
+    modify: function(payload) {
+      let swap = payload.offense.skill[1];
+      payload.offense.skill[1] = payload.offense.skill[4];
+      payload.offense.skill[4] = swap;
+    }
+  }
 };
 
 let skills = {
@@ -84,7 +95,7 @@ let skills = {
     cooldown: 0,
     classes: ["action", "melee", "physical"],
     description:
-      "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and chakra skills, and dealing 15 for 2 turns.",
+      "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and chakra skills, and dealing 15 for 2 turns. This skill will become Party Trick.",
     energy: {
       r: 2
     },
@@ -102,6 +113,15 @@ let skills = {
           new constructor.status(status.bleed2, this, this.name, this.nameId, 2)
         );
       }
+      payload.offense.status.onSelf.push(
+        new constructor.status(
+          status.transform,
+          this,
+          this.name,
+          this.nameId,
+          2
+        )
+      );
     }
   },
   skill3: {
@@ -161,6 +181,28 @@ let skills = {
         );
       }
     }
+  },
+  skill5: {
+    name: "Party Trick",
+    type: "self",
+    val: 0,
+    cooldown: 3,
+    description:
+      "Nami uses a party trick installed by Usopp replacing Party Tricks with Tornado Tempest.",
+    target: "self",
+    classes: ["instant", "physical"],
+    energy: {},
+    move: function(payload) {
+      payload.offense.status.onSelf.push(
+        new constructor.status(
+          status.transform,
+          this,
+          this.name,
+          this.nameId,
+          5
+        )
+      );
+    }
   }
 };
 
@@ -168,7 +210,7 @@ let character = {
   name: info.name,
   id: info.id,
   hp: 100,
-  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
+  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4, skills.skill5]
 };
 
 module.exports = character;
