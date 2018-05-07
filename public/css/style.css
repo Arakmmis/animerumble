@@ -7108,7 +7108,7 @@ img.img-100 {
       opacity: 0.5; }
 
 .create {
-  background: url("/assets/create/bg.gif") repeat;
+  background: #aec6cf;
   min-height: 100vh; }
 
 .create--sandbox {
