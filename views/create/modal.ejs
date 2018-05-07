@@ -1,0 +1,66 @@
+<script type="text/x-template" id="modal-create">
+    <transition name="modal">
+        <div class="create--modal">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+
+                        <div class="modal-body">
+                            <slot name="body">
+                                <p><img src="/assets/energy/energy_0.gif" /> {{pool.a}} <button @click="select('a')">+</button><button @click="deselect('a')" :disabled="disabled('a')">-</button></p>
+                                <p><img src="/assets/energy/energy_1.gif" /> {{pool.i}} <button @click="select('i')">+</button><button @click="deselect('i')" :disabled="disabled('i')">-</button></p>
+                                <p><img src="/assets/energy/energy_2.gif" /> {{pool.s}} <button @click="select('s')">+</button><button @click="deselect('s')" :disabled="disabled('s')">-</button></p>
+                                <p><img src="/assets/energy/energy_3.gif" /> {{pool.w}} <button @click="select('w')">+</button><button @click="deselect('w')" :disabled="disabled('w')">-</button></p>
+                                <p><img src="/assets/energy/energy_random.gif" /> {{pool.r}} <button @click="select('r')">+</button><button @click="deselect('r')" :disabled="disabled('r')">-</button></p>
+                            </slot>
+                        </div>
+
+                        <div class="modal-footer">
+                            <slot name="footer">
+                                <button class="modal-default-button btn-color4 w-100" @click="$emit('close', pool)">
+                                    Done
+                                </button>
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </transition>
+  </script>
+
+<script>
+    Vue.component('modal', {
+        props: ['energy'],
+        template: '#modal-create',
+        data: function () {
+            return {
+                pool: {
+                    a: this.energy.a ? this.energy.a : 0,
+                    i: this.energy.i ? this.energy.i : 0,
+                    s: this.energy.s ? this.energy.s : 0,
+                    w: this.energy.w ? this.energy.w : 0,
+                    r: this.energy.r ? this.energy.r : 0,
+                }
+            }
+        },
+        methods: {
+            select: function (choice) {
+                this.pool[choice] += 1
+            },
+            deselect: function (choice) {
+                if (this.pool[choice] > 0) {
+                    this.pool[choice] -= 1
+                }
+            },
+            disabled: function (choice) {
+                if (this.pool[choice] === 0) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+        }
+    })
+</script>

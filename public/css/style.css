@@ -7107,4 +7107,165 @@ img.img-100 {
       border-color: #667ED5;
       opacity: 0.5; }
 
+.create {
+  background: url("/assets/create/bg.gif") repeat;
+  min-height: 100vh; }
+
+.create--sandbox {
+  min-height: 100vh;
+  width: 600px;
+  background-color: #fff;
+  padding: 10px; }
+  .create--sandbox p {
+    margin-bottom: 0; }
+  .create--sandbox .l--label {
+    font-size: 11px; }
+    .create--sandbox .l--label .l--icon {
+      color: #ffffff; }
+    .create--sandbox .l--label:hover .l--icon {
+      color: #a1a1a1; }
+  .create--sandbox .l--energy {
+    margin: 0 1px;
+    display: block;
+    height: 10px;
+    width: 10px; }
+  .create--sandbox .l--sublabel {
+    font-size: 10px;
+    color: #808080; }
+
+.create--name {
+  border: none;
+  background: none;
+  font-size: 11px;
+  color: #222;
+  padding: 0px;
+  padding-top: 2px;
+  height: 20px;
+  flex: 2; }
+  .create--name.l--main {
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 0px; }
+  .create--name.l--bold {
+    font-weight: bold; }
+  .create--name.l--lable {
+    font-size: 11px; }
+  .create--name.l--sublabel {
+    font-size: 10px;
+    color: #808080; }
+  .create--name.l--m2px {
+    padding-top: 2px; }
+  .create--name::-webkit-input-placeholder {
+    color: #999;
+    font-weight: 400 !important; }
+  .create--name:-moz-placeholder {
+    color: #999;
+    font-weight: 400 !important; }
+  .create--name::-moz-placeholder {
+    color: #999;
+    font-weight: 400 !important; }
+  .create--name:-ms-input-placeholder {
+    color: #999;
+    font-weight: 400 !important; }
+  .create--name:focus {
+    outline: none !important; }
+
+.create--options {
+  padding: 0 5px;
+  cursor: pointer;
+  color: #c1c1c1; }
+  .create--options:hover {
+    color: #222; }
+
+.create--box .l--body {
+  border-top: 1px dotted #222;
+  border-bottom: 1px dotted #222;
+  background-color: #fafafa;
+  padding: 5px; }
+  .create--box .l--body .l--img {
+    max-height: 75px; }
+    .create--box .l--body .l--img .create--upload {
+      opacity: 0;
+      width: 75px;
+      height: 75px;
+      margin-top: -75px;
+      cursor: pointer;
+      z-index: 2;
+      font-size: 10px; }
+    .create--box .l--body .l--img .l--img-upload {
+      border: 1px solid #222;
+      height: 75px;
+      width: 75px;
+      max-height: 75px; }
+  .create--box .l--body textarea {
+    margin: 0;
+    background: none;
+    border: none;
+    width: 100%;
+    font-size: 11px;
+    margin-left: 5px;
+    resize: none; }
+    .create--box .l--body textarea::-webkit-input-placeholder {
+      color: #999;
+      font-weight: 400 !important; }
+    .create--box .l--body textarea:-moz-placeholder {
+      color: #999;
+      font-weight: 400 !important; }
+    .create--box .l--body textarea::-moz-placeholder {
+      color: #999;
+      font-weight: 400 !important; }
+    .create--box .l--body textarea:-ms-input-placeholder {
+      color: #999;
+      font-weight: 400 !important; }
+    .create--box .l--body textarea:focus {
+      outline: none !important; }
+
+.create--modal {
+  /*
+       * The following styles are auto-applied to elements with
+       * transition="modal" when their visibility is toggled
+       * by Vue.js.
+       *
+       * You can easily play with the modal transition by editing
+       * these styles.
+       */ }
+  .create--modal .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease; }
+  .create--modal .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle; }
+  .create--modal .modal-container {
+    width: 300px;
+    height: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif; }
+  .create--modal .modal-header h3 {
+    margin-top: 0;
+    color: #42b983; }
+  .create--modal .modal-body {
+    margin: 20px 0; }
+  .create--modal .modal-default-button {
+    float: right; }
+  .create--modal .modal-enter {
+    opacity: 0; }
+  .create--modal .modal-leave-active {
+    opacity: 0; }
+  .create--modal .modal-enter .modal-container,
+  .create--modal .modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); }
+
 /*# sourceMappingURL=style.css.map */

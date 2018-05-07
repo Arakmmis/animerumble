@@ -1,0 +1,197 @@
+<head>
+    <title>Anime Rumble</title>
+    <script src="/js/vue.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/autosize.js"></script>
+    <script src="/js/lodash.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/html2canvas.min.js"></script>
+    <script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="create d-flex flex-row justify-content-center">
+            <div class="create--sandbox d-flex flex-column align-items-center" id="capture">
+
+                <!-- Name -->
+                <div class="create--box w-75">
+                    <div class="d-flex flex-row align-items-end">
+                        <input placeholder="Name" class="create--name l--main" v-model="profile.name"></input>
+                    </div>
+                    <div class="l--body d-flex flex-row">
+                        <div class="l--img">
+                            <img :src="profile.picture !== '' ? profile.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
+                            <form enctype="multipart/form-data">
+                                <input type="file" @change="onFileChanged($event, 'profile')" name="avatar" class="create--upload">
+                            </form>
+                        </div>
+                        <textarea placeholder="Enter your text here" v-model="profile.description"></textarea>
+                    </div>
+                    <div class="d-flex flex-row align-items-end">
+                        <p class="l--label mr-1">
+                            <b>Author</b>
+                        </p>
+                        <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="d-flex flex-row flex-wrap w-100">
+                    <div class="create--box w-50 p-1" v-for="(item, i) in skills">
+                        <div class="d-flex flex-row align-items-end">
+                            <p class="l--label mr-1">Skill:</p>
+                            <input placeholder="Skill Name" class="create--name l--main" v-model="item.name"></input>
+                        </div>
+                        <div class="l--body d-flex flex-row">
+                            <div class="l--img">
+                                <img :src="item.picture !== '' ? item.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
+                                <form enctype="multipart/form-data">
+                                    <input type="file" @change="onFileChanged($event, 'skills', i)" name="avatar" class="create--upload">
+                                </form>
+                            </div>
+                            <textarea placeholder="Enter your text here." v-model="item.text"></textarea>
+                        </div>
+                        <div class="d-flex flex-row align-items-end justify-content-between align-items-center">
+                            <div class="d-flex flex-row">
+                                <p class="l--label p-1">
+                                    <u>Cooldown:</u>
+                                </p>
+                                <input placeholder="Enter cooldown here" class="create--name l--label" v-model="item.cooldown"></input>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <p class="l--label d-flex flex-row justify-content-between align-items-center" @click="openModal(i)">
+                                    <i class="icon-plus-circle l--icon"></i>
+                                    <u class="cursor p-1">Energy:</u>
+                                    <span v-if="(item.energy.a+item.energy.s+item.energy.i+item.energy.w+item.energy.r) === 0">None</span>
+                                    <img src="/assets/energy/energy_0.gif" v-if="item.energy.a > 0" v-for="n in item.energy.a" class="l--energy">
+                                    <img src="/assets/energy/energy_1.gif" v-if="item.energy.i > 0" v-for="n in item.energy.i" class="l--energy">
+                                    <img src="/assets/energy/energy_2.gif" v-if="item.energy.s > 0" v-for="n in item.energy.s" class="l--energy">
+                                    <img src="/assets/energy/energy_3.gif" v-if="item.energy.w > 0" v-for="n in item.energy.w" class="l--energy">
+                                    <img src="/assets/energy/energy_random.gif" v-if="item.energy.r > 0" v-for="n in item.energy.r" class="l--energy">
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <p class="l--sublabel p-1">Classes:</p>
+                            <input placeholder="Enter classes here" class="create--name l--sublabel" v-model="item.classes"></input>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row mt-4" data-html2canvas-ignore="true">
+                    <p @click="addSkill" class="create--options">
+                        <i class="icon-plus-circle"></i> Add Skills</p>
+                    <p @click="download" class="create--options">
+                        <i class="icon-picture"></i> Download</p>
+                    <!-- <p @click="addSkill" class="create--options">
+                        <i class="icon-angle-circled-down"></i> Save</p> -->
+                </div>
+
+            </div>
+        </div>
+
+        <modal v-if="showModal" :energy="skills[sendSkill].energy" @close="closeModal"></modal>
+    </div>
+
+    <% include create/modal.ejs %>
+
+        <script>
+            function skill(index, edit = false) {
+                return {
+                    name: '',
+                    index: index,
+                    edit: edit,
+                    picture: '',
+                    text: '',
+                    cooldown: 'None',
+                    energy: {
+                        a: 0,
+                        i: 0,
+                        s: 0,
+                        w: 0,
+                        r: 0
+                    },
+                    classes: 'Instant, Meele, Physical',
+                }
+            }
+
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    showModal: false,
+                    sendSkill: 0,
+                    profile: {
+                        name: '',
+                        picture: '',
+                        author: '',
+                        description: ''
+                    },
+                    skills: [
+                        _.cloneDeep(skill(0)),
+                        _.cloneDeep(skill(1)),
+                        _.cloneDeep(skill(2)),
+                        _.cloneDeep(skill(3)),
+                    ],
+                    selectedFile: null
+                },
+                methods: {
+                    onFileChanged(event, type, index) {
+                        //Loading
+                        if (type === 'skills') {
+                            this.skills[index].picture = '/assets/create/loading.png'
+                        } else if (type === 'profile') {
+                            this.profile.picture = '/assets/create/loading.png'
+                        }
+
+                        //Upload
+                        this.selectedFile = event.target.files[0]
+                        const formData = new FormData()
+                        formData.append('avatar', this.selectedFile, this.selectedFile.name)
+                        axios.post('/create/upload', formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).then(res => {
+                                console.log(res.data.link)
+                                if (type === 'skills') {
+                                    this.skills[index].picture = res.data.link
+                                } else if (type === 'profile') {
+                                    this.profile.picture = res.data.link
+                                }
+                            })
+                    },
+                    addSkill() {
+                        this.skills.push(skill(this.skills.length, true))
+                    },
+                    openModal(skill) {
+                        this.sendSkill = skill
+                        this.showModal = true
+                    },
+                    closeModal(e) {
+                        console.log(e)
+                        let packet = e;
+                        this.skills[this.sendSkill].energy = packet
+                        console.log(this.skills[this.sendSkill].energy)
+                        this.showModal = false
+                    },
+                    download() {
+                        let fileName = this.profile.name + ".png"
+                        html2canvas(document.querySelector("#capture"), { useCORS: true }).then(canvas => {
+                            // let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                            // window.location.href=image;
+                            canvas.toBlob(function (blob) {
+                                saveAs(blob, fileName);
+                            });
+                            // document.body.appendChild(canvas)
+                        });
+                    }
+                }
+            })
+
+            autosize(document.querySelectorAll('textarea'));
+        </script>
+</body>
