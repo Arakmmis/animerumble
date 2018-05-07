@@ -7,8 +7,9 @@
 .create--sandbox {
   min-height: 100vh;
   width: 600px;
-  background-color: #fff;
+//   background-color: #fff;
   padding: 10px;
+  background: #fff url("/assets/create/watermark.jpg") no-repeat center center;
   p {
     margin-bottom: 0;
   }
@@ -84,7 +85,7 @@
   .l--body {
     border-top: 1px dotted #222;
     border-bottom: 1px dotted #222;
-    background-color: #fafafa;
+    background-color: rgba(230, 230, 230, 0.3);
     padding: 5px;
     .l--img {
       max-height: 75px;

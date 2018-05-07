@@ -55,7 +55,7 @@
                             <textarea placeholder="Enter your text here." v-model="item.text"></textarea>
                         </div>
                         <div class="d-flex flex-row align-items-end justify-content-between align-items-center">
-                            <div class="d-flex flex-row">
+                            <div class="d-flex flex-row w-25">
                                 <p class="l--label p-1">
                                     <u>Cooldown:</u>
                                 </p>
@@ -166,6 +166,9 @@
                     },
                     addSkill() {
                         this.skills.push(skill(this.skills.length, true))
+                        setTimeout(() => {
+                            autosize(document.querySelectorAll('textarea'));
+                        }, 100)
                     },
                     openModal(skill) {
                         this.sendSkill = skill
@@ -179,7 +182,8 @@
                         this.showModal = false
                     },
                     download() {
-                        let fileName = this.profile.name + ".png"
+                        let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble.png'
+                        let fileName = name + ".png"
                         html2canvas(document.querySelector("#capture"), { useCORS: true }).then(canvas => {
                             // let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                             // window.location.href=image;

@@ -7114,8 +7114,8 @@ img.img-100 {
 .create--sandbox {
   min-height: 100vh;
   width: 600px;
-  background-color: #fff;
-  padding: 10px; }
+  padding: 10px;
+  background: #fff url("/assets/create/watermark.jpg") no-repeat center center; }
   .create--sandbox p {
     margin-bottom: 0; }
   .create--sandbox .l--label {
@@ -7180,7 +7180,7 @@ img.img-100 {
 .create--box .l--body {
   border-top: 1px dotted #222;
   border-bottom: 1px dotted #222;
-  background-color: #fafafa;
+  background-color: rgba(230, 230, 230, 0.3);
   padding: 5px; }
   .create--box .l--body .l--img {
     max-height: 75px; }
