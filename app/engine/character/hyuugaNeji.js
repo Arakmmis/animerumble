@@ -76,10 +76,10 @@ let skills = {
       "Using the Hyuuga clan's special form of taijutsu, Neji deals 25 damage to one enemy for 2 turns. During this time, that enemy will deal 5 less damage with any non-affliction skill.",
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this, this.name, this.nameId, 2)
+        new constructor.status(status.bleed, this, this.name, this.nameId, 1)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this, this.name, this.nameId, 2)
+        new constructor.status(status.reduce, this, this.name, this.nameId, 1)
       );
     }
   },

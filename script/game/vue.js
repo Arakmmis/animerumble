@@ -41,6 +41,9 @@ let app = new Vue({
   },
   methods: {
     onExchange: function(e) {
+      //Sound
+      this.$refs.soundClick.play();
+      
       let state = this.state;
       this.source.energy.ally = e.energy;
       this.source.energy.ally.r =
@@ -81,6 +84,9 @@ let app = new Vue({
       }
     },
     onDone: function(e) {
+      //Sound
+      this.$refs.soundEndTurn.play();
+
       //Define
       let state = this.state;
       let packet = e.packet;
@@ -122,7 +128,7 @@ let app = new Vue({
         heroIndex: null
       };
     },
-    onSkill: function(payload) {
+    onSkill: function(payload) {      
       //Define and Switch State
       let state = this.state;
       let marking = this.source.ally[payload.heroIndex].skill[
@@ -185,6 +191,9 @@ let app = new Vue({
       }
     },
     onTarget: function(payload) {
+      //Sound
+      this.$refs.soundClick.play();
+
       //Define State
       let state = this.state;
 
@@ -232,9 +241,15 @@ let app = new Vue({
       };
     },
     onAttack: function(payload) {
+      //Sound
+      this.$refs.soundClick.play();
+
       this.state.energy.modal = true;
     },
     onDescription: function(payload) {
+      //Sound
+      this.$refs.soundClick.play();
+
       let state = this.state;
       let temporary = {
         offense: payload.name,

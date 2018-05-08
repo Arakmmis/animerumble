@@ -10,6 +10,10 @@ function vueBind(payload) {
   let turn = ally === "teamEven" ? 0 : 1;  
   let myTurn = payload.turn % 2 === turn ? true : false;  
   
+  if(myTurn === true){
+    app.$refs.soundStartTurn.play()
+  }
+
   let store = {
     energy: {
       ally: payload.energy[ally],

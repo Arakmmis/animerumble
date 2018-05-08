@@ -26,9 +26,17 @@
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
         <modalenergy v-if="state.energy.modal" :source="source" :packet="packet" :energy="source.energy.ally" :random="state.energy.random"
-            @close="state.energy.modal = false" @done="onDone"></modalenergy>
-        <modalexchange v-if="state.exchange.modal" :packet="packet" :energy="source.energy.ally" :random="state.energy.random" @close="state.exchange.modal = false"
+            @close="state.energy.modal = false, $refs.soundClick.play()" @done="onDone"></modalenergy>
+        <modalexchange v-if="state.exchange.modal" :packet="packet" :energy="source.energy.ally" :random="state.energy.random" @close="state.exchange.modal = false, $refs.soundClick.play()"
             @done="onExchange"></modalexchange>
+
+        <!-- Sounds -->
+        <audio ref="soundClick" src="/assets/sounds/click.mp3"></audio>
+        <audio ref="soundStartTurn" src="/assets/sounds/startturn.mp3"></audio>
+        <audio ref="soundEndTurn" src="/assets/sounds/endturn.mp3"></audio>
+        <audio ref="soundBad" src="/assets/sounds/bad.mp3"></audio>
+        <audio ref="soundLose" src="/assets/sounds/lose.mp3"></audio>
+        
     </div>
 
     <% include game/modal.ejs %>
