@@ -29,9 +29,13 @@ function getUser(payload = undefined) {
 }
 
 function updateUser(payload) {
-  var { index, position, package } = payload;
+  var { token, position, package } = payload;
+  let index = user.findIndex(x => x[2] === token)
+  console.log(index)
   user[index][position] = package;
   user[index][3] = true;
+  let current = user[index]
+  return [current, user]
 }
 
 function offline(payload) {
@@ -39,6 +43,7 @@ function offline(payload) {
   if (index > -1) {
     user[index][3] = false;
   }
+  return user
 }
 
 function deleteUser(payload) {

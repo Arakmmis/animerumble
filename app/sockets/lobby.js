@@ -5,16 +5,19 @@ let character = require("../engine/character/index.js");
 module.exports = function(io, socket) {
   socket.on("connectLobby", payload => {
     let user_ = model.getUser();
-    io.emit("users", user_);
-    console.log(socket.id);
-    console.log(payload);
     let index = user_.findIndex(x => x[2] === payload.token);
-    console.log(index);
+    // console.log(socket.id);
     // socket.id = payload.token
     if (index !== -1) {
+      let update_ = model.updateUser({
+        token: payload.token,
+        position: 0,
+        package: socket.id
+      });
+      console.log(index);
       socket.emit("logged", {
-        user: user_[index][1],
-        token: user_[index][2],
+        user: update_[0][1],
+        token: update_[0][2],
         character: character.map(x => {
           return {
             name: x.name,
@@ -22,27 +25,29 @@ module.exports = function(io, socket) {
           };
         })
       });
-      model.updateUser({
-        index: index,
-        position: 0,
-        package: socket.id
-      });
       // user_[index][0] = socket.id
+      console.log("test");
+      console.log("another test", update_[1]);
+      io.emit("users", update_[1]);
     }
   });
 
   socket.on("log", payload => {
+    console.log("LOGIN");
     let user_ = model.getUser();
     let exist = user_.some(x => x[1] === payload.name);
     if (exist === false) {
       console.log(socket.id);
       let token = uniqid();
       console.log("new token", token);
+
       // socket.id = token
       console.log("new socket", socket.id);
       model.setUser([socket.id, payload.name, token, true]);
       let user_ = model.getUser();
+      console.log("45!", user_);
       io.emit("users", user_);
+
       socket.emit("logged", {
         user: payload.name,
         token: token,
@@ -87,7 +92,8 @@ module.exports = function(io, socket) {
   });
 
   socket.on("disconnect", function() {
-    model.offline(socket.id);
+    let deleted = model.offline(socket.id);
+    console.log(deleted);
     let user_ = model.getUser();
     console.log("user disconnected");
     io.emit("users", user_);

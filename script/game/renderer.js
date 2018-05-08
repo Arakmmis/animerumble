@@ -5,14 +5,22 @@ function vueBind(payload) {
     return;
   }
   // console.log(payload);
-  let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";  
+  let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
-  let turn = ally === "teamEven" ? 0 : 1;  
-  let myTurn = payload.turn % 2 === turn ? true : false;  
-  
-  if(myTurn === true){
-    app.$refs.soundStartTurn.play()
+  let turn = ally === "teamEven" ? 0 : 1;
+  let myTurn = payload.turn % 2 === turn ? true : false;
+
+  if (myTurn === true) {
+    app.$refs.soundStartTurn.play();
   }
+
+  // if (payload.winner.state === true && payload.winner.name === username) {
+  // } else if (
+  //   payload.winner.state === true &&
+  //   payload.winner.name !== username
+  // ) {
+  //   app.$refs.soundLose.play();
+  // }
 
   let store = {
     energy: {

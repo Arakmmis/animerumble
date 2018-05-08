@@ -38,7 +38,28 @@
     <% include components/modal.ejs %>
 
         <script>
-            var socket = io();
+            const setCookie = (name, value, days = 7, path = '/') => {
+                const expires = new Date(Date.now() + days * 864e5).toGMTString()
+                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+            }
+
+            const getCookie = (name) => {
+                return document.cookie.split('; ').reduce((r, v) => {
+                    const parts = v.split('=')
+                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                }, '')
+            }
+
+            const deleteCookie = (name, path) => {
+                setCookie(name, '', -1, path)
+            }
+
+            let token = getCookie('token')
+            var socket = io('/lobby', {
+                query: {
+                    token: token
+                }
+            });
 
             let app = new Vue({
                 el: '#app',
@@ -102,24 +123,6 @@
                 }
             })
 
-            const setCookie = (name, value, days = 7, path = '/') => {
-                const expires = new Date(Date.now() + days * 864e5).toGMTString()
-                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-            }
-
-            const getCookie = (name) => {
-                return document.cookie.split('; ').reduce((r, v) => {
-                    const parts = v.split('=')
-                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
-                }, '')
-            }
-
-            const deleteCookie = (name, path) => {
-                setCookie(name, '', -1, path)
-            }
-
-
-            let token = getCookie('token')
             socket.emit('connectLobby', {
                 token: token
             })
@@ -152,8 +155,8 @@
             })
 
             socket.on('users', payload => {
-                console.log(payload)
-                app.players = payload
+                console.log('USERS', payload)
+                app.players = payload.filter(x => x[3] === true)
             })
         </script>
 </body>
