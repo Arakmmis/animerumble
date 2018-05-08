@@ -138,6 +138,7 @@ let skills = {
       payload.target.status.onReceive.push(
         new constructor.status(
           status.cooldownIncrease,
+          this,
           this.name,
           this.nameId,
           3
