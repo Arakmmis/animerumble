@@ -31,7 +31,7 @@ let status = {
         payload.val += this.val;
       }
     }
-  },  
+  },
   state: library.state({
     name: "Twin Rising Dragons Full Release",
     active: -1
@@ -42,7 +42,7 @@ let skills = {
   skill1: {
     name: "Twin Rising Dragons",
     type: "attack",
-    val: 0,
+    val: [20, 10, 10],
     cooldown: 0,
     energy: {
       a: 1
@@ -66,9 +66,9 @@ let skills = {
             new constructor.status(status.boost, this, 1)
           );
         }
-        payload.target.hp -= 20 + payload.val;
+        payload.target.hp -= payload.val;
       } else {
-        payload.target.hp -= 10 + payload.val;
+        payload.target.hp -= payload.val;
       }
     }
   },

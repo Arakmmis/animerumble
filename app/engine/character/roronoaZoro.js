@@ -22,35 +22,19 @@ let status = {
     val: 5,
     active: -1
   }),
-  // boost: {
-  //   name: "Shadow Clones",
-  //   val: 10,
-  //   type: "boost",
-  //   effect: "boostSpecific",
-  //   description: "Uzumaki Naruto Combo",
-  //   active: 4,
-  //   modify: function(payload) {
-  //     if (payload.skillStore.name === "Uzumaki Naruto Combo") {
-  //       payload.val += this.val;
-  //     }
-  //   }
-  // },
-  required: {
-    active: 4,
-    type: "allow",
-    effect: "allow",
-    description: "Rasengan",
+  boost2: library.boost({
+    isStack: true,
+    val: 10,
+    active: -1
+  }),
+  transform: {
+    name: "Transform",
+    active: 1,
+    harmful: false,
     modify: function(payload) {
-      let index = payload.offense.skill.findIndex(x => x.name === "Rasengan");
-      if (index !== -1) {
-        if (payload.active > 1) {
-          payload.offense.skill[index].required = false;
-          console.log("ZERO", payload.active);
-        } else if (payload.active === 1) {
-          payload.offense.skill[index].required = true;
-          console.log("LAST", payload.active);
-        }
-      }
+      let swap = payload.offense.skill[3];
+      payload.offense.skill[3] = payload.offense.skill[4];
+      payload.offense.skill[4] = swap;
     }
   }
 };
@@ -65,6 +49,8 @@ let skills = {
     energy: {
       a: 1
     },
+    isMulti: true,
+    multi: 3,
     description:
       "Zoro strikes from three different directions, dealing 0 damage three times. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
     target: "enemy",
@@ -73,9 +59,8 @@ let skills = {
         {
           subject: payload.offense,
           onStatus: "onAttack",
-          status: boost,
-          inherit: this,
-          skillIndex: 1
+          status: status.boost,
+          inherit: this
         },
         "stack"
       );
@@ -93,7 +78,7 @@ let skills = {
     cooldown: 0,
     description:
       "Zoro strike with two of his swords, dealing 30 damage. If this skill does more than 30 damage, Zoro heals 10 hp. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
-    classes: ["instant", "melee", "chakra"],
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1,
       r: 1
@@ -104,9 +89,8 @@ let skills = {
         {
           subject: payload.offense,
           onStatus: "onAttack",
-          status: boost,
-          inherit: this,
-          skillIndex: 2
+          status: status.boost,
+          inherit: this
         },
         "stack"
       );
@@ -130,6 +114,8 @@ let skills = {
       "Zoro deals 0 damage 6 times. This skill cannot be countered or reflected. Zoro removes all skills effecting him.",
     target: "enemy",
     noCounter: true,
+    isMulti: true,
+    multi: 6,
     classes: ["instant", "melee", "physical"],
     energy: {
       a: 1,
@@ -158,7 +144,7 @@ let skills = {
     description:
       "Zoro deals 10 damage to a random enemy, and goes invulnerable for one turn. After this skill is used it becomes Dragon Twister. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
     target: "self",
-    classes: ["instant", "chakra"],
+    classes: ["instant", "melee", "physical"],
     energy: {
       r: 1
     },
@@ -166,21 +152,69 @@ let skills = {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
-        status: invulnerable,
-        inherit: this,
-        skillIndex: 4
+        status: status.invulnerable,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
       });
 
       skill.pushStatus(
         {
           subject: payload.offense,
           onStatus: "onAttack",
-          status: boost,
-          inherit: this,
-          skillIndex: 4
+          status: status.boost,
+          inherit: this
         },
         "stack"
       );
+    }
+  },
+  skill5: {
+    name: "Dragon Twister",
+    type: "attack",
+    val: 5,
+    cooldown: 3,
+    description:
+      "Zoro knocks an enemy into the air, stunning them and dealing 5 damage. This skill becomes Blade Wolf Stream. Each time this skill is used, Zoro deals 10 extra damage on all of his skills. This stacks.",
+    classes: ["instant", "melee", "physical"],
+    energy: {
+      i: 1
+    },
+    target: "enemy",
+    move: function(payload) {
+      skill.pushStatus(
+        {
+          subject: payload.offense,
+          onStatus: "onAttack",
+          status: status.boost2,
+          inherit: this
+        },
+        "stack"
+      );
+
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.stun,
+        inherit: this
+      });
+
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   }
 };
@@ -189,7 +223,13 @@ let character = {
   name: info.name,
   id: info.id,
   hp: 100,
-  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
+  skill: [
+    skills.skill1,
+    skills.skill2,
+    skills.skill3,
+    skills.skill4,
+    skills.skill5
+  ]
 };
 
 module.exports = character;

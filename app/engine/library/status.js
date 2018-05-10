@@ -12,7 +12,7 @@ function boost(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      if (isStack) {
+      if (this.isStack) {
         payload.val += this.val * this.stack;
       } else {
         payload.val += this.val;
@@ -40,7 +40,7 @@ function protect(x) {
   return {
     name: x.name ? x.name : "Protect",
     val: x.val ? x.val : 15,
-    info: this.val,
+    info: x.val,
     type: "protect",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
@@ -67,17 +67,31 @@ function protect(x) {
         disableDrIv = false;
       }
 
+      let tempVal = onReceive[index].info;
+
       let affliction = payload.skillStore.classes.some(x => x === "affliction");
-      console.log("REDUCE VAL", payload.val);
-      if (index > -1 && payload.val !== 0 && payload.val > 0) {
+      console.log("REDUCE VAL", payload.val, tempVal);
+      if (index > -1 && payload.val !== 0 && payload.val > 0 && tempVal > 0) {
         if (
           onReceive[index].usage === 0 &&
           payload.skillStore.type !== "piercing" &&
           disableDrIv === false &&
           affliction === false
         ) {
-          payload.val -= this.val;
-          onReceive[index].usage += 1;
+          let tempVal = onReceive[index].info;
+          let val = payload.val;
+          let diff = tempVal - val;
+          onReceive[index].info = diff;
+          console.log(diff, onReceive[index]);
+
+          if (diff >= 0) {
+            payload.val = 0;
+          } else {
+            payload.val = Math.abs(diff);
+          }
+
+          // payload.val -= this.val;
+          // onReceive[index].usage += 1;
           console.log("REDUCE!!", onReceive[index], payload);
         }
       }

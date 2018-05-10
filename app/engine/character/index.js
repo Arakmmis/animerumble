@@ -12,6 +12,7 @@ let hyuugaHinata = require("./hyuugaHinata.js");
 let yamanakaIno = require("./yamanakaIno.js");
 let gaara = require("./gaara.js");
 let climaTactNami = require("./climaTactNami.js");
+let roronoaZoro = require("./roronoaZoro.js");
 
 module.exports = [
   uzumakiNaruto,
@@ -27,5 +28,6 @@ module.exports = [
   tenten,
   hyuugaNeji,
   gaara,
-  climaTactNami
+  climaTactNami,
+  roronoaZoro
 ];

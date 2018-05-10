@@ -52,6 +52,7 @@ function skill(payload, nameId) {
   this.required = payload.required ? true : false;
   this.marking = payload.marking ? payload.marking : false;
   this.usage = payload.usage ? payload.usage : 0;
+  this.multi = payload.multi ? payload.multi : 0;
 
   //State Modifier
   this.noCounter = payload.noCounter ? true : false;
@@ -78,7 +79,7 @@ function status(payload, inherit, skill) {
   this.name = inherit.name;
   this.nameId = inherit.nameId;
   this.owner = inherit.nameId;
-  this.skillIndex = inherit.id;
+  this.skillIndex = inherit.id + 1;
 
   //Core
   this.active = payload.active;
@@ -93,7 +94,7 @@ function status(payload, inherit, skill) {
   this.allow = payload.allow ? payload.allow : false;
   this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
-  this.stack = payload.stack ? payload.stack : 0;
+  this.stack = payload.stack ? payload.stack : 1;
 
   //State Modifier
   this.isCounter = payload.isCounter ? payload.isCounter : false;

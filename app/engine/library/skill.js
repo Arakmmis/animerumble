@@ -1,3 +1,5 @@
+let constructor = require("../constructor.js");
+
 function pushStatus(package, type = "normal") {
   //Define
   let subject = package.subject;
@@ -63,7 +65,7 @@ function damage(package) {
   let subject = package.subject;
   let val = package.val;
 
-  subject.hp -= payload.val;
+  subject.hp -= val;
 }
 
 module.exports = {

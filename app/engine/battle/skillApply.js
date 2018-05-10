@@ -1,11 +1,26 @@
 const statusApply = require("./statusApply.js");
 const energyManagement = require("./energyManagement.js");
 
+function execute(package) {
+  if (package.offense.status.onAttack.length > 0) {
+    statusApply(package, package.move, "offense");
+  } else {
+    if (package.target.status.onReceive.length > 0) {
+      statusApply(package, package.move, "target");
+    } else {
+      package.target = package.move(package);
+    }
+  }
+}
+
 function skillApply(payload) {
+  let val = payload.offense.skill[payload.skill].val;
+  val = Array.isArray(val) ? val[payload.recursive] : val; //Attack with different val mechanic
+
   let package = {
     offense: payload.offense,
     target: payload.target,
-    val: payload.offense.skill[payload.skill].val,
+    val: val,
     skill: payload.skill,
     skillStore: payload.offense.skill[payload.skill],
     move: payload.offense.skill[payload.skill].move,
@@ -15,15 +30,8 @@ function skillApply(payload) {
     myTurn: payload.myTurn,
     store: payload.store
   };
-  if (payload.offense.status.onAttack.length > 0) {
-    statusApply(package, package.move, "offense");
-  } else {
-    if (payload.target.status.onReceive.length > 0) {
-      statusApply(package, package.move, "target");
-    } else {
-      payload.target = package.move(package);
-    }
-  }
+
+  execute(package);
 
   //Cleanup
   payload.offense.skill[payload.skill].state = "cooldown";
