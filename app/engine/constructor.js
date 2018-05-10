@@ -62,10 +62,10 @@ function skill(payload, nameId) {
 
   this.move = payload.move.bind(this);
 }
-function status(payload, inherit, name, nameId, skill) {
-  this.name = inherit.name ? inherit.name : payload.name;
-  this.nameId = inherit.nameId ? inherit.nameId : nameId;
-  this.owner = inherit.nameId ? inherit.nameId : nameId;
+function status(payload, inherit, skill) {
+  this.name = inherit.name;
+  this.nameId = inherit.nameId;
+  this.owner = inherit.nameId;
   this.active = payload.active;
   this.val = payload.val;
   this.type = payload.type;

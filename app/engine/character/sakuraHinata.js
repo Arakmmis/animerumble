@@ -62,7 +62,7 @@ let skills = {
     classes: ["instant", "melee", "physical"],
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.stun, this, this.name, this.nameId, 1)
+        new constructor.status(status.stun, this, 1)
       );
       payload.target.hp -= payload.val;
     }
@@ -97,13 +97,13 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.ignore, this, this.name, this.nameId, 3)
+        new constructor.status(status.ignore, this, 3)
       )
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this, this.name, this.nameId, 3)
+        new constructor.status(status.protect, this, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this, this.name, this.nameId, 3)
+        new constructor.status(status.boost, this, 3)
       );
     }
   },
@@ -120,7 +120,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, this, 4)
       );
     }
   }

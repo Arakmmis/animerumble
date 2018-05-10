@@ -91,7 +91,7 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.stun, this, this.name, this.nameId, 2)
+        new constructor.status(status.stun, this, 2)
       );
       payload.target.hp -= payload.val;
     }
@@ -110,13 +110,13 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onSelf.push(
-        new constructor.status(status.required, this, this.name, this.nameId, 3)
+        new constructor.status(status.required, this, 3)
       );
       payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this, this.name, this.nameId, 3)
+        new constructor.status(status.protect, this, 3)
       );
       payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this, this.name, this.nameId, 3)
+        new constructor.status(status.boost, this, 3)
       );
     }
   },
@@ -133,7 +133,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, this.name, this.nameId, 4)
+        new constructor.status(status.invulnerable, 4)
       );
     }
   }

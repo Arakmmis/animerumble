@@ -82,10 +82,10 @@ let skills = {
       "Nami deals 5 affliction damage to all enemies for 5 turns. Nami's other skills deal 10 extra damage.",
     move: function(payload) {
       payload.offense.status.onState.push(
-        new constructor.status(status.state, this, this.name, this.nameId, 1)
+        new constructor.status(status.state, this, 1)
       );
       payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this, this.name, this.nameId, 1)
+        new constructor.status(status.bleed, this, 1)
       );
     }
   },
@@ -107,21 +107,15 @@ let skills = {
       );
       if (state) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed3, this, this.name, this.nameId, 2)
+          new constructor.status(status.bleed3, this, 2)
         );
       } else {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this, this.name, this.nameId, 2)
+          new constructor.status(status.bleed2, this, 2)
         );
       }
       payload.offense.status.onSelf.push(
-        new constructor.status(
-          status.transform,
-          this,
-          this.name,
-          this.nameId,
-          2
-        )
+        new constructor.status(status.transform, this, 2)
       );
     }
   },
@@ -142,11 +136,11 @@ let skills = {
       );
       if (state) {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed5, this, this.name, this.nameId, 3)
+          new constructor.status(status.bleed5, this, 3)
         );
       } else {
         payload.target.status.onSelf.push(
-          new constructor.status(status.bleed4, this, this.name, this.nameId, 3)
+          new constructor.status(status.bleed4, this, 3)
         );
       }
     }
@@ -165,20 +159,14 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(
-          status.invulnerable,
-          this,
-          this.name,
-          this.nameId,
-          4
-        )
+        new constructor.status(status.invulnerable, this, 4)
       );
       let state = payload.offense.status.onState.some(
         x => x.name === "Heat Ball - Cool Ball"
       );
       if (state) {
         payload.target.status.onReceive.push(
-          new constructor.status(status.dd, this, this.name, this.nameId, 4)
+          new constructor.status(status.dd, this, 4)
         );
       }
     }
@@ -195,13 +183,7 @@ let skills = {
     energy: {},
     move: function(payload) {
       payload.offense.status.onSelf.push(
-        new constructor.status(
-          status.transform,
-          this,
-          this.name,
-          this.nameId,
-          5
-        )
+        new constructor.status(status.transform, this, 5)
       );
     }
   }
@@ -211,7 +193,13 @@ let character = {
   name: info.name,
   id: info.id,
   hp: 100,
-  skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4, skills.skill5]
+  skill: [
+    skills.skill1,
+    skills.skill2,
+    skills.skill3,
+    skills.skill4,
+    skills.skill5
+  ]
 };
 
 module.exports = character;

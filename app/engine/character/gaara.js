@@ -28,7 +28,7 @@ let status = {
   }),
   state: library.state({
     name: "Sand Coffin",
-    type: 'lock',
+    type: "lock",
     info: "Sand Burial",
     active: 3,
     harmful: false,
@@ -42,7 +42,7 @@ let status = {
   }),
   transform: {
     name: "Transform",
-    owner: info.id,    
+    owner: info.id,
     active: 3,
     harmful: false,
     modify: function(payload) {
@@ -75,12 +75,12 @@ let skills = {
       "Gaara surrounds one enemy with a pile of sand stunning their non-mental skills for 2 turns. For 2 turns, that enemy cannot reduce damage or become invulnerable. During this time, this skill will be replaced by 'Sand Burial'.",
     move: function(payload) {
       payload.offense.status.onSelf.push(
-        new constructor.status(status.transform, this, this.name, this.nameId, 1)
-      );      
+        new constructor.status(status.transform, this, 1)
+      );
       payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this, this.name, this.nameId, 1),
-        new constructor.status(status.state, this, this.name, this.nameId, 1),
-        new constructor.status(status.stun, this, this.name, this.nameId, 1)
+        new constructor.status(status.disableDrIv, this, 1),
+        new constructor.status(status.state, this, 1),
+        new constructor.status(status.stun, this, 1)
       );
     }
   },
@@ -96,7 +96,7 @@ let skills = {
     target: "self",
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.ignore, this, this.name, this.nameId, 2)
+        new constructor.status(status.ignore, this, 2)
       );
     }
   },
@@ -120,7 +120,7 @@ let skills = {
         );
       }
       payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this, this.name, this.nameId, 3)
+        new constructor.status(status.dd, this, 3)
       );
     }
   },
@@ -137,13 +137,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(
-          status.invulnerable,
-          this,
-          this.name,
-          this.nameId,
-          4
-        )
+        new constructor.status(status.invulnerable, this, 4)
       );
     }
   },
