@@ -11,7 +11,6 @@ let status = {
   bleed: library.bleed({
     val: 5,
     active: 5,
-
     persistence: "control"
   }),
   bleed2: library.bleed({
@@ -23,19 +22,16 @@ let status = {
   bleed3: library.bleed({
     val: 25,
     active: 2,
-
     persistence: "action"
   }),
   bleed4: library.bleed({
     val: 10,
     active: 2,
-
     persistence: "action"
   }),
   bleed5: library.bleed({
     val: 20,
     active: 2,
-
     persistence: "action"
   }),
   stun: library.stun({
@@ -44,7 +40,6 @@ let status = {
   }),
   dd: library.dd({
     val: 15,
-
     active: 3
   }),
   state: library.state({
@@ -52,7 +47,6 @@ let status = {
   }),
   transform: {
     name: "Transform",
-
     active: 1,
     harmful: false,
     modify: function(payload) {

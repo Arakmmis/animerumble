@@ -27,7 +27,6 @@ let status = {
   }),
   boost1: {
     name: "Front Lotus",
-
     val: 30,
     type: "boost",
     harmful: false,
@@ -40,7 +39,6 @@ let status = {
   },
   boost2: {
     name: "Front Lotus",
-
     val: 10,
     type: "boost",
     harmful: false,
@@ -58,7 +56,6 @@ let status = {
   }),
   transform: {
     name: "Transform",
-
     active: 3,
     harmful: false,
     modify: function(payload) {

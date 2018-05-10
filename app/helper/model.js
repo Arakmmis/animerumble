@@ -94,13 +94,32 @@ function deleteMatch(payload) {
   console.log(match);
 }
 
+//Match Making
+let queue = [];
+
+function matchMaking(payload, callback) {
+  let pool = queue.length;
+
+  if (pool > 0) {
+    //There's Opponent
+    let randomIndex = getRandomInt(pool); //Randomly Choose Opponent
+    let opponent = queue[getRandomInt(pool)]; //Get Opponent from Queue
+    queue = queue.filter(x => x.username !== opponent.username); //Remove Opponent from Queue
+    callback(opponent); //Callback to Getter
+  } else {
+    //No Opponent
+    queue.push({ username: payload.username, char: payload.char }); //Add self to Queue
+  }
+}
+
 module.exports = {
-  setUser: setUser,
-  getUser: getUser,
-  updateUser: updateUser,
-  deleteUser: deleteUser,
-  setMatch: setMatch,
-  getMatch: getMatch,
-  deleteMatch: deleteMatch,
-  offline
+  setUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  setMatch,
+  getMatch,
+  deleteMatch,
+  offline,
+  matchMaking
 };

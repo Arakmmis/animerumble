@@ -48,22 +48,35 @@
   }
 }
 
-.selection--choice {  
+.selection--choice {
   // border-radius: 5px;
-  border: 19px solid $color5;
+  border: 15px solid $color5;
   min-height: 160px;
   margin-top: 20px;
 
   // border: 19px solid #222;
-  border-image-source: url('https://i.imgur.com/xrF16uy.png');
-  border-image-slice: 19 fill;
-  border-image-width: 19px 19px 19px 19px;
+  border-image-source: url("https://i.imgur.com/uwgJl9y.jpg");
+  border-image-slice: 5 15 5 5 fill;
+  border-image-width: 5px 15px 5px 5px;
   border-image-repeat: round;
-  padding: 10px 10px;
+  // padding: 5px 20px 5px 5px;
   // .l--inner{
   //   // background: #f7f5f1;
   //   padding: 10px 10px;
+  position: relative;
   // }
+
+  &::before {
+    content: "";
+    background-image: url("https://i.imgur.com/UysjrVE.png");
+    background-size: 100% 100%;
+    position: absolute;
+    /*   z-index:1000; */
+    height: 130%;
+    width: 20px;
+    top: -25px;
+    left: -15px;
+  }
 }
 .selection--char {
   border: 1px solid #222;

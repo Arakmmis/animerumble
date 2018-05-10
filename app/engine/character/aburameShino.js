@@ -15,7 +15,6 @@ let status = {
   }),
   boost: {
     name: "Chakra Leech",
-
     val: 5,
     effect: "custom",
     description: "Increase 5 damage received from Chakra Leech",
@@ -29,10 +28,9 @@ let status = {
   },
   dd: library.dd({
     name: "Bug Wall",
-
     val: 20,
     type: "dd",
-    active: 3
+    active: -1
   })
 };
 

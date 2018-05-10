@@ -23,7 +23,6 @@ let status = {
   }),
   boost: {
     name: "Twin Rising Dragons",
-
     val: 10,
     type: "skill",
     active: -1,
@@ -32,24 +31,7 @@ let status = {
         payload.val += this.val;
       }
     }
-  },
-  dd: {
-    name: "Bug Wall",
-
-    val: 20,
-    type: "dd",
-    active: -1,
-    modify: function(payload) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(x => x.name === "Bug Wall");
-      onReceive[index].val -= this.val;
-      if (onReceive[index.val] <= 0) {
-        payload.val += onReceive[index.val];
-      } else {
-        payload.val = 0;
-      }
-    }
-  },
+  },  
   state: library.state({
     name: "Twin Rising Dragons Full Release",
     active: -1

@@ -19,13 +19,11 @@ let status = {
   }),
   drain: library.drain({
     name: "Hinata Gentle Fist",
-
     val: 1,
     active: 2
   }),
   dd: library.dd({
     name: "Protective Eight Trigrams Sixty-Four Palms",
-
     val: 20,
     active: 2
   }),

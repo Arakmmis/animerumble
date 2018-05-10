@@ -26,7 +26,6 @@ let status = {
   }),
   cooldownIncrease: {
     name: "Chakra Hair Strand Trap",
-
     val: 30,
     type: "skill",
     active: 2,
@@ -36,7 +35,6 @@ let status = {
   },
   transform: {
     name: "Transform",
-
     active: 3,
     modify: function(payload) {
       if (payload.active === 3) {

@@ -2,8 +2,8 @@ let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 
 let info = {
-  id: "uzumakiNaruto",
-  name: "Uzumaki Naruto"
+  id: "roronoaZoro",
+  name: "Roronoa Zoro"
 };
 
 let status = {
@@ -51,28 +51,26 @@ let status = {
 
 let skills = {
   skill1: {
-    name: "Uzumaki Naruto Combo",
+    name: "",
     type: "attack",
-    val: 20,
+    val: 0,
     cooldown: 0,
     classes: ["instant", "melee", "physical"],
     energy: {
       a: 1
     },
-    description:
-      "Naruto's version of the Lion Combo. This skill deals 20 damage to one enemy. During 'Shadow Clones' this skill will deal 10 additional damage.",
+    description: "",
+    target: "enemy",
     move: function(payload) {
       payload.target.hp -= payload.val;
     }
   },
   skill2: {
-    name: "Rasengan",
+    name: "",
     type: "attack",
     val: 45,
     cooldown: 1,
-    description:
-      "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
-    required: true,
+    description: "",
     classes: ["instant", "melee", "chakra"],
     energy: {
       s: 1,
@@ -87,12 +85,12 @@ let skills = {
     }
   },
   skill3: {
-    name: "Shadow Clones",
+    name: "",
     type: "attack",
     val: 10,
     cooldown: 3,
     description:
-      "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
+      "",
     target: "self",
     classes: ["instant", "chakra"],
     energy: {
@@ -111,7 +109,7 @@ let skills = {
     }
   },
   skill4: {
-    name: "Sexy Technique",
+    name: "",
     type: "invulnerable",
     val: 10,
     cooldown: 4,

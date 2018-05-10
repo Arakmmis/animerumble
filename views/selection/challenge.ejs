@@ -1,5 +1,7 @@
 <div class="challenge">
     <div class="l--body">
+        <button @click="findMatch()" :disabled="lineup.length < 3" class="btn-color4 w-100 mb-2">Find a Match</button>
+
         <p class="l--title">ONLINE - {{players.filter(x => x[3]==='online').length}}</p>
         <div v-if="challenge.seen" class="challenge--accept">
             <p class="title-1">Challenge from {{challenge.challenger}}</p>

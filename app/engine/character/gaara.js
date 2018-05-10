@@ -35,7 +35,6 @@ let status = {
   }),
   transform: {
     name: "Transform",
-
     active: 3,
     harmful: false,
     modify: function(payload) {

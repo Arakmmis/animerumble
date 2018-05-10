@@ -42,9 +42,9 @@ function protect(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(s => {
-        return s.type === this.type && s.name === this.name;
-      });
+      let index = onReceive.findIndex(
+        s => s.type === this.type && s.name === this.name && s.usage === 0
+      );
 
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
@@ -287,13 +287,21 @@ function dd(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(s => s.type === this.type && s.name === this.name);
+      let index = onReceive.findIndex(
+        s => s.type === this.type && s.name === this.name && s.usage === 0
+      );
 
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
       let affliction = payload.skillStore.classes.some(x => x === "affliction");
-      console.log('before dd', index, onReceive[index].usage, payload.skillStore.type, disableDrIv)
+      console.log(
+        "before dd",
+        index,
+        onReceive[index].usage,
+        payload.skillStore.type,
+        disableDrIv
+      );
       if (index > -1) {
         if (
           onReceive[index].usage === 0 &&

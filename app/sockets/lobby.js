@@ -14,7 +14,7 @@ module.exports = function(io, socket) {
         username: auth.username,
         position: 0,
         package: socket.id,
-        status: 'online'
+        status: "online"
       });
       socket.emit("logged", {
         user: update_[0][1],
@@ -29,7 +29,7 @@ module.exports = function(io, socket) {
       io.emit("users", update_[1]);
     } else if (index === -1) {
       let token = uniqid();
-      model.setUser([socket.id, auth.username, token, 'online']);
+      model.setUser([socket.id, auth.username, token, "online"]);
       let user_ = model.getUser();
       io.emit("users", user_);
 
@@ -84,7 +84,7 @@ module.exports = function(io, socket) {
       console.log(user_[index][0]);
       io
         .to(user_[index][0])
-        .emit("challenge", { challenger: payload.from, char: payload.char });
+        .emit("challenge", { challenger: auth.username, char: payload.char });
     }
   });
 
@@ -92,7 +92,7 @@ module.exports = function(io, socket) {
     model.setMatch(
       {
         challenger: payload.to,
-        accept: payload.from,
+        accept: auth.username,
         challengerChar: payload.challengerChar,
         acceptChar: payload.acceptChar
       },
@@ -101,6 +101,31 @@ module.exports = function(io, socket) {
         console.log(model.getUser(payload.to)[0]);
         io.to(model.getUser(payload.to)[0]).emit("accepted", roomName);
         io.to(model.getUser(payload.from)[0]).emit("accepted", roomName);
+      }
+    );
+  });
+
+  socket.on("matchMaking", function(payload) {
+    model.matchMaking(
+      {
+        username: auth.username,
+        char: payload.char
+      },
+      function(opponent) {
+        model.setMatch(
+          {
+            challenger: opponent.username,
+            accept: auth.username,
+            challengerChar: opponent.char,
+            acceptChar: payload.char
+          },
+          roomName => {
+            io.to(model.getUser(auth.username)[0]).emit("accepted", roomName);
+            io
+              .to(model.getUser(opponent.username)[0])
+              .emit("accepted", roomName);
+          }
+        );
       }
     );
   });

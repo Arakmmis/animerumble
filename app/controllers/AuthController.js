@@ -50,7 +50,7 @@ userController.doLogin = function(req, res) {
 
 // logout
 userController.logout = function(req, res) {
-  console.log('logout')
+  console.log("logout");
   req.logout();
   res.redirect("/");
 };

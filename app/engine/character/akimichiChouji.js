@@ -21,7 +21,6 @@ let status = {
   }),
   boost1: {
     name: "Partial Multi-Size",
-
     val: 20,
     type: "skill",
     active: -1,
@@ -34,7 +33,6 @@ let status = {
   },
   boost2: {
     name: "Meat Tank",
-
     val: 10,
     type: "skill",
     active: -1,

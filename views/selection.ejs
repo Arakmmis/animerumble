@@ -119,6 +119,11 @@
                     },
                     deselectCharacter: function (payload) {
                         this.lineup = this.lineup.filter(x => x !== payload)
+                    },
+                    findMatch: function (payload) {
+                        socket.emit('matchMaking', {
+                            char: this.lineup
+                        })
                     }
                 }
             })

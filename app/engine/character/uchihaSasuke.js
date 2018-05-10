@@ -19,10 +19,8 @@ let status = {
   bleed: library.bleed({
     val: 5
   }),
-
   boost1: {
     name: "Sharingan",
-
     val: 25,
     type: "skill",
     active: 4,
@@ -34,7 +32,6 @@ let status = {
   },
   boost2: {
     name: "Sharingan",
-
     val: 15,
     type: "skill",
     active: 4,

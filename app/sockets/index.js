@@ -12,8 +12,7 @@ module.exports = function(http, passportSocketAuthorize) {
 
   //Connections
   let lobby = io.of("/lobby");
-  lobby.on("connection", function(socket) {
-    console.log("First!", socket.request.user.username);
+  lobby.on("connection", function(socket) {    
     require("./lobby.js")(lobby, socket);
   });
 

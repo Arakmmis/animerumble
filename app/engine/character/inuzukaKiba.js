@@ -14,18 +14,15 @@ let status = {
   stun: library.stun({}),
   protect: library.protect({
     val: 15,
-
     active: 3
   }),
   bleed: library.bleed({
     val: 15,
     active: 3,
-
     persistence: "action"
   }),
   boost: {
     name: "Dynamic Marking",
-
     val: 5,
     type: "skill",
     active: 3,

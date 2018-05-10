@@ -33,25 +33,27 @@ function character(
   this.nameId = payload.id + turn;
 }
 function skill(payload, nameId) {
+  //Meta
   this.id = payload.id;
   this.name = payload.name;
   this.nameId = nameId;
-  this.type = payload.type ? payload.type : "attack";
+  this.description = payload.description;
+
+  //Core
+  this.val = payload.val ? payload.val : 0;
+  this.target = payload.target ? payload.target : "enemy";
   this.cooldown = payload.cooldown ? payload.cooldown : 0;
   this.counter = payload.cooldown;
-  this.val = payload.val ? payload.val : 0;
-  this.description = payload.description;
-  this.target = payload.target ? payload.target : "enemy";
+  this.classes = payload.classes;
+  this.type = payload.type ? payload.type : "attack";
+
+  //Modifier
   this.state = payload.state ? payload.state : "active";
   this.required = payload.required ? true : false;
   this.marking = payload.marking ? payload.marking : false;
   this.usage = payload.usage ? payload.usage : 0;
 
-  // this.range = payload.range ? payload.range : false;
-  // this.class = payload.class ? payload.class : false;
-  // this.persistence = payload.persistence ? payload.persistence : false;
-  this.classes = payload.classes;
-
+  //Energy
   this.energy = {
     a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
     i: payload.energy ? (payload.energy.i ? payload.energy.i : 0) : 0,
@@ -60,26 +62,45 @@ function skill(payload, nameId) {
     r: payload.energy ? (payload.energy.r ? payload.energy.r : 0) : 0
   };
 
+  //Move
   this.move = payload.move.bind(this);
+
+  // this.range = payload.range ? payload.range : false;
+  // this.class = payload.class ? payload.class : false;
+  // this.persistence = payload.persistence ? payload.persistence : false;
 }
 function status(payload, inherit, skill) {
+  //Meta
   this.name = inherit.name;
   this.nameId = inherit.nameId;
   this.owner = inherit.nameId;
+  this.skillIndex = skill ? skill : 0;
+
+  //Core
   this.active = payload.active;
   this.val = payload.val;
   this.type = payload.type;
-  this.effect = payload.effect ? payload.effect : payload.type;
-  this.description = payload.description ? payload.description : "";
-  this.allow = payload.allow ? payload.allow : false;
-  this.period = payload.period ? payload.period : false;
-  this.usage = payload.usage ? payload.usage : 0;
-  this.skillIndex = skill ? skill : 0;
+
+  //Modifier
   this.harmful = payload.harmful !== null ? payload.harmful : true;
   this.classes = payload.classes ? payload.classes : inherit.classes;
   this.info = payload.info !== null ? payload.info : "inclusive";
   this.persistence = payload.persistence ? payload.persistence : "instant";
+  this.allow = payload.allow ? payload.allow : false;
+  this.period = payload.period ? payload.period : false;
+  this.usage = payload.usage ? payload.usage : 0;
+  this.stack = payload.stack ? payload.stack : 0;
 
+  //State Modifier
+  this.isCounter = payload.isCounter ? payload.isCounter : false;
+  this.isInvisible = payload.isInvisible ? payload.isInvisible : false;
+  this.isStack = payload.isStack ? payload.isStack : false;
+
+  //Cosmetic
+  this.effect = payload.effect ? payload.effect : payload.type;
+  this.description = payload.description ? payload.description : "";
+
+  //Move
   this.modify = payload.modify ? payload.modify.bind(this) : empty;
 }
 

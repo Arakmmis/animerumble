@@ -23,7 +23,6 @@ let status = {
   }),
   boost: {
     name: "Dynamic Marking",
-
     val: 5,
     type: "skill",
     active: 3,
