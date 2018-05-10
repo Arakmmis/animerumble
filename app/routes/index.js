@@ -1,15 +1,14 @@
-var bodyParser = require("body-parser");
-var multer = require("multer");
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
-var axios = require("axios");
+//Dependencies
+let multer = require("multer");
+let storage = multer.memoryStorage();
+let upload = multer({ storage: storage });
+let axios = require("axios");
+let credentials = require("../../config.js");
 
+//Files
 let character = require("../engine/character/index.js");
 
 module.exports = function(app) {
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-
   //Route
   app.get("/", function(req, res) {
     res.render("selection");
@@ -20,11 +19,7 @@ module.exports = function(app) {
   });
 
   app.post("/create/upload", upload.single("avatar"), function(req, res) {
-    console.log(req.file);
     let image = req.file.buffer.toString("base64");
-    // var formData = new FormData();
-    //   formData.append("image", $files[0]);
-    console.log(image);
     axios({
       method: "post",
       url: "https://api.imgur.com/3/image",
@@ -34,8 +29,8 @@ module.exports = function(app) {
         type: "base64"
       },
       headers: {
-        Authorization: "Client-ID 1220d5eb79e65d6",
-        Authorization: "Bearer b096101df77531583ad23939da5569c873032e67"
+        Authorization: credentials.imgur.clientId,
+        Authorization: credentials.imgur.Bearer
       }
     })
       .then(packet => {
@@ -53,7 +48,6 @@ module.exports = function(app) {
 
   app.get("/char/:id", function(req, res) {
     let char = character.filter(x => x.id === req.params.id);
-    console.log(char.length);
     if (char.length === 1) {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(char));
