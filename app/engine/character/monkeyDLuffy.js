@@ -203,7 +203,7 @@ let skills = {
     cooldown: 0,
     description:
       "Luffy winds up both arm and deal 50 damage to all fully stunned or partially stunned enemy. Luffy also gains one Green energy.",
-    target: "enemy",
+    target: "allenemy",
     classes: ["instant", "melee", "physical"],
     energy: {
       a: 1,
