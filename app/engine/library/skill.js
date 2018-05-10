@@ -30,9 +30,10 @@ function pushStatus(package, type = "normal") {
       );
     }
     store.push(new constructor.status(status, inherit, skillIndex));
-  } else if (type === "normal") {
+  } else if (type === "normal" || type === undefined) {
     store.push(new constructor.status(status, inherit, skillIndex));
   }
+  console.log('statuspush', type)
 }
 
 function removeStatus(package, type = "all") {

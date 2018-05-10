@@ -110,12 +110,13 @@ function invulnerable(x) {
     classes: x.classes
       ? x.classes
       : [
+          "instant",
           "mental",
           "chakra",
           "affliction",
           "strategy",
           "physical",
-          "range",
+          "ranged",
           "melee"
         ],
     description: x.description ? x.description : "",
@@ -136,12 +137,13 @@ function stun(x) {
     classes: x.classes
       ? x.classes
       : [
+          "instant",
           "mental",
           "chakra",
           "affliction",
           "strategy",
           "physical",
-          "range",
+          "ranged",
           "melee"
         ],
     active: x.active ? x.active : 1,
@@ -187,12 +189,13 @@ function ignore(x) {
     classes: x.classes
       ? x.classes
       : [
+          "instant",
           "mental",
           "chakra",
           "affliction",
           "strategy",
           "physical",
-          "range",
+          "ranged",
           "melee"
         ],
     effect: x.effect ? x.effect : x.type,

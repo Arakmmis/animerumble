@@ -27,6 +27,20 @@ let status = {
       if (payload.active === 1) {
         payload.offense.hp -= payload.val;
 
+        let stun = library.stun({
+          active: 1
+        });
+        let inherit = {
+          name: "Gomu Gomu no Pistol",
+          nameId: "monkeyDLuffy3",
+          id: 0
+        };
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onState",
+          status: stun,
+          inherit: inherit
+        });
       }
     }
   }),
@@ -42,14 +56,20 @@ let status = {
   unique: {
     active: 2,
     type: "unique",
-    period: "instant",
     modify: function(payload) {
-      let stun = library.stun({});
+      let stun = library.stun({
+        active: 2
+      });
+      let inherit = {
+        name: "Gomu Gomu no Pinwheel",
+        nameId: "monkeyDLuffy3",
+        id: 2
+      };
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
         status: stun,
-        inherit: this
+        inherit: inherit
       });
     }
   },
@@ -59,12 +79,12 @@ let status = {
     harmful: false,
     modify: function(payload) {
       if (payload.active === 2) {
-        let swap = payload.offense.skill[1];
-        payload.offense.skill[1] = payload.offense.skill[4];
+        let swap = payload.offense.skill[0];
+        payload.offense.skill[0] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
       } else if (payload.active === 1) {
-        let swap = payload.offense.skill[1];
-        payload.offense.skill[1] = payload.offense.skill[4];
+        let swap = payload.offense.skill[0];
+        payload.offense.skill[0] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
       }
     }
@@ -86,29 +106,18 @@ let skills = {
       "Luffy winds up a powerful single target punch. Next turn, Luffy will deal 25 damage that ignores invulnerability, and stuns the target for one turn. This skill becomes Gomu Gomu no Bazooka for one turn. This skill is invisible.",
     target: "enemy",
     move: function(payload) {
-      let check = payload.target.status.onState.some(
-        x => x.type === "stun" && x.name === "Bottle Throw"
-      );
-      if (check) {
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onSelf",
-          status: status.bleed,
-          inherit: this
-        });
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onState",
-          status: status.stun,
-          inherit: this
-        });
-        skill.pushStatus({
-          subject: payload.offense,
-          onStatus: "onSelf",
-          status: status.transform,
-          inherit: this
-        });
-      }
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.bleed,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
     }
   },
   skill2: {

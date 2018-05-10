@@ -26,6 +26,14 @@ let status = {
   bleed2: library.bleed({
     val: 30,
     classes: ["physical"]
+  }),
+  state: library.state({
+    name: "Super Kill Lead Star",
+    active: 2
+  }),
+  state2: library.state({
+    name: "Bottle Throw",
+    active: 2
   })
 };
 
@@ -41,17 +49,23 @@ let skills = {
     },
     ignoreInvul: true,
     description:
-      "Usopp deals 20 damage to an enemy, that ignores invulnerability. If the enemy had bottle throw used on them last turn, they are stunend for one turn.",
+      "Usopp deals 20 damage to an enemy, that ignores invulnerability. If the enemy had bottle throw used on them last turn, they are stunned for one turn.",
     target: "enemy",
     move: function(payload) {
       let check = payload.target.status.onState.some(
-        x => x.type === "stun" && x.name === "Bottle Throw"
+        x => x.type === "state" && x.name === "Bottle Throw"
       );
       if (check) {
         skill.pushStatus({
-          subject: payload.offense,
+          subject: payload.target,
           onStatus: "onState",
           status: status.stun,
+          inherit: this
+        });
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.state,
           inherit: this
         });
       }
@@ -76,9 +90,15 @@ let skills = {
     target: "enemy",
     move: function(payload) {
       skill.pushStatus({
-        subject: payload.offense,
+        subject: payload.target,
         onStatus: "onState",
         status: status.stun2,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state2,
         inherit: this
       });
     }
@@ -97,10 +117,10 @@ let skills = {
     },
     move: function(payload) {
       let check = payload.target.status.onState.some(
-        x => x.type === "stun" && x.name === "Super Kill Lead Star"
+        x => x.type === "state" && x.name === "Super Kill Lead Star"
       );
       skill.pushStatus({
-        subject: payload.offense,
+        subject: payload.target,
         onStatus: "onSelf",
         status: status.bleed,
         inherit: this
@@ -108,7 +128,7 @@ let skills = {
 
       if (check) {
         skill.pushStatus({
-          subject: payload.offense,
+          subject: payload.target,
           onStatus: "onSelf",
           status: status.bleed2,
           inherit: this
@@ -143,7 +163,7 @@ let character = {
   id: info.id,
   credit: {
     author: info.author,
-    pictures: info.pictures,
+    pictures: info.pictures
   },
   hp: 100,
   skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]

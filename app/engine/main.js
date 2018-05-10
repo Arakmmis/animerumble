@@ -1,5 +1,4 @@
 let constructor = require("./constructor.js");
-let heroes = require("./heroes.js");
 let character = require("./character/index.js");
 let helper = require("./helper.js");
 let _ = require("lodash");
