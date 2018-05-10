@@ -4,7 +4,9 @@ let skill = require("../library/skill.js");
 
 let info = {
   id: "roronoaZoro",
-  name: "Roronoa Zoro"
+  name: "Roronoa Zoro",
+  author: "63k",
+  pictures: "Zetsu"
 };
 
 let status = {
@@ -222,6 +224,10 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  credit: {
+    author: info.author,
+    pictures: info.pictures,
+  },
   hp: 100,
   skill: [
     skills.skill1,

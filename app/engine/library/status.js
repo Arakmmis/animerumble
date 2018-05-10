@@ -227,12 +227,14 @@ function bleed(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     period: "instant",
+    isInvisible: x.isInvisible ? x.isInvisible : false,
     persistence: x.persistence ? x.persistence : "action",
     active: x.active ? x.active : 3,
-    modify: function(payload) {
-      console.log(payload);
-      payload.offense.hp -= payload.val;
-    }
+    modify: x.modify
+      ? x.modify
+      : function(payload) {
+          payload.offense.hp -= payload.val;
+        }
   };
 }
 

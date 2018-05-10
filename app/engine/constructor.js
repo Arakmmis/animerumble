@@ -22,6 +22,7 @@ function character(
     onState: []
   };
   this.nameId = payload.id + turn;
+  this.credit = payload.credit ? payload.credit : { author: "", pictures: "" };
   this.skill = payload.skill.map((x, i) => {
     return new skill(
       {
@@ -57,6 +58,7 @@ function skill(payload, nameId) {
   //State Modifier
   this.noCounter = payload.noCounter ? true : false;
   this.isMulti = payload.isMulti ? payload.isMulti : false;
+  this.ignoreInvul = payload.ignoreInvul ? payload.ignoreInvul : false;
 
   //Energy
   this.energy = {

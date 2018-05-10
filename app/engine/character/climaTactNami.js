@@ -3,7 +3,9 @@ let library = require("../library/status.js");
 
 let info = {
   id: "climaTactNami",
-  name: "Clima-tact Nami"
+  name: "Clima-tact Nami",
+  author: "63k",
+  pictures: "Zetsu, Leciel"
 };
 
 let status = {
@@ -183,6 +185,10 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  credit: {
+    author: info.author,
+    pictures: info.pictures
+  },
   hp: 100,
   skill: [
     skills.skill1,
