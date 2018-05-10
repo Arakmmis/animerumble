@@ -3,18 +3,19 @@ let model = require("../helper/model.js");
 let character = require("../engine/character/index.js");
 
 module.exports = function(io, socket) {
+  let auth = socket.request.user;
+
   socket.on("connectLobby", payload => {
     let user_ = model.getUser();
-    let index = user_.findIndex(x => x[2] === payload.token);
-    // console.log(socket.id);
-    // socket.id = payload.token
+    let index = user_.findIndex(x => x[1] === auth.username);
     if (index !== -1) {
       let update_ = model.updateUser({
         token: payload.token,
+        username: auth.username,
         position: 0,
-        package: socket.id
+        package: socket.id,
+        status: 'online'
       });
-      console.log(index);
       socket.emit("logged", {
         user: update_[0][1],
         token: update_[0][2],
@@ -25,31 +26,15 @@ module.exports = function(io, socket) {
           };
         })
       });
-      // user_[index][0] = socket.id
-      console.log("test");
-      console.log("another test", update_[1]);
       io.emit("users", update_[1]);
-    }
-  });
-
-  socket.on("log", payload => {
-    console.log("LOGIN");
-    let user_ = model.getUser();
-    let exist = user_.some(x => x[1] === payload.name);
-    if (exist === false) {
-      console.log(socket.id);
+    } else if (index === -1) {
       let token = uniqid();
-      console.log("new token", token);
-
-      // socket.id = token
-      console.log("new socket", socket.id);
-      model.setUser([socket.id, payload.name, token, true]);
+      model.setUser([socket.id, auth.username, token, 'online']);
       let user_ = model.getUser();
-      console.log("45!", user_);
       io.emit("users", user_);
 
       socket.emit("logged", {
-        user: payload.name,
+        user: auth.username,
         token: token,
         character: character.map(x => {
           return {
@@ -58,10 +43,39 @@ module.exports = function(io, socket) {
           };
         })
       });
-    } else {
-      socket.emit("exist");
     }
   });
+
+  // socket.on("log", payload => {
+  //   console.log("LOGIN");
+  //   let user_ = model.getUser();
+  //   let exist = user_.some(x => x[1] === payload.name);
+  //   if (exist === false) {
+  //     console.log(socket.id);
+  //     let token = uniqid();
+  //     console.log("new token", token);
+
+  //     // socket.id = token
+  //     console.log("new socket", socket.id);
+  //     model.setUser([socket.id, payload.name, token, true]);
+  //     let user_ = model.getUser();
+  //     console.log("45!", user_);
+  //     io.emit("users", user_);
+
+  //     socket.emit("logged", {
+  //       user: payload.name,
+  //       token: token,
+  //       character: character.map(x => {
+  //         return {
+  //           name: x.name,
+  //           id: x.id
+  //         };
+  //       })
+  //     });
+  //   } else {
+  //     socket.emit("exist");
+  //   }
+  // });
 
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();

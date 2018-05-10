@@ -6502,6 +6502,21 @@ body,
 * {
   cursor: url("/assets/cursor/kunai.cur"), auto !important; }
 
+button {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  border-style: none !important; }
+
+input.text,
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+.input-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none !important;
+  appearance: none !important; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
@@ -6564,6 +6579,9 @@ body,
 
 .width-300 {
   max-width: 300px; }
+
+.width-500 {
+  max-width: 500px; }
 
 .width-char {
   max-width: 150px; }

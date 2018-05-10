@@ -13,7 +13,7 @@ module.exports = function(http, passportSocketAuthorize) {
   //Connections
   let lobby = io.of("/lobby");
   lobby.on("connection", function(socket) {
-    console.log("First!", socket.id);
+    console.log("First!", socket.request.user.username);
     require("./lobby.js")(lobby, socket);
   });
 

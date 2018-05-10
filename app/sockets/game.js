@@ -7,8 +7,17 @@ let store = {};
 let roomSpace = [];
 
 module.exports = function(io, socket) {
+  let auth = socket.request.user;
+
   socket.on("initiate", payload => {
     console.log("a user connected");
+    let update_ = model.updateUser({
+      username: auth.username,
+      position: 0,
+      package: socket.id,
+      status: "ingame"
+    });
+
     //Check Matches
     let match = model.getMatch(payload.room);
     if (match === undefined) {
@@ -74,7 +83,7 @@ module.exports = function(io, socket) {
       store[roomName][store[roomName].length - 1],
       payload => {
         store[roomName].push(payload);
-        console.log("view", payload);        
+        console.log("view", payload);
 
         io.to(roomName).emit("apply", payload);
 

@@ -6,7 +6,7 @@ let userController = {};
 
 // Restrict access to root page
 userController.home = function(req, res) {
-  res.render("index", { user: req.user });
+  res.render("links", { user: req.user });
 };
 
 // Go to registration page
@@ -50,6 +50,7 @@ userController.doLogin = function(req, res) {
 
 // logout
 userController.logout = function(req, res) {
+  console.log('logout')
   req.logout();
   res.redirect("/");
 };

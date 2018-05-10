@@ -17,11 +17,9 @@ function getUser(payload = undefined) {
     return user;
   } else if (payload === "list") {
     console.log(user);
-    return user.filter(x => x[3] === true);
+    return user.filter(x => x[3] === "online");
   } else {
-    let index = user.findIndex(
-      x => (x[1] === payload || x[2] === payload)
-    );
+    let index = user.findIndex(x => x[1] === payload || x[2] === payload);
     if (index !== -1) {
       return user[index];
     }
@@ -29,21 +27,23 @@ function getUser(payload = undefined) {
 }
 
 function updateUser(payload) {
-  var { token, position, package } = payload;
-  let index = user.findIndex(x => x[2] === token)
-  console.log(index)
-  user[index][position] = package;
-  user[index][3] = true;
-  let current = user[index]
-  return [current, user]
+  var { username, position, package, status } = payload;
+  let index = user.findIndex(x => x[1] === username);
+  console.log(index);
+  if (index !== -1) {
+    user[index][position] = package;
+    user[index][3] = status;
+    let current = user[index];
+    return [current, user];
+  }
 }
 
 function offline(payload) {
   let index = user.findIndex(x => x[0] === payload);
   if (index > -1) {
-    user[index][3] = false;
+    user[index][3] = "offline";
   }
-  return user
+  return user;
 }
 
 function deleteUser(payload) {
