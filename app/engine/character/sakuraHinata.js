@@ -7,36 +7,29 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   stun: library.stun({
-    owner: info.id,
     classes: ["physical", "mental"]
   }),
   protect: library.protect({
     val: 10,
-    active: 4,
-    owner: info.id
+    active: 4
   }),
   bleed: library.bleed({
     val: 10,
-    active: 2,
-    owner: info.id
+    active: 2
   }),
   heal: library.heal({
     name: "Chakra Heal",
-    val: 15,
-    owner: info.id
+    val: 15
   }),
   ignore: library.ignore({
     name: "Inner Sakura",
-    active: 4,    
-    owner: info.id
+    active: 4
   }),
   boost: {
     name: "Inner Sakura",
-    owner: info.id,
+
     val: 10,
     type: "skill",
     active: 4,
@@ -98,7 +91,7 @@ let skills = {
     move: function(payload) {
       payload.target.status.onState.push(
         new constructor.status(status.ignore, this, 3)
-      )
+      );
       payload.target.status.onReceive.push(
         new constructor.status(status.protect, this, 3)
       );

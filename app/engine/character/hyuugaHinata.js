@@ -8,35 +8,30 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   bleed: library.bleed({
     val: 20,
-    active: 2,
-    owner: info.id
+    active: 2
   }),
   protect: library.protect({
     val: 10,
-    active: 4,
-    owner: info.id
+    active: 4
   }),
   drain: library.drain({
     name: "Hinata Gentle Fist",
-    owner: info.id,
+
     val: 1,
     active: 2
   }),
   dd: library.dd({
     name: "Protective Eight Trigrams Sixty-Four Palms",
-    owner: info.id,
+
     val: 20,
     active: 2
   }),
   state: library.state({
     name: "Byakugan",
-    active: 4,
-    owner: info.id
+    active: 4
   })
 };
 

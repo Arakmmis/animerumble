@@ -7,39 +7,31 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
+  stun: library.stun({}),
   protect: library.protect({
     val: 15,
-    owner: info.id,
+
     active: 4
   }),
   bleed: library.bleed({
-    val: 5,
-    owner: info.id
+    val: 5
   }),
   boost: {
     name: "Shadow Clones",
-    owner: info.id,
+
     val: 10,
     type: "boost",
     effect: "boostSpecific",
     description: "Uzumaki Naruto Combo",
     active: 4,
     modify: function(payload) {
-      if (
-        payload.skillStore.name === "Uzumaki Naruto Combo"
-      ) {
+      if (payload.skillStore.name === "Uzumaki Naruto Combo") {
         payload.val += this.val;
       }
     }
   },
   required: {
-    owner: info.id,
     active: 4,
     type: "allow",
     effect: "allow",

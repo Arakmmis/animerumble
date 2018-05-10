@@ -7,30 +7,25 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   disableDrIv: library.disableDrIv({
-    owner: info.id,
     active: 3
   }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  stun: library.stun({}),
   protect: library.protect({
     val: 15,
-    owner: info.id,
+
     active: 3
   }),
   bleed: library.bleed({
     val: 15,
     active: 3,
-    owner: info.id,
+
     persistence: "action"
   }),
   boost: {
     name: "Dynamic Marking",
-    owner: info.id,
+
     val: 5,
     type: "skill",
     active: 3,
@@ -44,7 +39,6 @@ let status = {
     }
   },
   energy: {
-    owner: info.id,
     active: 4,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");

@@ -7,47 +7,44 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   bleed: library.bleed({
     val: 5,
     active: 5,
-    owner: info.id,
+
     persistence: "control"
   }),
   bleed2: library.bleed({
     val: 15,
     active: 2,
-    owner: info.id,
+
     persistence: "action"
   }),
   bleed3: library.bleed({
     val: 25,
     active: 2,
-    owner: info.id,
+
     persistence: "action"
   }),
   bleed4: library.bleed({
     val: 10,
     active: 2,
-    owner: info.id,
+
     persistence: "action"
   }),
   bleed5: library.bleed({
     val: 20,
     active: 2,
-    owner: info.id,
+
     persistence: "action"
   }),
   stun: library.stun({
-    owner: info.id,
     classes: ["physical", "chakra"],
     active: 2
   }),
   dd: library.dd({
     val: 15,
-    owner: info.id,
+
     active: 3
   }),
   state: library.state({
@@ -55,7 +52,7 @@ let status = {
   }),
   transform: {
     name: "Transform",
-    owner: info.id,
+
     active: 1,
     harmful: false,
     modify: function(payload) {

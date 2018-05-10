@@ -8,32 +8,26 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   bleed: library.bleed({
     val: 10,
-    active: 3,
-    owner: info.id
+    active: 3
   }),
   bleed2: library.bleed({
     val: 25,
-    active: 3,
-    owner: info.id
+    active: 3
   }),
   protect: library.protect({
     val: 10,
-    active: 3,
-    owner: info.id
+    active: 3
   }),
   reduce2: library.reduce({
     val: 15,
-    active: 1,
-    owner: info.id
+    active: 1
   }),
   boost1: {
     name: "Front Lotus",
-    owner: info.id,
+
     val: 30,
     type: "boost",
     harmful: false,
@@ -46,7 +40,7 @@ let status = {
   },
   boost2: {
     name: "Front Lotus",
-    owner: info.id,
+
     val: 10,
     type: "boost",
     harmful: false,
@@ -60,12 +54,11 @@ let status = {
   state: library.state({
     name: "Fifth Gate Opening",
     active: 2,
-    harmful: false,
-    owner: info.id
+    harmful: false
   }),
   transform: {
     name: "Transform",
-    owner: info.id,
+
     active: 3,
     harmful: false,
     modify: function(payload) {

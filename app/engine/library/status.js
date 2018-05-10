@@ -12,8 +12,7 @@ function boost(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       payload.val += this.val;
-    },
-    owner: x.owner
+    }
   };
 }
 
@@ -28,8 +27,7 @@ function reduce(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       payload.val -= this.val;
-    },
-    owner: x.owner
+    }
   };
 }
 
@@ -45,7 +43,7 @@ function protect(x) {
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(s => {
-        return s.type === this.type;
+        return s.type === this.type && s.name === this.name;
       });
 
       let disableDrIv = payload.target.status.onState.findIndex(
@@ -77,8 +75,7 @@ function protect(x) {
           console.log("REDUCE!!", onReceive[index], payload);
         }
       }
-    },
-    owner: x.owner
+    }
   };
 }
 
@@ -102,8 +99,7 @@ function invulnerable(x) {
           "melee"
         ],
     description: x.description ? x.description : "",
-    active: x.active ? x.active : 2,
-    owner: x.owner
+    active: x.active ? x.active : 2
   };
 }
 
@@ -129,8 +125,7 @@ function stun(x) {
           "melee"
         ],
     active: x.active ? x.active : 1,
-    modify: function(payload) {},
-    owner: x.owner
+    modify: function(payload) {}
   };
 }
 
@@ -143,8 +138,7 @@ function disableDrIv(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 1,
-    modify: function(payload) {},
-    owner: x.owner
+    modify: function(payload) {}
   };
 }
 
@@ -159,8 +153,7 @@ function state(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {},
-    persistence: x.persistence ? x.persistence : "instant",
-    owner: x.owner
+    persistence: x.persistence ? x.persistence : "instant"
   };
 }
 
@@ -186,8 +179,7 @@ function ignore(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {},
-    persistence: x.persistence ? x.persistence : "instant",
-    owner: x.owner
+    persistence: x.persistence ? x.persistence : "instant"
   };
 }
 
@@ -202,8 +194,7 @@ function heal(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       payload.offense.hp += this.val;
-    },
-    owner: x.owner
+    }
   };
 }
 
@@ -221,15 +212,14 @@ function bleed(x) {
     modify: function(payload) {
       console.log(payload);
       payload.offense.hp -= payload.val;
-    },
-    owner: x.owner
+    }
   };
 }
 
 function drain(x) {
   return {
     name: x.name ? x.name : "drain",
-    owner: x.owner,
+
     val: x.val ? x.val : 1,
     type: "drain",
     period: "instant",
@@ -250,7 +240,7 @@ function drain(x) {
 function cooldownIncrease(x) {
   return {
     name: x.name ? x.name : "cooldownIncrease",
-    owner: x.owner,
+
     val: x.val ? x.val : 0,
     type: "cooldownIncrease",
     effect: x.effect ? x.effect : x.type,
@@ -266,7 +256,7 @@ function cooldownIncrease(x) {
 function decreaseEnergy(x) {
   return {
     name: x.name ? x.name : "decreaseEnergy",
-    owner: x.owner,
+
     val: x.val ? x.val : 5,
     type: "decreaseEnergy",
     effect: x.effect ? x.effect : x.type,
@@ -289,7 +279,6 @@ function decreaseEnergy(x) {
 function dd(x) {
   return {
     name: x.name ? x.name : "dd",
-    owner: x.owner,
     val: x.val ? x.val : 5,
     type: "dd",
     effect: x.effect ? x.effect : x.type,
@@ -298,13 +287,13 @@ function dd(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {
       let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(s => s.name === x.name);
+      let index = onReceive.findIndex(s => s.type === this.type && s.name === this.name);
 
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
       let affliction = payload.skillStore.classes.some(x => x === "affliction");
-
+      console.log('before dd', index, onReceive[index].usage, payload.skillStore.type, disableDrIv)
       if (index > -1) {
         if (
           onReceive[index].usage === 0 &&

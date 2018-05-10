@@ -7,16 +7,16 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({    
-    owner: info.id,
+    
   }),
   boost: library.boost({    
     val: 10,        
-    owner: info.id,
+    
   }),
   protect: library.protect({    
     val: 15,
     active: 3,
-    owner: info.id,
+    
   }),    
 };
 

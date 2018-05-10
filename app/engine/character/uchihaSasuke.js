@@ -7,29 +7,22 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   disableDrIv: library.disableDrIv({
-    owner: info.id,
     active: 4
   }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  stun: library.stun({}),
   protect: library.protect({
     val: 15,
-    active: 4,
-    owner: info.id
+    active: 4
   }),
   bleed: library.bleed({
-    val: 5,
-    owner: info.id
+    val: 5
   }),
 
   boost1: {
     name: "Sharingan",
-    owner: info.id,
+
     val: 25,
     type: "skill",
     active: 4,
@@ -41,7 +34,7 @@ let status = {
   },
   boost2: {
     name: "Sharingan",
-    owner: info.id,
+
     val: 15,
     type: "skill",
     active: 4,
@@ -52,7 +45,6 @@ let status = {
     }
   },
   required: {
-    owner: info.id,
     active: 4,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Chidori");

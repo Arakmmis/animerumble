@@ -8,41 +8,34 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   stun: library.stun({
     active: 2,
     info: "declusive",
     classes: ["mental"],
-    persistence: "control",
-    owner: info.id
+    persistence: "control"
   }),
   disableDrIv: library.disableDrIv({
-    owner: info.id,
     active: 2
   }),
   ignore: library.ignore({
-    active: 4,
-    owner: info.id
+    active: 4
   }),
   state: library.state({
     name: "Sand Coffin",
     type: "lock",
     info: "Sand Burial",
     active: 3,
-    harmful: false,
-    owner: info.id
+    harmful: false
   }),
   dd: library.dd({
-    name: "Protective Eight Trigrams Sixty-Four Palms",
-    owner: info.id,
+    name: "Armor of Sand",
     val: 40,
     active: -1
   }),
   transform: {
     name: "Transform",
-    owner: info.id,
+
     active: 3,
     harmful: false,
     modify: function(payload) {

@@ -8,33 +8,25 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   disableDrIv: library.disableDrIv({
-    owner: info.id,
     active: 1
   }),
   disableDrIv2: library.disableDrIv({
-    owner: info.id,
     active: 2
   }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  stun: library.stun({}),
   stun2: library.stun({
-    owner: info.id,
     persistence: "control",
     active: 3
   }),
   protect: library.protect({
     val: 10,
-    active: 3,
-    owner: info.id
+    active: 3
   }),
   cooldownIncrease: {
     name: "Chakra Hair Strand Trap",
-    owner: info.id,
+
     val: 30,
     type: "skill",
     active: 2,
@@ -44,7 +36,7 @@ let status = {
   },
   transform: {
     name: "Transform",
-    owner: info.id,
+
     active: 3,
     modify: function(payload) {
       if (payload.active === 3) {

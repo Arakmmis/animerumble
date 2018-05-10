@@ -7,7 +7,7 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({
-    owner: info.id
+    
   }),  
   waterLock: {
     name: "Water Lock",

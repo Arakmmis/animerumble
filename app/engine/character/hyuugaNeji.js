@@ -8,29 +8,22 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
+  stun: library.stun({}),
   protect: library.protect({
-    val: 15,
-    owner: info.id
+    val: 15
   }),
   reduce: library.reduce({
     val: 5,
-    active: 1,
-    owner: info.id
+    active: 1
   }),
   bleed: library.bleed({
     val: 25,
-    active: 2,
-    owner: info.id
+    active: 2
   }),
   boost: {
     name: "Dynamic Marking",
-    owner: info.id,
+
     val: 5,
     type: "skill",
     active: 3,
@@ -44,7 +37,6 @@ let status = {
     }
   },
   energy: {
-    owner: info.id,
     active: 4,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
@@ -67,7 +59,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 1,
-    classes: ['action', 'melee', 'physical'],
+    classes: ["action", "melee", "physical"],
     energy: {
       a: 1,
       r: 1
@@ -88,15 +80,15 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
-    classes: ['instant', 'melee', 'chakra'],
+    classes: ["instant", "melee", "chakra"],
     description:
-      "Neji becomes invulnerable for 1 turn while dealing 15 damage to all enemies.",    
+      "Neji becomes invulnerable for 1 turn while dealing 15 damage to all enemies.",
     energy: {
-      i: 1,      
+      i: 1
     },
     target: "allenemy",
-    move: function(payload) {      
-      if (payload.recursive === 0) {        
+    move: function(payload) {
+      if (payload.recursive === 0) {
         payload.offense.status.onState.push(
           new constructor.status(status.invulnerable, this, 2)
         );
@@ -109,21 +101,21 @@ let skills = {
     type: "attack",
     val: 40,
     cooldown: 1,
-    classes: ['instant', 'melee', 'physical'],
+    classes: ["instant", "melee", "physical"],
     description:
       "Neji closes all of one enemy's chakra nodes dealing 40 damage to one enemy and that enemy loses 1 random chakra.",
     target: "enemy",
     marking: true,
     energy: {
-      a:1,
-      i:1
+      a: 1,
+      i: 1
     },
     move: function(payload) {
       let energy = helper.stealEnergy(payload.theirEnergy);
       if (energy !== false) {
-        payload.theirEnergy[energy] -= 1;        
+        payload.theirEnergy[energy] -= 1;
       }
-      payload.target.hp -= payload.val;      
+      payload.target.hp -= payload.val;
     }
   },
   skill4: {
@@ -132,8 +124,8 @@ let skills = {
     val: 10,
     cooldown: 4,
     description: "This skill makes Hyuuga Neji invulnerable for 1 turn.",
-    target: "self",    
-    classes: ['instant', 'mental'],
+    target: "self",
+    classes: ["instant", "mental"],
     energy: {
       r: 1
     },

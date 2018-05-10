@@ -7,50 +7,40 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   disableDrIv: library.disableDrIv({
-    owner: info.id,
     active: 1
   }),
   disableDrIv2: library.disableDrIv({
-    owner: info.id,
     active: 2
   }),
   state: library.state({
     name: "Meditate",
-    active: 5,
-    owner: info.id
+    active: 5
   }),
   stun2: library.stun({
-    owner: info.id,
     active: 2,
     info: "declusive",
     classes: ["mental"],
     persistence: "control"
   }),
   stun: library.stun({
-    owner: info.id,
     active: 1,
     info: "declusive",
     classes: ["mental"],
     persistence: "control"
   }),
   protect: library.protect({
-    val: 15,
-    owner: info.id
+    val: 15
   }),
   bleed2: library.bleed({
     val: 15,
-    active: 2,
-    owner: info.id
+    active: 2
   }),
   bleed: library.bleed({
     val: 15,
-    active: 1,
-    owner: info.id
-  })  
+    active: 1
+  })
 };
 
 let skills = {
@@ -122,7 +112,7 @@ let skills = {
         );
       } else {
         payload.target.status.onState.push(
-          new constructor.status(status.stun, this,  3)
+          new constructor.status(status.stun, this, 3)
         );
       }
     }

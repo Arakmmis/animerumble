@@ -7,28 +7,21 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   invulnerable3: library.invulnerable({
-    owner: info.id,
     active: 3
   }),
-  stun: library.stun({
-    owner: info.id
-  }),
+  stun: library.stun({}),
   protect: library.protect({
-    val: 15,
-    owner: info.id
+    val: 15
   }),
   bleed: library.bleed({
     val: 10,
-    active: 2,
-    owner: info.id
+    active: 2
   }),
   boost1: {
     name: "Partial Multi-Size",
-    owner: info.id,
+
     val: 20,
     type: "skill",
     active: -1,
@@ -41,7 +34,7 @@ let status = {
   },
   boost2: {
     name: "Meat Tank",
-    owner: info.id,
+
     val: 10,
     type: "skill",
     active: -1,
@@ -90,8 +83,7 @@ let skills = {
         new constructor.status(
           library.bleed({
             val: payload.val,
-            active: 3,
-            owner: info.id
+            active: 3
           }),
           this,
           2

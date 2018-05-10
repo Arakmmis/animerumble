@@ -18,7 +18,8 @@ button {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-  border-style: none !important;
+  border: none;
+  // border-style: none !important;
 }
 
 input.text,

@@ -17,8 +17,7 @@ function statusIterator(package, owner, status, callback) {
 
   source[status].forEach((x, i, a) => {
     if (
-      (x.persistence === "action" || x.persistence === "control") &&
-      evaluate === false
+      (x.persistence === "action" || x.persistence === "control")
     ) {
       x.modify(package);
     } else if (x.persistence === "instant") {

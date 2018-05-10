@@ -290,8 +290,9 @@ function buttonManagement(payload, option) {
 function stunManagement(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
+      let ignore = ignoreManagement(onState, x)      
       let intersect = _.intersection(x.classes, skill.classes);
-
+      
       let evaluate;
 
       if (x.info === "inclusive") {
@@ -300,7 +301,7 @@ function stunManagement(onState, skill) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate) {
+      if (evaluate && !ignore) {
         return true;
       } else {
         return false;
@@ -319,7 +320,7 @@ function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
     if (x.type === "invulnerable") {      
       let intersect = _.intersection(x.classes, skill.classes);
-      console.log(x.info)
+      
       let evaluate;
 
       if (x.info === "inclusive") {

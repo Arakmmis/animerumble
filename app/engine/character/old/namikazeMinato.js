@@ -7,13 +7,13 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({
-    owner: info.id
+    
   }),
   kunaiStab: library.bleed({
     name: "Inner Sakura",
     val: 5,   
     active: 3,
-    owner: info.id    
+        
   }),
   allowRasengan: {
     name: "allowRasengan",
@@ -23,7 +23,7 @@ let status = {
     modify: function(payload) {
       payload.val -= this.val;
     },
-    owner: info.id
+    
   }
 };
 

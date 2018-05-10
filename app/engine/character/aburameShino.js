@@ -8,17 +8,14 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({
-    owner: info.id
-  }),
+  invulnerable: library.invulnerable({}),
   reduce: library.reduce({
     val: 5,
-    active: 4,
-    owner: info.id
+    active: 4
   }),
   boost: {
     name: "Chakra Leech",
-    owner: info.id,
+
     val: 5,
     effect: "custom",
     description: "Increase 5 damage received from Chakra Leech",
@@ -32,10 +29,10 @@ let status = {
   },
   dd: library.dd({
     name: "Bug Wall",
-    owner: info.id,
+
     val: 20,
     type: "dd",
-    active: 3,    
+    active: 3
   })
 };
 
