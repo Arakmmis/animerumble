@@ -21,6 +21,7 @@ function character(
     onSelf: [],
     onState: []
   };
+  this.nameId = payload.id + turn;
   this.skill = payload.skill.map((x, i) => {
     return new skill(
       {
@@ -30,7 +31,6 @@ function character(
       payload.id + turn
     );
   });
-  this.nameId = payload.id + turn;
 }
 function skill(payload, nameId) {
   //Meta
@@ -53,6 +53,10 @@ function skill(payload, nameId) {
   this.marking = payload.marking ? payload.marking : false;
   this.usage = payload.usage ? payload.usage : 0;
 
+  //State Modifier
+  this.noCounter = payload.noCounter ? true : false;
+  this.isMulti = payload.isMulti ? payload.isMulti : false;
+
   //Energy
   this.energy = {
     a: payload.energy ? (payload.energy.a ? payload.energy.a : 0) : 0,
@@ -74,7 +78,7 @@ function status(payload, inherit, skill) {
   this.name = inherit.name;
   this.nameId = inherit.nameId;
   this.owner = inherit.nameId;
-  this.skillIndex = skill ? skill : 0;
+  this.skillIndex = inherit.id;
 
   //Core
   this.active = payload.active;

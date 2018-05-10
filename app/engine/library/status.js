@@ -6,12 +6,17 @@ function boost(x) {
     name: x.name ? x.name : "Boost",
     val: x.val ? x.val : 10,
     type: "boost",
+    isStack: x.isStack ? x.isStack : false,
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.val += this.val;
+      if (isStack) {
+        payload.val += this.val * this.stack;
+      } else {
+        payload.val += this.val;
+      }
     }
   };
 }
@@ -35,6 +40,7 @@ function protect(x) {
   return {
     name: x.name ? x.name : "Protect",
     val: x.val ? x.val : 15,
+    info: this.val,
     type: "protect",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
