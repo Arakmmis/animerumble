@@ -19,7 +19,7 @@
 
     <div class="selection--selected d-flex flex-row justify-content-between">
         <div v-for="item in lineup" class="selection--char">
-            <button @click="onDescription(char.id)" @dblclick="deselectCharacter(item)" :disabled="matchMaking" class="l--char w-100">
+            <button @click="onDescription(item)" @dblclick="deselectCharacter(item)" class="l--char w-100">
                 <img :src="'/assets/character/'+item+'/avatar.jpg'">
             </button>
         </div>
@@ -37,7 +37,7 @@
                     <div class="selection--choice l--border-naruto d-flex flex-row flex-wrap">
                         <div v-for="char in characters.filter(x => x.anime === 'Naruto')" class="d-flex flex-column">
                             <div class="d-flex flex-row selection--char">
-                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)"
+                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.some(x => x === char.id)"
                                     class="l--char w-100">
                                     <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
                                     <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
@@ -50,7 +50,7 @@
                     <div class="selection--choice l--border-onepiece d-flex flex-row flex-wrap">
                         <div v-for="char in characters.filter(x => x.anime === 'OnePiece')" class="d-flex flex-column">
                             <div class="d-flex flex-row selection--char">
-                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)"
+                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.some(x => x === char.id)"
                                     class="l--char w-100">
                                     <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
                                     <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">

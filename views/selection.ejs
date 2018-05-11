@@ -116,18 +116,22 @@
                         // window.location.replace("/game/"+payload+this.username)
                     },
                     selectCharacter: function (payload) {
-                        console.log(payload)
-                        console.log(this.lineup.some(x => x === payload))
-                        if (this.lineup.some(x => x === payload)) {
-                            this.lineup = this.lineup.filter(x => x !== payload)
-                        }
-                        else {
-                            this.lineup.push(payload)
+                        console.log(payload)                        
+                        if (this.lineup.length < 3) {
+                            console.log(this.lineup.some(x => x === payload))
+                            if (this.lineup.some(x => x === payload)) {
+                                this.lineup = this.lineup.filter(x => x !== payload)
+                            }
+                            else {
+                                this.lineup.push(payload)
+                            }
                         }
                         console.log(this.lineup)
                     },
                     deselectCharacter: function (payload) {
-                        this.lineup = this.lineup.filter(x => x !== payload)
+                        if (!this.matchMaking) {
+                            this.lineup = this.lineup.filter(x => x !== payload)
+                        }
                     },
                     findMatch: function (payload) {
                         this.matchMaking = true
