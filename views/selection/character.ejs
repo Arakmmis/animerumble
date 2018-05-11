@@ -4,7 +4,7 @@
             <img src="/assets/animerumble2.jpg" class="selection--img">
         </div>
         <div class="selection--details d-flex flex-column" v-if="showCharInfo">
-            <div class="d-flex flex-row align-items-end mb-3 justify-content-between">
+            <div class="d-flex flex-row align-items-end mb-3">
                 <img :src="'/assets/character/'+charInfo.id+'/avatar.jpg'" class="l--char">
                 <img @click="charSkill = 0" :src="'/assets/character/'+charInfo.id+'/skill1/avatar.jpg'" class="l--skills">
                 <img @click="charSkill = 1" :src="'/assets/character/'+charInfo.id+'/skill2/avatar.jpg'" class="l--skills">

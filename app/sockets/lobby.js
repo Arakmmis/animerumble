@@ -82,8 +82,7 @@ module.exports = function(io, socket) {
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();
     let index = user_.findIndex(x => x[1] === payload.to);
-    if (index !== -1) {
-      console.log(user_[index][0]);
+    if (index !== -1) {      
       io
         .to(user_[index][0])
         .emit("challenge", { challenger: auth.username, char: payload.char });
@@ -137,10 +136,8 @@ module.exports = function(io, socket) {
   });
 
   socket.on("disconnect", function() {
-    let deleted = model.offline(socket.id);
-    console.log(deleted);
-    let user_ = model.getUser();
+    let deleted = model.offline(socket.id);    
     console.log("user disconnected");
-    io.emit("users", user_);
+    io.emit("users", deleted);
   });
 };
