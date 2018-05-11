@@ -21,10 +21,12 @@ let status = {
   }),
   bleed: library.bleed({
     val: 30,
+    active: 1,
     classes: ["affliction"]
   }),
   bleed2: library.bleed({
     val: 30,
+    active: 1,
     classes: ["physical"]
   }),
   state: library.state({

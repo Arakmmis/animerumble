@@ -199,15 +199,16 @@ let app = new Vue({
 
       //Buffer Skill
       if (state.skill.aim === "allenemy" || state.skill.aim === "randomenemy") {
+        console.log(state.button.enemy)
         state.skill.target = state.button.enemy
-          .filter(x => x.disabled !== true && x.name !== payload.name)
+          .filter(x => x.button !== true && x.name !== payload.name)
           .map(x => x.name);
         state.skill.target.unshift(payload.name);
       } else if (state.skill.aim === "allally") {
         state.skill.target = state.button.ally.map(x => x.name);
       } else if (state.skill.aim === "allenemyallally") {
         state.skill.target = state.button.enemy
-          .filter(x => x.disabled !== true && x.name !== payload.name)
+          .filter(x => x.button !== true && x.name !== payload.name)
           .map(x => x.name);
         state.skill.target.unshift(payload.name);
         let ally = state.button.ally.map(x => x.name);

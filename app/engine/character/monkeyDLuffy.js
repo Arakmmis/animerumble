@@ -23,7 +23,7 @@ let status = {
     val: 25,
     active: 2,
     isInvisible: true,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.active === 1) {
         payload.offense.hp -= payload.val;
 
@@ -33,7 +33,7 @@ let status = {
         let inherit = {
           name: self.name,
           nameId: self.nameId,
-          id: self.skillIndex
+          id: self.skillIndex - 1
         };
         skill.pushStatus({
           subject: payload.offense,
@@ -63,7 +63,7 @@ let status = {
       let inherit = {
         name: self.name,
         nameId: self.nameId,
-        id: self.skillIndex
+        id: self.skillIndex - 1
       };
       skill.pushStatus({
         subject: payload.offense,
