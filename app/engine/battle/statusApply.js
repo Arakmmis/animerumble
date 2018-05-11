@@ -5,8 +5,8 @@ function statusIterator(package, owner, status, callback) {
   let evaluate;
   if (owner === "offense") {
     let onState = source.onState;
-    let skill = package.offense.skill[package.skill];
-    let stun = management.stun(onState, skill);
+    // let skill = package.offense.skill[package.skill];
+    let stun = management.stun(onState, package.skill);
     // evaluate = source.onState.some(x => x.type === "stun") ? true : false;
     evaliate = stun;
   } else if (owner === "target") {
