@@ -3,7 +3,7 @@ const _ = require("lodash");
 function stun(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
-        console.log(x.classes, skill.classes)
+      let ignore = ignoreManagement(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
@@ -14,7 +14,7 @@ function stun(onState, skill) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate) {
+      if (evaluate && !ignore) {
         return true;
       } else {
         return false;
@@ -32,6 +32,7 @@ function stun(onState, skill) {
 function invulnerable(onState, skill) {
   let invulnerable = onState.map(x => {
     if (x.type === "invulnerable") {
+      let ignoreInvul = skill.ignoreInvul;
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
@@ -42,7 +43,7 @@ function invulnerable(onState, skill) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate) {
+      if (evaluate && !ignoreInvul) {
         return true;
       } else {
         return false;
@@ -60,7 +61,6 @@ function invulnerable(onState, skill) {
 function ignore(onState, skill) {
   let ignore = onState.map(x => {
     if (x.type === "ignore") {
-      console.log(onState, skill)
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;

@@ -127,7 +127,7 @@ function buttonManagement(payload, option) {
         let enemyStatus = app.source.enemy[x.index].status;
         let lock = enemyStatus.onState.some(
           x => x.type === "state" && x.info === skill.name
-        );        
+        );
 
         if (lock === true) {
           //Invulnerability
@@ -138,8 +138,8 @@ function buttonManagement(payload, option) {
           x.button = x.disabled || invulnerable ? true : !x.button;
 
           //Ignore
-          let ignore = ignoreManagement(state, skill);          
-          console.log(invulnerable)
+          let ignore = ignoreManagement(state, skill);
+          console.log(invulnerable);
 
           //Prevent Invulnerability
           if (
@@ -290,9 +290,9 @@ function buttonManagement(payload, option) {
 function stunManagement(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
-      let ignore = ignoreManagement(onState, x)      
+      let ignore = ignoreManagement(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
-      
+
       let evaluate;
 
       if (x.info === "inclusive") {
@@ -318,9 +318,10 @@ function stunManagement(onState, skill) {
 
 function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
-    if (x.type === "invulnerable") {      
-      let intersect = _.intersection(x.classes, skill.classes);
-      
+    if (x.type === "invulnerable") {
+      let ignoreInvul = skill.ignoreInvul;
+      let intersect = _.intersection(x.classes, skill.classes);      
+
       let evaluate;
 
       if (x.info === "inclusive") {
@@ -329,7 +330,7 @@ function invulnerableManagement(onState, skill) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate) {
+      if (evaluate && !ignoreInvul) {
         return true;
       } else {
         return false;

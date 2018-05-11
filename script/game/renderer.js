@@ -4,7 +4,7 @@ function vueBind(payload) {
     console.log(payload.team);
     return;
   }
-  // console.log(payload);
+  console.log(payload);
   let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
   let turn = ally === "teamEven" ? 0 : 1;
@@ -41,7 +41,11 @@ function vueBind(payload) {
     }),
     turn: payload.turn,
     myTurn: myTurn,
-    room: payload.room
+    room: payload.room,
+    meta: {
+      myName: payload.team[ally],
+      theirName: payload.team[enemy],
+    }
   };
   store.energy.ally.r =
     store.energy.ally.a +

@@ -17,7 +17,7 @@ setInterval(() => {
     return;
   }
   if (app.state.timer.turn > 0) {
-    app.state.timer.turn -= 3.3;
+    app.state.timer.turn -= 2.2;
   } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
     // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
     // socket.emit('sequence', {

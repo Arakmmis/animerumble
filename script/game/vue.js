@@ -6,7 +6,8 @@ let app = new Vue({
     source: {
       energy: {
         ally: {}
-      }
+      },
+      meta: {}
     },
     packet: [],
     state: {
@@ -43,7 +44,7 @@ let app = new Vue({
     onExchange: function(e) {
       //Sound
       this.$refs.soundClick.play();
-      
+
       let state = this.state;
       this.source.energy.ally = e.energy;
       this.source.energy.ally.r =
@@ -128,7 +129,7 @@ let app = new Vue({
         heroIndex: null
       };
     },
-    onSkill: function(payload) {      
+    onSkill: function(payload) {
       //Define and Switch State
       let state = this.state;
       let marking = this.source.ally[payload.heroIndex].skill[
@@ -199,7 +200,7 @@ let app = new Vue({
 
       //Buffer Skill
       if (state.skill.aim === "allenemy" || state.skill.aim === "randomenemy") {
-        console.log(state.button.enemy)
+        console.log(state.button.enemy);
         state.skill.target = state.button.enemy
           .filter(x => x.button !== true && x.name !== payload.name)
           .map(x => x.name);
