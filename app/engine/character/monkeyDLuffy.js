@@ -31,9 +31,9 @@ let status = {
           active: 1
         });
         let inherit = {
-          name: "Gomu Gomu no Pistol",
-          nameId: "monkeyDLuffy3",
-          id: 0
+          name: self.name,
+          nameId: self.nameId,
+          id: self.skillIndex
         };
         skill.pushStatus({
           subject: payload.offense,
@@ -56,14 +56,14 @@ let status = {
   unique: {
     active: 2,
     type: "unique",
-    modify: function(payload) {
+    modify: function(payload, self) {
       let stun = library.stun({
         active: 2
       });
       let inherit = {
-        name: "Gomu Gomu no Pinwheel",
-        nameId: "monkeyDLuffy3",
-        id: 2
+        name: self.name,
+        nameId: self.nameId,
+        id: self.skillIndex
       };
       skill.pushStatus({
         subject: payload.offense,
@@ -71,6 +71,11 @@ let status = {
         status: stun,
         inherit: inherit
       });
+
+      //Attack All
+      console.log(payload);
+      let theirTeam = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+      theirTeam.forEach(x => (x.hp -= 20));
     }
   },
   transform: {

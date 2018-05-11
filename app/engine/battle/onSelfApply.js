@@ -12,18 +12,15 @@ function team(ownerid, state) {
 
 function persistenceCheck(skill, owner, state, context) {
   let caster = owner;
-  //   let caster = team(casterid, state);
   let evaluate;
   if (context === "attacker") {
     let onState = caster.status.onState;
     let stun = management.stun(onState, skill);
-    console.log("persistence check", stun);
     evaluate = stun;
   } else if (context === "receiver") {
     let onState = caster.status.onState;
     let invulnerable = management.invulnerable(onState, skill);
     evaluate = invulnerable;
-    // evaluate = caster.status.onState.some(x => x.type === "invulnerable");
   }
   if (
     evaluate === true &&
@@ -38,31 +35,36 @@ function persistenceCheck(skill, owner, state, context) {
 function selfApply(package) {
   let s = package.skillStore;
   let nameId = package.target.nameId;
-  let state = package.stateCopy;
+  let state = package.state;
+  let stateCopy = package.stateCopy;
 
   if (s.period === "instant") {
-    let attacker = persistenceCheck(s, package.offense, state, "attacker");
-    let receiver = persistenceCheck(s, package.target, state, "receiver");
-    if (attacker === false && receiver === false) {      
+    let attacker = persistenceCheck(s, package.offense, stateCopy, "attacker");
+    let receiver = persistenceCheck(s, package.target, stateCopy, "receiver");
+    if (attacker === false && receiver === false) {
       s.modify({
         offense: package.target,
         val: package.val,
         active: s.active,
         myEnergy: package.myEnergy,
-        theirEnergy: package.theirEnergy
-      });      
+        theirEnergy: package.theirEnergy,
+        skill: s,
+        state: state,
+        myTurn: package.myTurn,
+        theirTurn: package.theirTurn
+      }, s);
     }
     s.active -= 1;
   }
 }
 
-function receiveApply(package, callback) {  
-  package.target.status.onReceive.forEach(x => x.modify(package));    
+function receiveApply(package, callback) {
+  package.target.status.onReceive.forEach(x => x.modify(package));
   callback(package);
 }
 
 function postApply(payload) {
-  let state = payload.store;
+  let state = payload.state;
   let offense = team(payload.offense, state);
   let target = team(payload.target, state);
 
@@ -74,7 +76,8 @@ function postApply(payload) {
     myEnergy: payload.myEnergy,
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
-    store: payload.store,
+    theirTurn: payload.theirTurn,
+    state: state,
     stateCopy: payload.stateCopy
   };
 

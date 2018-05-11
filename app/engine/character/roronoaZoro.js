@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "roronoaZoro",
@@ -174,6 +175,11 @@ let skills = {
         },
         "stack"
       );
+
+      //Attack random
+      let random = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+      let chooseRandom = helper.getRandomInt(random.length);
+      random[chooseRandom].hp -= 10;
     }
   },
   skill5: {
@@ -226,7 +232,7 @@ let character = {
   id: info.id,
   credit: {
     author: info.author,
-    pictures: info.pictures,
+    pictures: info.pictures
   },
   hp: 100,
   skill: [

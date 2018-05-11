@@ -21,14 +21,15 @@ function skillApply(payload) {
     offense: payload.offense,
     target: payload.target,
     val: val,
-    skill: payload.skill,
-    skillStore: payload.offense.skill[payload.skill],
+    skillIndex: payload.skill,
+    skill: payload.offense.skill[payload.skill],
     move: payload.offense.skill[payload.skill].move,
     recursive: payload.recursive,
     myEnergy: payload.myEnergy,
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
-    store: payload.store
+    theirTurn: payload.theirTurn,
+    state: payload.state
   };
 
   execute(package);

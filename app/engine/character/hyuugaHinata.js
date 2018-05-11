@@ -73,7 +73,7 @@ let skills = {
     move: function(payload) {
       console.log(payload.target);
       if (
-        payload.store[payload.myTurn].some(x => x.name === payload.target.name)
+        payload.state[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
         payload.target.status.onReceive.push(
           new constructor.status(status.dd, this, 2)

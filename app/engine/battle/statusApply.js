@@ -17,9 +17,9 @@ function statusIterator(package, owner, status, callback) {
 
   source[status].forEach((x, i, a) => {
     if (x.persistence === "action" || x.persistence === "control") {
-      x.modify(package);
+      x.modify(package, x);
     } else if (x.persistence === "instant") {
-      x.modify(package);
+      x.modify(package, x);
     }
     if (i === a.length - 1) {
       callback(package, callback);
@@ -31,8 +31,8 @@ function statusApply(payload, move, owner) {
   if (owner === "offense") {
     statusIterator(payload, "offense", "onAttack", (payload, callback) => {
       //Multi Mechanics
-      if (payload.skillStore.isMulti) {
-        payload.val = payload.val * payload.skillStore.multi;
+      if (payload.skill.isMulti) {
+        payload.val = payload.val * payload.skill.multi;
       }
 
       if (payload.target.status.onReceive.length > 0) {

@@ -30,8 +30,9 @@ function sequence(state, payload) {
         skill: payload.skill,
         myEnergy: state.energy[myTurn],
         theirEnergy: state.energy[theirTurn],
-        store: state,
+        state: state,
         myTurn: myTurn,
+        theirTurn: theirTurn,
         recursive: t
       });
     });

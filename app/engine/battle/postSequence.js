@@ -70,9 +70,10 @@ function postSequence(x, turn, state) {
             skill: s,
             myEnergy: state.energy[myTurn],
             theirEnergy: state.energy[theirTurn],
-            store: state,
+            state: state,
             stateCopy: stateCopy,
-            myTurn: myTurn
+            myTurn: myTurn,
+            theirTurn: theirTurn
           });
         }
       });
