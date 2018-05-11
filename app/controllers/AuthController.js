@@ -26,7 +26,8 @@ userController.doRegister = function(req, res) {
     function(err, user) {
       if (err) {
         console.log(err);
-        return res.render("register", { user: user });
+        // return res.render("register", { user: user });
+        res.redirect("/?err=register");
       }
 
       passport.authenticate("local")(req, res, function() {
@@ -38,13 +39,27 @@ userController.doRegister = function(req, res) {
 
 // Go to login page
 userController.login = function(req, res) {
-  res.render("login");
+  res.redirect("/");
 };
 
 // Post login
 userController.doLogin = function(req, res) {
+  console.log('login')
   passport.authenticate("local")(req, res, function() {
-    res.redirect("/");
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      console.log('not found')
+      return res.redirect("/");
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      console.log('success')
+      return res.redirect("/");
+    });
   });
 };
 

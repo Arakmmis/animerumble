@@ -37,6 +37,12 @@
                             </form>
                         </b-tab>
                     </b-tabs>
+                    <div class="alert alert-danger mt-2" role="alert" v-if="error === 'login'">
+                        Username or password is incorrect
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert" v-if="error === 'register'">
+                        Username is taken
+                    </div>
                 </div>
                 <div class="mt-1">
                     <p class="font-weight-light color5">Welcome to Anime Rumble [Alpha]. Registration is quick. There's no email validation.</p>
@@ -55,9 +61,30 @@
                 email: '',
                 name: '',
                 players: [],
+                error: ''
             },
             methods: {
             }
         })
+
+        function getParameterName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return "";
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        let err = getParameterName('err')
+        if (err !== null || err !== "") {
+            if (err === 'login') {
+                app.error = 'login'
+            } else if (err === 'register') {
+                app.error = 'register'
+            }
+
+        }
     </script>
 </body>
