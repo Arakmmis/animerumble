@@ -1,10 +1,25 @@
 <div class="w-100 selection d-flex flex-column align-items-center">
-    <div class="w-50 img-100">
-        <img src="/assets/animerumble2.jpg">
+    <div class="w-50">
+        <div class="img-100" v-if="!showCharInfo">
+            <img src="/assets/animerumble2.jpg">
+        </div>
+        <div class="selection--details d-flex flex-column" v-if="showCharInfo">
+            <div class="d-flex flex-row align-items-end mb-3 justify-content-between">
+                <img :src="'/assets/character/'+charInfo.id+'/avatar.jpg'" class="l--char">
+                <img @click="charSkill = 0" :src="'/assets/character/'+charInfo.id+'/skill1/avatar.jpg'" class="l--skills">
+                <img @click="charSkill = 1" :src="'/assets/character/'+charInfo.id+'/skill2/avatar.jpg'" class="l--skills">
+                <img @click="charSkill = 2" :src="'/assets/character/'+charInfo.id+'/skill3/avatar.jpg'" class="l--skills">
+                <img @click="charSkill = 3" :src="'/assets/character/'+charInfo.id+'/skill4/avatar.jpg'" class="l--skills">
+            </div>
+            <div class="l--bg">
+                <% include description.ejs %>
+            </div>
+        </div>
     </div>
+
     <div class="selection--selected d-flex flex-row justify-content-between">
         <div v-for="item in lineup" class="selection--char">
-            <button @click="deselectCharacter(item)" :disabled="matchMaking" class="l--char w-100">
+            <button @click="onDescription(char.id)" @dblclick="deselectCharacter(item)" :disabled="matchMaking" class="l--char w-100">
                 <img :src="'/assets/character/'+item+'/avatar.jpg'">
             </button>
         </div>
@@ -22,7 +37,8 @@
                     <div class="selection--choice l--border-naruto d-flex flex-row flex-wrap">
                         <div v-for="char in characters.filter(x => x.anime === 'Naruto')" class="d-flex flex-column">
                             <div class="d-flex flex-row selection--char">
-                                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)" class="l--char w-100">
+                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)"
+                                    class="l--char w-100">
                                     <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
                                     <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
                                 </button>
@@ -34,7 +50,8 @@
                     <div class="selection--choice l--border-onepiece d-flex flex-row flex-wrap">
                         <div v-for="char in characters.filter(x => x.anime === 'OnePiece')" class="d-flex flex-column">
                             <div class="d-flex flex-row selection--char">
-                                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)" class="l--char w-100">
+                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)"
+                                    class="l--char w-100">
                                     <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
                                     <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
                                 </button>

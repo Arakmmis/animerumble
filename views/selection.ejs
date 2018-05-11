@@ -64,6 +64,9 @@
                     showModal: false,
                     tabIndex: 0,
                     matchMaking: false,
+                    charInfo: {},
+                    charSkill: 0,
+                    showCharInfo: false,
                 },
                 methods: {
                     linkClass(idx) {
@@ -72,6 +75,17 @@
                         } else {
                             return ['selection--tab', 'l--secondary']
                         }
+                    },
+                    onDescription: function (payload) {
+                        console.log(payload)
+                        this.$http.get('/char/' + payload).then(function (response) {
+                            if (response.status == "200") {
+                                self.info = response.body[0]
+                                console.log(self.info)
+                                this.charInfo = self.info
+                                this.showCharInfo = true
+                            }
+                        })
                     },
                     onShowModal: function (payload) {
                         console.log(payload)

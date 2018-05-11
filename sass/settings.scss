@@ -10,6 +10,10 @@ body,
   font-family: "Roboto", sans-serif;
 }
 
+html {
+  cursor: url("/assets/cursor/kunai.cur"), auto !important;
+}
+
 *::-webkit-scrollbar {
   display: none;
 }

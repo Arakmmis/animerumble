@@ -6499,6 +6499,9 @@ body,
 #images a {
   font-family: "Roboto", sans-serif; }
 
+html {
+  cursor: url("/assets/cursor/kunai.cur"), auto !important; }
+
 *::-webkit-scrollbar {
   display: none; }
 
@@ -7169,6 +7172,11 @@ img.img-100 {
 .selection {
   padding: 20px;
   overflow-y: scroll; }
+  .selection .nav-link {
+    color: #fff; }
+    .selection .nav-link.active {
+      background-color: #222 !important;
+      color: #fff; }
 
 .selection--selected {
   padding: 10px 10px;
@@ -7186,12 +7194,6 @@ img.img-100 {
       opacity: 0.5; }
     .selection--selected .l--char button:disabled:hover {
       opacity: 1; }
-
-.nav-link {
-  color: #fff; }
-  .nav-link.active {
-    background-color: #222 !important;
-    color: #fff; }
 
 .selection--choice {
   width: 100%;
@@ -7227,6 +7229,43 @@ img.img-100 {
     .selection--char button.l--char:hover {
       border-color: #667ED5;
       opacity: 0.5; }
+
+.selection--details {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.6); }
+  .selection--details .l--char {
+    border: 1px solid #222; }
+  .selection--details .l--skills {
+    max-width: 50px;
+    max-height: 50px;
+    border: 1px solid #222;
+    margin: 0 5px; }
+
+.selection--description {
+  width: 100%;
+  border-radius: 5px;
+  text-align: left; }
+  .selection--description .l--title {
+    font-size: 14px;
+    color: #222;
+    font-weight: bold; }
+  .selection--description .l--desc {
+    font-size: 10px;
+    margin-bottom: 10px; }
+  .selection--description .l--img {
+    border: 1px solid #222; }
+  .selection--description .l--info {
+    font-size: 8px;
+    color: #555; }
+    .selection--description .l--info img {
+      margin: 0 1px;
+      display: block;
+      height: 10px;
+      width: 10px; }
+  .selection--description .l--box {
+    flex: 1; }
 
 .create {
   background: #aec6cf;
