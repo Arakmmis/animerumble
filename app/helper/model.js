@@ -114,6 +114,10 @@ function matchMaking(payload, callback) {
   }
 }
 
+function matchMakingCancel(payload, callback) {
+  queue = queue.filter(x => x.username !== payload.username); //Remove Opponent from Queue
+}
+
 module.exports = {
   setUser,
   getUser,

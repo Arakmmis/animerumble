@@ -51,16 +51,36 @@
   }
 }
 
+.nav-link {
+  &.active {
+    background-color: #222 !important;
+    color: #fff;
+  }    
+  color: #fff;
+}
+
 .selection--choice {
   // border: 15px solid $color5;
+  width: 100%;
   min-height: 160px;
   margin-top: 20px;
-  border-image-source: url("/assets/theme/onepiece-border.png");
-  border-image-slice: 5 15 5 5 fill;
-  border-image-width: 5px 15px 5px 5px;
-  padding: 15px;
-  border-image-repeat: round;
   position: relative;
+
+  &.l--border-naruto {
+    border-image-source: url("/assets/theme/naruto-border.jpg");
+    border-image-slice: 5 15 5 5 fill;
+    border-image-width: 5px 15px 5px 5px;
+    border-image-repeat: round;
+    padding: 15px;
+  }
+
+  &.l--border-onepiece {
+    border-image-source: url("/assets/theme/onepiece-border.png");
+    border-image-slice: 5 15 5 5 fill;
+    border-image-width: 5px 15px 5px 5px;
+    border-image-repeat: round;
+    padding: 15px;
+  }
 
   // &::before {
   //   content: "";

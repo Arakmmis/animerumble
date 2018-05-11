@@ -15,15 +15,34 @@
         </div>
     </div>
 
-    <div class="selection--choice d-flex flex-row flex-wrap align-items-center justify-content-center">
-        <div v-for="char in characters" class="d-flex flex-column">
-            <div class="d-flex flex-row selection--char">
-                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)" class="l--char w-100">
-                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
-                    <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
-                </button>
-            </div>
-        </div>
-
+    <div class="d-flex flex-row w-100">
+        <b-tabs class="w-100" v-model="tabIndex">
+            <b-tabs pills vertical>
+                <b-tab title="Naruto" active :title-link-class="linkClass(0)">
+                    <div class="selection--choice l--border-naruto d-flex flex-row flex-wrap">
+                        <div v-for="char in characters.filter(x => x.anime === 'Naruto')" class="d-flex flex-column">
+                            <div class="d-flex flex-row selection--char">
+                                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)" class="l--char w-100">
+                                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
+                                    <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </b-tab>
+                <b-tab title="One Piece" :title-link-class="linkClass(1)">
+                    <div class="selection--choice l--border-onepiece d-flex flex-row flex-wrap">
+                        <div v-for="char in characters.filter(x => x.anime === 'OnePiece')" class="d-flex flex-column">
+                            <div class="d-flex flex-row selection--char">
+                                <button @click="selectCharacter(char.id)" :disabled="lineup.length === 3 || lineup.some(x => x === char.id)" class="l--char w-100">
+                                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
+                                    <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </b-tab>
+            </b-tabs>
+        </b-tabs>
     </div>
 </div>

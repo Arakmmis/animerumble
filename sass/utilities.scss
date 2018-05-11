@@ -52,7 +52,7 @@
 }
 
 .color-white {
-  color: #fefefe;
+  color: #fefefe !important;
 }
 .color1 {
   color: $color1;
@@ -81,6 +81,10 @@
   img {
     width: 100%;
   }
+}
+
+.font-size-12{
+  font-size: 12px !important;
 }
 
 .hide {

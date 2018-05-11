@@ -19,10 +19,11 @@ module.exports = function(io, socket) {
       socket.emit("logged", {
         user: update_[0][1],
         token: update_[0][2],
-        character: character.map(x => {
+        character: character.map(x => {          
           return {
             name: x.name,
-            id: x.id
+            id: x.id,
+            anime: x.anime
           };
         })
       });
@@ -129,6 +130,10 @@ module.exports = function(io, socket) {
       }
     );
   });
+
+  socket.on("cancelMatch", function() {
+    model.matchMakingCancel({username: auth.username})
+  })
 
   socket.on("disconnect", function() {
     let deleted = model.offline(socket.id);

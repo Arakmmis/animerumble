@@ -4,6 +4,7 @@ let library = require("../library/status.js");
 let info = {
   id: "climaTactNami",
   name: "Clima-tact Nami",
+  anime: "OnePiece",
   author: "63k",
   pictures: "Zetsu, Leciel"
 };
@@ -185,6 +186,7 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  anime: info.anime,
   credit: {
     author: info.author,
     pictures: info.pictures

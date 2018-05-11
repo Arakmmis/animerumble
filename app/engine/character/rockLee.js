@@ -4,7 +4,10 @@ let library = require("../library/status.js");
 
 let info = {
   id: "rockLee",
-  name: "Rock Lee"
+  name: "Rock Lee",
+  anime: "Naruto",
+  author: "",
+  pictures: ""
 };
 
 let status = {
@@ -201,6 +204,11 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  anime: info.anime,
+  credit: {
+    author: info.author,
+    pictures: info.pictures
+  },
   hp: 100,
   skill: [
     skills.skill1,

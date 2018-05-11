@@ -4,7 +4,10 @@ let library = require("../library/status.js");
 
 let info = {
   id: "hyuugaHinata",
-  name: "Hyuuga Hinata"
+  name: "Hyuuga Hinata",
+  anime: "Naruto",
+  author: "",
+  pictures: ""
 };
 
 let status = {
@@ -130,6 +133,11 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  anime: info.anime,
+  credit: {
+    author: info.author,
+    pictures: info.pictures
+  },
   hp: 100,
   skill: [skills.skill1, skills.skill2, skills.skill3, skills.skill4]
 };

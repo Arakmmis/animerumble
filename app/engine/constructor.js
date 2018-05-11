@@ -22,6 +22,7 @@ function character(
     onState: []
   };
   this.nameId = payload.id + turn;
+  this.anime = payload.anime;
   this.credit = payload.credit ? payload.credit : { author: "", pictures: "" };
   this.skill = payload.skill.map((x, i) => {
     return new skill(

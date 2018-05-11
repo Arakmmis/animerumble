@@ -6517,6 +6517,9 @@ input[type="submit"],
   -moz-appearance: none !important;
   appearance: none !important; }
 
+.nav-tabs {
+  border-bottom: none !important; }
+
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
@@ -6569,7 +6572,7 @@ input[type="submit"],
   color: #24262A; }
 
 .color-white {
-  color: #fefefe; }
+  color: #fefefe !important; }
 
 .color1 {
   color: #667ED5; }
@@ -6591,6 +6594,9 @@ input[type="submit"],
 
 .img-100 img {
   width: 100%; }
+
+.font-size-12 {
+  font-size: 12px !important; }
 
 .hide {
   display: none; }
@@ -7178,15 +7184,29 @@ img.img-100 {
     .selection--selected .l--char button:disabled:hover {
       opacity: 1; }
 
+.nav-link {
+  color: #fff; }
+  .nav-link.active {
+    background-color: #222 !important;
+    color: #fff; }
+
 .selection--choice {
+  width: 100%;
   min-height: 160px;
   margin-top: 20px;
-  border-image-source: url("/assets/theme/onepiece-border.png");
-  border-image-slice: 5 15 5 5 fill;
-  border-image-width: 5px 15px 5px 5px;
-  padding: 15px;
-  border-image-repeat: round;
   position: relative; }
+  .selection--choice.l--border-naruto {
+    border-image-source: url("/assets/theme/naruto-border.jpg");
+    border-image-slice: 5 15 5 5 fill;
+    border-image-width: 5px 15px 5px 5px;
+    border-image-repeat: round;
+    padding: 15px; }
+  .selection--choice.l--border-onepiece {
+    border-image-source: url("/assets/theme/onepiece-border.png");
+    border-image-slice: 5 15 5 5 fill;
+    border-image-width: 5px 15px 5px 5px;
+    border-image-repeat: round;
+    padding: 15px; }
 
 .selection--char {
   border: 1px solid #222;

@@ -5,6 +5,7 @@ let skill = require("../library/skill.js");
 let info = {
   id: "monkeyDLuffy",
   name: "Monkey D Luffy",
+  anime: "OnePiece",
   author: "63k",
   pictures: "Leciel"
 };
@@ -231,6 +232,7 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  anime: info.anime,
   credit: {
     author: info.author,
     pictures: info.pictures
