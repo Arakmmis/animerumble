@@ -3,7 +3,7 @@ const _ = require("lodash");
 function stun(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
-      let ignore = ignoreManagement(onState, x);
+      let ignore = ignore(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
