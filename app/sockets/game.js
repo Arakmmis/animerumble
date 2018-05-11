@@ -1,5 +1,6 @@
 let engine = require("../engine/main.js");
 let battle = require("../engine/battle.js");
+let surrender = require("../engine/surrender.js");
 let model = require("../helper/model.js");
 
 let connection = 0;
@@ -58,16 +59,12 @@ module.exports = function(io, socket) {
         store[roomName] = [];
         store[roomName].push(payload);
         console.log("apply", payload);
-        io
-          .to(roomName)
-          .emit("apply", store[roomName][store[roomName].length - 1]);
+        socket.emit("apply", store[roomName][store[roomName].length - 1]);
       });
 
       roomSpace.push(roomName);
     } else {
-      io
-        .to(roomName)
-        .emit("apply", store[roomName][store[roomName].length - 1]);
+      socket.emit("apply", store[roomName][store[roomName].length - 1]);
     }
   });
 
@@ -75,7 +72,6 @@ module.exports = function(io, socket) {
     let roomName = payload.room;
     if (store[roomName] === undefined) {
       socket.emit("noMatch", {});
-      console.log(socket.id);
       return;
     }
     battle(
@@ -95,8 +91,34 @@ module.exports = function(io, socket) {
     );
   });
 
-  socket.on("chat message", function(msg) {
-    console.log("message: " + msg);
+  socket.on("surrender", payload => {
+    let roomName = payload.room;
+    if (store[roomName] === undefined) {
+      socket.emit("noMatch", {});
+      return;
+    }
+    surrender(
+      auth.username,
+      store[roomName][store[roomName].length - 1],
+      payload => {
+        store[roomName].push(payload);
+        console.log("view", payload);
+
+        io.to(roomName).emit("apply", payload);
+
+        if (payload.winner.state === true) {
+          console.log("Winner");
+          model.deleteMatch(roomName);
+        }
+      }
+    );
+  });
+
+  socket.on("chat", function(payload) {
+    console.log("message: " + payload.message);
+    let roomName = payload.room;
+    let message = auth.username + ": " + payload.message;
+    io.to(roomName).emit("chat", message);
   });
   socket.on("disconnect", function() {
     console.log("user disconnected");

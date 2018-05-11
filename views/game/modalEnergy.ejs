@@ -12,7 +12,7 @@
             
             <div class="modal-body">
               <slot name="body">      
-                <p>Reimburse <img src="/assets/energy/energy_random.gif"/> {{reimbursed}} Random Energy</p>
+                <p>CHOOSE <img src="/assets/energy/energy_random.gif"/> {{reimbursed}} RANDOM ENERGY</p>
                 <p><img src="/assets/energy/energy_0.gif" /> {{pool.a}} <button @click="select('a')" :disabled="disabled('a','select')">+</button><button @click="deselect('a')" :disabled="disabled('a','deselect')">-</button></p>
                 <p><img src="/assets/energy/energy_1.gif" /> {{pool.i}} <button @click="select('i')" :disabled="disabled('i','select')">+</button><button @click="deselect('i')" :disabled="disabled('i','deselect')">-</button></p>
                 <p><img src="/assets/energy/energy_2.gif" /> {{pool.s}} <button @click="select('s')" :disabled="disabled('s','select')">+</button><button @click="deselect('s')" :disabled="disabled('s','deselect')">-</button></p>
@@ -29,10 +29,10 @@
             <div class="modal-footer">
               <slot name="footer">                
                 <button class="modal-default-button btn-color4 w-100" @click="done()" :disabled="reimbursed !== 0">
-                    Accept
+                    OK
                 </button>
                 <button class="modal-default-button btn-color4 w-100" @click="$emit('close')">
-                  Back
+                  CANCEL
                 </button>
               </slot>
             </div>
@@ -92,7 +92,7 @@
         }
 
       },
-      done: function () {        
+      done: function () {
         let energy = {
           a: this.energy.a - this.pool.a,
           i: this.energy.i - this.pool.i,

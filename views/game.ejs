@@ -6,22 +6,25 @@
     <script src="/js/Sortable.min.js"></script>
     <script src="/js/vuedraggable.min.js"></script>
     <script src="/js/lodash.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 </head>
 
 <body>
-
     <div id="app">
         <div class="d-flex flex-column w-100 game align-items-center">
-            <div class="d-flex flex-column game--width">
+            <div class="d-flex flex-column game--width justify-content-between">
+                <div class="d-flex flex-row justify-content-between">
+                    <p @click="onSurrender()" class="game--surrender">Surrender</p>
+                </div>
                 <% include game/header.ejs %>
                     <div class="d-flex flex-row game--body">
                         <% include game/myteam.ejs %>
                             <% include game/theirteam.ejs %>
                     </div>
-                    <div class="d-flex flex-row justify-content-end">
-                        <% include game/description.ejs %>
-                    </div>                    
+                    <div class="d-flex flex-row justify-content-between">
+                        <% include game/chatbox.ejs %>
+                            <% include game/description.ejs %>
+                    </div>
             </div>
         </div>
         <modal v-if="state.winner.state" :name="state.winner.name" @close="showModal = false"></modal>
@@ -36,7 +39,7 @@
         <audio ref="soundEndTurn" src="/assets/sounds/endturn.mp3"></audio>
         <audio ref="soundBad" src="/assets/sounds/bad.mp3"></audio>
         <audio ref="soundLose" src="/assets/sounds/lose.mp3"></audio>
-        
+
     </div>
 
     <% include game/modal.ejs %>

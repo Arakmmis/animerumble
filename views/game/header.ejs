@@ -1,32 +1,33 @@
 <div class="w-100 game--info d-flex flex-row align-items-center justify-content-around">
-    <div class="">
+    <div class="game--profile">
         <p>{{source.meta.myName}}</p>
     </div>
     <div class="d-flex flex-column">
-        <div class="l--turn">
-            <p>TURN {{source.turn}}</p>
+        <div class="l--turn text-center" @click="() => {source.myTurn === true ? onAttack():''}">
+            <!-- <p>TURN {{source.turn}}</p> -->
+            <p class="text-center w-100">{{source.myTurn === true ? 'PRESS WHEN READY' : 'OPPONENT TURN'}}</p>
             <div class="l--bar">
                 <div :style="{width: state.timer.turn+'%'}" class="l--fill"></div>
             </div>
         </div>
 
-        <div class="l--turn">
+        <div class="d-flex flex-column justify-content-center l--energy">
             <p>
                 <img src="/assets/energy/energy_0.gif" /> {{source.energy.ally.a}}
                 <img src="/assets/energy/energy_1.gif" /> {{source.energy.ally.i}}
                 <img src="/assets/energy/energy_2.gif" /> {{source.energy.ally.s}}
                 <img src="/assets/energy/energy_3.gif" /> {{source.energy.ally.w}}
                 <b>T</b> {{source.energy.ally.r}}</p>
-            <div class="l--bar">
-                <div :style="{width: '100%'}" class="l--fill"></div>
-            </div>
+            <p @click="state.exchange.modal = !state.exchange.modal, $refs.soundClick.play()" v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p>
+            <!-- <p @click="() => {(source.myTurn === false || source.energy.ally.r < 5 || state.exchange.used === true) ? state.exchange.modal = !state.exchange.modal : false}"
+                v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p> -->
         </div>
 
-        <button @click="onAttack('hi')" :disabled="source.myTurn === false" class="btn-color4 mb-1">Attack</button>
-        <button @click="state.exchange.modal = !state.exchange.modal" :disabled="(source.myTurn === false || source.energy.ally.r < 5 || state.exchange.used === true) ? true : false"
-            class="btn-color4">Energy Exchange</button>
+        <!-- <button @click="onAttack()" :disabled="source.myTurn === false" class="btn-color4 mb-1">Press When Ready</button> -->
+        <!-- <button @click="state.exchange.modal = !state.exchange.modal" :disabled="(source.myTurn === false || source.energy.ally.r < 5 || state.exchange.used === true) ? true : false"
+            class="btn-color4">Energy Exchange</button> -->
     </div>
-    <div class="">
-            <p>{{source.meta.theirName}}</p>
+    <div class="game--profile">
+        <p>{{source.meta.theirName}}</p>
     </div>
 </div>

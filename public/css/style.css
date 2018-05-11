@@ -6613,8 +6613,6 @@ img.img-100 {
 
 .challenge {
   width: 400px;
-  border-left: 1px solid #dad8de;
-  background: #ffffff;
   color: #8EA0AC;
   font-size: 14px;
   overflow-y: scroll; }
@@ -6623,7 +6621,7 @@ img.img-100 {
     color: #abb9c2;
     padding: 10px 20px; }
   .challenge .l--body {
-    padding: 10px 20px; }
+    padding: 10px 10px; }
     .challenge .l--body .l--title {
       margin-bottom: 15px;
       font-size: 14px;
@@ -6635,6 +6633,11 @@ img.img-100 {
       font-size: 16px;
       margin-bottom: 5px;
       color: #718796; }
+
+.challenge--container {
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px 15px; }
 
 .challenge--accept {
   background: #8EA0AC;
@@ -6710,8 +6713,46 @@ img.img-100 {
   .game button:disabled {
     opacity: 0.4; }
 
+.game--body {
+  margin-bottom: 20px; }
+
+.game--profile {
+  padding: 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.6); }
+
+.game--chatbox {
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  height: 120px; }
+  .game--chatbox .l--chat {
+    margin: 5px 10px 10px 10px;
+    flex: 1;
+    overflow-y: scroll; }
+    .game--chatbox .l--chat p {
+      font-size: 10px;
+      color: #fff;
+      margin: 0; }
+  .game--chatbox .l--input input {
+    width: 100%;
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 12px;
+    padding: 0 5px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.4); }
+    .game--chatbox .l--input input::-webkit-input-placeholder {
+      color: #222; }
+    .game--chatbox .l--input input:-moz-placeholder {
+      color: #222; }
+    .game--chatbox .l--input input::-moz-placeholder {
+      color: #222; }
+    .game--chatbox .l--input input:-ms-input-placeholder {
+      color: #222; }
+
 .game--skill-container {
-  border-image-source: url("https://i.imgur.com/uwgJl9y.jpg");
+  border-image-source: url("/assets/theme/naruto-border.jpg");
   border-image-slice: 5 15 5 5 fill;
   border-image-width: 5px 15px 5px 5px;
   border-image-repeat: round;
@@ -6757,10 +6798,20 @@ img.img-100 {
 
 .game--info {
   text-align: center; }
+  .game--info .l--energy {
+    padding: 5px;
+    width: 300px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.6); }
+    .game--info .l--energy .l--exchange {
+      font-weight: 300;
+      font-size: 12px; }
   .game--info .l--turn {
     height: 30px;
     width: 300px;
-    border-radius: 15px;
+    border-radius: 5px;
+    border: 1px solid #222;
     text-align: center;
     position: relative;
     margin-bottom: 5px; }
@@ -6773,17 +6824,17 @@ img.img-100 {
       color: #fefefe;
       font-weight: 300; }
     .game--info .l--turn .l--bar {
-      border-radius: 5px;
+      border-radius: 4px;
       position: absolute;
       top: 0;
-      height: 30px;
-      width: 300px;
+      height: 28px;
+      width: 298px;
       z-index: 1;
-      background: #24262A; }
+      background: #222222; }
       .game--info .l--turn .l--bar .l--fill {
-        border-radius: 5px;
-        height: 30px;
-        background: #8EA0AC; }
+        border-radius: 4px;
+        height: 28px;
+        background: #0084ff; }
 
 .game--box {
   padding: 10px 20px; }
@@ -6857,24 +6908,32 @@ img.img-100 {
         background: #8EA0AC; }
 
 .game--description {
-  border-image-source: url("https://i.imgur.com/xrF16uy.png");
-  border-image-slice: 19 fill;
-  border-image-width: 19px 19px 19px 19px;
+  border-image-source: url("/assets/theme/naruto-border.jpg");
+  border-image-slice: 5 15 5 5 fill;
+  border-image-width: 5px 15px 5px 5px;
   border-image-repeat: round;
-  padding: 25px;
-  width: 500px;
+  padding: 10px 20px 10px 10px;
   border-radius: 5px;
   text-align: left; }
   .game--description .l--title {
     font-size: 14px;
-    color: #667ED5;
+    color: #222;
     font-weight: bold; }
   .game--description .l--desc {
-    font-size: 12px;
-    margin-bottom: 10px; }
-  .game--description .l--info {
     font-size: 10px;
+    margin-bottom: 10px; }
+  .game--description .l--img {
+    border: 1px solid #222; }
+  .game--description .l--info {
+    font-size: 8px;
     color: #8EA0AC; }
+    .game--description .l--info img {
+      margin: 0 1px;
+      display: block;
+      height: 10px;
+      width: 10px; }
+  .game--description .l--box {
+    flex: 1; }
 
 .game--status-popup {
   background: #fefefe;
@@ -6894,10 +6953,11 @@ img.img-100 {
     color: #8EA0AC; }
 
 .game--status {
-  height: 20px; }
+  height: 24px; }
   .game--status img {
-    width: 20px;
-    height: 20px;
+    border: 1px solid #222;
+    width: 22px;
+    height: 22px;
     margin-left: 5px; }
 
 .game--skill-button {
@@ -6913,6 +6973,13 @@ img.img-100 {
 
 .game--flip-img {
   transform: scaleX(-1); }
+
+.game--surrender {
+  font-size: 12px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  cursor: pointer; }
 
 .modal-mask {
   position: fixed;
@@ -6931,7 +6998,6 @@ img.img-100 {
 
 .modal-container {
   width: 500px;
-  height: 100vh;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -7074,6 +7140,13 @@ img.img-100 {
     opacity: 1;
     transition: opacity 0.15s; }
 
+.selection--bg {
+  background: url("/assets/bgnew.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
 .selection--info {
   background: rgba(255, 255, 255, 0.8);
   padding: 10px 10px;
@@ -7086,11 +7159,6 @@ img.img-100 {
 
 .selection {
   padding: 20px;
-  background: url("/assets/bgnew.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   overflow-y: scroll; }
 
 .selection--selected {
@@ -7111,12 +7179,12 @@ img.img-100 {
       opacity: 1; }
 
 .selection--choice {
-  border: 15px solid #8EA0AC;
   min-height: 160px;
   margin-top: 20px;
-  border-image-source: url("https://i.imgur.com/uwgJl9y.jpg");
+  border-image-source: url("/assets/theme/onepiece-border.png");
   border-image-slice: 5 15 5 5 fill;
   border-image-width: 5px 15px 5px 5px;
+  padding: 15px;
   border-image-repeat: round;
   position: relative; }
 

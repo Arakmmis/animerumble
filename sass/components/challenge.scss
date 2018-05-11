@@ -1,7 +1,6 @@
 .challenge {
-  width: 400px;
-  border-left: 1px solid $color4;
-  background: $color2;
+  width: 400px;  
+  // background: rgba(255,255,255,0.1);
   color: $color5;
   font-size: 14px;
   overflow-y: scroll;
@@ -12,7 +11,7 @@
     padding: 10px 20px;
   }
   .l--body {
-    padding: 10px 20px;
+    padding: 10px 10px;
     .l--title {
       margin-bottom: 15px;
       font-size: 14px;
@@ -28,6 +27,12 @@
       color: darken($color5, 10%);
     }
   }
+}
+
+.challenge--container {
+ background: #fff; 
+ border-radius: 5px;
+ padding: 10px 15px;
 }
 
 .challenge--accept {

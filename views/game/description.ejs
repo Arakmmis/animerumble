@@ -1,15 +1,37 @@
-<div v-if="state.description !== null" class="game--description">
-    <p class="l--title mb-0">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
-    <p class="l--desc">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
+<div v-if="state.description !== null" class="game--description d-flex flex-column w-50">
+    <div class="d-flex flex-row">
+        <div class="">
+            <img :src="onGetImage({nameId: state.description.nameId, skill: state.description.skill},'skill')" class="l--img">
+        </div>
+        <div class="d-flex flex-column pl-2 l--box">
+            <div class=" d-flex flex-row justify-content-between ">
+                <p class="l--title mb-0 ">{{source.ally[state.description.heroIndex].skill[state.description.skill].name}}</p>
+                <p class="l--info mb-0 d-flex flex-row align-items-center ">
+                    <span class="pr-1 ">ENERGY:</span>
+                    <img src="/assets/energy/energy_0.gif " v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.a "
+                    />
+                    <img src="/assets/energy/energy_1.gif " v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.i "
+                    />
+                    <img src="/assets/energy/energy_2.gif " v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.s "
+                    />
+                    <img src="/assets/energy/energy_3.gif " v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.w "
+                    />
+                    <img src="/assets/energy/energy_random.gif " v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.r "
+                    />
+                    <span v-if="source.ally[state.description.heroIndex].skill[state.description.skill].energy.r===0 &&
+            source.ally[state.description.heroIndex].skill[state.description.skill].energy.w===0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.a===0
+            && source.ally[state.description.heroIndex].skill[state.description.skill].energy.i===0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.s===0 ">No Cost</span>
+                </p>
+            </div>
 
-    <p class="l--info text-right mb-0">
-        CLASS {{source.ally[state.description.heroIndex].skill[state.description.skill].classes.join(', ')}} |
-        TARGET {{source.ally[state.description.heroIndex].skill[state.description.skill].target}}
-        | <img src="/assets/energy/energy_0.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.a"/>
-         <img src="/assets/energy/energy_1.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.i"/>
-         <img src="/assets/energy/energy_2.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.s"/>
-         <img src="/assets/energy/energy_3.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.w"/>
-         <img src="/assets/energy/energy_random.gif" v-for="i in source.ally[state.description.heroIndex].skill[state.description.skill].energy.r"/>
-         <span v-if="source.ally[state.description.heroIndex].skill[state.description.skill].energy.r === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.w === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.a === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.i === 0 && source.ally[state.description.heroIndex].skill[state.description.skill].energy.s === 0">No Cost</span>
-        | COOLDOWN {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
+            <p class="l--desc ">{{source.ally[state.description.heroIndex].skill[state.description.skill].description}}</p>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-between mt-2">
+        <p class="l--info mb-0 ">
+            CLASSES: {{source.ally[state.description.heroIndex].skill[state.description.skill].classes.join(', ').toUpperCase()}}</p>
+        <p class="l--info mb-0 ">
+            COOLDOWN {{source.ally[state.description.heroIndex].skill[state.description.skill].cooldown}}</p>
+    </div>
 </div>

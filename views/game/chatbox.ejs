@@ -1,0 +1,9 @@
+<div class="game--chatbox d-flex flex-column justify-content-between w-50 mr-1">
+    <div class="l--chat d-flex flex-column" id="chatbox">
+        <p>Welcome to Anime Rumble!</p>
+        <p v-for="msg in chat">{{msg}}</p>
+    </div>
+    <div class="l--input">
+        <input v-model="chatSend" placeholder="Your message here..." @keyup.enter="onChat(), $refs.soundClick.play()"></input>
+    </div>
+</div>

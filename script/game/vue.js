@@ -2,7 +2,8 @@ Vue.use(VTooltip);
 let app = new Vue({
   el: "#app",
   data: {
-    message: "Hello Vuee.js!",
+    chat: [],
+    chatSend: "",
     source: {
       energy: {
         ally: {}
@@ -41,6 +42,18 @@ let app = new Vue({
     showModal: true
   },
   methods: {
+    onSurrender: function() {
+      console.log("surrender");
+      socket.emit("surrender", { room: this.source.room });
+    },
+    onChat: function() {
+      let packet = {
+        room: this.source.room,
+        message: this.chatSend
+      };
+      socket.emit("chat", packet);
+      this.chatSend = "";
+    },
     onExchange: function(e) {
       //Sound
       this.$refs.soundClick.play();
@@ -254,15 +267,18 @@ let app = new Vue({
 
       let state = this.state;
       let temporary = {
+        nameId: payload.nameId,
         offense: payload.name,
         skill: payload.skillIndex,
         target: "",
         aim: payload.target,
         heroIndex: payload.heroIndex
       };
+      console.log(payload);
 
       //Buffer Skill
       state.description = {
+        nameId: temporary.nameId,
         skill: temporary.skill,
         heroIndex: temporary.heroIndex
       };
@@ -340,7 +356,7 @@ let app = new Vue({
         );
       }
     },
-    targetingCue: function(payload) {
+    targetingCue: function(payload, nameId) {
       let name = payload;
       let index = this.packet.findIndex(x => x.offense === payload);
       let packet = this.packet[index];
@@ -352,6 +368,10 @@ let app = new Vue({
         heroIndex: packet.heroIndex,
         target: packet.target
       };
+
+      if (nameId) {
+        result.nameId = nameId;
+      }
       console.log(result);
 
       return result;
