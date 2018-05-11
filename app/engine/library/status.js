@@ -69,12 +69,12 @@ function protect(x) {
 
       let tempVal = onReceive[index].info;
 
-      let affliction = payload.skillStore.classes.some(x => x === "affliction");
+      let affliction = payload.skill.classes.some(x => x === "affliction");
       console.log("REDUCE VAL", payload.val, tempVal);
       if (index > -1 && payload.val !== 0 && payload.val > 0 && tempVal > 0) {
         if (
           onReceive[index].usage === 0 &&
-          payload.skillStore.type !== "piercing" &&
+          payload.skill.type !== "piercing" &&
           disableDrIv === false &&
           affliction === false
         ) {
@@ -273,7 +273,7 @@ function cooldownIncrease(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.skillStore.counter += 1;
+      payload.skill.counter += 1;
     }
   };
 }
@@ -319,18 +319,18 @@ function dd(x) {
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
-      let affliction = payload.skillStore.classes.some(x => x === "affliction");
+      let affliction = payload.skill.classes.some(x => x === "affliction");
       console.log(
         "before dd",
         index,
         onReceive[index].usage,
-        payload.skillStore.type,
+        payload.skill.type,
         disableDrIv
       );
       if (index > -1) {
         if (
           onReceive[index].usage === 0 &&
-          payload.skillStore.type !== "piercing" &&
+          payload.skill.type !== "piercing" &&
           disableDrIv === -1 &&
           affliction === false
         ) {

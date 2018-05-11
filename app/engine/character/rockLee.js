@@ -32,7 +32,7 @@ let status = {
     harmful: false,
     active: 2,
     modify: function(payload) {
-      if (payload.skillStore.name === "Front Lotus") {
+      if (payload.skill.name === "Front Lotus") {
         payload.val += this.val;
       }
     }
@@ -44,7 +44,7 @@ let status = {
     harmful: false,
     active: 3,
     modify: function(payload) {
-      if (payload.skillStore.name === "Front Lotus") {
+      if (payload.skill.name === "Front Lotus") {
         payload.val += this.val;
       }
     }

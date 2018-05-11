@@ -28,8 +28,8 @@ let status = {
     active: 3,
     modify: function(payload) {
       if (
-        payload.skillStore.name === "Double-Headed Wolf" ||
-        payload.skillStore.name === "Garouga"
+        payload.skill.name === "Double-Headed Wolf" ||
+        payload.skill.name === "Garouga"
       ) {
         payload.val += this.val;
       }

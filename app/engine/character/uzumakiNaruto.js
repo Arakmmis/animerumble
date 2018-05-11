@@ -24,7 +24,7 @@ let status = {
     description: "Uzumaki Naruto Combo",
     active: 4,
     modify: function(payload) {
-      if (payload.skillStore.name === "Uzumaki Naruto Combo") {
+      if (payload.skill.name === "Uzumaki Naruto Combo") {
         payload.val += this.val;
       }
     }

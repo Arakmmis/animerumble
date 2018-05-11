@@ -33,7 +33,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.skillStore.name === "KO Punch") {
+      if (payload.skill.name === "KO Punch") {
         payload.val += this.val;
       }
     }

@@ -25,7 +25,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.skillStore.name === "Chidori") {
+      if (payload.skill.name === "Chidori") {
         payload.val += this.val;
       }
     }
@@ -36,7 +36,7 @@ let status = {
     type: "skill",
     active: 4,
     modify: function(payload) {
-      if (payload.skillStore.name === "Lion Combo") {
+      if (payload.skill.name === "Lion Combo") {
         payload.val += this.val;
       }
     }

@@ -30,7 +30,7 @@ let status = {
     type: "skill",
     active: 2,
     modify: function(payload) {
-      payload.skillStore.counter += 1;
+      payload.skill.counter += 1;
     }
   },
   transform: {
