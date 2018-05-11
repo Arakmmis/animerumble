@@ -33,7 +33,7 @@ function persistenceCheck(skill, owner, state, context) {
 }
 
 function selfApply(package) {
-  let s = package.skillStore;
+  let s = package.skill;
   let nameId = package.target.nameId;
   let state = package.state;
   let stateCopy = package.stateCopy;
@@ -72,7 +72,7 @@ function postApply(payload) {
     offense: offense,
     target: target,
     val: payload.skill.val,
-    skillStore: payload.skill,
+    skill: payload.skill,
     myEnergy: payload.myEnergy,
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
