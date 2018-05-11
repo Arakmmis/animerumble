@@ -82,7 +82,7 @@ module.exports = function(io, socket) {
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();
     let index = user_.findIndex(x => x[1] === payload.to);
-    if (index !== -1) {      
+    if (index !== -1) {
       io
         .to(user_[index][0])
         .emit("challenge", { challenger: auth.username, char: payload.char });
@@ -101,7 +101,7 @@ module.exports = function(io, socket) {
         console.log(model.getMatch());
         console.log(model.getUser(payload.to)[0]);
         io.to(model.getUser(payload.to)[0]).emit("accepted", roomName);
-        io.to(model.getUser(payload.from)[0]).emit("accepted", roomName);
+        io.to(model.getUser(auth.username)[0]).emit("accepted", roomName);
       }
     );
   });
@@ -136,7 +136,7 @@ module.exports = function(io, socket) {
   });
 
   socket.on("disconnect", function() {
-    let deleted = model.offline(socket.id);    
+    let deleted = model.offline(socket.id);
     console.log("user disconnected");
     io.emit("users", deleted);
   });

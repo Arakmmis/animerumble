@@ -1,9 +1,9 @@
 const _ = require("lodash");
 
-function stun(onState, skill) {
+function stunManagement(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
-      let ignoreRes = ignore(onState, x);
+      let ignore = ignoreManagement(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
@@ -14,7 +14,7 @@ function stun(onState, skill) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate && !ignoreRes) {
+      if (evaluate && !ignore) {
         return true;
       } else {
         return false;
@@ -29,7 +29,7 @@ function stun(onState, skill) {
   }
 }
 
-function invulnerable(onState, skill) {
+function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
     if (x.type === "invulnerable") {
       let ignoreInvul = skill.ignoreInvul;
@@ -58,7 +58,7 @@ function invulnerable(onState, skill) {
   }
 }
 
-function ignore(onState, skill) {
+function ignoreManagement(onState, skill) {
   let ignore = onState.map(x => {
     if (x.type === "ignore") {
       let intersect = _.intersection(x.classes, skill.classes);
@@ -87,7 +87,7 @@ function ignore(onState, skill) {
 }
 
 module.exports = {
-  stun,
-  invulnerable,
-  ignore
+  stun: stunManagement,
+  invulnerable: invulnerableManagement,
+  ignore: ignoreManagement
 };
