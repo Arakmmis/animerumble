@@ -42,24 +42,27 @@ function selfApply(package) {
     let attacker = persistenceCheck(s, package.offense, stateCopy, "attacker");
     let receiver = persistenceCheck(s, package.target, stateCopy, "receiver");
     if (attacker === false && receiver === false) {
-      s.modify({
-        offense: package.target,
-        val: package.val,
-        active: s.active,
-        myEnergy: package.myEnergy,
-        theirEnergy: package.theirEnergy,
-        skill: s,
-        state: state,
-        myTurn: package.myTurn,
-        theirTurn: package.theirTurn
-      }, s);
+      s.modify(
+        {
+          offense: package.target,
+          val: package.val,
+          active: s.active,
+          myEnergy: package.myEnergy,
+          theirEnergy: package.theirEnergy,
+          skill: s,
+          state: state,
+          myTurn: package.myTurn,
+          theirTurn: package.theirTurn
+        },
+        s
+      );
     }
     s.active -= 1;
   }
 }
 
 function receiveApply(package, callback) {
-  package.target.status.onReceive.forEach(x => x.modify(package));
+  package.target.status.onReceive.forEach(x => x.modify(package, x));
   callback(package);
 }
 

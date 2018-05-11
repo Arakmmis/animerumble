@@ -84,13 +84,20 @@ function postSequence(x, turn, state) {
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
         if (s.period !== "instant") {
-          s.modify({
-            offense: x,
-            val: s.val,
-            active: s.active,
-            myEnergy: state.energy[myTurn],
-            theirEnergy: state.energy[theirTurn]
-          });
+          s.modify(
+            {
+              offense: x,
+              val: s.val,
+              active: s.active,
+              myEnergy: state.energy[myTurn],
+              theirEnergy: state.energy[theirTurn],
+              state: state,
+              skill: s,
+              myTurn: myTurn,
+              theirTurn: theirTurn
+            },
+            s
+          );
           s.active -= 1;
         }
       });
