@@ -273,6 +273,110 @@
       "search": [
         "swords"
       ]
+    },
+    {
+      "uid": "053b757d97042e1c94276200c7b64b91",
+      "css": "briefcase",
+      "code": 59409,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "51727ca007aa35ceabcaffc28934faee",
+      "css": "book-open",
+      "code": 59410,
+      "src": "entypo"
+    },
+    {
+      "uid": "ecb97add13804c190456025e43ec003b",
+      "css": "keyboard",
+      "code": 61724,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "457c8e2b305e7af74c1be4f07a01ca92",
+      "css": "vcard",
+      "code": 59411,
+      "src": "entypo"
+    },
+    {
+      "uid": "42f2bfd246dcf7eeefced7d0c9e956dd",
+      "css": "college-graduation",
+      "code": 59412,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M564.2 693.3C546.4 704.2 523.6 710.2 500 710.2 476.4 710.2 453.6 704.2 435.8 693.3L145.2 515C145.2 515 119 499 119 535.4 119 576.7 119 700.8 119 700.8 119 702.5 119 710.8 119 713.3 119 807.1 289.6 908.1 500 908.1S881 807.1 881 713.3C881 710.8 881 702.5 881 700.8 881 700.8 881 569.2 881 525.3 881 496.1 862.3 510.4 862.3 510.4L564.2 693.3ZM983.3 373.3C1005.6 359.6 1005.6 337.2 983.3 323.5L540.6 102.1C518.3 88.4 481.7 88.4 459.4 102.1L16.7 323.5C-5.6 337.2-5.6 359.6 16.7 373.3L459.4 644.8C481.7 658.5 518.3 658.5 540.6 644.8M964.9 775.7C964.9 700.7 964.9 475.9 964.9 475.9S965.2 461.6 956.7 466.3C950 470.1 933.4 479.3 927.6 484.4 920.8 490.3 922.3 503.4 922.3 503.4S922.3 707.6 922.3 775.7C922.3 779.5 919 781.4 917.4 782.3 902.1 791.3 891.8 807.9 891.8 827 891.8 855.6 915 878.8 943.6 878.8 972.3 878.8 995.4 855.6 995.4 827 995.4 807.9 985.1 791.2 969.7 782.2 968.1 781.3 964.9 779.5 964.9 775.7Z",
+        "width": 1000
+      },
+      "search": [
+        "college-graduation"
+      ]
+    },
+    {
+      "uid": "8aa99bc60f3553bb3e31b73dd6e744c8",
+      "css": "rocket-1",
+      "code": 61749,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1145676a91138011729fa2909997af66",
+      "css": "linkedin-squared",
+      "code": 62220,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5e0a374728ffa8d0ae1f331a8f648231",
+      "css": "github",
+      "code": 61715,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c35e0796f6f806945a44b1655ce7bbe7",
+      "css": "angle-circled-down",
+      "code": 61754,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "381da2c2f7fd51f8de877c044d7f439d",
+      "css": "picture",
+      "code": 59413,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9daa1fdf0838118518a7e22715e83abc",
+      "css": "file-pdf",
+      "code": 61889,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "59ba4f90d2ca2a843f4f930b03270362",
+      "css": "plus-circle",
+      "code": 59414,
+      "src": "iconic"
+    },
+    {
+      "uid": "9bd60140934a1eb9236fd7a8ab1ff6ba",
+      "css": "spin",
+      "code": 59444,
+      "src": "fontelico"
+    },
+    {
+      "uid": "0f4cae16f34ae243a6144c18a003f2d8",
+      "css": "cancel-circled",
+      "code": 59415,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f4445feb55521283572ee88bc304f928",
+      "css": "floppy",
+      "code": 59416,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "64691230b90991883f94c6dfb2afc90a",
+      "css": "up-circled",
+      "code": 59417,
+      "src": "entypo"
     }
   ]
 }

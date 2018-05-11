@@ -6598,6 +6598,16 @@ input[type="submit"],
 img.img-100 {
   width: 100%; }
 
+.spinner {
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
 /* Coolors Exported Palette - coolors.co/222222-ffffff-003768-639fab-bbcde5 */
 /* HSL */
 /* RGB */
