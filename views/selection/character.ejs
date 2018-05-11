@@ -4,7 +4,7 @@
     </div>
     <div class="selection--selected d-flex flex-row justify-content-between">
         <div v-for="item in lineup" class="selection--char">
-            <button @click="deselectCharacter(item)" class="l--char w-100">
+            <button @click="deselectCharacter(item)" :disabled="matchMaking" class="l--char w-100">
                 <img :src="'/assets/character/'+item+'/avatar.jpg'">
             </button>
         </div>

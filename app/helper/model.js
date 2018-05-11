@@ -127,5 +127,6 @@ module.exports = {
   getMatch,
   deleteMatch,
   offline,
-  matchMaking
+  matchMaking,
+  matchMakingCancel
 };

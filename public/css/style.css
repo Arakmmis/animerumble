@@ -6499,6 +6499,9 @@ body,
 #images a {
   font-family: "Roboto", sans-serif; }
 
+*::-webkit-scrollbar {
+  display: none; }
+
 * {
   cursor: url("/assets/cursor/kunai.cur"), auto !important; }
 
