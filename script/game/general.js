@@ -5,6 +5,9 @@ function initiate() {
     socket.emit("initiate", {
       room: room
     });
+    chat.emit("gamechatinitiate", {
+      room: room
+    });
   } else {
     // window.location.replace('/');
   }
@@ -31,3 +34,8 @@ setInterval(() => {
 window.onfocus = function() {
   document.title = "Anime Rumble";
 };
+
+function scrollChat() {
+  var container = app.$el.querySelector("#chat");
+  container.scrollTop = container.scrollHeight;
+}

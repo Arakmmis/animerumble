@@ -1,38 +1,75 @@
 .challenge {
-  width: 400px;  
+  width: 400px;
   // background: rgba(255,255,255,0.1);
   color: $color5;
   font-size: 14px;
-  overflow-y: scroll;
+  padding: 10px 10px;
 
   .l--head {
     background-color: darken($color5, 30%);
     color: lighten($color5, 10%);
     padding: 10px 20px;
   }
-  .l--body {
-    padding: 10px 10px;
-    .l--title {
-      margin-bottom: 15px;
-      font-size: 14px;
-      font-weight: 300;
-    }
-    .l--info{
-      font-size: 14px;
-      font-weight: 300;
-    }
+}
+
+.challenge--core {
+  flex: 1;  
+  .l--title {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+  .l--info {
+    font-size: 14px;
+    font-weight: 300;
+  }
+  p {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: darken($color5, 10%);
+  }
+}
+
+.challenge--chatbox {
+  flex: 1;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+
+  .l--chat {
+    padding-bottom: 15px;
+    margin: 5px 10px 10px 10px;
+    flex: 1;
+    overflow-y: scroll;
     p {
-      font-size: 16px;
-      margin-bottom: 5px;
-      color: darken($color5, 10%);
+      font-size: 10px;
+      color: #fff;
+      margin: 0;
+    }
+  }
+
+  .l--input input {
+    width: 100%;
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 12px;
+    padding: 0 5px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.4);
+
+    @include placeholder {
+      color: #222;
     }
   }
 }
 
 .challenge--container {
- background: #fff; 
- border-radius: 5px;
- padding: 10px 15px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px 15px;
+  flex: 1;
+  overflow-y: scroll;
+  padding-bottom: 10px;
 }
 
 .challenge--accept {
@@ -41,7 +78,7 @@
     margin-bottom: 15px;
     font-size: 14px;
     font-weight: 300;
-  }  
+  }
   background: $color5;
   border-radius: 5px;
   padding: 5px;

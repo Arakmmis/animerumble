@@ -1,1 +1,2 @@
-let socket = io('/game');
+let socket = io("/game");
+let chat = io("/chat");

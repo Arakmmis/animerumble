@@ -1,8 +1,24 @@
 <div class="game--chatbox d-flex flex-column justify-content-between w-50 mr-1">
-    <div class="l--chat d-flex flex-column" id="chatbox">
-        <p>Welcome to Anime Rumble!</p>
+
+    <div class="l--tab d-flex flex-row">
+        <p @click="chatChannel = 'ingame', chatNotif.ingame = false, scrollChat()">Game
+            <span v-if="chatNotif.ingame === true">*</span>
+        </p>
+        <p @click="chatChannel = 'lobby', chatNotif.lobby = false, scrollChat()">Lobby
+            <span v-if="chatNotif.lobby === true">*</span>
+        </p>
+    </div>
+
+    <div class="l--chat d-flex flex-column" id="chat" v-if="chatChannel === 'ingame'">
+        <p>Welcome to Anime Rumble! #ingame</p>
         <p v-for="msg in chat">{{msg}}</p>
     </div>
+
+    <div class="l--chat d-flex flex-column" id="chat" v-if="chatChannel === 'lobby'">
+        <p>Welcome to Anime Rumble! #lobby</p>
+        <p v-for="msg in lobbychat">{{msg}}</p>
+    </div>
+
     <div class="l--input">
         <input v-model="chatSend" placeholder="Your message here..." @keyup.enter="onChat(), $refs.soundClick.play()"></input>
     </div>

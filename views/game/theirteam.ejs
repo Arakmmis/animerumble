@@ -1,16 +1,28 @@
 <div class="w-50 d-flex flex-column align-items-end">
     <div v-for="(item, index) in source.enemy" class="game--box d-flex flex-row">
-        <div class="d-flex flex-row game--status">
-            <div v-for="status in item.indicator" v-if="item.indicator.length !== 0">
-                <v-popover offset="0" placement="bottom-end" trigger="hover">
-                    <img :src="onGetImage({nameId: status.nameId, skill: status.skillIndex}, 'status')">
-                    <template slot="popover">
-                        <% include indicator.ejs %>
-                    </template>
-                </v-popover>
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row justify-content-end game--status">
+                <div v-for="status in item.indicator" v-if="item.indicator.length !== 0">
+                    <v-popover offset="0" placement="bottom-end" trigger="hover">
+                        <img :src="onGetImage({nameId: status.nameId, skill: status.skillIndex}, 'status')">
+                        <template slot="popover">
+                            <% include indicator.ejs %>
+                        </template>
+                    </v-popover>
+                </div>
+                <div v-for="action in packet">
+                    <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
+                </div>
             </div>
-            <div v-for="action in packet">
-                <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
+            <div class="d-flex flex-row game--skill-container">
+                <div v-for="(skill, skillIndex) in item.skill.slice(0, 4)" class="game--skill">
+                    <div v-if="!packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
+                        <button @click="onDescription({name: item.name, nameId: item.nameId, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
+                            class="l--disabled game--skill-button">
+                            <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="game--char ml-1">

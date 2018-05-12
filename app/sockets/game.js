@@ -7,7 +7,7 @@ let connection = 0;
 let store = {};
 let roomSpace = [];
 
-module.exports = function(io, socket) {
+module.exports = function(io, socket, lobby) {
   let auth = socket.request.user;
 
   socket.on("initiate", payload => {
@@ -19,12 +19,19 @@ module.exports = function(io, socket) {
       status: "ingame"
     });
 
+    if (update_ === undefined) {
+      roomSpace = roomSpace.filter(x => x === payload.room);
+      socket.emit("noMatch", {});
+      return;
+    }
+
+    lobby.emit("users", update_[1]);
+
     //Check Matches
     let match = model.getMatch(payload.room);
     if (match === undefined) {
       roomSpace = roomSpace.filter(x => x === payload.room);
       socket.emit("noMatch", {});
-      console.log(socket.id);
       return;
     }
     let user = model.getUser(payload.token);
@@ -120,6 +127,7 @@ module.exports = function(io, socket) {
     let message = auth.username + ": " + payload.message;
     io.to(roomName).emit("chat", message);
   });
+
   socket.on("disconnect", function() {
     console.log("user disconnected");
   });

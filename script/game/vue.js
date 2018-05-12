@@ -3,7 +3,13 @@ let app = new Vue({
   el: "#app",
   data: {
     chat: [],
+    lobbychat: [],
     chatSend: "",
+    chatChannel: "ingame",
+    chatNotif: {
+      lobby: false,
+      ingame: false
+    },
     source: {
       energy: {
         ally: {}
@@ -46,12 +52,20 @@ let app = new Vue({
       console.log("surrender");
       socket.emit("surrender", { room: this.source.room });
     },
+    scrollChat: function() {
+      setTimeout(() => {
+        scrollChat();
+      }, 100);
+    },
     onChat: function() {
+      let channel = this.chatChannel === "ingame" ? "ingame" : "lobby";
+
       let packet = {
+        channel: channel,
         room: this.source.room,
         message: this.chatSend
       };
-      socket.emit("chat", packet);
+      chat.emit("chat", packet);
       this.chatSend = "";
     },
     onExchange: function(e) {

@@ -30,6 +30,17 @@
   background: rgba(0, 0, 0, 0.6);
   height: 120px;
 
+  .l--tab {
+    padding: 5px 5px 0px 0px;
+    p {
+      padding: 0 10px;
+      font-size: 10px;
+      color: #fff;
+      margin: 0;
+      text-decoration: underline;
+    }
+  }
+
   .l--chat {
     padding-bottom: 15px;
     margin: 5px 10px 10px 10px;
@@ -374,7 +385,7 @@
 .game--surrender {
   font-size: 12px;
   padding: 5px;
-  background: rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 5px;
   cursor: pointer;
 }

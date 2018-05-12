@@ -8,9 +8,21 @@ socket.on("noMatch", payload => {
   window.location.replace("/");
 });
 
-socket.on("chat", payload => {
-  app.chat.push(payload);
+chat.on("chat", payload => {
+  if (payload.channel === "ingame") {
+    app.chat.push(payload.message);
+    if (app.chatChannel !== "ingame") {
+      app.chatNotif.ingame = true;
+    } else {
+      scrollChat();
+    }
+  } else if (payload.channel === "lobby") {
+    app.lobbychat.push(payload.message);
 
-  var container = app.$el.querySelector("#chatbox");
-  container.scrollTop = container.scrollHeight;
+    if (app.chatChannel !== "lobby") {
+      app.chatNotif.lobby = true;
+    } else {
+      scrollChat();
+    }
+  }
 });

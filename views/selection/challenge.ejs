@@ -1,5 +1,5 @@
-<div class="challenge">
-    <div class="l--body">
+<div class="challenge d-flex flex-column">
+    <div class="challenge--core d-flex flex-column">
         <div class="d-flex flex-column align-items-center mb-2">
             <button @click="findMatch()" :disabled="lineup.length < 3" class="btn-color4 w-100 mb-1">
                 <i class="icon-spin animate-spin" v-if="matchMaking"></i> {{matchMaking ? 'Searching...' : 'Find a Match'}}
@@ -12,33 +12,56 @@
             <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3" class="btn-color4 w-100">Accept?</button>
         </div>
 
-        <div class="challenge--container mb-4 mt-1">
-            <p class="l--title">ONLINE - {{players.filter(x => x[3]==='online').length}}</p>
-            <div class="mb-3">
-                <p v-if="item[3] === 'online'" v-for="item in players">
-                    <span class="mr-1">{{item[1]}}</span>
-                    <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3" class="btn--small">
-                        <i class="icon-swords" aria-hidden="true"></i>
-                    </button>
-                </p>
+        <div class="challenge--container d-flex flex-column mb-2">
+            <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-online'">
+                <p class="l--title">ONLINE - {{players.filter(x => x[3]==='online').length}}</p>
+                <i class="icon-angle-down"></i>
             </div>
-            <p class="l--title">IN GAME - {{players.filter(x => x[3]==='ingame').length}}</p>
-            <div class="mb-3">
-                <p v-if="item[3] === 'ingame'" class="font-weight-light" v-for="item in players">
-                    <span class="mr-1">{{item[1]}}</span>
-                </p>
+            <b-collapse visible id="user-online">
+                <div class="mb-3">
+                    <p v-if="item[3] === 'online'" v-for="item in players">
+                        <span class="mr-1">{{item[1]}}</span>
+                        <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3" class="btn--small">
+                            <i class="icon-swords" aria-hidden="true"></i>
+                        </button>
+                    </p>
+                </div>
+            </b-collapse>
+
+            <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-ingame'">
+                <p class="l--title">IN GAME - {{players.filter(x => x[3]==='ingame').length}}</p>
+                <i class="icon-angle-down"></i>
             </div>
-            <p class="l--title">IDLE - {{players.filter(x => x[3]==='offline').length}}</p>
-            <div class="mb-3">
-                <p v-if="item[3] === 'offline'" class="font-weight-light" v-for="item in players">
-                    <span class="mr-1">{{item[1]}}</span>
-                </p>
+            <b-collapse visible id="user-ingame">
+                <div class="mb-3">
+                    <p v-if="item[3] === 'ingame'" class="font-weight-light" v-for="item in players">
+                        <span class="mr-1">{{item[1]}}</span>
+                    </p>
+                </div>
+            </b-collapse>
+
+            <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-idle'">
+                <p class="l--title">IDLE - {{players.filter(x => x[3]==='offline').length}}</p>
+                <i class="icon-angle-down"></i>
             </div>
-            <p>
-                <a href="/logout">Logout</a>
-            </p>
+            <b-collapse id="user-idle">
+                <div class="mb-3">
+                    <p v-if="item[3] === 'offline'" class="font-weight-light" v-for="item in players">
+                        <span class="mr-1">{{item[1]}}</span>
+                    </p>
+                </div>
+            </b-collapse>
         </div>
-        <iframe src="https://discordapp.com/widget?id=429538988341198858&theme=dark" width="100%" height="500" allowtransparency="true"
-            frameborder="0"></iframe>
+        <!-- <iframe src="https://discordapp.com/widget?id=429538988341198858&theme=dark" width="100%" height="500" allowtransparency="true"
+                        frameborder="0"></iframe> -->
+    </div>
+    <div class="challenge--chatbox d-flex flex-column justify-content-between">
+        <div class="l--chat d-flex flex-column" id="chatbox">
+            <p>Welcome to Anime Rumble!</p>
+            <p v-for="msg in chat">{{msg}}</p>
+        </div>
+        <div class="l--input">
+            <input v-model="chatSend" placeholder="Your message here..." @keyup.enter="onChat(), $refs.soundClick.play()"></input>
+        </div>
     </div>
 </div>

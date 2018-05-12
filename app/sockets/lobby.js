@@ -48,36 +48,10 @@ module.exports = function(io, socket) {
     }
   });
 
-  // socket.on("log", payload => {
-  //   console.log("LOGIN");
-  //   let user_ = model.getUser();
-  //   let exist = user_.some(x => x[1] === payload.name);
-  //   if (exist === false) {
-  //     console.log(socket.id);
-  //     let token = uniqid();
-  //     console.log("new token", token);
-
-  //     // socket.id = token
-  //     console.log("new socket", socket.id);
-  //     model.setUser([socket.id, payload.name, token, true]);
-  //     let user_ = model.getUser();
-  //     console.log("45!", user_);
-  //     io.emit("users", user_);
-
-  //     socket.emit("logged", {
-  //       user: payload.name,
-  //       token: token,
-  //       character: character.map(x => {
-  //         return {
-  //           name: x.name,
-  //           id: x.id
-  //         };
-  //       })
-  //     });
-  //   } else {
-  //     socket.emit("exist");
-  //   }
-  // });
+  socket.on("chat", function(payload) {
+    let message = auth.username + ": " + payload.message;
+    io.emit("chat", message);
+  });
 
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();

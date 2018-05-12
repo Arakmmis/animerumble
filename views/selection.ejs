@@ -15,11 +15,14 @@
 
     <div id="app">
         <div class="d-flex flex-row w-100 justify-content-between h-100 selection--bg">
-            <% include selection/character.ejs %>
-                <% include selection/challenge.ejs %>
-                    <modal v-if="showModal" @close="showModal = false" v-bind:char="modalData">
+            <div class="d-flex flex-column w-100">
+                <% include selection/nav.ejs %>
+                    <% include selection/character.ejs %>
+            </div>
+            <% include selection/challenge.ejs %>
+                <modal v-if="showModal" @close="showModal = false" v-bind:char="modalData">
         </div>
-
+        <audio ref="soundClick" src="/assets/sounds/click.mp3"></audio>
     </div>
 
     <% include components/modal.ejs %>
@@ -42,16 +45,17 @@
             }
 
             let token = getCookie('token')
-            var socket = io('/lobby', {
+            let socket = io('/lobby', {
                 query: {
                     token: token
                 }
             });
 
+            let chat = io('/chat');
+
             let app = new Vue({
                 el: '#app',
                 data: {
-                    seen: false,
                     username: '',
                     players: [],
                     challenge: {
@@ -67,8 +71,18 @@
                     charInfo: {},
                     charSkill: 0,
                     showCharInfo: false,
+                    chat: [],
+                    chatSend: "",
                 },
                 methods: {
+                    onChat: function () {
+                        let packet = {
+                            channel: 'lobby',
+                            message: this.chatSend
+                        };
+                        chat.emit("chat", packet);
+                        this.chatSend = "";
+                    },
                     linkClass(idx) {
                         if (this.tabIndex === idx) {
                             return ['selection--tab', 'l--primary']
@@ -86,17 +100,7 @@
                                 this.showCharInfo = true
                             }
                         })
-                    },
-                    onShowModal: function (payload) {
-                        console.log(payload)
-                        this.modalData = payload
-                        this.showModal = true
-                    },
-                    login: function (payload) {
-                        console.log(this.username)
-                        socket.emit('log', {
-                            name: this.username
-                        })
+                        this.$refs.soundClick.play()
                     },
                     onChallenge: function (payload, event) {
                         console.log(event)
@@ -105,6 +109,7 @@
                             to: payload,
                             char: this.lineup
                         })
+                        this.$refs.soundClick.play()
                     },
                     onAccept: function (payload) {
                         socket.emit('accept', {
@@ -113,10 +118,11 @@
                             challengerChar: this.challenge.char,
                             acceptChar: this.lineup
                         })
+                        this.$refs.soundClick.play()
                         // window.location.replace("/game/"+payload+this.username)
                     },
                     selectCharacter: function (payload) {
-                        console.log(payload)                        
+                        console.log(payload)
                         if (this.lineup.length < 3) {
                             console.log(this.lineup.some(x => x === payload))
                             if (this.lineup.some(x => x === payload)) {
@@ -132,16 +138,19 @@
                         if (!this.matchMaking) {
                             this.lineup = this.lineup.filter(x => x !== payload)
                         }
+                        this.$refs.soundClick.play()
                     },
                     findMatch: function (payload) {
                         this.matchMaking = true
                         socket.emit('matchMaking', {
                             char: this.lineup
                         })
+                        this.$refs.soundClick.play()
                     },
                     cancelMatch: function () {
                         this.matchMaking = false
                         socket.emit('cancelMatch', {})
+                        this.$refs.soundClick.play()
                     }
                 }
             })
@@ -182,5 +191,14 @@
                 // app.players = payload.filter(x => x[3] === 'online')
                 app.players = payload
             })
+
+            chat.on("chat", payload => {
+                if (payload.channel === 'lobby') {
+                    app.chat.push(payload.message);
+
+                    var container = app.$el.querySelector("#chatbox");
+                    container.scrollTop = container.scrollHeight;
+                }
+            });
         </script>
 </body>
