@@ -5,7 +5,7 @@ function initiate() {
     socket.emit("initiate", {
       room: room
     });
-    chat.emit("gamechatinitiate", {
+    chat.emit("gameInitiate", {
       room: room
     });
   } else {

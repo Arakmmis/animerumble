@@ -14,7 +14,7 @@ module.exports = function(io, socket) {
       });
     } else if (channel === "ingame") {
       let roomName = payload.room;
-      
+
       io.to(roomName).emit("chat", {
         channel: "ingame",
         message: message
@@ -22,14 +22,7 @@ module.exports = function(io, socket) {
     }
   });
 
-  socket.on("gamechatinitiate", function(payload) {
+  socket.on("gameInitiate", function(payload) {
     socket.join(payload.room);
-  });
-
-  socket.on("gamechat", function(payload) {
-    console.log("message: " + payload.message);
-    let roomName = payload.room;
-    let message = auth.username + ": " + payload.message;
-    io.to(roomName).emit("gamechat", message);
   });
 };
