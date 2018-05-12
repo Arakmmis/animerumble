@@ -276,14 +276,17 @@ let app = new Vue({
       this.state.energy.modal = true;
     },
     onDescription: function(payload, option = undefined) {
+      if (option === undefined) {
+        option = "ally";
+      }
       //Sound
       this.$refs.soundClick.play();
       //Define
       let config = {
         nameId: payload.nameId,
-        skill: payload.skill,
+        skill: payload.skillIndex,
         heroIndex: payload.heroIndex,
-        option: option !== undefined ? option : "ally"
+        option: option
       };
       let skill = this.source[config.option][config.heroIndex].skill[
         config.skill
@@ -312,9 +315,9 @@ let app = new Vue({
       //Buffer Description
       let state = this.state;
       state.description = {
-        nameId: payload.nameId,
-        skill: payload.skill,
-        heroIndex: payload.heroIndex,
+        nameId: config.nameId,
+        skill: config.skill,
+        heroIndex: config.heroIndex,
         map: map
       };
     },

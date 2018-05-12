@@ -5,26 +5,26 @@
         </div>
         <div class="d-flex flex-column pl-2 l--box">
             <div class=" d-flex flex-row justify-content-between ">
-                <p class="l--title mb-0 ">{{skill.description.map.name}}</p>
+                <p class="l--title mb-0 ">{{state.description.map.name}}</p>
                 <p class="l--info mb-0 d-flex flex-row align-items-center ">
                     <span class="pr-1 ">ENERGY:</span>
-                    <img src="/assets/energy/energy_0.gif " v-for="i in skill.description.map.energy.a " />
-                    <img src="/assets/energy/energy_1.gif " v-for="i in skill.description.map.energy.i " />
-                    <img src="/assets/energy/energy_2.gif " v-for="i in skill.description.map.energy.s " />
-                    <img src="/assets/energy/energy_3.gif " v-for="i in skill.description.map.energy.w " />
-                    <img src="/assets/energy/energy_random.gif " v-for="i in skill.description.map.energy.r " />
-                    <span v-if="skill.description.map.energy.total === 0 ">No Cost</span>
+                    <img src="/assets/energy/energy_0.gif " v-for="i in state.description.map.energy.a " />
+                    <img src="/assets/energy/energy_1.gif " v-for="i in state.description.map.energy.i " />
+                    <img src="/assets/energy/energy_2.gif " v-for="i in state.description.map.energy.s " />
+                    <img src="/assets/energy/energy_3.gif " v-for="i in state.description.map.energy.w " />
+                    <img src="/assets/energy/energy_random.gif " v-for="i in state.description.map.energy.r " />
+                    <span v-if="state.description.map.energy.total === 0 ">No Cost</span>
                 </p>
             </div>
 
-            <p class="l--desc ">{{skill.description.map.description}}</p>
+            <p class="l--desc ">{{state.description.map.description}}</p>
         </div>
     </div>
 
     <div class="d-flex flex-row justify-content-between mt-2">
         <p class="l--info mb-0 ">
-            CLASSES: {{skill.description.map.classes.join(', ').toUpperCase()}}</p>
+            CLASSES: {{state.description.map.classes.join(', ').toUpperCase()}}</p>
         <p class="l--info mb-0 ">
-            COOLDOWN {{skill.description.map.cooldown}}</p>
+            COOLDOWN {{state.description.map.cooldown}}</p>
     </div>
 </div>
