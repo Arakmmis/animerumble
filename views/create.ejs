@@ -71,11 +71,12 @@
                             <textarea placeholder="Enter your text here." v-model="item.text"></textarea>
                         </div>
                         <div class="d-flex flex-row align-items-end justify-content-between align-items-center">
-                            <div class="d-flex flex-row w-25">
+                            <div class="d-flex flex-row">
                                 <p class="l--label p-1">
-                                    <u>Cooldown:</u>
+                                    <u>Cooldown:</u> {{item.cooldown === 0 ? 'None' : item.cooldown}}
+                                    <i @click="item.cooldown += 1" class="icon-plus-circle l--icon"></i>
+                                    <i @click="item.cooldown > 0 ? item.cooldown -= 1 : null" class="icon-minus-circle l--icon"></i>
                                 </p>
-                                <input placeholder="Enter cooldown here" class="create--name l--label" v-model="item.cooldown"></input>
                             </div>
                             <div class="d-flex flex-row">
                                 <p class="l--label d-flex flex-row justify-content-between align-items-center" @click="openModal(i)">
@@ -126,7 +127,7 @@
                     name: '',
                     picture: '',
                     text: '',
-                    cooldown: 'None',
+                    cooldown: 0,
                     energy: {
                         a: 0,
                         i: 0,

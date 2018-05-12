@@ -377,6 +377,12 @@
       "css": "up-circled",
       "code": 59417,
       "src": "entypo"
+    },
+    {
+      "uid": "4062c0e99a3540f6c261bd08ef0fb63f",
+      "css": "minus-circle",
+      "code": 59418,
+      "src": "iconic"
     }
   ]
 }
