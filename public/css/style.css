@@ -7344,10 +7344,11 @@ img.img-100 {
 
 .create {
   background: #aec6cf;
-  min-height: 100vh; }
+  min-height: 100vh;
+  padding: 10px; }
 
 .create--sandbox {
-  min-height: 100vh;
+  border-radius: 10px;
   width: 600px;
   padding: 10px;
   background: #fff url("/assets/create/watermark.jpg") no-repeat center center; }
@@ -7411,6 +7412,13 @@ img.img-100 {
   color: #c1c1c1; }
   .create--options:hover {
     color: #222; }
+
+.create--load {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+  margin-top: 0px;
+  font-size: 0px; }
 
 .create--box .l--body {
   border-top: 1px dotted #222;

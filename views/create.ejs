@@ -8,12 +8,19 @@
     <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">
     <script src="/js/axios.min.js"></script>
     <script src="/js/html2canvas.min.js"></script>
-    <script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.js"></script>
+    <script type="text/javascript" src="/js/FileSaver.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="create d-flex flex-row justify-content-center">
+        <div class="create d-flex flex-column align-items-center">
+            <div class="create--nav">
+                <p>
+                    <a href="/">
+                        <i class="icon-prev"></i> Back to Anime Rumble
+                    </a>
+                </p>
+            </div>
             <div class="create--sandbox d-flex flex-column align-items-center" id="capture">
 
                 <!-- Name -->
@@ -30,11 +37,19 @@
                         </div>
                         <textarea placeholder="Enter your text here" v-model="profile.description"></textarea>
                     </div>
-                    <div class="d-flex flex-row align-items-end">
-                        <p class="l--label mr-1">
-                            <b>Author</b>
-                        </p>
-                        <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                    <div class="d-flex flex-row">
+                        <div class="d-flex flex-row w-50 align-items-end">
+                            <p class="l--label mr-1">
+                                <b>Author</b>
+                            </p>
+                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                        </div>
+                        <div class="d-flex flex-row w-50 align-items-end">
+                            <p class="l--label mr-1">
+                                <b>Pictures</b>
+                            </p>
+                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                        </div>
                     </div>
                 </div>
 
@@ -86,9 +101,15 @@
                         <i class="icon-plus-circle"></i> Add Skills</p>
                     <p @click="download" class="create--options">
                         <i class="icon-picture"></i> Download</p>
-                    <!-- <p @click="addSkill" class="create--options">
-                        <i class="icon-angle-circled-down"></i> Save</p> -->
+                    <p @click="save" class="create--options">
+                        <i class="icon-floppy"></i> Save Progress</p>
+                    <p @click="load" class="create--options">
+                        <i class="icon-up-circled"></i> Load Progress
+                    </p>
                 </div>
+                <form enctype="multipart/form-data">
+                    <input type="file" ref="loadFile" @change="onLoadFile($event)" name="progress" class="create--load"></input>
+                </form>
 
             </div>
         </div>
@@ -139,30 +160,48 @@
                 },
                 methods: {
                     onFileChanged(event, type, index) {
-                        //Loading
-                        if (type === 'skills') {
-                            this.skills[index].picture = '/assets/create/loading.png'
-                        } else if (type === 'profile') {
-                            this.profile.picture = '/assets/create/loading.png'
-                        }
+                        let file = event.target.files[0]
+                        if (file.type === 'image/png' && (file.size / 1000 / 1000 <= 10)) {
+                            //Loading
+                            if (type === 'skills') {
+                                this.skills[index].picture = '/assets/create/loading.png'
+                            } else if (type === 'profile') {
+                                this.profile.picture = '/assets/create/loading.png'
+                            }
 
-                        //Upload
-                        this.selectedFile = event.target.files[0]
-                        const formData = new FormData()
-                        formData.append('avatar', this.selectedFile, this.selectedFile.name)
-                        axios.post('/create/upload', formData,
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            }).then(res => {
-                                console.log(res.data.link)
-                                if (type === 'skills') {
-                                    this.skills[index].picture = res.data.link
-                                } else if (type === 'profile') {
-                                    this.profile.picture = res.data.link
-                                }
-                            })
+                            //Upload                            
+                            const formData = new FormData()
+                            formData.append('avatar', file, file.name)
+                            axios.post('/create/upload', formData,
+                                {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                }).then(res => {
+                                    console.log(res.data.link)
+                                    if (type === 'skills') {
+                                        this.skills[index].picture = res.data.link
+                                    } else if (type === 'profile') {
+                                        this.profile.picture = res.data.link
+                                    }
+                                })
+                        }
+                    },
+                    onLoadFile(event) {
+                        //Load                        
+                        let file = event.target.files[0]
+                        let extenstion = file.name.split('.')[1]
+                        let self = this
+                        if (extenstion === 'ar' && (file.size / 1000 / 1000 <= 10)) {
+                            var reader = new FileReader();
+                            let test = reader.readAsText(file)
+                            reader.onload = function (event) {
+                                let decode = atob(event.target.result)
+                                let result = JSON.parse(decode);
+                                self.profile = result.profile
+                                self.skill = result.skill
+                            }
+                        }
                     },
                     addSkill() {
                         this.skills.push(skill(this.skills.length, true))
@@ -182,16 +221,28 @@
                         this.showModal = false
                     },
                     download() {
-                        let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble.png'
+                        let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble'
                         let fileName = name + ".png"
                         html2canvas(document.querySelector("#capture"), { useCORS: true }).then(canvas => {
-                            // let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                            // window.location.href=image;
                             canvas.toBlob(function (blob) {
                                 saveAs(blob, fileName);
                             });
-                            // document.body.appendChild(canvas)
                         });
+                    },
+                    save() {
+                        let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble'
+                        let fileName = name + ".ar"
+                        let packet = {
+                            profile: this.profile,
+                            skills: this.skills
+                        }
+                        let json = JSON.stringify(packet)
+                        let encode = btoa(json)
+                        let file = new File([encode], { type: "text/plain;charset=utf-8" });
+                        saveAs(file, fileName);
+                    },
+                    load() {
+                        this.$refs.loadFile.click()
                     }
                 }
             })
