@@ -102,9 +102,9 @@
                     <p @click="download" class="create--options">
                         <i class="icon-picture"></i> Download</p>
                     <p @click="save" class="create--options">
-                        <i class="icon-floppy"></i> Save Progress</p>
+                        <i class="icon-floppy"></i> Save Character</p>
                     <p @click="load" class="create--options">
-                        <i class="icon-up-circled"></i> Load Progress
+                        <i class="icon-up-circled"></i> Load Character
                     </p>
                 </div>
                 <form enctype="multipart/form-data">
@@ -155,8 +155,7 @@
                         _.cloneDeep(skill(1)),
                         _.cloneDeep(skill(2)),
                         _.cloneDeep(skill(3)),
-                    ],
-                    selectedFile: null
+                    ]
                 },
                 methods: {
                     onFileChanged(event, type, index) {
@@ -190,6 +189,7 @@
                     onLoadFile(event) {
                         //Load                        
                         let file = event.target.files[0]
+                        console.log(file)
                         let extenstion = file.name.split('.')[1]
                         let self = this
                         if (extenstion === 'ar' && (file.size / 1000 / 1000 <= 10)) {
@@ -238,7 +238,7 @@
                         }
                         let json = JSON.stringify(packet)
                         let encode = btoa(json)
-                        let file = new File([encode], { type: "text/plain;charset=utf-8" });
+                        let file = new File([encode], fileName, { type: "text/animerumble" });
                         saveAs(file, fileName);
                     },
                     load() {
