@@ -97,6 +97,20 @@
 }
 
 .create--box {
+  .create--skill-name {
+    i {
+      color: #fff;
+    }
+    &:hover {
+      i {
+        color: #222;
+      }
+      i:hover {
+        color: #999;
+      }
+    }
+  }
+
   .l--body {
     border-top: 1px dotted #222;
     border-bottom: 1px dotted #222;

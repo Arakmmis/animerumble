@@ -56,9 +56,10 @@
                 <!-- Skills -->
                 <div class="d-flex flex-row flex-wrap w-100">
                     <div class="create--box w-50 p-1" v-for="(item, i) in skills">
-                        <div class="d-flex flex-row align-items-end">
+                        <div class="d-flex flex-row align-items-end create--skill-name">
                             <p class="l--label mr-1">Skill:</p>
                             <input placeholder="Skill Name" class="create--name l--main" v-model="item.name"></input>
+                            <i @click="removeSkill(i)" class="icon-cancel-circled"></i>
                         </div>
                         <div class="l--body d-flex flex-row">
                             <div class="l--img">
@@ -98,7 +99,7 @@
 
                 <div class="d-flex flex-row mt-4" data-html2canvas-ignore="true">
                     <p @click="addSkill" class="create--options">
-                        <i class="icon-plus-circle"></i> Add Skills</p>
+                        <i class="icon-plus-circle"></i> Add Skill</p>
                     <p @click="download" class="create--options">
                         <i class="icon-picture"></i> Download</p>
                     <p @click="save" class="create--options">
@@ -120,11 +121,9 @@
     <% include create/modal.ejs %>
 
         <script>
-            function skill(index, edit = false) {
+            function skill() {
                 return {
                     name: '',
-                    index: index,
-                    edit: edit,
                     picture: '',
                     text: '',
                     cooldown: 'None',
@@ -151,10 +150,10 @@
                         description: ''
                     },
                     skills: [
-                        _.cloneDeep(skill(0)),
-                        _.cloneDeep(skill(1)),
-                        _.cloneDeep(skill(2)),
-                        _.cloneDeep(skill(3)),
+                        _.cloneDeep(skill()),
+                        _.cloneDeep(skill()),
+                        _.cloneDeep(skill()),
+                        _.cloneDeep(skill()),
                     ]
                 },
                 methods: {
@@ -204,10 +203,15 @@
                         }
                     },
                     addSkill() {
-                        this.skills.push(skill(this.skills.length, true))
+                        this.skills.push(skill())
                         setTimeout(() => {
                             autosize(document.querySelectorAll('textarea'));
                         }, 100)
+                    },
+                    removeSkill(i) {
+                        console.log(i)
+                        let skills = this.skills
+                        this.skills.splice(i, 1);
                     },
                     openModal(skill) {
                         this.sendSkill = skill

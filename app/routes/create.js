@@ -24,7 +24,7 @@ module.exports = function(app) {
       },
       headers: {
         Authorization: credentials.imgur.clientId,
-        Authorization: credentials.imgur.Bearer
+        Authorization: credentials.imgur.brearer
       }
     })
       .then(packet => {

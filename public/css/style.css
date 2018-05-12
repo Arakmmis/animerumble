@@ -7420,6 +7420,12 @@ img.img-100 {
   margin-top: 0px;
   font-size: 0px; }
 
+.create--box .create--skill-name i {
+  color: #fff; }
+.create--box .create--skill-name:hover i {
+  color: #222; }
+.create--box .create--skill-name:hover i:hover {
+  color: #999; }
 .create--box .l--body {
   border-top: 1px dotted #222;
   border-bottom: 1px dotted #222;
