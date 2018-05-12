@@ -275,26 +275,47 @@ let app = new Vue({
 
       this.state.energy.modal = true;
     },
-    onDescription: function(payload) {
+    onDescription: function(payload, option = undefined) {
       //Sound
       this.$refs.soundClick.play();
-
-      let state = this.state;
-      let temporary = {
+      //Define
+      let config = {
         nameId: payload.nameId,
-        offense: payload.name,
-        skill: payload.skillIndex,
-        target: "",
-        aim: payload.target,
-        heroIndex: payload.heroIndex
+        skill: payload.skill,
+        heroIndex: payload.heroIndex,
+        option: option !== undefined ? option : "ally"
       };
-      console.log(payload);
+      let skill = this.source[config.option][config.heroIndex].skill[
+        config.skill
+      ];
+      //Map Description
+      let map = {
+        name: skill.name,
+        energy: {
+          a: skill.energy.a,
+          i: skill.energy.i,
+          s: skill.energy.s,
+          w: skill.energy.w,
+          r: skill.energy.r,
+          total:
+            skill.energy.a +
+            skill.energy.i +
+            skill.energy.s +
+            skill.energy.w +
+            skill.energy.r
+        },
+        description: skill.description,
+        classes: skill.classes,
+        cooldown: skill.cooldown
+      };
 
-      //Buffer Skill
+      //Buffer Description
+      let state = this.state;
       state.description = {
-        nameId: temporary.nameId,
-        skill: temporary.skill,
-        heroIndex: temporary.heroIndex
+        nameId: payload.nameId,
+        skill: payload.skill,
+        heroIndex: payload.heroIndex,
+        map: map
       };
     },
     onStatus: function(payload) {
