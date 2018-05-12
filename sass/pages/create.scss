@@ -16,7 +16,8 @@
   width: 600px;
   //   background-color: #fff;
   padding: 10px;
-  background: #fff url("/assets/create/watermark.jpg") no-repeat center center;
+  // background: #fff url("/assets/create/watermark.jpg") no-repeat center center;
+  background: #fff;
   p {
     margin-bottom: 0;
   }
@@ -86,6 +87,12 @@
   &:hover {
     color: #222;
   }
+}
+
+.create--credit {
+  font-size: 12px;
+  color: #999;
+  font-weight: 300;
 }
 
 .create--load {

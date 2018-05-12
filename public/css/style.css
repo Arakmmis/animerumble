@@ -7351,7 +7351,7 @@ img.img-100 {
   border-radius: 10px;
   width: 600px;
   padding: 10px;
-  background: #fff url("/assets/create/watermark.jpg") no-repeat center center; }
+  background: #fff; }
   .create--sandbox p {
     margin-bottom: 0; }
   .create--sandbox .l--label {
@@ -7412,6 +7412,11 @@ img.img-100 {
   color: #c1c1c1; }
   .create--options:hover {
     color: #222; }
+
+.create--credit {
+  font-size: 12px;
+  color: #999;
+  font-weight: 300; }
 
 .create--load {
   opacity: 0;
