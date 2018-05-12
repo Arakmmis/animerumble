@@ -1,15 +1,21 @@
 <div class="challenge d-flex flex-column">
     <div class="challenge--core d-flex flex-column">
         <div class="d-flex flex-column align-items-center mb-2">
-            <button @click="findMatch()" :disabled="lineup.length < 3" class="btn-color4 w-100 mb-1">
+            <button @click="findMatch()" :disabled="lineup.length < 3 || buttonlock" class="btn-color4 w-100 mb-1">
                 <i class="icon-spin animate-spin" v-if="matchMaking"></i> {{matchMaking ? 'Searching...' : 'Find a Match'}}
             </button>
             <p class="font-size-12 color-white" @click="cancelMatch" v-if="matchMaking">Cancel</p>
         </div>
 
-        <div v-if="challenge.seen" class="challenge--accept">
-            <p class="title-1">Challenge from {{challenge.challenger}}</p>
+        <div v-if="challenge.showChallenged" class="challenge--box">
+            <p class="l--title">Challenge from {{challenge.challenger}}</p>
+            <p class="l--wait mb-2">Waiting for your reply... ({{challenge.count}})</p>
             <button @click="onAccept(challenge.challenger)" :disabled="lineup.length < 3" class="btn-color4 w-100">Accept?</button>
+        </div>
+
+        <div v-if="challenge.showChallenging" class="challenge--box">
+            <p class="l--title">Sent challenge to {{challenge.challenging}}</p>
+            <p class="l--wait">Waiting for reply... ({{challenge.count}})</p>
         </div>
 
         <div class="challenge--container d-flex flex-column mb-2">
@@ -21,7 +27,7 @@
                 <div class="mb-3">
                     <p v-if="item[3] === 'online'" v-for="item in players">
                         <span class="mr-1">{{item[1]}}</span>
-                        <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3" class="btn--small">
+                        <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3 || buttonlock" class="btn--small">
                             <i class="icon-swords" aria-hidden="true"></i>
                         </button>
                     </p>

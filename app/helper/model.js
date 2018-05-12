@@ -118,6 +118,43 @@ function matchMakingCancel(payload, callback) {
   queue = queue.filter(x => x.username !== payload.username); //Remove Opponent from Queue
 }
 
+//Challenge
+let challenge = [];
+
+function makeChallenge(payload, callback) {
+  let exist = challenge.findIndex(
+    x => x.challenger === payload.challenger && x.defender === payload.defender
+  );
+  if (exist > -1) {
+    challenge = challenge.filter(
+      x =>
+        x.challenger !== payload.challenger && x.defender !== payload.defender
+    );
+  }
+
+  let package = {
+    challenger: payload.challenger,
+    challengerChar: payload.challengerChar,
+    defender: payload.defender
+  };
+
+  challenge.push(package);
+
+  callback(package);
+}
+
+function acceptChallenge(payload, callback) {
+  let exist = challenge.findIndex(x => x.defender === payload.username);
+  if (exist > -1) {
+    let packet = challenge[exist];
+    callback(packet);
+
+    challenge = challenge.filter(
+      x => x.challenger !== packet.challenger && x.defender !== payload.username
+    );
+  }
+}
+
 module.exports = {
   setUser,
   getUser,
@@ -128,5 +165,7 @@ module.exports = {
   deleteMatch,
   offline,
   matchMaking,
-  matchMakingCancel
+  matchMakingCancel,
+  makeChallenge,
+  acceptChallenge
 };

@@ -51,7 +51,6 @@ let status = {
     classes: ["physical"]
   }),
   ignore: library.ignore({
-    name: "Inner Sakura",
     active: 1
   }),
   unique: {
@@ -76,10 +75,19 @@ let status = {
 
         //Attack All
         console.log(payload);
-        let theirTeam = payload.state[payload.theirTurn].filter(x => x.hp > 0);
-        theirTeam.forEach(x => (x.hp -= 20));
+        let myTurn = payload.state[payload.myTurn].filter(x => x.hp > 0);
+        myTurn.forEach(x => (x.hp -= 20));
 
-        self.usage = 1;
+        let theirTurn = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+        theirTurn.forEach(x => {
+          let index = x.status.onReceive.findIndex(
+            x => x.type === "unique" && x.name === self.name
+          );
+          if (index > -1) {
+            x.status.onReceive[index].usage = 1;
+          }
+        });
+        // self.usage = 1;
       }
     }
   },
@@ -194,16 +202,17 @@ let skills = {
     move: function(payload) {
       payload.offense.skill[3].usage += 1;
       let usage = payload.offense.skill[3].usage;
-      let invulnerable = status.invulnerable;
+      let ignore = status.ignore;
+      ignore.active = usage + 1;
 
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
-        status: invulnerable,
+        status: ignore,
         inherit: this
       });
 
-      invulnerable.active += 1;
+      usage.active += 1;
     }
   },
   skill5: {
@@ -221,7 +230,10 @@ let skills = {
     },
     move: function(payload) {
       let check = payload.target.status.onState.some(x => x.type === "stun");
-      if (check) {
+      let pistol = payload.target.status.onSelf.some(
+        x => x.name === "Gomu Gomu no Pistol"
+      );
+      if (check || pistol) {
         skill.damage({
           subject: payload.target,
           val: payload.val

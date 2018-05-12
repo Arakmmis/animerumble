@@ -6686,16 +6686,20 @@ img.img-100 {
   overflow-y: scroll;
   padding-bottom: 10px; }
 
-.challenge--accept {
+.challenge--box {
+  text-align: center;
   background: #8EA0AC;
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 10px; }
-  .challenge--accept .title-1 {
+  .challenge--box .l--title {
     color: #fefefe !important;
-    margin-bottom: 15px;
-    font-size: 14px;
+    margin-bottom: 0px;
+    font-size: 16px;
     font-weight: 300; }
+  .challenge--box .l--wait {
+    color: #fefefe !important;
+    font-weight: 600; }
 
 .characters--selected {
   background: rgba(145, 162, 174, 0.8);

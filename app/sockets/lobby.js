@@ -5,6 +5,7 @@ let character = require("../engine/character/index.js");
 module.exports = function(io, socket) {
   let auth = socket.request.user;
 
+  //Connecting
   socket.on("connectLobby", payload => {
     let user_ = model.getUser();
     let index = user_.findIndex(x => x[1] === auth.username);
@@ -48,38 +49,54 @@ module.exports = function(io, socket) {
     }
   });
 
-  socket.on("chat", function(payload) {
-    let message = auth.username + ": " + payload.message;
-    io.emit("chat", message);
-  });
-
+  //Challenge
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();
-    let index = user_.findIndex(x => x[1] === payload.to);
+    let index = user_.findIndex(x => x[1] === payload.defender);
     if (index !== -1) {
-      io
-        .to(user_[index][0])
-        .emit("challenge", { challenger: auth.username, char: payload.char });
+      let challenge_ = model.makeChallenge(
+        {
+          challenger: auth.username,
+          challengerChar: payload.char,
+          defender: payload.defender
+        },
+        () => {
+          io.to(user_[index][0]).emit("challenged", {
+            challenger: auth.username
+          });
+        }
+      );
     }
   });
 
   socket.on("accept", function(payload) {
-    model.setMatch(
+    let challenge_ = model.acceptChallenge(
       {
-        challenger: payload.to,
-        accept: auth.username,
-        challengerChar: payload.challengerChar,
-        acceptChar: payload.acceptChar
+        username: auth.username
       },
-      roomName => {
-        console.log(model.getMatch());
-        console.log(model.getUser(payload.to)[0]);
-        io.to(model.getUser(payload.to)[0]).emit("accepted", roomName);
-        io.to(model.getUser(auth.username)[0]).emit("accepted", roomName);
+      challenge => {
+        model.setMatch(
+          {
+            challenger: challenge.challenger,
+            accept: challenge.defender,
+            challengerChar: challenge.challengerChar,
+            acceptChar: payload.char
+          },
+          roomName => {
+            console.log(model.getUser(payload.to)[0]);
+            io
+              .to(model.getUser(challenge.challenger)[0])
+              .emit("accepted", roomName);
+            io
+              .to(model.getUser(challenge.defender)[0])
+              .emit("accepted", roomName);
+          }
+        );
       }
     );
   });
 
+  //Match Making
   socket.on("matchMaking", function(payload) {
     model.matchMaking(
       {
@@ -109,6 +126,7 @@ module.exports = function(io, socket) {
     model.matchMakingCancel({ username: auth.username });
   });
 
+  //Disconnect
   socket.on("disconnect", function() {
     let deleted = model.offline(socket.id);
     console.log("user disconnected");

@@ -10,6 +10,7 @@
         <p class="l--desc mb-0" v-if="desc.effect === 'stun'">Stun for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'invulnerable'">Invulnerable for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'dd'">Damage deduction of {{desc.val}} for {{desc.active}} turns</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'ignore'">Ignore for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'custom'">{{desc.description}}</p>
     </div>
 </div>

@@ -68,8 +68,7 @@ let skills = {
     cooldown: 5,
     classes: ["control", "ranged", "affliction"],
     energy: {
-      s: 1,
-      r: 1
+      s: 1
     },
     target: "allenemy",
     description:
@@ -110,6 +109,9 @@ let skills = {
       }
       payload.offense.status.onSelf.push(
         new constructor.status(status.transform, this, 2)
+      );
+      payload.target.status.onState.push(
+        new constructor.status(status.stun, this, 2)
       );
     }
   },

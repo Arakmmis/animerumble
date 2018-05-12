@@ -23,6 +23,7 @@
                 <modal v-if="showModal" @close="showModal = false" v-bind:char="modalData">
         </div>
         <audio ref="soundClick" src="/assets/sounds/click.mp3"></audio>
+        <audio ref="soundStartTurn" src="/assets/sounds/startturn.mp3"></audio>
     </div>
 
     <% include components/modal.ejs %>
@@ -44,6 +45,18 @@
                 setCookie(name, '', -1, path)
             }
 
+            function setIntervalX(callback, delay, repetitions) {
+                var x = 0;
+                var intervalID = window.setInterval(function () {
+
+                    callback(x + 1);
+
+                    if (++x === repetitions) {
+                        window.clearInterval(intervalID);
+                    }
+                }, delay);
+            }
+
             let token = getCookie('token')
             let socket = io('/lobby', {
                 query: {
@@ -56,12 +69,15 @@
             let app = new Vue({
                 el: '#app',
                 data: {
+                    buttonlock: false,
                     username: '',
                     players: [],
                     challenge: {
-                        seen: false,
+                        count: 5,
                         challenger: '',
-                        char: ''
+                        challenging: '',
+                        showChallenging: false,
+                        showChallenged: false,
                     },
                     lineup: [],
                     characters: [],
@@ -103,23 +119,31 @@
                         this.$refs.soundClick.play()
                     },
                     onChallenge: function (payload, event) {
-                        console.log(event)
+                        this.challenge.challenging = payload
+                        this.challenge.showChallenging = true
+                        this.buttonlock = true
+
                         socket.emit('challenge', {
-                            from: this.username,
-                            to: payload,
+                            defender: payload,
                             char: this.lineup
                         })
                         this.$refs.soundClick.play()
+
+                        let self = this
+                        setIntervalX(function (x) {
+                            self.challenge.count -= 1
+                            if (x === 5) {
+                                self.challenge.count = 5
+                                self.challenge.showChallenging = false
+                                self.buttonlock = false
+                            }
+                        }, 1000, 5);
                     },
                     onAccept: function (payload) {
                         socket.emit('accept', {
-                            from: this.username,
-                            to: payload,
-                            challengerChar: this.challenge.char,
-                            acceptChar: this.lineup
+                            char: this.lineup
                         })
                         this.$refs.soundClick.play()
-                        // window.location.replace("/game/"+payload+this.username)
                     },
                     selectCharacter: function (payload) {
                         console.log(payload)
@@ -142,6 +166,7 @@
                     },
                     findMatch: function (payload) {
                         this.matchMaking = true
+                        this.buttonlock = true
                         socket.emit('matchMaking', {
                             char: this.lineup
                         })
@@ -149,6 +174,7 @@
                     },
                     cancelMatch: function () {
                         this.matchMaking = false
+                        this.buttonlock = false
                         socket.emit('cancelMatch', {})
                         this.$refs.soundClick.play()
                     }
@@ -171,24 +197,28 @@
                 console.log('exist')
             })
 
-            socket.on('challenge', payload => {
+            socket.on('challenged', payload => {
                 document.title = "(!)Challenged - Anime Rumble"
-                app.challenge.seen = true
                 app.challenge.challenger = payload.challenger
-                app.challenge.char = payload.char
+                app.challenge.showChallenged = true
+                app.$refs.soundStartTurn.play()
+
+                setIntervalX(function (x) {
+                    app.challenge.count -= 1
+                    if (x === 5) {
+                        app.challenge.count = 5
+                        app.challenge.showChallenged = false
+                    }
+                }, 1000, 5);
             })
 
             socket.on('accepted', payload => {
                 let url = "/game/" + payload
                 window.location.replace(url);
-                // newwindow = window.open(url, 'Game', '_blank');
-                // if (window.focus) { newwindow.focus() }
-                // window.location.replace()
             })
 
             socket.on('users', payload => {
                 console.log('USERS', payload)
-                // app.players = payload.filter(x => x[3] === 'online')
                 app.players = payload
             })
 
