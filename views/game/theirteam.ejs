@@ -14,7 +14,7 @@
                     <img :src="onGetImage({offense: action.offense, skill: action.skillId, heroIndex: action.heroIndex}, 'packet')" v-if="action.target.some(x=>x===item.name)">
                 </div>
             </div>
-            <div class="d-flex flex-row game--skill-container">
+            <div class="d-flex flex-row game--skill-container-opposite">
                 <div v-for="(skill, skillIndex) in item.skill.slice(0, 4)" class="game--skill">
                     <div v-if="!packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
                         <button @click="onDescription({name: item.name, nameId: item.nameId, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"

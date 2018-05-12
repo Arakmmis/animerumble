@@ -6816,6 +6816,15 @@ img.img-100 {
   margin-top: 2px;
   margin-left: 5px; }
 
+.game--skill-container-opposite {
+  border-image-source: url("/assets/theme/naruto-border-opposite.jpg");
+  border-image-slice: 5 5 5 15 fill;
+  border-image-width: 5px 5px 5px 15px;
+  border-image-repeat: round;
+  padding: 5px 5px 5px 20px;
+  margin-top: 2px;
+  margin-left: 5px; }
+
 .game--skill {
   padding: 5px; }
   .game--skill button {
