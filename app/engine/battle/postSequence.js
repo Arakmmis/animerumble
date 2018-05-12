@@ -15,6 +15,9 @@ function pattern(source) {
         s.usage = 0;
         s.info = s.val;
       }
+      if (s.type === "unique") {
+        s.usage = 0;
+      }
     });
     return source.filter(x => x.active !== 0);
   } else {

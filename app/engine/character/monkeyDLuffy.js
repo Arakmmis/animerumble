@@ -47,7 +47,7 @@ let status = {
   }),
   bleed2: library.bleed({
     val: 15,
-    active: 13,
+    active: 3,
     classes: ["physical"]
   }),
   ignore: library.ignore({
@@ -58,25 +58,29 @@ let status = {
     active: 2,
     type: "unique",
     modify: function(payload, self) {
-      let stun = library.stun({
-        active: 2
-      });
-      let inherit = {
-        name: self.name,
-        nameId: self.nameId,
-        id: self.skillIndex - 1
-      };
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: "onState",
-        status: stun,
-        inherit: inherit
-      });
+      if (self.usage === 0) {
+        let stun = library.stun({
+          active: 2
+        });
+        let inherit = {
+          name: self.name,
+          nameId: self.nameId,
+          id: self.skillIndex - 1
+        };
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onState",
+          status: stun,
+          inherit: inherit
+        });
 
-      //Attack All
-      console.log(payload);
-      let theirTeam = payload.state[payload.theirTurn].filter(x => x.hp > 0);
-      theirTeam.forEach(x => (x.hp -= 20));
+        //Attack All
+        console.log(payload);
+        let theirTeam = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+        theirTeam.forEach(x => (x.hp -= 20));
+
+        self.usage = 1;
+      }
     }
   },
   transform: {

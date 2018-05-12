@@ -126,7 +126,7 @@ let skills = {
     },
     move: function(payload) {
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, 4)
+        new constructor.status(status.invulnerable, this, 4)
       );
     }
   }
