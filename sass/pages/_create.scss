@@ -71,10 +71,26 @@
   &.l--m2px {
     padding-top: 2px;
   }
-  @include placeholder {
+  &::-webkit-input-placeholder {
     color: #999;
     font-weight: 400 !important;
   }
+  &:-moz-placeholder {
+    color: #999;
+    font-weight: 400 !important;
+  }
+  &::-moz-placeholder {
+    color: #999;
+    font-weight: 400 !important;
+  }
+  &:-ms-input-placeholder {
+    color: #999;
+    font-weight: 400 !important;
+  }
+  // @include placeholder {
+  //   color: #999;
+  //   font-weight: 400 !important;
+  // }
   &:focus {
     outline: none !important;
   }
@@ -149,10 +165,26 @@
       font-size: 11px;
       margin-left: 5px;
       resize: none;
-      @include placeholder {
+      &::-webkit-input-placeholder {
         color: #999;
         font-weight: 400 !important;
       }
+      &:-moz-placeholder {
+        color: #999;
+        font-weight: 400 !important;
+      }
+      &::-moz-placeholder {
+        color: #999;
+        font-weight: 400 !important;
+      }
+      &:-ms-input-placeholder {
+        color: #999;
+        font-weight: 400 !important;
+      }
+      // @include placeholder {
+      //   color: #999;
+      //   font-weight: 400 !important;
+      // }
       &:focus {
         outline: none !important;
       }

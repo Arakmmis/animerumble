@@ -57,7 +57,16 @@
     height: 20px;
     background: rgba(255, 255, 255, 0.4);
 
-    @include placeholder {
+    &::-webkit-input-placeholder {
+      color: #222;
+    }
+    &:-moz-placeholder {
+      color: #222;
+    }
+    &::-moz-placeholder {
+      color: #222;
+    }
+    &:-ms-input-placeholder {
       color: #222;
     }
   }
@@ -76,7 +85,7 @@
   text-align: center;
   .l--title {
     color: #fefefe !important;
-    margin-bottom: 0px;    
+    margin-bottom: 0px;
     font-size: 16px;
     font-weight: 300;
   }

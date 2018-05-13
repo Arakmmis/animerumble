@@ -1,10 +1,11 @@
 <head>
     <title>Anime Rumble</title>
     <script src="/js/vue.js"></script>
+    <script src="/js/v-tooltip.min.js"></script>
     <script src="/js/socket.io.js"></script>
     <script src="/js/autosize.js"></script>
     <script src="/js/lodash.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/create.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/1da8aad990302731afea05d49285274a.css">
     <script src="/js/axios.min.js"></script>
     <script src="/js/html2canvas.min.js"></script>
@@ -93,7 +94,12 @@
                         </div>
                         <div class="d-flex flex-row">
                             <p class="l--sublabel p-1">Classes:</p>
-                            <input placeholder="Enter classes here" class="create--name l--sublabel" v-model="item.classes"></input>
+                            <v-popover offset="0" placement="bottom" trigger="hover">
+                                <input placeholder="Enter classes here" class="create--name l--sublabel" v-model="item.classes"></input>
+                                <template slot="popover">
+                                    <p>Hi</p>
+                                </template>
+                            </v-popover>
                         </div>
                     </div>
                 </div>
@@ -139,6 +145,7 @@
                 }
             }
 
+            Vue.use(VTooltip);
             let app = new Vue({
                 el: '#app',
                 data: {

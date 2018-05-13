@@ -3,12 +3,13 @@ var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
 var nodemon = require("gulp-nodemon");
 const babel = require("gulp-babel");
+var sass = require("gulp-sass");
 
 gulp.task("start", function() {
   nodemon({
     script: "index.js",
     ext: "js json",
-    ignore: ["script/", "public/", "node_modules/"],
+    ignore: ["script/", "public/", "node_modules/", "sass/"],
     env: { NODE_ENV: "development" },
     exec: "node-inspector & node --inspect"
   });
@@ -51,4 +52,18 @@ gulp.task("js-game", function() {
   });
 });
 
-gulp.task("default", ["start", "js-game"]);
+gulp.task("sass", function() {
+  return gulp
+    .src("sass/style.scss")
+    .pipe(sourcemaps.init())
+    .pipe(sass().on("error", sass.logError))
+    .pipe(concat('style.css'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("public/css"));
+});
+
+gulp.task("sass:watch", function() {
+  gulp.watch("sass/**/*.scss", ["sass"]);
+});
+
+gulp.task("default", ["start", "js-game", "sass:watch"]);

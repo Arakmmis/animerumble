@@ -29,7 +29,6 @@ function getUser(payload = undefined) {
 function updateUser(payload) {
   var { username, position, package, status } = payload;
   let index = user.findIndex(x => x[1] === username);
-  console.log(index);
   if (index !== -1) {
     user[index][position] = package;
     user[index][3] = status;
