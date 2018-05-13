@@ -49,11 +49,12 @@ module.exports = function(io, socket) {
       room: roomName
     })
       .limit(10)
-      .sort({ timestamp: -1 })
+      .sort({ _id: -1 })
       .exec((err, res) => {
         let packet = res.map(x => {
           return x.name + ": " + x.message;
         });
+        packet.reverse();
 
         socket.emit("gameInitiate", packet);
       });
@@ -71,11 +72,12 @@ module.exports = function(io, socket) {
       channel: "lobby"
     })
       .limit(10)
-      .sort({ timestamp: -1 })
+      .sort({ _id: -1 })
       .exec((err, res) => {
         let packet = res.map(x => {
           return x.name + ": " + x.message;
         });
+        packet.reverse();
 
         socket.emit("lobbyInitiate", packet);
       });
