@@ -106,13 +106,13 @@ let status = {
       if (getCharge !== -1) {
         let charge = payload.offense.status.onState[getCharge].val;
         console.log("NARUTO CHARGE", charge);
+        if (charge >= 3) {
+          payload.offense.skill[0].energy.r = 2;
+        }
         if (charge >= 1) {
           payload.offense.skill[1].type = "piercing";
           payload.offense.skill[2].target = "allenemy";
           payload.offense.skill[2].cooldown = 1;
-        }
-        if (charge > 2) {
-          payload.offense.skill[0].energy.r = 2;
         }
         if (charge === 1) {
           payload.offense.skill[0].energy.r = 1;
