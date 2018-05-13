@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-center l--energy">
+        <div class="d-flex flex-column justify-content-center l--energy" v-if="mode === 'game'">
             <p>
                 <img src="/assets/energy/energy_0.gif" /> {{source.energy.ally.a}}
                 <img src="/assets/energy/energy_1.gif" /> {{source.energy.ally.i}}
