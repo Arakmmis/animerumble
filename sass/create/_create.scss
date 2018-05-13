@@ -10,6 +10,18 @@
   padding: 10px;
 }
 
+.create--popover {
+  p{
+    margin-bottom: 0px;
+    font-size: 8px;
+    background: #888;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: #fff;
+    margin: 5px;
+  }
+}
+
 .create--sandbox {
   border-radius: 10px;
   // min-height: 100vh;
@@ -67,6 +79,7 @@
   &.l--sublabel {
     font-size: 10px;
     color: #808080;
+    width: 100%;
   }
   &.l--m2px {
     padding-top: 2px;

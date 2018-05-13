@@ -69,7 +69,7 @@
                                     <input type="file" @change="onFileChanged($event, 'skills', i)" name="avatar" class="create--upload">
                                 </form>
                             </div>
-                            <textarea placeholder="Enter your text here." v-model="item.text"></textarea>
+                            <textarea placeholder="Enter your text here" v-model="item.text"></textarea>
                         </div>
                         <div class="d-flex flex-row align-items-end justify-content-between align-items-center">
                             <div class="d-flex flex-row">
@@ -94,10 +94,21 @@
                         </div>
                         <div class="d-flex flex-row">
                             <p class="l--sublabel p-1">Classes:</p>
-                            <v-popover offset="0" placement="bottom" trigger="hover">
+                            <v-popover offset="0" placement="bottom" trigger="click">
                                 <input placeholder="Enter classes here" class="create--name l--sublabel" v-model="item.classes"></input>
                                 <template slot="popover">
-                                    <p>Hi</p>
+                                    <div class="create--popover d-flex flex-row flex-wrap">
+                                        <p @click="addClass('Instant', i)">Instant</p>
+                                        <p @click="addClass('Action', i)">Action</p>
+                                        <p @click="addClass('Control', i)">Control</p>
+                                        <p @click="addClass('Melee', i)">Melee</p>
+                                        <p @click="addClass('Ranged', i)">Ranged</p>
+                                        <p @click="addClass('Physical', i)">Physical</p>
+                                        <p @click="addClass('Affliction', i)">Affliction</p>
+                                        <p @click="addClass('Mental', i)">Mental</p>
+                                        <p @click="addClass('Energy', i)">Energy</p>
+                                        <p @click="addClass('Strategic', i)">Strategic</p>
+                                    </div>
                                 </template>
                             </v-popover>
                         </div>
@@ -141,7 +152,7 @@
                         w: 0,
                         r: 0
                     },
-                    classes: 'Instant, Meele, Physical',
+                    classes: '',
                 }
             }
 
@@ -255,6 +266,15 @@
                     },
                     load() {
                         this.$refs.loadFile.click()
+                    },
+                    addClass(payload, i) {
+                        let classes = this.skills[i].classes
+                        console.log(classes)
+                        let result = payload
+                        if (classes !== '') {
+                            result = classes + ', ' + payload
+                        }
+                        this.skills[i].classes = result
                     }
                 }
             })
