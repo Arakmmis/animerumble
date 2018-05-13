@@ -17,9 +17,9 @@ function getUser(payload = undefined) {
     return user;
   } else if (payload === "list") {
     console.log(user);
-    return user.filter(x => x[3] === "online");
+    return user.filter(x => x.status === "online");
   } else {
-    let index = user.findIndex(x => x[1] === payload || x[2] === payload);
+    let index = user.findIndex(x => x.username === payload);
     if (index !== -1) {
       return user[index];
     }
@@ -27,20 +27,21 @@ function getUser(payload = undefined) {
 }
 
 function updateUser(payload) {
-  var { username, position, package, status } = payload;
-  let index = user.findIndex(x => x[1] === username);
+  var { username, position, socket, status, room } = payload;
+  let index = user.findIndex(x => x.username === username);
   if (index !== -1) {
-    user[index][position] = package;
-    user[index][3] = status;
+    user[index].socket = socket;
+    user[index].status = status;
+    user[index].room = room;
     let current = user[index];
     return [current, user];
   }
 }
 
 function offline(payload) {
-  let index = user.findIndex(x => x[0] === payload);
+  let index = user.findIndex(x => x.socket === payload);
   if (index > -1) {
-    user[index][3] = "offline";
+    user[index].status = "offline";
   }
   return user;
 }

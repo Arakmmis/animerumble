@@ -8,18 +8,19 @@ module.exports = function(io, socket) {
   //Connecting
   socket.on("connectLobby", payload => {
     let user_ = model.getUser();
-    let index = user_.findIndex(x => x[1] === auth.username);
+    let index = user_.findIndex(x => x.username === auth.username);
     if (index !== -1) {
       let update_ = model.updateUser({
         token: payload.token,
         username: auth.username,
         position: 0,
-        package: socket.id,
+        socket: socket.id,
+        room: "lobby",
         status: "online"
       });
       socket.emit("logged", {
-        user: update_[0][1],
-        token: update_[0][2],
+        user: update_[0].username,
+        token: update_[0].token,
         character: character.map(x => {
           return {
             name: x.name,
@@ -31,7 +32,14 @@ module.exports = function(io, socket) {
       io.emit("users", update_[1]);
     } else if (index === -1) {
       let token = uniqid();
-      model.setUser([socket.id, auth.username, token, "online"]);
+      let userModel = {
+        socket: socket.id,
+        username: auth.username,
+        token: token,
+        status: "online",
+        room: "lobby"
+      };
+      model.setUser(userModel);
       let user_ = model.getUser();
       io.emit("users", user_);
 
@@ -52,7 +60,7 @@ module.exports = function(io, socket) {
   //Challenge
   socket.on("challenge", function(payload) {
     let user_ = model.getUser();
-    let index = user_.findIndex(x => x[1] === payload.defender);
+    let index = user_.findIndex(x => x.username === payload.defender);
     if (index !== -1) {
       let challenge_ = model.makeChallenge(
         {
@@ -61,7 +69,7 @@ module.exports = function(io, socket) {
           defender: payload.defender
         },
         () => {
-          io.to(user_[index][0]).emit("challenged", {
+          io.to(user_[index].socket).emit("challenged", {
             challenger: auth.username
           });
         }
@@ -83,12 +91,12 @@ module.exports = function(io, socket) {
             acceptChar: payload.char
           },
           roomName => {
-            console.log(model.getUser(payload.to)[0]);
+            console.log(model.getUser(payload.to).socket);
             io
-              .to(model.getUser(challenge.challenger)[0])
+              .to(model.getUser(challenge.challenger).socket)
               .emit("accepted", roomName);
             io
-              .to(model.getUser(challenge.defender)[0])
+              .to(model.getUser(challenge.defender).socket)
               .emit("accepted", roomName);
           }
         );
@@ -112,9 +120,11 @@ module.exports = function(io, socket) {
             acceptChar: payload.char
           },
           roomName => {
-            io.to(model.getUser(auth.username)[0]).emit("accepted", roomName);
             io
-              .to(model.getUser(opponent.username)[0])
+              .to(model.getUser(auth.username).socket)
+              .emit("accepted", roomName);
+            io
+              .to(model.getUser(opponent.username).socket)
               .emit("accepted", roomName);
           }
         );

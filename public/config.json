@@ -287,6 +287,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "c5fd349cbd3d23e4ade333789c29c729",
+      "css": "eye",
+      "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "cc5e3696cf6c3ad8c32daaea05355a99",
+      "css": "tv",
+      "code": 59402,
+      "src": "linecons"
+    },
+    {
       "uid": "ccbbadb955dca53fa7cf42c79e988a02",
       "css": "rocket",
       "code": 59396,

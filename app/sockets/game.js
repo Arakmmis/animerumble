@@ -15,12 +15,12 @@ module.exports = function(io, socket, lobby) {
     let update_ = model.updateUser({
       username: auth.username,
       position: 0,
-      package: socket.id,
+      socket: socket.id,
+      room: payload.room,
       status: "ingame"
     });
 
     if (update_ === undefined) {
-      roomSpace = roomSpace.filter(x => x === payload.room);
       socket.emit("noMatch", {});
       return;
     }

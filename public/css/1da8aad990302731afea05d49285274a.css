@@ -1,11 +1,11 @@
 @font-face {
   font-family: '1da8aad990302731afea05d49285274a';
-  src: url('../font/1da8aad990302731afea05d49285274a.eot?17710166');
-  src: url('../font/1da8aad990302731afea05d49285274a.eot?17710166#iefix') format('embedded-opentype'),
-       url('../font/1da8aad990302731afea05d49285274a.woff2?17710166') format('woff2'),
-       url('../font/1da8aad990302731afea05d49285274a.woff?17710166') format('woff'),
-       url('../font/1da8aad990302731afea05d49285274a.ttf?17710166') format('truetype'),
-       url('../font/1da8aad990302731afea05d49285274a.svg?17710166#1da8aad990302731afea05d49285274a') format('svg');
+  src: url('../font/1da8aad990302731afea05d49285274a.eot?35699824');
+  src: url('../font/1da8aad990302731afea05d49285274a.eot?35699824#iefix') format('embedded-opentype'),
+       url('../font/1da8aad990302731afea05d49285274a.woff2?35699824') format('woff2'),
+       url('../font/1da8aad990302731afea05d49285274a.woff?35699824') format('woff'),
+       url('../font/1da8aad990302731afea05d49285274a.ttf?35699824') format('truetype'),
+       url('../font/1da8aad990302731afea05d49285274a.svg?35699824#1da8aad990302731afea05d49285274a') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: '1da8aad990302731afea05d49285274a';
-    src: url('../font/1da8aad990302731afea05d49285274a.svg?17710166#1da8aad990302731afea05d49285274a') format('svg');
+    src: url('../font/1da8aad990302731afea05d49285274a.svg?35699824#1da8aad990302731afea05d49285274a') format('svg');
   }
 }
 */
@@ -64,6 +64,8 @@
 .icon-next:before { content: '\e806'; } /* '' */
 .icon-user:before { content: '\e807'; } /* '' */
 .icon-users:before { content: '\e808'; } /* '' */
+.icon-eye:before { content: '\e809'; } /* '' */
+.icon-tv:before { content: '\e80a'; } /* '' */
 .icon-swords:before { content: '\e810'; } /* '' */
 .icon-briefcase:before { content: '\e811'; } /* '' */
 .icon-book-open:before { content: '\e812'; } /* '' */

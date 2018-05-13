@@ -92,6 +92,10 @@
                     discord: 0,
                 },
                 methods: {
+                    onSpectate(room) {
+                        let url = "/game/" + room
+                        window.location.replace(url);
+                    },
                     onChat: function () {
                         let packet = {
                             channel: 'lobby',
@@ -226,16 +230,19 @@
             chat.on("chat", payload => {
                 if (payload.channel === 'lobby') {
                     app.chat.push(payload.message);
-
-                    var container = app.$el.querySelector("#chatbox");
-                    container.scrollTop = container.scrollHeight;
                 }
             });
 
-            (() => {
+            chat.emit('lobbyInitiate')
+            chat.on('lobbyInitiate', payload => {
+                app.chat = payload
+            })
+
+            function discord() {
                 app.$http.get('https://discordapp.com/api/guilds/429538988341198858/widget.json').then(function (response) {
                     app.discord = response.body.members.length
                 })
-            })()
+            }
+            discord()
         </script>
 </body>

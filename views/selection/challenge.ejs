@@ -20,14 +20,15 @@
 
         <div class="challenge--container mb-2">
             <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-online'">
-                <p class="l--title">ONLINE - {{players.filter(x => x[3]==='online').length}}</p>
+                <p class="l--title">ONLINE - {{players.filter(x => x.status==='online').length}}</p>
                 <i class="icon-angle-down"></i>
             </div>
             <b-collapse visible id="user-online">
                 <div class="mb-3">
-                    <p v-if="item[3] === 'online'" v-for="item in players">
-                        <span class="mr-1">{{item[1]}}</span>
-                        <button @click="onChallenge(item[1], $event)" v-if="item[1] !== username" :disabled="lineup.length < 3 || buttonlock" class="btn--small">
+                    <p v-if="item.status === 'online'" v-for="item in players">
+                        <span class="mr-1">{{item.username}}</span>
+                        <button @click="onChallenge(item.username, $event)" v-if="item.username !== username" :disabled="lineup.length < 3 || buttonlock"
+                            class="btn--small">
                             <i class="icon-swords" aria-hidden="true"></i>
                         </button>
                     </p>
@@ -35,25 +36,28 @@
             </b-collapse>
 
             <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-ingame'">
-                <p class="l--title">IN GAME - {{players.filter(x => x[3]==='ingame').length}}</p>
+                <p class="l--title">IN GAME - {{players.filter(x => x.status==='ingame').length}}</p>
                 <i class="icon-angle-down"></i>
             </div>
             <b-collapse visible id="user-ingame">
                 <div class="mb-3">
-                    <p v-if="item[3] === 'ingame'" class="font-weight-light" v-for="item in players">
-                        <span class="mr-1">{{item[1]}}</span>
+                    <p v-if="item.status === 'ingame'" class="font-weight-light" v-for="item in players">
+                        <span class="mr-1">{{item.username}}</span>
+                        <button @click="onSpectate(item.room)" v-if="item.username !== username" class="btn--small">
+                            <i class="icon-tv" aria-hidden="true"></i>
+                        </button>
                     </p>
                 </div>
             </b-collapse>
 
             <div class="d-flex flex-row w-100 justify-content-between" v-b-toggle="'user-idle'">
-                <p class="l--title">IDLE - {{players.filter(x => x[3]==='offline').length}}</p>
+                <p class="l--title">IDLE - {{players.filter(x => x.status==='offline').length}}</p>
                 <i class="icon-angle-down"></i>
             </div>
             <b-collapse id="user-idle">
                 <div class="mb-3">
-                    <p v-if="item[3] === 'offline'" class="font-weight-light" v-for="item in players">
-                        <span class="mr-1">{{item[1]}}</span>
+                    <p v-if="item.status === 'offline'" class="font-weight-light" v-for="item in players">
+                        <span class="mr-1">{{item.username}}</span>
                     </p>
                 </div>
             </b-collapse>
@@ -62,7 +66,7 @@
                         frameborder="0"></iframe> -->
     </div>
     <div class="challenge--chatbox d-flex flex-column justify-content-between">
-        <div class="l--chat d-flex flex-column" id="chatbox">
+        <div class="l--chat d-flex flex-column justify-content-end" id="chatbox">
             <p>Welcome to Anime Rumble!</p>
             <p v-for="msg in chat">{{msg}}</p>
         </div>

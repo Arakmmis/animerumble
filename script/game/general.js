@@ -8,6 +8,7 @@ function initiate() {
     chat.emit("gameInitiate", {
       room: room
     });
+    chat.emit("lobbyInitiate");
   } else {
     // window.location.replace('/');
   }

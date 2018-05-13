@@ -53,11 +53,6 @@ let app = new Vue({
       console.log("surrender");
       socket.emit("surrender", { room: this.source.room });
     },
-    scrollChat: function() {
-      setTimeout(() => {
-        scrollChat();
-      }, 100);
-    },
     onChat: function() {
       let channel = this.chatChannel === "ingame" ? "ingame" : "lobby";
 
