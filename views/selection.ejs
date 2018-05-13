@@ -244,6 +244,11 @@
                 }, 100);
             })
 
+            function scrollChat() {
+                var container = app.$el.querySelector("#chat");
+                container.scrollTop = container.scrollHeight;
+            }
+
             function discord() {
                 app.$http.get('https://discordapp.com/api/guilds/429538988341198858/widget.json').then(function (response) {
                     app.discord = response.body.members.length
