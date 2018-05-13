@@ -89,6 +89,7 @@
                     showCharInfo: false,
                     chat: [],
                     chatSend: "",
+                    discord: 0,
                 },
                 methods: {
                     onChat: function () {
@@ -230,5 +231,11 @@
                     container.scrollTop = container.scrollHeight;
                 }
             });
+
+            (() => {
+                app.$http.get('https://discordapp.com/api/guilds/429538988341198858/widget.json').then(function (response) {
+                    app.discord = response.body.members.length
+                })
+            })()
         </script>
 </body>
