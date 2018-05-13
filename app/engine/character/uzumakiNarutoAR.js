@@ -111,7 +111,7 @@ let status = {
           payload.offense.skill[2].target = "allenemy";
           payload.offense.skill[2].cooldown = 1;
         }
-        if (charge >= 2) {
+        if (charge > 2) {
           payload.offense.skill[0].energy.r = 2;
         }
         if (charge === 1) {
@@ -209,7 +209,7 @@ let skills = {
       "Naruto forms a ball of chakra and hits one enemy with it. The target of this skill will be dealt 30 damage. This skill will stun the enemy and deal piercing damage if Naruto has at least one Shadow Clone.",
     classes: ["instant", "melee", "physical"],
     energy: {
-      i: 1,
+      s: 1,
       r: 1
     },
     target: "enemy",

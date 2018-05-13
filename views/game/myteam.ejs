@@ -48,7 +48,7 @@
                         <button @click="onDescription({name: item.name, nameId: item.nameId, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
                             v-if="state.button.ally[index].skill[skillIndex].button" class="l--disabled game--skill-button">
                             <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
-                            <p class="game--skill-cooldown">{{skill.state === 'cooldown' ? skill.counter+1 : ''}}</p>
+                            <p class="game--skill-cooldown" v-if="mode==='game'">{{skill.state === 'cooldown' ? skill.counter+1 : ''}}</p>
                         </button>
                     </div>
                     <div v-if="packet.some(x => x.offense === item.name && x.skillId === skill.id)">
