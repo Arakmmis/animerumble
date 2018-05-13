@@ -33,7 +33,7 @@ function pushStatus(package, type = "normal") {
   } else if (type === "normal" || type === undefined) {
     store.push(new constructor.status(status, inherit, skillIndex));
   }
-  console.log('statuspush', type)
+  console.log("statuspush", type);
 }
 
 function removeStatus(package, type = "all") {
@@ -59,6 +59,30 @@ function removeStatus(package, type = "all") {
     subject.status.onState = subject.status.onState.filter(
       x => x.harmful === false
     );
+  } else if (type === "specific") {
+    let onStatus = package.onStatus;
+    let statusType = package.statusType;
+    let name = package.name;
+    subject.status[onStatus] = subject.status[onStatus].filter(
+      x => x.type !== statusType && x.name !== name
+    );
+  }
+}
+
+function charge(package) {
+  //Define
+  let subject = package.subject.status.onState;
+  let name = package.name;
+  let increment = package.increment;
+  let findCharge = subject.findIndex(
+    x => x.type === "charge" && x.name === name
+  );
+  let charge = subject[findCharge];
+  if (increment === "add") {
+    charge.val += 1;
+  }
+  if (increment === "subtract") {
+    charge.val -= 1;
   }
 }
 
@@ -72,5 +96,6 @@ function damage(package) {
 module.exports = {
   pushStatus,
   damage,
-  removeStatus
+  removeStatus,
+  charge
 };

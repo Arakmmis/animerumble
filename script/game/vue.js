@@ -64,6 +64,11 @@ let app = new Vue({
       chat.emit("chat", packet);
       this.chatSend = "";
     },
+    scrollChat: function(){
+      setTimeout(()=>{
+        scrollChat();
+      }, 100)
+    },
     onExchange: function(e) {
       //Sound
       this.$refs.soundClick.play();
@@ -276,12 +281,14 @@ let app = new Vue({
       if (option === undefined) {
         option = "ally";
       }
+      console.log(payload)
       //Sound
       this.$refs.soundClick.play();
       //Define
       let config = {
         nameId: payload.nameId,
         skill: payload.skillIndex,
+        skillId: payload.skillId,
         heroIndex: payload.heroIndex,
         option: option
       };
@@ -313,7 +320,7 @@ let app = new Vue({
       let state = this.state;
       state.description = {
         nameId: config.nameId,
-        skill: config.skill,
+        skill: config.skillId,
         heroIndex: config.heroIndex,
         map: map
       };

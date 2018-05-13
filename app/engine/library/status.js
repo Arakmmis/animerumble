@@ -11,13 +11,15 @@ function boost(x) {
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
-      if (this.isStack) {
-        payload.val += this.val * this.stack;
-      } else {
-        payload.val += this.val;
-      }
-    }
+    modify: x.modify
+      ? x.modify
+      : function(payload) {
+          if (this.isStack) {
+            payload.val += this.val * this.stack;
+          } else {
+            payload.val += this.val;
+          }
+        }
   };
 }
 
@@ -151,6 +153,34 @@ function stun(x) {
   };
 }
 
+function counter(x) {
+  return {
+    name: x.name ? x.name : "counter",
+    val: 0,
+    type: "counter",
+    effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : true,
+    isInvisible: true,
+    description: x.description ? x.description : "",
+    info: x.info ? x.info : "inclusive",
+    persistence: x.persistence ? x.persistence : "instant",
+    classes: x.classes
+      ? x.classes
+      : [
+          "instant",
+          "mental",
+          "chakra",
+          "affliction",
+          "strategy",
+          "physical",
+          "ranged",
+          "melee"
+        ],
+    active: x.active ? x.active : 1,
+    modify: x.modify ? x.modify : function(payload) {}
+  };
+}
+
 function disableDrIv(x) {
   return {
     name: x.name ? x.name : "disableDrIv",
@@ -176,6 +206,36 @@ function state(x) {
     active: x.active ? x.active : 2,
     modify: function(payload) {},
     persistence: x.persistence ? x.persistence : "instant"
+  };
+}
+
+function charge(x) {
+  return {
+    name: x.name,
+    val: x.val ? x.val : 0,
+    type: "charge",
+    effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
+    info: x.info ? x.info : "descending",
+    description: x.description ? x.description : "",
+    active: x.active ? x.active : -1,
+    modify: function(payload) {}
+  };
+}
+
+function track(x) {
+  return {
+    name: x.name,
+    val: 0,
+    type: "track",
+    isInvisible: true,
+    effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
+    isInvisible: x.isInvisible ? x.isInvisible : false,
+    info: x.info ? x.info : "",
+    description: x.description ? x.description : "",
+    active: x.active ? x.active : -1,
+    modify: x.modify ? x.modify : function(payload) {}
   };
 }
 
@@ -374,5 +434,8 @@ module.exports = {
   cooldownIncrease,
   dd,
   decreaseEnergy,
-  ignore
+  ignore,
+  counter,
+  charge,
+  track
 };

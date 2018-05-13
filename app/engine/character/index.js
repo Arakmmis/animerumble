@@ -15,6 +15,7 @@ let climaTactNami = require("./climaTactNami.js");
 let roronoaZoro = require("./roronoaZoro.js");
 let usopp = require("./usopp.js");
 let monkeyDLuffy = require("./monkeyDLuffy.js");
+let uzumakiNarutoAR = require("./uzumakiNarutoAR.js");
 
 module.exports = [
   uzumakiNaruto,
@@ -30,6 +31,7 @@ module.exports = [
   tenten,
   hyuugaNeji,
   gaara,
+  uzumakiNarutoAR,
   monkeyDLuffy,
   climaTactNami,
   roronoaZoro,

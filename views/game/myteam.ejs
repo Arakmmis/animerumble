@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 <div v-for="(skill, skillIndex) in item.skill.slice(0, 4)" class="game--skill">
-                    <div v-if="!packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
-                        <button @click="onSkill({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target}), onDescription({name: item.name, nameId: item.nameId, skillIndex: skillIndex, heroIndex: index, target: skill.target})"
+                    <div v-if="!packet.some(x => x.offense === item.name && x.skillId === skill.id)">
+                        <button @click="onSkill({name: item.name, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target}), onDescription({name: item.name, nameId: item.nameId, skillIndex: skillIndex, skillId: skill.id, heroIndex: index, target: skill.target})"
                             :disabled="state.button.ally[index].skill[skillIndex].button" v-if="!state.button.ally[index].skill[skillIndex].button"
                             class="l--skill">
                             <img :src="onGetImage({nameId: item.nameId, skill: skill.id},'skill')">
@@ -51,7 +51,7 @@
                             <p class="game--skill-cooldown">{{skill.state === 'cooldown' ? skill.counter+1 : ''}}</p>
                         </button>
                     </div>
-                    <div v-if="packet.some(x => x.offense === item.name && x.skillId === skillIndex)">
+                    <div v-if="packet.some(x => x.offense === item.name && x.skillId === skill.id)">
                         <button class="l--skill-noborder" disabled="true">
                             <img src="/assets/theme/empty.jpg">
                         </button>

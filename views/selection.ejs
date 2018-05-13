@@ -230,12 +230,18 @@
             chat.on("chat", payload => {
                 if (payload.channel === 'lobby') {
                     app.chat.push(payload.message);
+                    setTimeout(() => {
+                        scrollChat();
+                    }, 100);
                 }
             });
 
             chat.emit('lobbyInitiate')
             chat.on('lobbyInitiate', payload => {
                 app.chat = payload
+                setTimeout(() => {
+                    scrollChat();
+                }, 100);
             })
 
             function discord() {

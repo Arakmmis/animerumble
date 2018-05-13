@@ -26,7 +26,7 @@ setInterval(() => {
     let timeDiff = (Date.now() - app.source.timestamp) / 1000;
     let timeCalc = 45 - timeDiff;
     let remaining = 100 * (timeCalc / 45);
-    console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
+    // console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
 
     if (remaining <= 0) {
       let payload = {

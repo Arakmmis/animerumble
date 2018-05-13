@@ -29,7 +29,8 @@ function skillApply(payload) {
     theirEnergy: payload.theirEnergy,
     myTurn: payload.myTurn,
     theirTurn: payload.theirTurn,
-    state: payload.state
+    state: payload.state,
+    isCounter: false
   };
 
   execute(package);

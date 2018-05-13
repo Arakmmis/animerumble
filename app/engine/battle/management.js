@@ -86,8 +86,9 @@ function ignoreManagement(onState, skill) {
   }
 }
 
-function counterManagement(onState, skill) {
-  let ignore = onState.map(x => {
+function counterManagement(onStatus, package) {
+  let skill = package.skill;
+  let counter = onStatus.map(x => {
     if (x.type === "counter") {
       let intersect = _.intersection(x.classes, skill.classes);
 
@@ -100,6 +101,8 @@ function counterManagement(onState, skill) {
       }
 
       if (evaluate) {
+        x.modify(package, x);
+
         return true;
       } else {
         return false;
@@ -107,7 +110,7 @@ function counterManagement(onState, skill) {
     }
   });
 
-  if (ignore.filter(x => x === true).length > 0) {
+  if (counter.filter(x => x === true).length > 0) {
     return true;
   } else {
     return false;
@@ -117,5 +120,6 @@ function counterManagement(onState, skill) {
 module.exports = {
   stun: stunManagement,
   invulnerable: invulnerableManagement,
-  ignore: ignoreManagement
+  ignore: ignoreManagement,
+  counter: counterManagement
 };

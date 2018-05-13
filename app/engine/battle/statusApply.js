@@ -35,6 +35,15 @@ function statusIterator(package, owner, status, callback) {
   //   evaluate = invulnerable;
   // }
 
+  if (owner === "offense") {
+    let onAttack = source.onAttack;
+    let counter = management.counter(onAttack, package);
+    console.log(counter);
+    if (counter) {
+      package.isCounter = true;
+    }
+  }
+
   source[status].forEach((x, i, a) => {
     if (x.persistence === "action" || x.persistence === "control") {
       let attacker = persistenceCheck(
@@ -72,10 +81,14 @@ function statusApply(payload, move, owner) {
 
       if (payload.target.status.onReceive.length > 0) {
         statusIterator(payload, "target", "onReceive", (payload, callback) => {
-          move(payload);
+          if (!payload.isCounter) {
+            move(payload);
+          }
         });
       } else {
-        move(payload);
+        if (!payload.isCounter) {
+          move(payload);
+        }
       }
     });
   } else {

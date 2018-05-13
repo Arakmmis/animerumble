@@ -18,6 +18,9 @@ function pattern(source) {
       if (s.type === "unique") {
         s.usage = 0;
       }
+      if (s.type === "charge" && s.val <= 0) {
+        s.active = 0;
+      }
     });
     return source.filter(x => x.active !== 0);
   } else {

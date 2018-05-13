@@ -218,6 +218,10 @@
                                 let result = JSON.parse(decode);
                                 self.profile = result.profile
                                 self.skills = result.skills
+
+                                setTimeout(() => {
+                                    autosize(document.querySelectorAll('textarea'));
+                                }, 100)
                             }
                         }
                     },

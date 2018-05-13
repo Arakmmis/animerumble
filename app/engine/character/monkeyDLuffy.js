@@ -75,7 +75,6 @@ let status = {
         });
 
         //Attack All
-        console.log(payload);
         let myTurn = payload.state[payload.myTurn].filter(x => x.hp > 0);
         myTurn.forEach(x => (x.hp -= 20));
 

@@ -13,18 +13,25 @@ chat.on("chat", payload => {
     app.chat.push(payload.message);
     if (app.chatChannel !== "ingame") {
       app.chatNotif.ingame = true;
+    } else {
+      scrollChat();
     }
   } else if (payload.channel === "lobby") {
     app.lobbychat.push(payload.message);
 
     if (app.chatChannel !== "lobby") {
       app.chatNotif.lobby = true;
+    } else {
+      scrollChat();
     }
   }
 });
 
 chat.on("gameInitiate", payload => {
   app.chat = payload;
+  setTimeout(() => {
+    scrollChat();
+  }, 100);
 });
 chat.on("lobbyInitiate", payload => {
   app.lobbychat = payload;
