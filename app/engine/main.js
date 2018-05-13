@@ -50,6 +50,7 @@ function main(payload, callback) {
       teamOdd: payload.team.teamOdd,
       teamEven: payload.team.teamEven
     },
+    timestamp: Date.now(),
     room: payload.room
   };
   state.teamEven.forEach((x, i) => {

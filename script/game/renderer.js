@@ -1,14 +1,17 @@
 function vueBind(payload) {
   let username = getCookie("username");
-  if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
-    console.log(payload.team);
-    return;
-  }
   console.log(payload);
   let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
   let turn = ally === "teamEven" ? 0 : 1;
   let myTurn = payload.turn % 2 === turn ? true : false;
+
+  if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
+    console.log("spectate");
+    app.mode = "spectate";
+    myTurn = false;
+    // return;
+  }
 
   if (myTurn === true) {
     app.$refs.soundStartTurn.play();
@@ -45,7 +48,8 @@ function vueBind(payload) {
     meta: {
       myName: payload.team[ally],
       theirName: payload.team[enemy]
-    }
+    },
+    timestamp: payload.timestamp
   };
   store.energy.ally.r =
     store.energy.ally.a +
@@ -107,8 +111,18 @@ function vueBind(payload) {
   };
   app.source = store;
   app.state.button = button;
-  app.state.timer.turn = 100;
   app.state.winner = payload.winner;
+
+  //Time
+  let timeDiff = (Date.now() - payload.timestamp) / 1000;
+  let timeCalc = 45 - timeDiff;
+  let remaining = 100 * (timeCalc / 45);
+  console.log(payload.timestamp, timeDiff, timeCalc, remaining);
+
+  if (remaining < 0) {
+    remaining = 0;
+  }
+  app.state.timer.turn = remaining;
 }
 
 function statusView(name, payload) {

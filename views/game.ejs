@@ -13,8 +13,11 @@
     <div id="app">
         <div class="d-flex flex-column w-100 game align-items-center">
             <div class="d-flex flex-column game--width justify-content-between">
-                <div class="d-flex flex-row justify-content-between">
-                    <p @click="onSurrender()" class="game--surrender">Surrender</p>
+                <div class="d-flex flex-row justify-content-between game--nav">
+                    <p @click="onSurrender()" class="l--btn" v-if="mode === 'game'">Surrender</p>
+                    <p class="l--btn" v-if="mode === 'spectate'">
+                        <a href="/">Exit</a>
+                    </p>
                 </div>
                 <% include game/header.ejs %>
                     <div class="d-flex flex-row game--body">

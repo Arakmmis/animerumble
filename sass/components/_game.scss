@@ -25,6 +25,20 @@
   background: rgba(255, 255, 255, 0.6);
 }
 
+.game--nav {
+  .l--btn {
+    font-size: 12px;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    cursor: pointer;
+
+    a {
+      color: #222;
+    }
+  }
+}
+
 .game--chatbox {
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.6);
@@ -399,12 +413,4 @@
 
 .game--flip-img {
   transform: scaleX(-1);
-}
-
-.game--surrender {
-  font-size: 12px;
-  padding: 5px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
-  cursor: pointer;
 }

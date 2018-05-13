@@ -2,6 +2,7 @@ Vue.use(VTooltip);
 let app = new Vue({
   el: "#app",
   data: {
+    mode: "game",
     chat: [],
     lobbychat: [],
     chatSend: "",
@@ -112,6 +113,7 @@ let app = new Vue({
       }
     },
     onDone: function(e) {
+      console.log(e);
       //Sound
       this.$refs.soundEndTurn.play();
 

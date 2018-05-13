@@ -14,6 +14,7 @@ const energyDistribution = require("./battle/energyDistribution.js");
 function battle(payload, store, callback) {
   console.log(store);
   let state = _.cloneDeep(store);
+  state.timestamp = Date.now();
   let { myTurn, theirTurn } = indicateTurn(state);
   console.log(myTurn);
 

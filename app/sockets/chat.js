@@ -23,6 +23,12 @@ module.exports = function(io, socket) {
   });
 
   socket.on("gameInitiate", function(payload) {
-    socket.join(payload.room);
+    let roomName = payload.room;
+    socket.join(roomName);
+    let message = auth.username + " join game";
+    io.to(roomName).emit("chat", {
+      channel: "ingame",
+      message: message
+    });
   });
 };
