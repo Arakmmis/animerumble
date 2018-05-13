@@ -42,6 +42,7 @@ let status = {
           status: stun,
           inherit: inherit
         });
+        self.isInvisible = false;
       }
     }
   }),
@@ -95,6 +96,7 @@ let status = {
     name: "Transform",
     active: 2,
     harmful: false,
+    isInvisible: true,
     modify: function(payload) {
       if (payload.active === 2) {
         let swap = payload.offense.skill[0];

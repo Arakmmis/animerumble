@@ -86,6 +86,34 @@ function ignoreManagement(onState, skill) {
   }
 }
 
+function counterManagement(onState, skill) {
+  let ignore = onState.map(x => {
+    if (x.type === "counter") {
+      let intersect = _.intersection(x.classes, skill.classes);
+
+      let evaluate;
+
+      if (x.info === "inclusive") {
+        evaluate = intersect.length > 0 ? true : false;
+      } else if (x.info === "declusive") {
+        evaluate = intersect.length === 0 ? true : false;
+      }
+
+      if (evaluate) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  });
+
+  if (ignore.filter(x => x === true).length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   stun: stunManagement,
   invulnerable: invulnerableManagement,

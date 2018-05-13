@@ -44,7 +44,7 @@ function vueBind(payload) {
     room: payload.room,
     meta: {
       myName: payload.team[ally],
-      theirName: payload.team[enemy],
+      theirName: payload.team[enemy]
     }
   };
   store.energy.ally.r =
@@ -119,6 +119,7 @@ function statusView(name, payload) {
     payload.onState,
     payload.onSelf
   );
+  status = status.filter(x => x.isInvisible === false);
   let groupByNameId = _.groupBy(status, "nameId");
   let valuesByNameId = _.values(groupByNameId);
   let groupBySkillIndex = valuesByNameId.map(x => _.groupBy(x, "skillIndex"));
