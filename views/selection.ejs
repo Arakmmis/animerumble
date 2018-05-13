@@ -210,11 +210,11 @@
 
                 setIntervalX(function (x) {
                     app.challenge.count -= 1
-                    if (x === 5) {
-                        app.challenge.count = 5
+                    if (x === 10) {
+                        app.challenge.count = 10
                         app.challenge.showChallenged = false
                     }
-                }, 1000, 5);
+                }, 1000, 10);
             })
 
             socket.on('accepted', payload => {
