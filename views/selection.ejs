@@ -73,7 +73,7 @@
                     username: '',
                     players: [],
                     challenge: {
-                        count: 5,
+                        count: 10,
                         challenger: '',
                         challenging: '',
                         showChallenging: false,
@@ -137,12 +137,12 @@
                         let self = this
                         setIntervalX(function (x) {
                             self.challenge.count -= 1
-                            if (x === 5) {
-                                self.challenge.count = 5
+                            if (x === 10) {
+                                self.challenge.count = 10
                                 self.challenge.showChallenging = false
                                 self.buttonlock = false
                             }
-                        }, 1000, 5);
+                        }, 1000, 10);
                     },
                     onAccept: function (payload) {
                         socket.emit('accept', {
