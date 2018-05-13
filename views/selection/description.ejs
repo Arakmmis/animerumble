@@ -25,6 +25,6 @@
         <p class="l--info mb-0 ">
             CLASSES: {{charInfo.skill[charSkill].classes.join(', ').toUpperCase()}}</p>
         <p class="l--info mb-0 ">
-            COOLDOWN {{charInfo.skill[charSkill].cooldown}}</p>
+            COOLDOWN {{charInfo.skill[charSkill].cooldown === 0 ? 'None' : charInfo.skill[charSkill].cooldown}}</p>
     </div>
 </div>

@@ -215,7 +215,7 @@ let skills = {
 
       skill.pushStatus({
         subject: payload.target,
-        onStatus: "onAttack",
+        onStatus: "onState",
         status: status.stun,
         inherit: this
       });

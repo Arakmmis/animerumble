@@ -128,6 +128,7 @@ module.exports = function(io, socket) {
 
   //Disconnect
   socket.on("disconnect", function() {
+    model.matchMakingCancel({ username: auth.username });
     let deleted = model.offline(socket.id);
     io.emit("users", deleted);
     console.log("user disconnected: " + auth.username);

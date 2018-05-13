@@ -1,23 +1,58 @@
 const management = require("./management.js");
 
+function persistenceCheck(skill, owner, state, context) {
+  let caster = owner;
+  let evaluate;
+  if (context === "attacker") {
+    let onState = caster.status.onState;
+    let stun = management.stun(onState, skill);
+    evaluate = stun;
+  } else if (context === "receiver") {
+    let onState = caster.status.onState;
+    let invulnerable = management.invulnerable(onState, skill);
+    evaluate = invulnerable;
+  }
+  if (
+    evaluate === true &&
+    (skill.persistence === "action" || skill.persistence === "control")
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function statusIterator(package, owner, status, callback) {
   let source = package[owner].status;
-  let evaluate;
-  if (owner === "offense") {
-    let onState = source.onState;
-    // let skill = package.offense.skill[package.skill];
-    let stun = management.stun(onState, package.skill);
-    // evaluate = source.onState.some(x => x.type === "stun") ? true : false;
-    evaliate = stun;
-  } else if (owner === "target") {
-    evaluate = source.onState.some(x => x.type === "invulnerable")
-      ? true
-      : false;
-  }
+  // let evaluate;
+  // if (owner === "offense") {
+  //   let onState = source.onState;
+  //   let stun = management.stun(onState, package.skill);
+  //   evaluate = stun;
+  // } else if (owner === "target") {
+  //   let onState = source.onState;
+  //   let invulnerable = management.invulnerable(onState, package.skill);
+  //   evaluate = invulnerable;
+  // }
 
   source[status].forEach((x, i, a) => {
     if (x.persistence === "action" || x.persistence === "control") {
-      x.modify(package, x);
+      let attacker = persistenceCheck(
+        x,
+        package.offense,
+        package.state,
+        "attacker"
+      );
+      let receiver = persistenceCheck(
+        x,
+        package.target,
+        package.state,
+        "receiver"
+      );
+
+      if (attacker === false && receiver === false) {
+        x.modify(package, x);
+      }
     } else if (x.persistence === "instant") {
       x.modify(package, x);
     }

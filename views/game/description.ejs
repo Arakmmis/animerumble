@@ -13,7 +13,7 @@
                     <img src="/assets/energy/energy_2.gif " v-for="i in state.description.map.energy.s " />
                     <img src="/assets/energy/energy_3.gif " v-for="i in state.description.map.energy.w " />
                     <img src="/assets/energy/energy_random.gif " v-for="i in state.description.map.energy.r " />
-                    <span v-if="state.description.map.energy.total === 0 ">No Cost</span>
+                    <span v-if="state.description.map.energy.total === 0">No Cost</span>
                 </p>
             </div>
 
@@ -25,6 +25,6 @@
         <p class="l--info mb-0 ">
             CLASSES: {{state.description.map.classes.join(', ').toUpperCase()}}</p>
         <p class="l--info mb-0 ">
-            COOLDOWN {{state.description.map.cooldown}}</p>
+            COOLDOWN {{state.description.map.cooldown === 0 ? 'None' : state.description.map.cooldown}}</p>
     </div>
 </div>
