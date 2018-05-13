@@ -129,7 +129,7 @@ module.exports = function(io, socket) {
   //Disconnect
   socket.on("disconnect", function() {
     let deleted = model.offline(socket.id);
-    console.log("user disconnected");
     io.emit("users", deleted);
+    console.log("user disconnected: " + auth.username);
   });
 };

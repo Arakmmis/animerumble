@@ -129,6 +129,8 @@ module.exports = function(io, socket, lobby) {
   });
 
   socket.on("disconnect", function() {
-    console.log("user disconnected");
+    let deleted = model.offline(socket.id);
+    lobby.emit("users", deleted);
+    console.log("user disconnected: " + auth.username);
   });
 };
