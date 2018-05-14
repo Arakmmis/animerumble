@@ -419,7 +419,7 @@ let app = new Vue({
       return result;
     },
     onHP: function(hp) {
-      if (hp > 80) {
+      if (hp > 70) {
         return "l--hp-full";
       } else if (hp <= 70 && hp >= 40) {
         return "l--hp-mid";
