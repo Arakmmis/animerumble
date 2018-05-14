@@ -34,7 +34,7 @@ module.exports = function(io, socket, lobby) {
       socket.emit("noMatch", {});
       return;
     }
-    let user = model.getUser(payload.token);
+    let user = model.getUser(auth.username);
     let team = {
       teamOdd: "",
       teamOddChar: [],

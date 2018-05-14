@@ -144,7 +144,23 @@ function makeChallenge(payload, callback) {
 }
 
 function acceptChallenge(payload, callback) {
-  let exist = challenge.findIndex(x => x.defender === payload.username);
+  let exist = challenge
+    .reverse()
+    .findIndex(x => x.defender === payload.username);
+  if (exist > -1) {
+    let packet = challenge[exist];
+    callback(packet);
+
+    challenge = challenge.filter(
+      x => x.challenger !== packet.challenger && x.defender !== payload.username
+    );
+  }
+}
+
+function deleteChallenge(payload, callback) {
+  let exist = challenge.findIndex(
+    x => x.defender === payload.username || x.challenger === payload.username
+  );
   if (exist > -1) {
     let packet = challenge[exist];
     callback(packet);

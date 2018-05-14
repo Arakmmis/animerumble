@@ -10,8 +10,7 @@ module.exports = function(io, socket) {
     let user_ = model.getUser();
     let index = user_.findIndex(x => x.username === auth.username);
     if (index !== -1) {
-      let update_ = model.updateUser({
-        token: payload.token,
+      let update_ = model.updateUser({        
         username: auth.username,
         position: 0,
         socket: socket.id,
@@ -19,8 +18,7 @@ module.exports = function(io, socket) {
         status: "online"
       });
       socket.emit("logged", {
-        user: update_[0].username,
-        token: update_[0].token,
+        user: update_[0].username,        
         character: character.map(x => {
           return {
             name: x.name,
@@ -30,12 +28,10 @@ module.exports = function(io, socket) {
         })
       });
       io.emit("users", update_[1]);
-    } else if (index === -1) {
-      let token = uniqid();
+    } else if (index === -1) {      
       let userModel = {
         socket: socket.id,
-        username: auth.username,
-        token: token,
+        username: auth.username,        
         status: "online",
         room: "lobby"
       };
@@ -44,8 +40,7 @@ module.exports = function(io, socket) {
       io.emit("users", user_);
 
       socket.emit("logged", {
-        user: auth.username,
-        token: token,
+        user: auth.username,        
         character: character.map(x => {
           return {
             name: x.name,

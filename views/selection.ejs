@@ -57,11 +57,8 @@
                 }, delay);
             }
 
-            let token = getCookie('token')
             let socket = io('/lobby', {
-                query: {
-                    token: token
-                }
+                query: {}
             });
 
             let chat = io('/chat');
@@ -187,7 +184,6 @@
             })
 
             socket.emit('connectLobby', {
-                token: token
             })
             socket.on('logged', payload => {
                 app.seen = true
@@ -195,7 +191,6 @@
                 app.characters = payload.character
                 console.log(payload)
                 console.log('logged in')
-                setCookie('token', payload.token)
                 setCookie('username', payload.user)
             })
             socket.on('exist', payload => {
