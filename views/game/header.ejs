@@ -5,7 +5,8 @@
     <div class="d-flex flex-column">
         <div class="l--turn text-center" @click="() => {source.myTurn === true ? onAttack():''}">
             <!-- <p>TURN {{source.turn}}</p> -->
-            <p class="text-center w-100">{{source.myTurn === true ? 'PRESS WHEN READY' : 'OPPONENT TURN'}}</p>
+            <p class="text-center w-100" v-if="mode === 'game'">{{source.myTurn === true ? 'PRESS WHEN READY' : 'OPPONENT TURN'}}</p>
+            <p class="text-center w-100" v-if="mode === 'spectate'">SPECTATING</p>
             <div class="l--bar">
                 <div :style="{width: state.timer.turn+'%'}" class="l--fill"></div>
             </div>
@@ -19,13 +20,8 @@
                 <img src="/assets/energy/energy_3.gif" /> {{source.energy.ally.w}}
                 <b>T</b> {{source.energy.ally.r}}</p>
             <p @click="state.exchange.modal = !state.exchange.modal, $refs.soundClick.play()" v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p>
-            <!-- <p @click="() => {(source.myTurn === false || source.energy.ally.r < 5 || state.exchange.used === true) ? state.exchange.modal = !state.exchange.modal : false}"
-                v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p> -->
+            <p class="l--exchange" v-if="source.myTurn !== true && mode === 'game'">ENERGY EXCHANGE</p>
         </div>
-
-        <!-- <button @click="onAttack()" :disabled="source.myTurn === false" class="btn-color4 mb-1">Press When Ready</button> -->
-        <!-- <button @click="state.exchange.modal = !state.exchange.modal" :disabled="(source.myTurn === false || source.energy.ally.r < 5 || state.exchange.used === true) ? true : false"
-            class="btn-color4">Energy Exchange</button> -->
     </div>
     <div class="game--profile">
         <p>{{source.meta.theirName}}</p>

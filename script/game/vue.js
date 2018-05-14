@@ -64,10 +64,10 @@ let app = new Vue({
       chat.emit("chat", packet);
       this.chatSend = "";
     },
-    scrollChat: function(){
-      setTimeout(()=>{
+    scrollChat: function() {
+      setTimeout(() => {
         scrollChat();
-      }, 100)
+      }, 100);
     },
     onExchange: function(e) {
       //Sound
@@ -281,7 +281,7 @@ let app = new Vue({
       if (option === undefined) {
         option = "ally";
       }
-      console.log(payload)
+      console.log(payload);
       //Sound
       this.$refs.soundClick.play();
       //Define
@@ -417,6 +417,15 @@ let app = new Vue({
       console.log(result);
 
       return result;
+    },
+    onHP: function(hp) {
+      if (hp > 80) {
+        return "l--hp-full";
+      } else if (hp <= 70 && hp >= 40) {
+        return "l--hp-mid";
+      } else {
+        return "l--hp-low";
+      }
     }
   }
 });

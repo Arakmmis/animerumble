@@ -109,9 +109,11 @@ function vueBind(payload) {
       };
     })
   };
+
   app.source = store;
   app.state.button = button;
   app.state.winner = payload.winner;
+  app.state.exchange.modal = false;
 
   //Time
   let timeDiff = (Date.now() - payload.timestamp) / 1000;

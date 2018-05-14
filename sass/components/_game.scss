@@ -309,8 +309,22 @@
       .l--hp {
         border-radius: 2px;
         height: 18px;
-        // width: 200px;
         background: rgb(37, 219, 1);
+      }
+      .l--hp-full {
+        border-radius: 2px;
+        height: 18px;
+        background: rgb(37, 219, 1);
+      }
+      .l--hp-mid {
+        border-radius: 2px;
+        height: 18px;
+        background: rgb(219, 183, 1);
+      }
+      .l--hp-low {
+        border-radius: 2px;
+        height: 18px;
+        background: rgb(219, 19, 1);
       }
       .l--fill {
         border-radius: 2px;

@@ -32,7 +32,7 @@
             <div class="l--turn mt-1">
                 <p class="">HP {{item.hp}}</p>
                 <div class="l--bar">
-                    <div :style="{width: item.hp+'%'}" class="l--hp"></div>
+                    <div :style="{width: item.hp+'%'}" :class="onHP(item.hp)"></div>
                 </div>
             </div>
         </div>

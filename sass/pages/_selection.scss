@@ -1,4 +1,4 @@
-.selection--bg {  
+.selection--bg {
   background: url("/assets/bgnew.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -62,7 +62,7 @@
   .l--char {
     background: transparent;
     border: none;
-    padding: 0px;    
+    padding: 0px;
     cursor: pointer;
     img {
       border-radius: 4px;
@@ -142,12 +142,28 @@
   padding: 10px;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.6);
+  .l--name {
+    font-size: 14px;
+    color: #222;
+    font-weight: bold;
+    padding: 0 5px;
+    margin-bottom: 0px;
+  }
+  .l--credit {
+    font-size: 10px;
+    color: #222;
+    padding: 0 5px;
+    margin-bottom: 0px;
+  }
+  .l--label {
+    color: #555;
+  }
   .l--char {
     border: 1px solid #222;
   }
   .l--skills {
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 45px;
+    max-height: 45px;
     border: 1px solid #222;
     margin: 0 5px;
   }

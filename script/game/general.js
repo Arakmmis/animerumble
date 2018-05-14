@@ -21,7 +21,11 @@ setInterval(() => {
     return;
   }
   if (app.state.timer.turn > 0) {
-    app.state.timer.turn -= 2.2;
+    let timer = app.state.timer.turn - 2.2;
+    if (timer < 0) {
+      timer = 0;
+    }
+    app.state.timer.turn = timer;
   } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
     let timeDiff = (Date.now() - app.source.timestamp) / 1000;
     let timeCalc = 45 - timeDiff;
@@ -38,15 +42,8 @@ setInterval(() => {
         },
         packet: []
       };
-      // app.onDone(payload);
+      app.onDone(payload);
     }
-
-    // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)
-    // socket.emit('sequence', {
-    //     packet: app.packet,
-    //     room: app.source.room
-    // })
-    // app.packet = []
   }
 }, 1000);
 
