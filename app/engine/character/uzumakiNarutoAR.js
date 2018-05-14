@@ -114,7 +114,7 @@ let status = {
           payload.offense.skill[2].target = "allenemy";
           payload.offense.skill[2].cooldown = 1;
         }
-        if (charge === 1) {
+        if (charge <= 2) {
           payload.offense.skill[0].energy.r = 1;
         }
         if (charge === 0) {
@@ -180,7 +180,7 @@ let skills = {
         onStatus: "onReceive",
         status: status.protect,
         inherit: this
-      });      
+      });
 
       skill.pushStatus({
         subject: payload.offense,
@@ -188,7 +188,7 @@ let skills = {
         status: status.transform,
         inherit: this
       });
-      
+
       skill.pushStatus(
         {
           subject: payload.offense,
