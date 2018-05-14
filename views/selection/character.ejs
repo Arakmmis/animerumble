@@ -14,7 +14,7 @@
                         <p class="l--credit">
                             <span class="l--label">Pictures</span> {{charInfo.credit.pictures !== '' ? charInfo.credit.pictures : 'N-A'}}</p>
                     </div>
-                    <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-row">
                         <img @click="charSkill = 0" :src="'/assets/character/'+charInfo.id+'/skill1/avatar.jpg'" class="l--skills">
                         <img @click="charSkill = 1" :src="'/assets/character/'+charInfo.id+'/skill2/avatar.jpg'" class="l--skills">
                         <img @click="charSkill = 2" :src="'/assets/character/'+charInfo.id+'/skill3/avatar.jpg'" class="l--skills">
