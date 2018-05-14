@@ -26,7 +26,7 @@ setInterval(() => {
     let timeDiff = (Date.now() - app.source.timestamp) / 1000;
     let timeCalc = 45 - timeDiff;
     let remaining = 100 * (timeCalc / 45);
-    // console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
+    console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
 
     if (remaining <= 0) {
       let payload = {
@@ -38,7 +38,7 @@ setInterval(() => {
         },
         packet: []
       };
-      app.onDone(payload);
+      // app.onDone(payload);
     }
 
     // app.packet = app.packet.filter(x => x.skill !== null && x.offense !== '' && x.target !== '' && x.aim !== '' && x.heroIndex !== null)

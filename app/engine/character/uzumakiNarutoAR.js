@@ -180,8 +180,15 @@ let skills = {
         onStatus: "onReceive",
         status: status.protect,
         inherit: this
-      });
+      });      
 
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
+      
       skill.pushStatus(
         {
           subject: payload.offense,
@@ -191,13 +198,6 @@ let skills = {
         },
         "replace"
       );
-
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: "onSelf",
-        status: status.transform,
-        inherit: this
-      });
     }
   },
   skill2: {
