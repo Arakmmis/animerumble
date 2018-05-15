@@ -11,7 +11,7 @@
 }
 
 .create--popover {
-  p{
+  p {
     margin-bottom: 0px;
     font-size: 8px;
     background: #888;
@@ -23,6 +23,8 @@
 }
 
 .create--sandbox {
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0 !important;
   border-radius: 10px;
   // min-height: 100vh;
   width: 600px;
@@ -178,6 +180,8 @@
       font-size: 11px;
       margin-left: 5px;
       resize: none;
+      font-variant-ligatures: none;
+      font-feature-settings: "liga" 0;
       &::-webkit-input-placeholder {
         color: #999;
         font-weight: 400 !important;

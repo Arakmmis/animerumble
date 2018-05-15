@@ -211,9 +211,7 @@ let skills = {
         onStatus: "onState",
         status: ignore,
         inherit: this
-      });
-
-      usage.active += 1;
+      });      
     }
   },
   skill5: {

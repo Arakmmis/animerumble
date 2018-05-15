@@ -93,9 +93,21 @@ function damage(package) {
   subject.hp -= val;
 }
 
+function checkStatus(payload) {
+  let subject = payload.subject;
+  let onStatus = payload.onStatus;
+  let statusType = payload.statusType;
+  let statusName = payload.statusName;
+
+  //Check
+  let check = subject.status[onStatus].some(x => x.type === statusType && x.name == statusName);
+  return check;
+}
+
 module.exports = {
   pushStatus,
   damage,
   removeStatus,
-  charge
+  charge,
+  checkStatus
 };

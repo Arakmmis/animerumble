@@ -110,6 +110,7 @@ function status(payload, inherit, skill) {
 
   //Move
   this.modify = payload.modify ? payload.modify.bind(this) : empty;
+  this.callback = payload.callback ? payload.callback.bind(this) : empty;
 }
 
 /*

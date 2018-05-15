@@ -13,11 +13,11 @@ function boost(x) {
     active: x.active ? x.active : 2,
     modify: x.modify
       ? x.modify
-      : function(payload) {
+      : function(payload, self) {
           if (this.isStack) {
-            payload.val += this.val * this.stack;
+            payload.val += self.val * self.stack;
           } else {
-            payload.val += this.val;
+            payload.val += self.val;
           }
         }
   };
@@ -369,8 +369,9 @@ function dd(x) {
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
-    active: x.active ? x.active : 2,
-    modify: function(payload) {
+    active: x.active ? x.active : -1,
+    callback: x.callback ? x.callback : function() {},
+    modify: function(payload, self) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(
         s => s.type === this.type && s.name === this.name && s.usage === 0
@@ -409,8 +410,9 @@ function dd(x) {
 
           if (diff <= 0) {
             payload.target.status.onReceive = payload.target.status.onReceive.filter(
-              s => s.name !== x.name
+              s => s.name !== self.name
             );
+            self.callback(payload, self);
           }
         }
       }

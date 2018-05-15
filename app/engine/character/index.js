@@ -16,6 +16,7 @@ let roronoaZoro = require("./roronoaZoro.js");
 let usopp = require("./usopp.js");
 let monkeyDLuffy = require("./monkeyDLuffy.js");
 let uzumakiNarutoAR = require("./uzumakiNarutoAR.js");
+let grayFullbuster = require("./grayFullbuster.js");
 
 module.exports = [
   uzumakiNaruto,
@@ -35,5 +36,6 @@ module.exports = [
   monkeyDLuffy,
   climaTactNami,
   roronoaZoro,
-  usopp
+  usopp,
+  grayFullbuster
 ];

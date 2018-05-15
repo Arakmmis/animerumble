@@ -32,7 +32,7 @@ setInterval(() => {
     let remaining = 100 * (timeCalc / 45);
     console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
 
-    if (remaining <= 0) {
+    if (remaining <= 0 && app.state.timer.turn <= 0) {
       let payload = {
         energy: {
           a: 0,
