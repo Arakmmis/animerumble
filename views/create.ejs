@@ -220,6 +220,7 @@
                                 self.skills = result.skills
 
                                 setTimeout(() => {
+                                    autosize.destroy(document.querySelectorAll('textarea'));
                                     autosize(document.querySelectorAll('textarea'));
                                 }, 100)
                             }
