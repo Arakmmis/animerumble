@@ -252,7 +252,7 @@
                         let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble'
                         let fileName = name + ".png"
                         let capture = document.getElementById('capture');
-                        // capture.style.fontFeatureSettings = '"liga" 0';
+                        capture.style.fontFeatureSettings = '"liga" 0';
                         html2canvas(capture, { useCORS: true }).then(canvas => {
                             canvas.toBlob(function (blob) {
                                 saveAs(blob, fileName);
