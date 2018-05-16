@@ -3,14 +3,14 @@
     <div v-for="desc in status.val">
         <p class="l--desc mb-0" v-if="desc.effect === 'allow'">Can use {{desc.description}} for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'bleed'">Receive {{desc.val}} damage for {{desc.active}} turns</p>
-        <p class="l--desc mb-0" v-if="desc.effect === 'boost'">Increase damage by {{desc.val}} for {{desc.active}} turns</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'boost' && desc.isStack === false">Increase damage by {{desc.val}} for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'boost' && desc.isStack === true">Increase damage by {{desc.val}} for {{desc.active}} turns {{desc.stack}} stacks</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'reduce'">Damage reduced by {{desc.val}} for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'protect'">Reduce damage by {{desc.val}} for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'disableDrIv'">Cannot reduce damage or become invulnerable for {{desc.active+1}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'stun'">Stun for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'invulnerable'">Invulnerable for {{desc.active}} turns</p>
-        <p class="l--desc mb-0" v-if="desc.effect === 'dd'">Damage deduction of {{desc.val}} for {{desc.active}} turns</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'dd'">Destructible defense of {{desc.val}} for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'ignore'">Ignore for {{desc.active}} turns</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'charge'">Charge {{desc.val}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'track'">Tracking</p>

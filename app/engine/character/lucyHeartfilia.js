@@ -17,15 +17,17 @@ let status = {
     isStack: true,
     val: 20,
     callback: function(payload, self) {
-      payload.target.status.onState = payload.target.status.onState.filter(
-        x =>
-          x.type !== "bleed" &&
-          x.nameId !== self.nameId &&
-          x.name !== "Summon: Taurus"
-      );
+      payload.state[payload.myTurn].forEach(x => {
+        x.status.onSelf = x.status.onSelf.filter(
+          x =>
+            x.type !== "bleed" &&
+            x.nameId !== self.nameId &&
+            x.name !== "Summon: Taurus"
+        );
+      });
     }
   }),
-  dd2: library.dd2({
+  dd2: library.dd({
     isStack: true,
     val: 5,
     active: 3,
@@ -36,27 +38,32 @@ let status = {
     }
   }),
   ddReceive: {
-    active: -1,
+    active: 3,
     type: "unique",
     modify: function(payload, self) {
       if (payload.val > 0) {
         let index = payload.target.status.onReceive.findIndex(
           x => x.type === "dd" && x.name === "Summon: Aquarius"
         );
-        payload.target.status.onReceive[index].active += 1;
+        if (index > -1) {
+          payload.target.status.onReceive[index].active += 1;
+        }
       }
     }
   },
-  dd: library.dd({
+  dd3: library.dd({
     val: 30,
     active: 3,
     callback: function(payload, self) {
-      payload.target.status.onState = payload.target.status.onState.filter(
-        x =>
-          x.type !== "bleed" &&
-          x.nameId !== self.nameId &&
-          x.name !== "Summon: Cancer"
-      );
+      console.log(payload.state[payload.myTurn]);
+      payload.state[payload.myTurn].forEach(x => {
+        x.status.onSelf = x.status.onSelf.filter(
+          x =>
+            x.type !== "bleed" &&
+            x.nameId !== self.nameId &&
+            x.name !== "Summon: Cancer"
+        );
+      });
     }
   }),
   bleed: library.bleed({
@@ -67,6 +74,17 @@ let status = {
   bleed2: library.bleed({
     val: 20,
     active: 3
+  }),
+  track: library.track({
+    active: 3,
+    modify: function(payload, self) {
+      let index = payload.offense.status.onReceive.findIndex(
+        x => x.type === "dd" && x.name === "Summon: Aquarius"
+      );
+      if (index > -1) {
+        payload.offense.status.onReceive[index].val += 5;
+      }
+    }
   })
 };
 
@@ -108,7 +126,7 @@ let skills = {
   },
   skill2: {
     name: "Summon: Aquarius",
-    type: "attack",
+    type: "piercing",
     val: 10,
     cooldown: 0,
     description:
@@ -140,6 +158,18 @@ let skills = {
           },
           "stack"
         );
+
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onSelf",
+          status: status.track,
+          inherit: this
+        });
+
+        skill.damage({
+          subject: payload.target,
+          val: payload.val
+        });
       }
     }
   },
@@ -161,7 +191,7 @@ let skills = {
         skill.pushStatus({
           subject: payload.offense,
           onStatus: "onReceive",
-          status: status.dd,
+          status: status.dd3,
           inherit: this
         });
       }
@@ -169,7 +199,7 @@ let skills = {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onSelf",
-        status: status.bleed,
+        status: status.bleed2,
         inherit: this
       });
     }

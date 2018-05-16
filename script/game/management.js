@@ -106,8 +106,10 @@ function buttonManagement(payload, option) {
           enemyStatus.onState.some(x => x.type === "disableDrIv") &&
           ignore === false
         ) {
+          console.log('hi')
           x.button = false;
         }
+        console.log(x.button)
 
         //Marking
         if (payload.marking === true) {

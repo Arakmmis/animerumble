@@ -62,7 +62,7 @@ function protect(x) {
           payload.target.status.onState,
           payload.target.status.onState[disableDrIv]
         );
-        console.log('Reduce Ignore', disableDrIv, ignore);
+        console.log("Reduce Ignore", disableDrIv, ignore);
         if (ignore === true) {
           disableDrIv = false;
         } else {
@@ -75,7 +75,7 @@ function protect(x) {
       let tempVal = onReceive[index].info;
 
       let affliction = payload.skill.classes.some(x => x === "affliction");
-      console.log("REDUCE VAL", payload.val, tempVal);
+      console.log("REDUCE VAL", payload.val, tempVal, affliction, disableDrIv);
       if (index > -1 && payload.val !== 0 && payload.val > 0 && tempVal > 0) {
         if (
           payload.skill.type !== "piercing" &&

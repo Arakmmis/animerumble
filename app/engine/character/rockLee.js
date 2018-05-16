@@ -12,6 +12,9 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({}),
+  invulnerable2: library.invulnerable({
+    active: 2
+  }),
   bleed: library.bleed({
     val: 10,
     active: 3
@@ -144,7 +147,7 @@ let skills = {
         new constructor.status(status.transform, this, 3)
       );
       payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 3),
+        new constructor.status(status.invulnerable2, this, 3),
         new constructor.status(status.state, this, 3)
       );
       payload.target.hp -= 50;
