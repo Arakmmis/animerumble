@@ -17,6 +17,7 @@ let usopp = require("./usopp.js");
 let monkeyDLuffy = require("./monkeyDLuffy.js");
 let uzumakiNarutoAR = require("./uzumakiNarutoAR.js");
 let grayFullbuster = require("./grayFullbuster.js");
+let lucyHeartfilia = require("./lucyHeartfilia.js");
 
 module.exports = [
   uzumakiNaruto,
@@ -37,5 +38,6 @@ module.exports = [
   climaTactNami,
   roronoaZoro,
   usopp,
-  grayFullbuster
+  grayFullbuster,
+  lucyHeartfilia
 ];

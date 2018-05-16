@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
 let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
 
 let info = {
   id: "tenten",
@@ -12,6 +13,9 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({}),
+  invulnerable2: library.invulnerable({
+    classes: ["physical", "energy"]
+  }),
   bleed: library.bleed({
     val: 5,
     active: -1
@@ -21,20 +25,19 @@ let status = {
     active: 1
   }),
   reduce2: library.reduce({
-    val: 15,
+    val: 10,
     active: 1
   }),
-  boost: {
-    name: "Twin Rising Dragons",
+  boost: library.boost({
     val: 10,
-    type: "skill",
+    isStack: true,
     active: -1,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Twin Rising Dragons Trap") {
-        payload.val += this.val;
+        payload.val += self.val * self.stack;
       }
     }
-  },
+  }),
   state: library.state({
     name: "Twin Rising Dragons Full Release",
     active: -1
@@ -56,23 +59,58 @@ let skills = {
       "Tenten deals 20 damage to one enemy, and 10 to all other enemies. All enemies will receive 10 additional damage from 'Twin Rising Dragons Trap' and will have their physical and chakra damage lowered by an additional 10 from it. This skill cannot be countered.",
     move: function(payload) {
       if (payload.recursive === 0) {
-        let state = payload.offense.status.onState.some(
-          x => x.name === "Twin Rising Dragons Full Release"
-        );
-        if (state) {
-          payload.offense.status.onAttack.push(
-            new constructor.status(status.boost, this, 1),
-            new constructor.status(status.boost, this, 1)
+        let check = skill.checkStatus({
+          subject: payload.offense,
+          onStatus: "onState",
+          statusType: "state",
+          statusName: "Twin Rising Dragons Full Release"
+        });
+        if (check) {
+          skill.pushStatus(
+            {
+              subject: payload.offense,
+              onStatus: "onAttack",
+              status: status.boost,
+              inherit: this
+            },
+            "stack"
           );
-        } else {
-          payload.offense.status.onAttack.push(
-            new constructor.status(status.boost, this, 1)
+          skill.removeStatus(
+            {
+              subject: payload.offense,
+              onStatus: "onState",
+              statusType: "state",
+              name: "Twin Rising Dragons Full Release"
+            },
+            "specific"
           );
         }
-        payload.target.hp -= payload.val;
-      } else {
-        payload.target.hp -= payload.val;
+
+        skill.pushStatus(
+          {
+            subject: payload.offense,
+            onStatus: "onAttack",
+            status: status.boost,
+            inherit: this
+          },
+          "stack"
+        );
       }
+
+      skill.pushStatus(
+        {
+          subject: payload.target,
+          onStatus: "onAttack",
+          status: status.reduce2,
+          inherit: this
+        },
+        "stack"
+      );
+
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill2: {
@@ -88,35 +126,60 @@ let skills = {
     },
     target: "allenemy",
     move: function(payload) {
-      let state = payload.offense.status.onState.some(
-        x => x.name === "Twin Rising Dragons Full Release"
-      );
-      let count = 1;
-      if (state) {
-        count = 2;
+      let checkState = skill.checkStatus({
+        subject: payload.offense,
+        onStatus: "onState",
+        statusType: "state",
+        statusName: "Twin Rising Dragons Full Release"
+      });
+      let reduce = status.reduce;
+      if (checkState) {
+        status.reduce.active = 2;
+      }
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.reduce,
+        inherit: this
+      });
+
+      if (payload.recursive === 2) {
+        let check = skill.checkStatus({
+          subject: payload.offense,
+          onStatus: "onAttack",
+          statusType: "boost",
+          statusName: "Twin Rising Dragons"
+        });
+
+        if (check) {
+          skill.removeStatus(
+            {
+              subject: payload.offense,
+              onStatus: "onAttack",
+              statusType: "boost",
+              name: "Twin Rising Dragons"
+            },
+            "specific"
+          );
+        }
+
+        if (checkState) {
+          skill.removeStatus(
+            {
+              subject: payload.offense,
+              onStatus: "onState",
+              statusType: "state",
+              name: "Twin Rising Dragons Full Release"
+            },
+            "specific"
+          );
+        }
       }
 
-      if (
-        payload.offense.status.onAttack.some(
-          x => x.name === "Twin Rising Dragons"
-        )
-      ) {
-        payload.offense.status.onAttack = payload.offense.status.onAttack.filter(
-          x => x.name !== "Twin Rising Dragons"
-        );
-        for (i = 0; i < count; i++) {
-          payload.target.status.onAttack.push(
-            new constructor.status(status.reduce2, this, 2)
-          );
-        }
-      } else {
-        for (i = 0; i < count; i++) {
-          payload.target.status.onAttack.push(
-            new constructor.status(status.reduce, this, 2)
-          );
-        }
-      }
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill3: {
@@ -130,10 +193,18 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 3),
-        new constructor.status(status.state, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable2,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state,
+        inherit: this
+      });
     }
   },
   skill4: {
@@ -147,9 +218,12 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
     }
   }
 };

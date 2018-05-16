@@ -20,6 +20,15 @@ function pushStatus(package, type = "normal") {
     } else {
       store.push(new constructor.status(status, inherit, skillIndex));
     }
+  } else if (type === "stackDD") {
+    let exist = store.findIndex(
+      x => x.type === status.type && x.name === inherit.name
+    );
+    if (exist > -1) {
+      store[exist].val += status.val;
+    } else {
+      store.push(new constructor.status(status, inherit, skillIndex));
+    }
   } else if (type === "replace") {
     let exist = store.some(
       x => x.type === status.type && x.name === inherit.name
@@ -100,7 +109,9 @@ function checkStatus(payload) {
   let statusName = payload.statusName;
 
   //Check
-  let check = subject.status[onStatus].some(x => x.type === statusType && x.name == statusName);
+  let check = subject.status[onStatus].some(
+    x => x.type === statusType && x.name == statusName
+  );
   return check;
 }
 

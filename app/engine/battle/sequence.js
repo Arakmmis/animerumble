@@ -24,6 +24,10 @@ function sequence(state, payload) {
 
     payload.target.forEach((x, t) => {
       let target = team(x);
+      if (target === undefined) {
+        console.log(payload, target);
+        return;
+      }
       target = skillApply({
         offense: offense,
         target: target,

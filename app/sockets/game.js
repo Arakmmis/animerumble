@@ -86,7 +86,7 @@ module.exports = function(io, socket, lobby) {
       store[roomName][store[roomName].length - 1],
       payload => {
         store[roomName].push(payload);
-        console.log("view", payload);
+        console.log("view", payload.team, payload.turn, payload.winner);
 
         io.to(roomName).emit("apply", payload);
 
@@ -109,7 +109,7 @@ module.exports = function(io, socket, lobby) {
       store[roomName][store[roomName].length - 1],
       payload => {
         store[roomName].push(payload);
-        console.log("view", payload);
+        console.log("view", payload.team, payload.turn, payload.winner);
 
         io.to(roomName).emit("apply", payload);
 

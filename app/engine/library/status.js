@@ -48,7 +48,7 @@ function protect(x) {
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let onReceive = payload.target.status.onReceive;
       let index = onReceive.findIndex(
         s => s.type === this.type && s.name === this.name && s.usage === 0
@@ -62,8 +62,11 @@ function protect(x) {
           payload.target.status.onState,
           payload.target.status.onState[disableDrIv]
         );
+        console.log('Reduce Ignore', disableDrIv, ignore);
         if (ignore === true) {
-          disableDrIv = true;
+          disableDrIv = false;
+        } else {
+          disabledDrIv = true;
         }
       } else {
         disableDrIv = false;
@@ -75,16 +78,15 @@ function protect(x) {
       console.log("REDUCE VAL", payload.val, tempVal);
       if (index > -1 && payload.val !== 0 && payload.val > 0 && tempVal > 0) {
         if (
-          onReceive[index].usage === 0 &&
           payload.skill.type !== "piercing" &&
           disableDrIv === false &&
           affliction === false
         ) {
-          let tempVal = onReceive[index].info;
+          let tempVal = self.info;
           let val = payload.val;
           let diff = tempVal - val;
-          onReceive[index].info = diff;
-          console.log(diff, onReceive[index]);
+          self.info = diff;
+          console.log(diff, self);
 
           if (diff >= 0) {
             payload.val = 0;
@@ -94,7 +96,7 @@ function protect(x) {
 
           // payload.val -= this.val;
           // onReceive[index].usage += 1;
-          console.log("REDUCE!!", onReceive[index], payload);
+          console.log("REDUCE!!", self, payload);
         }
       }
     }
@@ -377,14 +379,14 @@ function dd(x) {
         s => s.type === this.type && s.name === this.name && s.usage === 0
       );
 
-      let disableDrIv = payload.target.status.onState.findIndex(
-        x => x.type === "disableDrIv"
-      );
+      // let disableDrIv = payload.target.status.onState.findIndex(
+      //   x => x.type === "disableDrIv"
+      // );
       let affliction = payload.skill.classes.some(x => x === "affliction");
       console.log(
         "before dd",
         index,
-        onReceive[index].usage,
+        self.usage,
         payload.skill.type,
         disableDrIv
       );
@@ -392,14 +394,13 @@ function dd(x) {
         if (
           onReceive[index].usage === 0 &&
           payload.skill.type !== "piercing" &&
-          disableDrIv === -1 &&
           affliction === false
         ) {
-          let dd = onReceive[index].val;
+          let dd = self.val;
           let val = payload.val;
           let diff = dd - val;
-          onReceive[index].val = diff;
-          console.log(diff, onReceive[index]);
+          self.val = diff;
+          console.log(diff, self);
 
           let newVal = val - dd;
           if (diff >= 0) {

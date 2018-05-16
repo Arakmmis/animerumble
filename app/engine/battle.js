@@ -12,7 +12,9 @@ const energyManagement = require("./battle/energyManagement.js");
 const energyDistribution = require("./battle/energyDistribution.js");
 
 function battle(payload, store, callback) {
-  console.log(store);
+  // console.log(store);
+  console.log(store.team, store.turn, store.winner);
+  console.log(payload);
   let state = _.cloneDeep(store);
   state.timestamp = Date.now();
   let { myTurn, theirTurn } = indicateTurn(state);
