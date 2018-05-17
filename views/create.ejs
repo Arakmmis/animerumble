@@ -178,7 +178,7 @@
                 methods: {
                     onFileChanged(event, type, index) {
                         let file = event.target.files[0]
-                        if (file.type === 'image/png' && (file.size / 1000 / 1000 <= 10)) {
+                        if ((file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') && (file.size / 1000 / 1000 <= 10)) {
                             //Loading
                             if (type === 'skills') {
                                 this.skills[index].picture = '/assets/create/loading.png'
