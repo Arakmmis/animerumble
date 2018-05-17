@@ -28,7 +28,7 @@ let status = {
   }),
   boost2: library.boost({
     isStack: true,
-    val: 10,
+    val: 5,
     active: -1
   }),
   transform: {

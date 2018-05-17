@@ -24,16 +24,6 @@ function persistenceCheck(skill, owner, state, context) {
 
 function statusIterator(package, owner, status, callback) {
   let source = package[owner].status;
-  // let evaluate;
-  // if (owner === "offense") {
-  //   let onState = source.onState;
-  //   let stun = management.stun(onState, package.skill);
-  //   evaluate = stun;
-  // } else if (owner === "target") {
-  //   let onState = source.onState;
-  //   let invulnerable = management.invulnerable(onState, package.skill);
-  //   evaluate = invulnerable;
-  // }
 
   if (owner === "offense") {
     let onAttack = source.onAttack;
@@ -59,10 +49,10 @@ function statusIterator(package, owner, status, callback) {
         "receiver"
       );
 
-      if (attacker === false && receiver === false) {
+      if (attacker === false && receiver === false && x.type !== "counter") {
         x.modify(package, x);
       }
-    } else if (x.persistence === "instant") {
+    } else if (x.persistence === "instant" && x.type !== "counter") {
       x.modify(package, x);
     }
     if (i === a.length - 1) {

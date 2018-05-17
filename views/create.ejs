@@ -10,6 +10,17 @@
     <script src="/js/axios.min.js"></script>
     <script src="/js/html2canvas.min.js"></script>
     <script type="text/javascript" src="/js/FileSaver.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61938466-9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-61938466-9');
+    </script>
+
 </head>
 
 <body>
@@ -29,7 +40,7 @@
                     <div class="d-flex flex-row align-items-end">
                         <input placeholder="Name" class="create--name l--main" v-model="profile.name"></input>
                     </div>
-                    <div class="l--body d-flex flex-row">
+                    <div class="l--body d-flex flex-row mb-1">
                         <div class="l--img">
                             <img :src="profile.picture !== '' ? profile.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
                             <form enctype="multipart/form-data">
@@ -40,16 +51,14 @@
                     </div>
                     <div class="d-flex flex-row">
                         <div class="d-flex flex-row w-50 align-items-end">
-                            <p class="l--label mr-1">
-                                <b>Author</b>
-                            </p>
-                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                            <!-- <p class="l--label-bold">Author</p>
+                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input> -->
+                            <p class="l--credit">Author</p>
+                            <input placeholder="Your Name" class="create--name l--credit" v-model="profile.author"></input>
                         </div>
                         <div class="d-flex flex-row w-50 align-items-end">
-                            <p class="l--label mr-1">
-                                <b>Pictures</b>
-                            </p>
-                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input>
+                            <p class="l--credit">Pictures</p>
+                            <input placeholder="Your Name" class="create--name l--credit" v-model="profile.pictures"></input>
                         </div>
                     </div>
                 </div>
@@ -92,8 +101,8 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex flex-row">
-                            <p class="l--sublabel p-1">Classes:</p>
+                        <div class="d-flex flex-row align-items-end">
+                            <p class="l--sublabel">Classes:</p>
                             <v-popover offset="0" placement="bottom" trigger="click">
                                 <input placeholder="Enter classes here" class="create--name l--sublabel" v-model="item.classes"></input>
                                 <template slot="popover">
@@ -164,7 +173,7 @@
                     sendSkill: 0,
                     profile: {
                         name: '',
-                        picture: '',
+                        pictures: '',
                         author: '',
                         description: ''
                     },
@@ -252,7 +261,7 @@
                         let name = this.profile.name !== '' ? this.profile.name : 'AnimeRumble'
                         let fileName = name + ".png"
                         let capture = document.getElementById('capture');
-                        capture.style.fontFeatureSettings = '"liga" 0';
+                        // capture.style.fontFeatureSettings = '"liga" 0';
                         html2canvas(capture, { useCORS: true }).then(canvas => {
                             canvas.toBlob(function (blob) {
                                 saveAs(blob, fileName);

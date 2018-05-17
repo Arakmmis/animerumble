@@ -53,8 +53,15 @@
     width: 10px;
   }
   .l--sublabel {
+    padding: 0 0 4px 5px;
     font-size: 10px;
     color: #808080;
+  }
+  .l--credit {
+    padding: 0 0 3px 5px;
+    font-size: 11px;
+    color: #222;
+    font-weight: 600;
   }
 }
 
@@ -64,7 +71,6 @@
   font-size: 11px;
   color: #222;
   padding: 0px;
-  padding-top: 2px;
   height: 20px;
   flex: 2;
   &.l--main {
@@ -75,16 +81,21 @@
   &.l--bold {
     font-weight: bold;
   }
-  &.l--lable {
+  &.l--label {
     font-size: 11px;
   }
+  &.l--credit {
+    margin-top: 1px;
+    font-size: 11px;
+    color: #222;
+    font-weight: 400;
+    width: 100%;
+  }
   &.l--sublabel {
+    padding-top: 1px;
     font-size: 10px;
     color: #808080;
     width: 100%;
-  }
-  &.l--m2px {
-    padding-top: 2px;
   }
   &::-webkit-input-placeholder {
     color: #999;
@@ -181,7 +192,7 @@
       padding-left: 5px;
       resize: none;
       font-variant-ligatures: none;
-      font-feature-settings: "liga" 0;
+      // font-feature-settings: "liga" 0;
       &::-webkit-input-placeholder {
         color: #999;
         font-weight: 400 !important;

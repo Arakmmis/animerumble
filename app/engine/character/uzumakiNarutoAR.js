@@ -37,7 +37,6 @@ let status = {
     active: 2
   }),
   counter: library.counter({
-    val: 3,
     modify: function(payload, self) {
       let boost = library.boost({
         val: 5,
@@ -90,6 +89,8 @@ let status = {
           increment: "add"
         });
       }
+
+      self.usage = 1;
     }
   }),
   charge: library.charge({
@@ -160,7 +161,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 1,
-    classes: ["instant", "chakra", "strategic"],
+    classes: ["instant", "energy", "strategic"],
     energy: {
       r: 1
     },
@@ -207,7 +208,7 @@ let skills = {
     cooldown: 1,
     description:
       "Naruto forms a ball of chakra and hits one enemy with it. The target of this skill will be dealt 30 damage. This skill will stun the enemy and deal piercing damage if Naruto has at least one Shadow Clone.",
-    classes: ["instant", "melee", "physical"],
+    classes: ["instant", "melee", "energy"],
     energy: {
       s: 1,
       r: 1
@@ -319,7 +320,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Naruto invulnerable for 1 turn.",
     target: "self",
-    classes: ["instant", "physical"],
+    classes: ["instant", "ranged", "physical"],
     energy: {
       r: 1
     },
@@ -347,7 +348,7 @@ let skills = {
     val: 0,
     cooldown: 2,
     description:
-      "Transforming into a woman, Naruto targets one enemy. If that enemy uses a non-mental skill, then they will be countered. If countered, Naruto's next skill will deal 5 more damage and Naruto will gain one Shadow Clone charge. This skill is invisible and cost one random chakra if Naruto has more than 2 Shadow Clones.",
+      "Transforming into a woman, Naruto targets one enemy. If that enemy uses a non-mental skill, then they will be countered. If countered, Naruto's next skill will deal 5 more damage and Naruto will gain one Shadow Clone charge. This skill is invisible and cost two random chakra if Naruto has more than 2 Shadow Clones.",
     classes: ["instant", "melee", "physical"],
     energy: {
       r: 1

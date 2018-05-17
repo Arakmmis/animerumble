@@ -76,6 +76,7 @@ module.exports = function(io, socket) {
       .limit(10)
       .sort({ _id: -1 })
       .exec((err, res) => {
+        if (err) return;
         let packet = res.map(x => {
           return x.name + ": " + x.message;
         });

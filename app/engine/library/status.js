@@ -178,7 +178,7 @@ function counter(x) {
           "ranged",
           "melee"
         ],
-    active: x.active ? x.active : 1,
+    active: x.active ? x.active : 2,
     modify: x.modify ? x.modify : function(payload) {}
   };
 }

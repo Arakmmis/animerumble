@@ -100,8 +100,12 @@ function counterManagement(onStatus, package) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate) {
-        x.modify(package, x);
+      if (evaluate && x.active !== 1) {
+        if (x.usage === 0) {
+          x.modify(package, x);
+          x.isInvisible = false;
+          x.usage += 1;
+        }
 
         return true;
       } else {

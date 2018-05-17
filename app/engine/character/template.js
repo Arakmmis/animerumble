@@ -1,10 +1,14 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "roronoaZoro",
-  name: "Roronoa Zoro"
+  name: "Roronoa Zoro",
+  anime: "FairyTail",
+  author: "63k, FireBane",
+  pictures: "Leciel, FireBane"
 };
 
 let status = {
@@ -222,6 +226,11 @@ let skills = {
 let character = {
   name: info.name,
   id: info.id,
+  anime: info.anime,
+  credit: {
+    author: info.author,
+    pictures: info.pictures
+  },
   hp: 100,
   skill: [
     skills.skill1,
