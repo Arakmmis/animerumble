@@ -8,7 +8,7 @@ let info = {
   name: "Natsu Dragneel",
   anime: "FairyTail",
   author: "63k",
-  pictures: "Leciel"
+  pictures: "Leciel, Firebane"
 };
 
 let status = {
