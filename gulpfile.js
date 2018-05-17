@@ -52,9 +52,18 @@ gulp.task("js-game", function() {
   });
 });
 
-gulp.task("sass", function() {
+gulp.task("sass-style", function() {
   return gulp
-    .src("sass/style.scss")
+    .src("./sass/style.scss")
+    .pipe(sourcemaps.init())
+    .pipe(sass().on("error", sass.logError))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("public/css"));
+});
+
+gulp.task("sass-create", function() {
+  return gulp
+    .src("./sass/create.scss")
     .pipe(sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
     .pipe(sourcemaps.write())
@@ -62,7 +71,7 @@ gulp.task("sass", function() {
 });
 
 gulp.task("sass:watch", function() {
-  gulp.watch("sass/**/*.scss", ["sass"]);
+  gulp.watch("sass/**/*.scss", ["sass-style", "sass-create"]);
 });
 
 gulp.task("default", ["start", "js-game", "sass:watch"]);
