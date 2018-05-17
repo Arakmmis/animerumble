@@ -7,11 +7,7 @@ var ChatSchema = new Schema({
   channel: String,
   room: String,
   message: String,
-  timestamp: {
-    type: Number,
-    // `Date.now()` returns the current unix timestamp as a number
-    default: Date.now()
-  },
+  timestamp: Number,
   datestamp: {
     type: Date,
     // `Date.now()` returns the current unix timestamp as a number

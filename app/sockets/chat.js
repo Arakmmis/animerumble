@@ -16,8 +16,7 @@ module.exports = function(io, socket) {
         channel: "lobby",
         room: "lobby",
         message: payload.message,
-        timestamp: Date.now(),
-        datestamp: Date.now
+        timestamp: Date.now()
       }).save();
 
       io.emit("chat", {
@@ -32,8 +31,7 @@ module.exports = function(io, socket) {
         channel: "ingame",
         room: roomName,
         message: payload.message,
-        timestamp: Date.now(),
-        datestamp: Date.now
+        timestamp: Date.now()
       }).save();
 
       io.to(roomName).emit("chat", {
