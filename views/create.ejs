@@ -263,7 +263,7 @@
                         let fileName = name + ".png"
                         let capture = document.getElementById('capture');
                         // capture.style.fontFeatureSettings = '"liga" 0';
-                        html2canvas(capture, { useCORS: true }).then(canvas => {
+                        html2canvas(capture, { useCORS: true, scale: 2 }).then(canvas => {
                             canvas.toBlob(function (blob) {
                                 saveAs(blob, fileName);
                             });
