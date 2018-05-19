@@ -137,9 +137,20 @@ function statusView(name, payload, turnVal) {
     payload.onSelf
   );
   console.log("invisible", turnVal, name.slice(-1));
-  if (turnVal === Number(name.slice(-1))) {
-    status = status.filter(x => x.isInvisible === false);
-  }
+  status = status.filter(
+    x =>
+      x.isInvisible === false ||
+      (x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal)
+  );
+  // if (turnVal === Number(name.slice(-1))) {
+  //   status = status.filter(
+  //     x => x.isInvisible === false || x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal
+  //   );
+  // } else {
+  //   status = status.filter(
+  //     x => x.isInvisible === false || x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal
+  //   );
+  // }
   let groupByNameId = _.groupBy(status, "nameId");
   let valuesByNameId = _.values(groupByNameId);
   let groupBySkillIndex = valuesByNameId.map(x => _.groupBy(x, "skillIndex"));

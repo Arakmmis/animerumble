@@ -86,10 +86,11 @@ function ignoreManagement(onState, skill) {
   }
 }
 
-function counterManagement(onStatus, package) {
+function counterManagement(onStatus, onState, package) {
   let skill = package.skill;
   let counter = onStatus.map(x => {
     if (x.type === "counter") {
+      let ignore = ignoreManagement(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
@@ -100,7 +101,7 @@ function counterManagement(onStatus, package) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate && x.active !== 1) {
+      if (evaluate && x.active !== 1 && !ignore) {
         if (x.usage === 0) {
           x.modify(package, x);
           x.isInvisible = false;

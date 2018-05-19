@@ -18,9 +18,9 @@ function shuffle(array) {
   return array;
 }
 
-function energy(amount = 3) {  
+function energy(amount = 3) {
   let arr = ["a", "a", "a", "s", "s", "s", "i", "i", "i", "w", "w", "w"];
-  let energy = shuffle(arr).splice(0, amount);  
+  let energy = shuffle(arr).splice(0, amount);
   console.log(energy);
   return {
     a: energy.reduce((a, b) => (b == "a" ? a + 1 : a), 0),
@@ -49,8 +49,20 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+function sameTeam(subject, target, evaluate) {
+  let subjectEval = Number(subject.slice(-1));
+  let targetEval = Number(target.slice(-1));
+
+  if (evaluate) {
+    return subjectEval === targetEval;
+  } else if (!evaluate) {
+    return subjectEval !== targetEval;
+  }
+}
+
 module.exports = {
   energy,
   stealEnergy,
-  getRandomInt
+  getRandomInt,
+  sameTeam
 };

@@ -1,5 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "uchihaSasuke",
@@ -75,7 +77,11 @@ let skills = {
     description:
       "Copying a taijutsu combo that Lee used on him, Sasuke deals 30 damage to one enemy. This skill will deal an additional 15 damage to an enemy affected by 'Sharingan'.",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
@@ -92,13 +98,17 @@ let skills = {
     },
     target: "enemy",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill3: {
     name: "Sharingan",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description:
       "Sasuke targets one enemy. For 4 turns, Sasuke will gain 15 points of damage reduction. During this time, that enemy will be unable to reduce damage or become invulnerable.* This will end if Sasuke dies.",
@@ -108,22 +118,46 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this, 3)
-      );
-      payload.target.status.onReceive.push(
-        new constructor.status(status.boost1, this, 3),
-        new constructor.status(status.boost2, this, 3)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onReceive",
+        status: status.protect,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.boost1,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.boost2,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.disableDrIv,
+        inherit: this
+      });
+      // payload.offense.status.onReceive.push(
+      //   new constructor.status(status.protect, this, 3)
+      // );
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.boost1, this, 3),
+      //   new constructor.status(status.boost2, this, 3)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.disableDrIv, this, 3)
+      // );
     }
   },
   skill4: {
     name: "Swift Block",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Uchiha Sasuke invulnerable for 1 turn.",
     target: "self",
@@ -132,9 +166,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
     }
   }
 };

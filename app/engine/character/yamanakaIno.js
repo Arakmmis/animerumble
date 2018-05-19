@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
-let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "yamanakaIno",
@@ -73,21 +74,37 @@ let skills = {
       "Using this skill Ino stuns the non-mental skills of one enemy for 1 turn and does 30 piercing damage that ignores invulnerability to one random enemy. During this time the target is unable to reduce damage or become invulnerable.",
     move: function(payload) {
       if (payload.recursive === 0) {
-        payload.target.status.onState.push(
-          new constructor.status(status.stun, this, 1)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.stun,
+          inherit: this
+        });
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.stun, this, 1)
+        // );
       } else {
-        payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv, this, 1)
-        );
-        payload.target.hp -= payload.val;
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.disableDrIv,
+          inherit: this
+        });
+        skill.damage({
+          subject: payload.target,
+          val: payload.val
+        });
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.disableDrIv, this, 1)
+        // );
+        // payload.target.hp -= payload.val;
       }
     }
   },
   skill2: {
     name: "Mind Body Switch",
     type: "attack",
-    val: 30,
+    val: 0,
     cooldown: 0,
     classes: ["control", "ranged", "mental"],
     description:
@@ -97,12 +114,24 @@ let skills = {
     },
     target: "enemy",
     move: function(payload) {
-      payload.offense.status.onSelf.push(
-        new constructor.status(status.transform, this, 2)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.stun2, this, 2)
-      );
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.stun2,
+        inherit: this
+      });
+      // payload.offense.status.onSelf.push(
+      //   new constructor.status(status.transform, this, 2)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.stun2, this, 2)
+      // );
     }
   },
   skill3: {
@@ -116,9 +145,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onReceive.push(
-        new constructor.status(status.cooldownIncrease, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.cooldownIncrease,
+        inherit: this
+      });
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.cooldownIncrease, this, 3)
+      // );
     }
   },
   skill4: {
@@ -132,9 +167,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   },
   skill5: {
@@ -149,7 +190,11 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   }
 };

@@ -142,7 +142,7 @@ let skills = {
   skill4: {
     name: "Hiding",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "Usopp hides, making him invulnerable for 1 turn.",
     target: "self",

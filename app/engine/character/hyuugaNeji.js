@@ -1,5 +1,6 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
 let helper = require("../helper.js");
 
 let info = {
@@ -69,12 +70,24 @@ let skills = {
     description:
       "Using the Hyuuga clan's special form of taijutsu, Neji deals 25 damage to one enemy for 2 turns. During this time, that enemy will deal 5 less damage with any non-affliction skill.",
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this, 1)
-      );
-      payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this, 1)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.bleed,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.reduce,
+        inherit: this
+      });
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(status.bleed, this, 1)
+      // );
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.reduce, this, 1)
+      // );
     }
   },
   skill2: {
@@ -91,11 +104,21 @@ let skills = {
     target: "allenemy",
     move: function(payload) {
       if (payload.recursive === 0) {
-        payload.offense.status.onState.push(
-          new constructor.status(status.invulnerable, this, 2)
-        );
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onState",
+          status: status.invulnerable,
+          inherit: this
+        });
+        // payload.offense.status.onState.push(
+        //   new constructor.status(status.invulnerable, this, 2)
+        // );
       }
-      payload.target.hp -= payload.val;
+      // payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill3: {
@@ -117,13 +140,17 @@ let skills = {
       if (energy !== false) {
         payload.theirEnergy[energy] -= 1;
       }
-      payload.target.hp -= payload.val;
+      // payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill4: {
     name: "Byakugan Insight",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Hyuuga Neji invulnerable for 1 turn.",
     target: "self",
@@ -132,9 +159,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

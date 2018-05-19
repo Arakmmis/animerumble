@@ -1,5 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "inuzukaKiba",
@@ -24,10 +26,8 @@ let status = {
     active: 3,
     persistence: "action"
   }),
-  boost: {
-    name: "Dynamic Marking",
+  boost: library.boost({
     val: 5,
-    type: "skill",
     active: 3,
     modify: function(payload) {
       if (
@@ -37,7 +37,7 @@ let status = {
         payload.val += this.val;
       }
     }
-  },
+  }),
   energy: {
     active: 3,
     modify: function(payload) {
@@ -69,7 +69,11 @@ let skills = {
     description:
       "This skill does 30 damage to one enemy. During 'Double-Headed Wolf' this skill is improved and costs 1 less random chakra.",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
@@ -87,22 +91,40 @@ let skills = {
     target: "allenemy",
     move: function(payload) {
       if (payload.recursive === 0) {
-        payload.offense.status.onReceive.push(
-          new constructor.status(status.protect, this, 2)
-        );
-        payload.offense.status.onSelf.push(
-          new constructor.status(status.energy, this, 2)
-        );
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onReceive",
+          status: status.protect,
+          inherit: this
+        });
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onSelf",
+          status: status.energy,
+          inherit: this
+        });
+        // payload.offense.status.onReceive.push(
+        //   new constructor.status(status.protect, this, 2)
+        // );
+        // payload.offense.status.onSelf.push(
+        //   new constructor.status(status.energy, this, 2)
+        // );
       }
-      payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this, 2)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.bleed,
+        inherit: this
+      });
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(status.bleed, this, 2)
+      // );
     }
   },
   skill3: {
     name: "Dynamic Marking",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 0,
     classes: ["instant", "ranged", "affliction"],
     description:
@@ -111,18 +133,30 @@ let skills = {
     marking: true,
     energy: {},
     move: function(payload) {
-      payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this, 3)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.boost,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.disableDrIv,
+        inherit: this
+      });
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.boost, this, 3)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.disableDrIv, this, 3)
+      // );
     }
   },
   skill4: {
     name: "Smoke Bomb",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Inuzuka Kiba invulnerable for 1 turn.",
     target: "self",
@@ -131,9 +165,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

@@ -33,7 +33,7 @@ function reduce(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload) {
-      payload.val -= this.val;
+      payload.val -= self.val;
     }
   };
 }
@@ -172,7 +172,7 @@ function counter(x) {
           "ranged",
           "melee"
         ],
-    active: x.active ? x.active : 3,
+    active: x.active ? x.active : 2,
     modify: x.modify ? x.modify : function(payload) {}
   };
 }
@@ -197,6 +197,7 @@ function state(x) {
     type: "state",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
+    isStack: x.isStack ? x.isStack : false,
     info: x.info ? x.info : "",
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
@@ -301,7 +302,6 @@ function bleed(x) {
 function drain(x) {
   return {
     name: x.name ? x.name : "drain",
-
     val: x.val ? x.val : 1,
     type: "drain",
     period: "instant",
@@ -310,10 +310,10 @@ function drain(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let energy = helper.stealEnergy(payload.theirEnergy);
       if (energy !== false) {
-        payload.theirEnergy[energy] -= this.val;
+        payload.theirEnergy[energy] -= self.val;
       }
     }
   };

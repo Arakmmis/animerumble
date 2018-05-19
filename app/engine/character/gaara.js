@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
-let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "gaara",
@@ -69,14 +70,38 @@ let skills = {
     description:
       "Gaara surrounds one enemy with a pile of sand stunning their non-mental skills for 2 turns. For 2 turns, that enemy cannot reduce damage or become invulnerable. During this time, this skill will be replaced by 'Sand Burial'.",
     move: function(payload) {
-      payload.offense.status.onSelf.push(
-        new constructor.status(status.transform, this, 1)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.disableDrIv, this, 1),
-        new constructor.status(status.state, this, 1),
-        new constructor.status(status.stun, this, 1)
-      );
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.disableDrIv,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.stun,
+        inherit: this
+      });
+      // payload.offense.status.onSelf.push(
+      //   new constructor.status(status.transform, this, 1)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.disableDrIv, this, 1),
+      //   new constructor.status(status.state, this, 1),
+      //   new constructor.status(status.stun, this, 1)
+      // );
     }
   },
   skill2: {
@@ -90,9 +115,15 @@ let skills = {
     energy: {},
     target: "self",
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.ignore, this, 2)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.ignore,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.ignore, this, 2)
+      // );
     }
   },
   skill3: {
@@ -106,16 +137,26 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      let dd = payload.target.status.onReceive.some(
-        x => x.type === "dd" && x.name === this.name
-      );
-      if (dd) {
-        payload.target.status.onReceive = payload.target.status.onReceive.filter(
-          x => x.type !== "dd" && x.name !== this.name
-        );
-      }
-      payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this, 3)
+      // let dd = payload.target.status.onReceive.some(
+      //   x => x.type === "dd" && x.name === this.name
+      // );
+      // if (dd) {
+      //   payload.target.status.onReceive = payload.target.status.onReceive.filter(
+      //     x => x.type !== "dd" && x.name !== this.name
+      //   );
+      // }
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.dd, this, 3)
+      // );
+
+      skill.pushStatus(
+        {
+          subject: payload.target,
+          onStatus: "onReceive",
+          status: status.dd,
+          inherit: this
+        },
+        "replace"
       );
     }
   },
@@ -131,9 +172,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   },
   skill5: {
@@ -141,6 +188,7 @@ let skills = {
     type: "attack",
     val: 100,
     cooldown: 0,
+    noCounter: true,
     description:
       "Gaara crushes one enemy with sand. That enemy is killed. This skill requires 'Sand Coffin' to be active on the enemy. This skill cannot be countered or reflected.",
     target: "enemylock",

@@ -25,6 +25,8 @@ let status = {
             x.name !== "Summon: Taurus"
         );
       });
+
+      payload.target.skill[0].target = "self";
     }
   }),
   dd2: library.dd({
@@ -66,6 +68,9 @@ let status = {
       });
     }
   }),
+  state: library.state({
+    active: -1
+  }),
   bleed: library.bleed({
     isStack: true,
     val: 15,
@@ -102,26 +107,69 @@ let skills = {
     description:
       "Lucy gains 20 DD & Deals 15 Piercing Damage to a target till that defense is destroyed. You can reuse this skill while active to double the damage, and gain an additional 20 DD.",
     target: "enemy",
-    move: function(payload) {
-      skill.pushStatus(
-        {
-          subject: payload.offense,
-          onStatus: "onReceive",
-          status: status.dd,
-          inherit: this
-        },
-        "stackDD"
-      );
+    move: function(payload, self) {
+      console.log(self);
+      let check = skill.checkStatus({
+        subject: payload.offense,
+        onStatus: "onState",
+        statusType: "state",
+        statusName: "Summon: Taurus"
+      });
 
-      skill.pushStatus(
-        {
-          subject: payload.target,
-          onStatus: "onSelf",
-          status: status.bleed,
+      if (!check) {
+        skill.pushStatus(
+          {
+            subject: payload.offense,
+            onStatus: "onReceive",
+            status: status.dd,
+            inherit: this
+          },
+          "stackDD"
+        );
+
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onState",
+          status: status.state,
           inherit: this
-        },
-        "stack"
-      );
+        });
+
+        skill.pushStatus(
+          {
+            subject: payload.target,
+            onStatus: "onSelf",
+            status: status.bleed,
+            inherit: this
+          },
+          "stackBleed"
+        );
+
+        self.target = "self";
+      } else {
+        skill.pushStatus(
+          {
+            subject: payload.offense,
+            onStatus: "onReceive",
+            status: status.dd,
+            inherit: this
+          },
+          "stackDD"
+        );
+
+        let index = payload.state[payload.theirTurn].findIndex(x =>
+          x.status.onSelf.some(s => s.type === "bleed" && s.name === this.name)
+        );
+
+        skill.pushStatus(
+          {
+            subject: payload.state[payload.theirTurn][index],
+            onStatus: "onSelf",
+            status: status.bleed,
+            inherit: this
+          },
+          "stackBleed"
+        );
+      }
     }
   },
   skill2: {
@@ -165,12 +213,12 @@ let skills = {
           status: status.track,
           inherit: this
         });
-
-        skill.damage({
-          subject: payload.target,
-          val: payload.val
-        });
       }
+      
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill3: {

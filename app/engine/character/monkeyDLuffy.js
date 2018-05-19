@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "monkeyDLuffy",
@@ -59,7 +60,10 @@ let status = {
     active: 2,
     type: "unique",
     modify: function(payload, self) {
-      if (self.usage === 0) {
+      if (
+        self.usage === 0 &&
+        helper.sameTeam(payload.offense.nameId, self.nameId, false)
+      ) {
         let stun = library.stun({
           active: 2
         });
@@ -192,7 +196,7 @@ let skills = {
   skill4: {
     name: "Luffy Disguise",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description:
       "Luffy turns off his mind, ending all actions he currently has in affect and ignores all skills for one turn. The ignore effect last an additional turn each time it is used.",
@@ -212,7 +216,7 @@ let skills = {
         onStatus: "onState",
         status: ignore,
         inherit: this
-      });      
+      });
     }
   },
   skill5: {

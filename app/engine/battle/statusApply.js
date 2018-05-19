@@ -25,9 +25,10 @@ function persistenceCheck(skill, owner, state, context) {
 function statusIterator(package, owner, status, callback) {
   let source = package[owner].status;
 
-  if (owner === "offense") {
+  if (owner === "offense" && package.skill.noCounter === false) {
     let onAttack = source.onAttack;
-    let counter = management.counter(onAttack, package);
+    let onState = source.onState;
+    let counter = management.counter(onAttack, onState, package);
     console.log("Counter", counter);
     if (counter) {
       package.isCounter = true;
@@ -75,20 +76,20 @@ function statusApply(payload, move, owner) {
         statusIterator(payload, "target", "onReceive", (payload, callback) => {
           if (!payload.isCounter) {
             payload.val = payload.val < 0 ? 0 : payload.val;
-            move(payload);
+            move(payload, payload.skill);
           }
         });
       } else {
         if (!payload.isCounter) {
           payload.val = payload.val < 0 ? 0 : payload.val;
-          move(payload);
+          move(payload, payload.skill);
         }
       }
     });
   } else {
     statusIterator(payload, "target", "onReceive", (payload, callback) => {
       payload.val = payload.val < 0 ? 0 : payload.val;
-      move(payload);
+      move(payload, payload.skill);
     });
   }
 }

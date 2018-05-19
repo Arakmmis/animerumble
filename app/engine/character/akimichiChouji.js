@@ -1,5 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "akimichiChouji",
@@ -22,30 +24,30 @@ let status = {
     val: 10,
     active: 2
   }),
-  boost1: {
-    name: "Partial Multi-Size",
+  boost1: library.boost({
     val: 20,
-    type: "skill",
     active: -1,
-    modify: function(payload) {
-      this.usage += 1;
+    modify: function(payload, self) {
+      self.usage += 1;
       if (payload.skill.name === "Partial Multi-Size") {
-        payload.val += this.val;
+        payload.val += self.val;
       }
     }
-  },
-  boost2: {
-    name: "Meat Tank",
+  }),
+  boost2: library.boost({
     val: 10,
-    type: "skill",
     active: -1,
-    modify: function(payload) {
-      this.usage += 1;
+    modify: function(payload, self) {
+      self.usage += 1;
       if (payload.skill.name === "Meat Tank") {
-        payload.val += this.val;
+        payload.val += self.val;
       }
     }
-  }
+  }),
+  state: library.state({
+    active: -1,
+    isStack: true
+  })
 };
 
 let skills = {
@@ -61,13 +63,17 @@ let skills = {
     description:
       "Chouji doubles the size of his arms and attacks one enemy dealing 20 damage.",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
     name: "Meat Tank",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 2,
     description:
       "Chouji transforms into a Meat Tank dealing 10 damage to one enemy for 2 turns. Chouji is invulnerable for 2 turns.",
@@ -77,26 +83,49 @@ let skills = {
     },
     target: "enemy",
     move: function(payload) {
-      payload.offense.status.onState.push(
-        new constructor.status(status.invulnerable3, this, 2)
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onState",
+        status: status.invulnerable3,
+        inherit: this
+      });
+
+      let check = payload.target.status.onState.findIndex(
+        x => x.type === "state" && x.name === "Akimichi Pills"
       );
-      payload.target.status.onSelf.push(
-        new constructor.status(
-          library.bleed({
-            val: payload.val,
-            active: 3
-          }),
-          this,
-          2
-        )
-      );
+      if (check > -1) {
+        let pills = payload.target.status.onState[check];
+        let bleed = status.bleed;
+        bleed.val = bleed.val * pills.stack;
+
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: bleed,
+          inherit: this
+        });
+      }
+
+      // payload.offense.status.onState.push(
+      //   new constructor.status(status.invulnerable3, this, 2)
+      // );
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(
+      //     library.bleed({
+      //       val: payload.val,
+      //       active: 3
+      //     }),
+      //     this,
+      //     2
+      //   )
+      // );
       console.log("Chouji Bleed", payload.target.status.onSelf, payload.val);
     }
   },
   skill3: {
     name: "Akimichi Pills",
     type: "attack",
-    val: 20,
+    val: 0,
     cooldown: 0,
     description:
       "Chouji eats a pill improving his skills, 'Partial Multi-Size' will deal 20 additional damage and 'Meat Tank' will deal 10 additional damage per turn. Chouji takes 20 affliction damage. Chouji can only eat three pills and this skill is permanent.",
@@ -107,19 +136,32 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       console.log("chouji", payload, payload.offense.skill);
-      if (payload.offense.skill[2].usage === 2) {
-        payload.offense.skill[2].required = true;
+      if (self.usage === 2) {
+        self.required = true;
       }
-      payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this, 3)
+
+      skill.pushStatus(
+        {
+          subject: payload.offense,
+          onStatus: "onState",
+          status: status.state,
+          inherit: this
+        },
+        "stack"
       );
-      payload.target.status.onAttack.push(
-        new constructor.status(status.boost2, this, 3)
-      );
+
+      payload.target.skill[0].val += 20;
+
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.boost1, this, 3)
+      // );
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.boost2, this, 3)
+      // );
       console.log("Chouji Stats!", payload.target.status.onAttack);
-      payload.offense.skill[2].usage += 1;
+      self.usage += 1;
       payload.target.hp -= 20;
       console.log("chouji hp", 20, payload.target.hp);
     }
@@ -127,7 +169,7 @@ let skills = {
   skill4: {
     name: "Effortless Block",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Akimichi Chouji invulnerable for 1 turn.",
     target: "self",
@@ -136,9 +178,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

@@ -53,6 +53,7 @@ let skills = {
     energy: {
       a: 1
     },
+    noCounter: true,
     classes: ["instant", "ranged", "physical"],
     target: "allenemy",
     description:

@@ -8,7 +8,7 @@ function execute(package) {
     if (package.target.status.onReceive.length > 0) {
       statusApply(package, package.move, "target");
     } else {
-      package.target = package.move(package);
+      package.move(package, package.skill);
     }
   }
 }

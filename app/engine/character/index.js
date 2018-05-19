@@ -1,5 +1,5 @@
 let uzumakiNaruto = require("./uzumakiNaruto.js");
-let sakuraHinata = require("./sakuraHinata.js");
+let sakuraHaruno = require("./sakuraHaruno.js");
 let inuzukaKiba = require("./inuzukaKiba.js");
 let akimichiChouji = require("./akimichiChouji.js");
 let aburameShino = require("./aburameShino.js");
@@ -22,7 +22,7 @@ let lucyHeartfilia = require("./lucyHeartfilia.js");
 
 module.exports = [
   uzumakiNaruto,
-  sakuraHinata,
+  sakuraHaruno,
   uchihaSasuke,
   inuzukaKiba,
   aburameShino,

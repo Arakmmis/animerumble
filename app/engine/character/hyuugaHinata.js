@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
-let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "hyuugaHinata",
@@ -21,7 +22,6 @@ let status = {
     active: 4
   }),
   drain: library.drain({
-    name: "Hinata Gentle Fist",
     val: 1,
     active: 2
   }),
@@ -50,13 +50,25 @@ let skills = {
     description:
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.bleed, this, 1)
-      );
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(status.bleed, this, 1)
+      // );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.bleed,
+        inherit: this
+      });
       if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.drain, this, 1)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: status.drain,
+          inherit: this
+        });
+        // payload.target.status.onSelf.push(
+        //   new constructor.status(status.drain, this, 1)
+        // );
       }
     }
   },
@@ -78,21 +90,31 @@ let skills = {
       if (
         payload.state[payload.myTurn].some(x => x.name === payload.target.name)
       ) {
-        payload.target.status.onReceive.push(
-          new constructor.status(status.dd, this, 2)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onReceive",
+          status: status.dd,
+          inherit: this
+        });
+        // payload.target.status.onReceive.push(
+        //   new constructor.status(status.dd, this, 2)
+        // );
       } else {
         if (payload.offense.status.onState.some(x => x.name === "Byakugan")) {
           payload.val += 5;
         }
-        payload.target.hp -= payload.val;
+        // payload.target.hp -= payload.val;
+        skill.damage({
+          subject: payload.target,
+          val: payload.val
+        });
       }
     }
   },
   skill3: {
     name: "Byakugan",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description:
       "Hinata activates her Byakugan gaining 15 points of damage reduction for 4 turns. The following 4 turns, 'Hinata Gentle Fist' and 'Protective Eight Trigrams Sixty-Four Palms' will be improved.",
@@ -103,18 +125,31 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this, 3)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.state, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.protect,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state,
+        inherit: this
+      });
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.protect, this, 3)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.state, this, 3)
+      // );
     }
   },
   skill4: {
     name: "Hinata Block",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Hyuuga Hinata invulnerable for 1 turn.",
     target: "self",
@@ -123,9 +158,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
     }
   }
 };

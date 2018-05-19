@@ -1,9 +1,11 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
-  id: "sakuraHinata",
-  name: "Sakura Hinata",
+  id: "sakuraHaruno",
+  name: "Sakura Haruno",
   anime: "Naruto",
   author: "",
   pictures: ""
@@ -23,24 +25,20 @@ let status = {
     active: 2
   }),
   heal: library.heal({
-    name: "Chakra Heal",
     val: 15
   }),
   ignore: library.ignore({
-    name: "Inner Sakura",
     active: 4
   }),
-  boost: {
-    name: "Inner Sakura",
+  boost: library.boost({
     val: 10,
-    type: "skill",
     active: 4,
     modify: function(payload) {
       if (payload.skill.name === "KO Punch") {
         payload.val += this.val;
       }
     }
-  }
+  })
 };
 
 let skills = {
@@ -56,10 +54,20 @@ let skills = {
     },
     classes: ["instant", "melee", "physical"],
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.stun, this, 1)
-      );
-      payload.target.hp -= payload.val;
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.stun,
+        inherit: this
+      });
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.stun, this, 1)
+      // );
+      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
@@ -75,13 +83,17 @@ let skills = {
       s: 1
     },
     move: function(payload) {
-      payload.target.hp += payload.val;
+      skill.heal({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp += payload.val;
     }
   },
   skill3: {
     name: "Inner Sakura",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 4,
     classes: ["instant", "mental"],
     description:
@@ -91,21 +103,39 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.ignore, this, 3)
-      );
-      payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this, 3)
-      );
-      payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.ignore,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.protect,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.boost,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.ignore, this, 3)
+      // );
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.protect, this, 3)
+      // );
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.boost, this, 3)
+      // );
     }
   },
   skill4: {
     name: "Sakura Hide",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     classes: ["instant", "energy"],
     description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
@@ -114,9 +144,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

@@ -1,5 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "naraShikamaru",
@@ -50,7 +52,7 @@ let skills = {
   skill1: {
     name: "Meditate",
     type: "attack",
-    val: 30,
+    val: 0,
     cooldown: 0,
     marking: true,
     energy: {},
@@ -58,15 +60,21 @@ let skills = {
     description:
       "Shikamaru sits down and begins thinking up a strategy against one enemy for 5 turns. This skill cannot be countered or reflected and cannot used on an enemy already affected by it.",
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.state, this, 1)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.state, this, 1)
+      // );
     }
   },
   skill2: {
     name: "Shadow-Neck Bind",
     type: "attack",
-    val: 15,
+    val: 0,
     cooldown: 1,
     classes: ["action", "ranged", "energy"],
     description:
@@ -78,19 +86,43 @@ let skills = {
     move: function(payload) {
       // console.log("KIBA", payload);
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this, 2)
-        );
-        payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv2, this, 2)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: status.bleed2,
+          inherit: this
+        });
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.disableDrIv2,
+          inherit: this
+        });
+        // payload.target.status.onSelf.push(
+        //   new constructor.status(status.bleed2, this, 2)
+        // );
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.disableDrIv2, this, 2)
+        // );
       } else {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.bleed, this, 2)
-        );
-        payload.target.status.onState.push(
-          new constructor.status(status.disableDrIv, this, 2)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: status.bleed,
+          inherit: this
+        });
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.disableDrIv,
+          inherit: this
+        });
+        // payload.target.status.onSelf.push(
+        //   new constructor.status(status.bleed, this, 2)
+        // );
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.disableDrIv, this, 2)
+        // );
       }
       // payload.target.hp -= payload.val;
     }
@@ -98,7 +130,7 @@ let skills = {
   skill3: {
     name: "Shadow Imitation",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 3,
     classes: ["control", "ranged", "energy"],
     description:
@@ -110,20 +142,32 @@ let skills = {
     },
     move: function(payload) {
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
-        payload.target.status.onState.push(
-          new constructor.status(status.stun2, this, 3)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.stun2,
+          inherit: this
+        });
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.stun2, this, 3)
+        // );
       } else {
-        payload.target.status.onState.push(
-          new constructor.status(status.stun, this, 3)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onState",
+          status: status.stun,
+          inherit: this
+        });
+        // payload.target.status.onState.push(
+        //   new constructor.status(status.stun, this, 3)
+        // );
       }
     }
   },
   skill4: {
     name: "Shikamaru Hide",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Nara Shikamaru invulnerable for 1 turn.",
     target: "self",
@@ -132,9 +176,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

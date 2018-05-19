@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
-let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "rockLee",
@@ -126,7 +127,11 @@ let skills = {
     },
     target: "enemy",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill3: {
@@ -140,34 +145,65 @@ let skills = {
       a: 1
     },
     move: function(payload) {
-      payload.target.status.onAttack.push(
-        new constructor.status(status.boost1, this, 3)
-      );
-      payload.target.status.onSelf.push(
-        new constructor.status(status.transform, this, 3)
-      );
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable2, this, 3),
-        new constructor.status(status.state, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.boost1,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.transform,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable2,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.state,
+        inherit: this
+      });
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.boost1, this, 3)
+      // );
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(status.transform, this, 3)
+      // );
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable2, this, 3),
+      //   new constructor.status(status.state, this, 3)
+      // );
       payload.target.hp -= 50;
       if (payload.target.hp <= 0) {
         payload.target.hp = 5;
       }
 
+      skill.removeStatus(
+        {
+          subject: payload.target
+        },
+        "all"
+      );
+
       //Remove Harmful
-      payload.target.status.onAttack = payload.target.status.onAttack.filter(
-        x => x.harmful === false
-      );
-      payload.target.status.onReceive = payload.target.status.onReceive.filter(
-        x => x.harmful === false
-      );
-      payload.target.status.onSelf = payload.target.status.onSelf.filter(
-        x => x.harmful === false
-      );
-      payload.target.status.onState = payload.target.status.onState.filter(
-        x => x.harmful === false
-      );
+      // payload.target.status.onAttack = payload.target.status.onAttack.filter(
+      //   x => x.harmful === false
+      // );
+      // payload.target.status.onReceive = payload.target.status.onReceive.filter(
+      //   x => x.harmful === false
+      // );
+      // payload.target.status.onSelf = payload.target.status.onSelf.filter(
+      //   x => x.harmful === false
+      // );
+      // payload.target.status.onState = payload.target.status.onState.filter(
+      //   x => x.harmful === false
+      // );
     }
   },
   skill4: {
@@ -181,9 +217,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   },
   skill5: {
@@ -199,7 +241,11 @@ let skills = {
       a: 2
     },
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   }
 };

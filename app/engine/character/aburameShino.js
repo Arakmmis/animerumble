@@ -1,6 +1,7 @@
 let constructor = require("../constructor.js");
-let helper = require("../helper.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "aburameShino",
@@ -16,19 +17,18 @@ let status = {
     val: 5,
     active: 4
   }),
-  boost: {
-    name: "Chakra Leech",
+  boost: library.boost({
     val: 5,
     effect: "custom",
     description: "Increase 5 damage received from Chakra Leech",
     type: "boost",
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Chakra Leech") {
-        payload.val += this.val;
+        payload.val += self.val;
       }
     }
-  },
+  }),
   dd: library.dd({
     name: "Bug Wall",
     val: 20,
@@ -51,18 +51,27 @@ let skills = {
     description:
       "Shino directs his chakra draining bugs to attack one enemy dealing 20 affliction damage and steals 1 random chakra.",
     move: function(payload) {
-      let energy = helper.stealEnergy(payload.theirEnergy);
-      if (energy !== false) {
-        payload.theirEnergy[energy] -= 1;
-        payload.myEnergy[energy] += 1;
-      }
-      payload.target.hp -= payload.val;
+      skill.stealEnergy({
+        theirEnergy: payload.theirEnergy,
+        myEnergy: payload.myEnergy,
+        amount: 1
+      });
+      // let energy = helper.stealEnergy(payload.theirEnergy);
+      // if (energy !== false) {
+      //   payload.theirEnergy[energy] -= 1;
+      //   payload.myEnergy[energy] += 1;
+      // }
+
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
     }
   },
   skill2: {
     name: "Female Bug",
     type: "attack",
-    val: 15,
+    val: 0,
     cooldown: 1,
     description:
       "Shino directs one of his female bugs to attach itself to one enemy. For 4 turns, new non-affliction damage that enemy deals is reduced by 5 points. During this time, 'Chakra Leech' will deal 5 additional damage to them. These effects stack.",
@@ -72,12 +81,25 @@ let skills = {
     classes: ["instant", "ranged", "physical"],
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onAttack.push(
-        new constructor.status(status.reduce, this, 2)
-      );
-      payload.target.status.onReceive.push(
-        new constructor.status(status.boost, this, 2)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.reduce,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.boost,
+        inherit: this
+      });
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.reduce, this, 2)
+      // );
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.boost, this, 2)
+      // );
     }
   },
   skill3: {
@@ -94,9 +116,18 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onReceive.push(
-        new constructor.status(status.dd, this, 3)
+      skill.pushStatus(
+        {
+          subject: payload.target,
+          onStatus: "onReceive",
+          status: status.dd,
+          inherit: this
+        },
+        "replace"
       );
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.dd, this, 3)
+      // );
     }
   },
   skill4: {
@@ -111,9 +142,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

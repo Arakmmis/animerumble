@@ -1,5 +1,8 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
+let skill = require("../library/skill.js");
+let helper = require("../helper.js");let constructor = require("../constructor.js");
+let library = require("../library/status.js");
 
 let info = {
   id: "uzumakiNaruto",
@@ -19,19 +22,15 @@ let status = {
   bleed: library.bleed({
     val: 5
   }),
-  boost: {
-    name: "Shadow Clones",
+  boost: library.boost({
     val: 10,
-    type: "boost",
-    effect: "boostSpecific",
-    description: "Uzumaki Naruto Combo",
     active: 4,
     modify: function(payload) {
       if (payload.skill.name === "Uzumaki Naruto Combo") {
         payload.val += this.val;
       }
     }
-  },
+  }),
   required: {
     active: 4,
     type: "allow",
@@ -65,7 +64,11 @@ let skills = {
     description:
       "Naruto's version of the Lion Combo. This skill deals 20 damage to one enemy. During 'Shadow Clones' this skill will deal 10 additional damage.",
     move: function(payload) {
-      payload.target.hp -= payload.val;
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
@@ -83,16 +86,26 @@ let skills = {
     },
     target: "enemy",
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.stun, this, 2)
-      );
-      payload.target.hp -= payload.val;
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.stun,
+        inherit: this
+      });
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.stun, this, 2)
+      // );
+      // payload.target.hp -= payload.val;
     }
   },
   skill3: {
     name: "Shadow Clones",
     type: "attack",
-    val: 10,
+    val: 0,
     cooldown: 3,
     description:
       "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
@@ -102,21 +115,39 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onSelf.push(
-        new constructor.status(status.required, this, 3)
-      );
-      payload.target.status.onReceive.push(
-        new constructor.status(status.protect, this, 3)
-      );
-      payload.target.status.onAttack.push(
-        new constructor.status(status.boost, this, 3)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: status.required,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onReceive",
+        status: status.protect,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onAttack",
+        status: status.boost,
+        inherit: this
+      });
+      // payload.target.status.onSelf.push(
+      //   new constructor.status(status.required, this, 3)
+      // );
+      // payload.target.status.onReceive.push(
+      //   new constructor.status(status.protect, this, 3)
+      // );
+      // payload.target.status.onAttack.push(
+      //   new constructor.status(status.boost, this, 3)
+      // );
     }
   },
   skill4: {
     name: "Sexy Technique",
     type: "invulnerable",
-    val: 10,
+    val: 0,
     cooldown: 4,
     description: "This skill makes Uzumaki Naruto invulnerable for 1 turn.",
     target: "self",
@@ -125,9 +156,15 @@ let skills = {
       r: 1
     },
     move: function(payload) {
-      payload.target.status.onState.push(
-        new constructor.status(status.invulnerable, this, 4)
-      );
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.invulnerable,
+        inherit: this
+      });
+      // payload.target.status.onState.push(
+      //   new constructor.status(status.invulnerable, this, 4)
+      // );
     }
   }
 };

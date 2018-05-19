@@ -69,7 +69,7 @@ let skills = {
     name: "Fire Dargon's Flame Roar",
     type: "attack",
     val: 35,
-    cooldown: 0,
+    cooldown: 4,
     description:
       "Natsu deals 35 damage to all enemies, and apply Flame Absorption on a random target hit.",
     classes: ["instant", "strategic"],
@@ -86,7 +86,7 @@ let skills = {
         let chooseRandom = helper.getRandomInt(random.length);
         let inherit = this;
         inherit.name = "Flame Absorption";
-        inherit.id = 1;
+        inherit.id = 2;
         skill.pushStatus({
           subject: random[chooseRandom],
           onStatus: "onAttack",

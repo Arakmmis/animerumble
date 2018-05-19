@@ -1,4 +1,5 @@
 let constructor = require("../constructor.js");
+let helper = require("../helper.js");
 
 function pushStatus(package, type = "normal") {
   //Define
@@ -17,6 +18,15 @@ function pushStatus(package, type = "normal") {
     );
     if (exist > -1) {
       store[exist].stack += 1;
+    } else {
+      store.push(new constructor.status(status, inherit, skillIndex));
+    }
+  } else if (type === "stackBleed") {
+    let exist = store.findIndex(
+      x => x.type === status.type && x.name === inherit.name
+    );
+    if (exist > -1) {
+      store[exist].val += status.val;
     } else {
       store.push(new constructor.status(status, inherit, skillIndex));
     }
@@ -119,10 +129,21 @@ function checkStatus(payload) {
   return check;
 }
 
+function stealEnergy(payload) {
+  let energy = helper.stealEnergy(payload.theirEnergy);
+  let amount = payload.amount;
+  
+  if (energy !== false) {
+    payload.theirEnergy[energy] -= amount;
+    payload.myEnergy[energy] += amount;
+  }
+}
+
 module.exports = {
   pushStatus,
   damage,
   removeStatus,
   charge,
-  checkStatus
+  checkStatus,
+  stealEnergy
 };
