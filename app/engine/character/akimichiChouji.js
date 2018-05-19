@@ -90,21 +90,22 @@ let skills = {
         inherit: this
       });
 
-      let check = payload.target.status.onState.findIndex(
+      let stack = 1;
+      let bleed = status.bleed;
+      let check = payload.offense.status.onState.findIndex(
         x => x.type === "state" && x.name === "Akimichi Pills"
       );
       if (check > -1) {
-        let pills = payload.target.status.onState[check];
-        let bleed = status.bleed;
-        bleed.val = bleed.val * pills.stack;
-
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onSelf",
-          status: bleed,
-          inherit: this
-        });
+        stack = payload.offense.status.onState[check].stack + 1;
       }
+      bleed.val = bleed.val * stack;
+
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onSelf",
+        status: bleed,
+        inherit: this
+      });
 
       // payload.offense.status.onState.push(
       //   new constructor.status(status.invulnerable3, this, 2)

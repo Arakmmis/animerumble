@@ -116,6 +116,13 @@ function damage(package) {
   subject.hp -= val;
 }
 
+function heal(package) {
+  let subject = package.subject;
+  let val = package.val;
+
+  subject.hp += val;
+}
+
 function checkStatus(payload) {
   let subject = payload.subject;
   let onStatus = payload.onStatus;
@@ -132,7 +139,7 @@ function checkStatus(payload) {
 function stealEnergy(payload) {
   let energy = helper.stealEnergy(payload.theirEnergy);
   let amount = payload.amount;
-  
+
   if (energy !== false) {
     payload.theirEnergy[energy] -= amount;
     payload.myEnergy[energy] += amount;
@@ -142,6 +149,7 @@ function stealEnergy(payload) {
 module.exports = {
   pushStatus,
   damage,
+  heal,
   removeStatus,
   charge,
   checkStatus,

@@ -50,7 +50,7 @@ let skills = {
     classes: ["instant", "ranged", "affliction"],
     description:
       "Shino directs his chakra draining bugs to attack one enemy dealing 20 affliction damage and steals 1 random chakra.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.stealEnergy({
         theirEnergy: payload.theirEnergy,
         myEnergy: payload.myEnergy,
@@ -80,7 +80,7 @@ let skills = {
     },
     classes: ["instant", "ranged", "physical"],
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onAttack",
@@ -115,7 +115,7 @@ let skills = {
       i: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus(
         {
           subject: payload.target,
@@ -141,7 +141,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

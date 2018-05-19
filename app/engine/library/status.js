@@ -32,7 +32,7 @@ function reduce(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       payload.val -= self.val;
     }
   };

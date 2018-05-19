@@ -1,8 +1,7 @@
 let constructor = require("../constructor.js");
 let library = require("../library/status.js");
 let skill = require("../library/skill.js");
-let helper = require("../helper.js");let constructor = require("../constructor.js");
-let library = require("../library/status.js");
+let helper = require("../helper.js");
 
 let info = {
   id: "uzumakiNaruto",

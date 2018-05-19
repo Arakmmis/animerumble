@@ -32,10 +32,8 @@ let status = {
     val: 15,
     active: 1
   }),
-  boost1: {
-    name: "Front Lotus",
+  boost1: library.boost({
     val: 30,
-    type: "boost",
     harmful: false,
     active: 2,
     modify: function(payload) {
@@ -43,11 +41,9 @@ let status = {
         payload.val += this.val;
       }
     }
-  },
-  boost2: {
-    name: "Front Lotus",
+  }),
+  boost2: library.boost({
     val: 10,
-    type: "boost",
     harmful: false,
     active: 3,
     modify: function(payload) {
@@ -55,7 +51,7 @@ let status = {
         payload.val += this.val;
       }
     }
-  },
+  }),
   state: library.state({
     name: "Fifth Gate Opening",
     active: 2,
@@ -97,20 +93,44 @@ let skills = {
         x => x.name === "Fifth Gate Opening"
       );
       if (state) {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.bleed2, this, 1)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: status.bleed2,
+          inherit: this
+        });
+        // payload.target.status.onSelf.push(
+        //   new constructor.status(status.bleed2, this, 1)
+        // );
       } else {
-        payload.target.status.onSelf.push(
-          new constructor.status(status.bleed, this, 1)
-        );
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: status.bleed,
+          inherit: this
+        });
+        // payload.target.status.onSelf.push(
+        //   new constructor.status(status.bleed, this, 1)
+        // );
       }
-      payload.offense.status.onReceive.push(
-        new constructor.status(status.protect, this, 1)
-      );
-      payload.offense.status.onAttack.push(
-        new constructor.status(status.boost2, this, 1)
-      );
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onReceive",
+        status: status.protect,
+        inherit: this
+      });
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onAttack",
+        status: status.boost2,
+        inherit: this
+      });
+      // payload.offense.status.onReceive.push(
+      //   new constructor.status(status.protect, this, 1)
+      // );
+      // payload.offense.status.onAttack.push(
+      //   new constructor.status(status.boost2, this, 1)
+      // );
     }
   },
   skill2: {
@@ -188,7 +208,7 @@ let skills = {
         {
           subject: payload.target
         },
-        "all"
+        "harmful"
       );
 
       //Remove Harmful
