@@ -48,6 +48,11 @@ function skill(payload, nameId) {
   this.counter = payload.cooldown;
   this.classes = payload.classes;
   this.type = payload.type ? payload.type : "attack";
+  this.harmful = payload.harmful
+    ? payload.harmful
+    : payload.type === "invulnerable"
+      ? false
+      : true;
 
   //Modifier
   this.state = payload.state ? payload.state : "active";
@@ -99,6 +104,7 @@ function status(payload, inherit, skill) {
   this.usage = payload.usage ? payload.usage : 0;
   this.stack = payload.stack ? payload.stack : 1;
   this.nextTurn = payload.nextTurn ? payload.nextTurn : false;
+  this.harmfulOnly = payload.harmfulOnly ? payload.harmfulOnly : false;
 
   //Value Store
   this.defense = payload.defense ? payload.defense : 0;

@@ -22,9 +22,13 @@ let status = {
           x =>
             x.type !== "bleed" &&
             x.nameId !== self.nameId &&
-            x.name !== "Summon: Taurus"
+            x.name !== self.name
         );
       });
+
+      payload.target.status.onState = payload.target.status.onState.filter(
+        x => x.type !== "state" && x.name !== self.name
+      );
 
       payload.target.skill[0].target = "self";
     }
@@ -45,7 +49,7 @@ let status = {
     modify: function(payload, self) {
       if (payload.val > 0) {
         let index = payload.target.status.onReceive.findIndex(
-          x => x.type === "dd" && x.name === "Summon: Aquarius"
+          x => x.type === "dd" && x.name === self.name
         );
         if (index > -1) {
           payload.target.status.onReceive[index].active += 1;
@@ -63,7 +67,7 @@ let status = {
           x =>
             x.type !== "bleed" &&
             x.nameId !== self.nameId &&
-            x.name !== "Summon: Cancer"
+            x.name !== self.name
         );
       });
     }
@@ -84,7 +88,7 @@ let status = {
     active: 3,
     modify: function(payload, self) {
       let index = payload.offense.status.onReceive.findIndex(
-        x => x.type === "dd" && x.name === "Summon: Aquarius"
+        x => x.type === "dd" && x.name === self.name
       );
       if (index > -1) {
         payload.offense.status.onReceive[index].val += 5;
@@ -207,14 +211,17 @@ let skills = {
           "stack"
         );
 
-        skill.pushStatus({
-          subject: payload.offense,
-          onStatus: "onSelf",
-          status: status.track,
-          inherit: this
-        });
+        skill.pushStatus(
+          {
+            subject: payload.offense,
+            onStatus: "onSelf",
+            status: status.track,
+            inherit: this
+          },
+          "replace"
+        );
       }
-      
+
       skill.damage({
         subject: payload.target,
         val: payload.val

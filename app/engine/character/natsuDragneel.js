@@ -25,6 +25,7 @@ let status = {
     }
   }),
   counter: library.counter({
+    harmfulOnly: true,
     modify: function(payload, self) {
       payload.state.energy[payload.theirTurn].i += 1;
       console.log("NATSU INCREASE");

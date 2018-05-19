@@ -107,6 +107,7 @@ let skills = {
   skill2: {
     name: "Sand Clone",
     type: "attack",
+    harmful: false,
     val: 0,
     cooldown: 4,
     classes: ["instant", "energy"],
@@ -128,6 +129,7 @@ let skills = {
   },
   skill3: {
     name: "Armor of Sand",
+    harmful: false,
     cooldown: 4,
     description:
       "By covering himself with sand, Gaara permanently gains 40 points of destructible defense. This skill cannot stack and will re-apply itself.",

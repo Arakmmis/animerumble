@@ -119,6 +119,7 @@ let skills = {
     type: "attack",
     val: 5,
     cooldown: 1,
+    noCounter: true,
     classes: ["instant", "ranged", "physical"],
     description:
       "Tenten deals 5 damage to all enemies. For 1 turn, their physical and chakra damage will be lowered by 5. All stacks of 'Twin Rising Dragons' will be removed from all targets afterwards. This skill cannot be countered.",
@@ -186,6 +187,7 @@ let skills = {
   skill3: {
     name: "Twin Rising Dragons Full Release",
     cooldown: 1,
+    harmful: false,
     description:
       "Tenten becomes invulnerable to physical and chakra skills for 1 turn and improves her skills until the next time she uses one; this does not stack. 'Twin Rising Dragons' will apply its non-damage effect twice and the damage reduction effect of 'Twin Rising Dragons Trap' will last an additional turn.",
     target: "self",

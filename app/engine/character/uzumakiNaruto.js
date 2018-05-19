@@ -104,6 +104,7 @@ let skills = {
   skill3: {
     name: "Shadow Clones",
     type: "attack",
+    harmful: false,
     val: 0,
     cooldown: 3,
     description:

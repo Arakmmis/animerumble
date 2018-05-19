@@ -157,6 +157,7 @@ let skills = {
   skill3: {
     name: "Fifth Gate Opening",
     cooldown: 4,
+    harmful: false,
     description:
       "Lee removes all harmful effects on him, losing 50 health*, and then becoming invulnerable to all harmful skills for 2 turns. The following 2 turns, this skill will be replaced by 'Final Lotus'. The affliction damage this skill deals cannot be ignored and cannot kill Lee.",
     target: "self",

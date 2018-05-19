@@ -54,6 +54,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 0,
+    noCounter: true,
     marking: true,
     energy: {},
     classes: ["instant", "ranged", "mental"],

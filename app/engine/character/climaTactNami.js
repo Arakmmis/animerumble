@@ -236,6 +236,7 @@ let skills = {
     type: "self",
     val: 0,
     cooldown: 3,
+    harmful: false,
     description:
       "Nami uses a party trick installed by Usopp replacing Party Tricks with Tornado Tempest.",
     target: "self",

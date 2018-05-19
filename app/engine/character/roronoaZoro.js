@@ -145,6 +145,7 @@ let skills = {
     type: "invulnerable",
     val: 10,
     cooldown: 4,
+    harmful: true,
     description:
       "Zoro deals 10 damage to a random enemy, and goes invulnerable for one turn. After this skill is used it becomes Dragon Twister. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
     target: "self",

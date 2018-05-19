@@ -105,6 +105,7 @@ let skills = {
   skill3: {
     name: "Bug Wall",
     type: "attack",
+    harmful: false,
     cooldown: 3,
     description:
       "Shino sends millions of bugs to create a wall around his team, making them gain 20 points of destructible defense.",

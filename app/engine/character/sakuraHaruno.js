@@ -75,6 +75,7 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 0,
+    harmful: false,
     classes: ["instant", "energy"],
     description:
       "Using basic healing techniques Sakura heals herself or one ally for 25 health.",

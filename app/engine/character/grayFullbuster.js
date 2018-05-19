@@ -204,6 +204,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 3,
+    harmful: false,
     classes: ["instant", "strategic"],
     energy: {
       s: 1
@@ -232,6 +233,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 3,
+    harmful: false,
     classes: ["instant", "strategic"],
     energy: {
       r: 1
@@ -260,6 +262,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 2,
+    harmful: false,
     classes: ["instant", "strategic"],
     energy: {},
     description:
@@ -284,6 +287,7 @@ let skills = {
   skill4: {
     name: "Ice Make: Clone",
     type: "invulnerable",
+    harmful: false,
     val: 0,
     cooldown: 4,
     description:

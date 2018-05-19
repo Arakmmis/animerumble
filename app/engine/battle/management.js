@@ -93,6 +93,14 @@ function counterManagement(onStatus, onState, package) {
       let ignore = ignoreManagement(onState, x);
       let intersect = _.intersection(x.classes, skill.classes);
 
+      //Only Counter Harmful Skills
+      let harmful = x.harmfulOnly;
+      if (harmful) {
+        if (skill.harmful === false) {
+          return false;
+        }
+      }
+
       let evaluate;
 
       if (x.info === "inclusive") {

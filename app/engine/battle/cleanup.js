@@ -1,5 +1,5 @@
 function cleanup(x) {
-    if (x.hp < 0) {
+    if (x.hp <= 0) {
       x.hp = 0;
       x.status = {
         onReceive: [],
