@@ -29,7 +29,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -45,7 +45,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onReceive.push(
         new constructor.status(status.boost, this.name, 2)
       );
@@ -63,7 +63,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.stun, this.name, 3)
       );
@@ -81,7 +81,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.invulnerable, this.name, 4)
       );

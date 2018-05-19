@@ -147,7 +147,7 @@ let status = {
     name: "Transform",
     active: 1,
     harmful: false,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let swap = payload.offense.skill[0];
       payload.offense.skill[0] = payload.offense.skill[4];
       payload.offense.skill[4] = swap;
@@ -168,7 +168,7 @@ let skills = {
     description:
       "Naruto summons 3 Shadow Clones, gaining 15 damage reduction. Every time he uses a skill, he loses 1 Shadow Clone. As long as this skill has at least 1 Shadow Clone active, it will become Sexy Technique",
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -214,7 +214,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       let getCharge = payload.offense.status.onState.findIndex(
         x => x.type === "charge"
       );
@@ -270,7 +270,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       //Reduce Charge
       let getCharge = payload.offense.status.onState.findIndex(
         x => x.type === "charge"
@@ -324,7 +324,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       //Reduce Charge
       let getCharge = payload.offense.status.onState.findIndex(
         x => x.type === "charge"
@@ -354,7 +354,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       //Reduce Charge
       let getCharge = payload.offense.status.onState.findIndex(
         x => x.type === "charge"

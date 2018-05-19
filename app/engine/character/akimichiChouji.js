@@ -62,7 +62,7 @@ let skills = {
     },
     description:
       "Chouji doubles the size of his arms and attacks one enemy dealing 20 damage.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -82,7 +82,7 @@ let skills = {
       i: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -178,7 +178,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",

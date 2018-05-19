@@ -33,14 +33,14 @@ let status = {
     val: 30,
     type: "skill",
     active: 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       payload.skill.counter += 1;
     }
   },
   transform: {
     name: "Transform",
     active: 3,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.active === 3) {
         let swap = payload.offense.skill[1];
         payload.offense.skill[1] = payload.offense.skill[4];
@@ -72,7 +72,7 @@ let skills = {
     classes: ["instant", "ranged", "mental"],
     description:
       "Using this skill Ino stuns the non-mental skills of one enemy for 1 turn and does 30 piercing damage that ignores invulnerability to one random enemy. During this time the target is unable to reduce damage or become invulnerable.",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus({
           subject: payload.target,
@@ -113,7 +113,7 @@ let skills = {
       w: 2
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onSelf",
@@ -144,7 +144,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onReceive",
@@ -166,7 +166,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -189,7 +189,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val

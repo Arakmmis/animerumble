@@ -59,7 +59,7 @@ let skills = {
     classes: ["instant", "ranged", "mental"],
     description:
       "Shikamaru sits down and begins thinking up a strategy against one enemy for 5 turns. This skill cannot be countered or reflected and cannot used on an enemy already affected by it.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -83,7 +83,7 @@ let skills = {
       w: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       // console.log("KIBA", payload);
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
         skill.pushStatus({
@@ -140,7 +140,7 @@ let skills = {
       w: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.target.status.onState.some(x => x.name === "Meditate")) {
         skill.pushStatus({
           subject: payload.target,
@@ -175,7 +175,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

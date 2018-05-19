@@ -35,7 +35,7 @@ let status = {
     name: "Transform",
     active: 1,
     harmful: false,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let swap = payload.offense.skill[3];
       payload.offense.skill[3] = payload.offense.skill[4];
       payload.offense.skill[4] = swap;
@@ -58,7 +58,7 @@ let skills = {
     description:
       "Zoro strikes from three different directions, dealing 0 damage three times. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus(
         {
           subject: payload.offense,
@@ -88,7 +88,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus(
         {
           subject: payload.offense,
@@ -126,7 +126,7 @@ let skills = {
       i: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.removeStatus(
         {
           subject: payload.offense
@@ -152,7 +152,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -190,7 +190,7 @@ let skills = {
       i: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus(
         {
           subject: payload.offense,

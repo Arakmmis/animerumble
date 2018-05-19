@@ -58,7 +58,7 @@ let skills = {
     target: "allenemy",
     description:
       "Tenten deals 20 damage to one enemy, and 10 to all other enemies. All enemies will receive 10 additional damage from 'Twin Rising Dragons Trap' and will have their physical and chakra damage lowered by an additional 10 from it. This skill cannot be countered.",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         let check = skill.checkStatus({
           subject: payload.offense,
@@ -126,7 +126,7 @@ let skills = {
       r: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       let checkState = skill.checkStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -193,7 +193,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -218,7 +218,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

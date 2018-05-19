@@ -20,7 +20,7 @@ let status = {
     type: "allow",
     active: 4,
     allow: "Flash Rasengan",
-    modify: function(payload) {
+    modify: function(payload, self) {
       payload.val -= this.val;
     },
     
@@ -40,7 +40,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
       payload.offense.status.onState.push(
         new constructor.status(status.allowRasengan, this.name, 1)
@@ -60,7 +60,7 @@ let skills = {
       s: 1,
       r: 2
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -76,7 +76,7 @@ let skills = {
       s: 1,
       w: 3
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onReceive.push(
         new constructor.status(status.kunaiStab, this.name, 3)
       );
@@ -94,7 +94,7 @@ let skills = {
       a: 2,
       i: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.invulnerable, this.name, 4)
       );

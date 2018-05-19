@@ -30,7 +30,7 @@ let status = {
     val: 5,
     type: "skill",
     active: 3,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (
         payload.skill.name === "Double-Headed Wolf" ||
         payload.skill.name === "Garouga"
@@ -41,7 +41,7 @@ let status = {
   },
   energy: {
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
       if (index !== -1) {
         if (payload.active > 1) {
@@ -69,7 +69,7 @@ let skills = {
     },
     description:
       "Using the Hyuuga clan's special form of taijutsu, Neji deals 25 damage to one enemy for 2 turns. During this time, that enemy will deal 5 less damage with any non-affliction skill.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onSelf",
@@ -102,7 +102,7 @@ let skills = {
       i: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus({
           subject: payload.offense,
@@ -135,7 +135,7 @@ let skills = {
       a: 1,
       i: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       let energy = helper.stealEnergy(payload.theirEnergy);
       if (energy !== false) {
         payload.theirEnergy[energy] -= 1;
@@ -158,7 +158,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

@@ -211,7 +211,7 @@ let skills = {
     description:
       "Replace all of your skills with the alternative skills. They target all allies or all enemies.",
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -239,7 +239,7 @@ let skills = {
     description:
       "Replace all of your skills with the alternative skills. Cast that skill twice.",
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -265,7 +265,7 @@ let skills = {
     description:
       "Replace all of your skills with the alternative skills.They cost one less random",
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -293,7 +293,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.offense.skill[3].usage += 1;
       let usage = payload.offense.skill[3].usage;
       let invulnerable = status.invulnerable;
@@ -319,7 +319,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -345,7 +345,7 @@ let skills = {
       r: 2
     },
     target: "ally",
-    move: function(payload) {
+    move: function(payload, self) {
       let check = skill.checkStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -397,7 +397,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val

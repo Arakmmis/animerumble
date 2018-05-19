@@ -29,7 +29,7 @@ let status = {
   boost: library.boost({
     val: 5,
     active: 3,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (
         payload.skill.name === "Double-Headed Wolf" ||
         payload.skill.name === "Garouga"
@@ -40,7 +40,7 @@ let status = {
   }),
   energy: {
     active: 3,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
       if (index !== -1) {
         if (payload.active > 1) {
@@ -68,7 +68,7 @@ let skills = {
     },
     description:
       "This skill does 30 damage to one enemy. During 'Double-Headed Wolf' this skill is improved and costs 1 less random chakra.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -89,7 +89,7 @@ let skills = {
       i: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus({
           subject: payload.offense,
@@ -132,7 +132,7 @@ let skills = {
     target: "enemy",
     marking: true,
     energy: {},
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onReceive",
@@ -164,7 +164,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

@@ -36,7 +36,7 @@ let status = {
     val: 30,
     harmful: false,
     active: 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Front Lotus") {
         payload.val += this.val;
       }
@@ -46,7 +46,7 @@ let status = {
     val: 10,
     harmful: false,
     active: 3,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Front Lotus") {
         payload.val += this.val;
       }
@@ -61,7 +61,7 @@ let status = {
     name: "Transform",
     active: 3,
     harmful: false,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.active === 3) {
         let swap = payload.offense.skill[2];
         payload.offense.skill[2] = payload.offense.skill[4];
@@ -88,7 +88,7 @@ let skills = {
     target: "enemy",
     description:
       "Lee deals 10 damage to one enemy for 3 turns. The following 3 turns, Lee will gain 10 points of damage reduction and that enemy will receive an additional 10 damage from 'Front Lotus'.* This skill stacks and will deal 15 additional damage during 'Fifth Gate Opening'",
-    move: function(payload) {
+    move: function(payload, self) {
       let state = payload.offense.status.onState.some(
         x => x.name === "Fifth Gate Opening"
       );
@@ -146,7 +146,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -164,7 +164,7 @@ let skills = {
     energy: {
       a: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onAttack",
@@ -236,7 +236,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -260,7 +260,7 @@ let skills = {
     energy: {
       a: 2
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val

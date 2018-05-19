@@ -49,7 +49,7 @@ let skills = {
     classes: ["action", "ranged", "physical"],
     description:
       "Using the Hyuuga clan's style of taijutsu Hinata does 20 damage for 2 turns to one enemy. If used during 'Byakugan' this skill will also remove 1 random chakra each turn.",
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.target.status.onSelf.push(
       //   new constructor.status(status.bleed, this, 1)
       // );
@@ -85,7 +85,7 @@ let skills = {
       r: 1
     },
     target: "allenemyallally",
-    move: function(payload) {
+    move: function(payload, self) {
       console.log(payload.target);
       if (
         payload.state[payload.myTurn].some(x => x.name === payload.target.name)
@@ -124,7 +124,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onReceive",
@@ -157,7 +157,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.target.status.onState.push(
       //   new constructor.status(status.invulnerable, this, 4)
       // );

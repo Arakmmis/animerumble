@@ -33,7 +33,7 @@ let status = {
   boost: library.boost({
     val: 10,
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "KO Punch") {
         payload.val += this.val;
       }
@@ -53,7 +53,7 @@ let skills = {
       a: 1
     },
     classes: ["instant", "melee", "physical"],
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -82,7 +82,7 @@ let skills = {
     energy: {
       s: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.heal({
         subject: payload.target,
         val: payload.val
@@ -102,7 +102,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -143,7 +143,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

@@ -41,7 +41,7 @@ let status = {
     name: "Transform",
     active: 3,
     harmful: false,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.active === 3) {
         let swap = payload.offense.skill[0];
         payload.offense.skill[0] = payload.offense.skill[4];
@@ -69,7 +69,7 @@ let skills = {
     target: "enemy",
     description:
       "Gaara surrounds one enemy with a pile of sand stunning their non-mental skills for 2 turns. For 2 turns, that enemy cannot reduce damage or become invulnerable. During this time, this skill will be replaced by 'Sand Burial'.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onSelf",
@@ -114,7 +114,7 @@ let skills = {
       "Gaara creates a clone of sand that mimics him and provides defense. Until Gaara receives new harmful non-affliction damage, he will ignore all harmful effects except damage and chakra cost changes. This skill cannot be used while active.",
     energy: {},
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -136,7 +136,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       // let dd = payload.target.status.onReceive.some(
       //   x => x.type === "dd" && x.name === this.name
       // );
@@ -171,7 +171,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -196,7 +196,7 @@ let skills = {
     energy: {
       s: 2
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= 100;
     }
   }

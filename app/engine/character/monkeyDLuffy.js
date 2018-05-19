@@ -101,7 +101,7 @@ let status = {
     active: 2,
     harmful: false,
     isInvisible: true,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.active === 2) {
         let swap = payload.offense.skill[0];
         payload.offense.skill[0] = payload.offense.skill[4];
@@ -129,7 +129,7 @@ let skills = {
     description:
       "Luffy winds up a powerful single target punch. Next turn, Luffy will deal 25 damage that ignores invulnerability, and stuns the target for one turn. This skill becomes Gomu Gomu no Bazooka for one turn. This skill is invisible.",
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onSelf",
@@ -157,7 +157,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onSelf",
@@ -184,7 +184,7 @@ let skills = {
     energy: {
       r: 2
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onReceive",
@@ -205,7 +205,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.offense.skill[3].usage += 1;
       let usage = payload.offense.skill[3].usage;
       let ignore = status.ignore;
@@ -232,7 +232,7 @@ let skills = {
       a: 1,
       i: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       let check = payload.target.status.onState.some(x => x.type === "stun");
       let pistol = payload.target.status.onSelf.some(
         x => x.name === "Gomu Gomu no Pistol"

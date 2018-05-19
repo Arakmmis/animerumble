@@ -45,7 +45,7 @@ let skills = {
     description:
       "Deal 20 damage to an enemy, and 10 affliction damage to all other enemies the turn after.",
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.damage({
           subject: payload.target,
@@ -79,7 +79,7 @@ let skills = {
       r: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         //Attack random
         let random = payload.state[payload.theirTurn].filter(x => x.hp > 0);
@@ -112,7 +112,7 @@ let skills = {
     energy: {
       i: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onAttack",
@@ -132,7 +132,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

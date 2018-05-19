@@ -33,7 +33,7 @@ let skills = {
       r: 1
     },
     mana: 1,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
       payload.offense.status.onAttack.push(
         new constructor.status(status.boost, this.name, 1)
@@ -52,7 +52,7 @@ let skills = {
       r: 1
     },
     mana: 3,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -68,7 +68,7 @@ let skills = {
       r: 1
     },
     mana: 3,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onReceive.push(
         new constructor.status(status.protect, this.name, 3)
       );      
@@ -86,7 +86,7 @@ let skills = {
       r: 1
     },
     mana: 2,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.invulnerable, this.name, 4)
       );      

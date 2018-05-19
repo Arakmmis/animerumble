@@ -14,7 +14,7 @@ let status = {
     val: 10,
     type: "skill",
     active: 2,
-    modify: function(payload) {      
+    modify: function(payload, self) {      
       if (payload.offense.skill[payload.skill].name === "Water Nebula") {        
         payload.val += this.val;
       }
@@ -34,7 +34,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onAttack.push(
         new constructor.status(status.waterLock, this.name, 1)
       );
@@ -52,7 +52,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -68,7 +68,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -84,7 +84,7 @@ let skills = {
       s: 1,
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.invulnerable, this.name, 4)
       );

@@ -29,7 +29,7 @@ let status = {
     val: 25,
     type: "skill",
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Chidori") {
         payload.val += this.val;
       }
@@ -40,7 +40,7 @@ let status = {
     val: 15,
     type: "skill",
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Lion Combo") {
         payload.val += this.val;
       }
@@ -48,7 +48,7 @@ let status = {
   },
   required: {
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === "Chidori");
       if (index !== -1) {
         if (payload.active > 1) {
@@ -76,7 +76,7 @@ let skills = {
     },
     description:
       "Copying a taijutsu combo that Lee used on him, Sasuke deals 30 damage to one enemy. This skill will deal an additional 15 damage to an enemy affected by 'Sharingan'.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -97,7 +97,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -117,7 +117,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onReceive",
@@ -165,7 +165,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.target.status.onState.push(
       //   new constructor.status(status.invulnerable, this, 4)
       // );

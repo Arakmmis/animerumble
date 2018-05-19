@@ -24,7 +24,7 @@ let status = {
   boost: library.boost({
     val: 10,
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       if (payload.skill.name === "Uzumaki Naruto Combo") {
         payload.val += this.val;
       }
@@ -35,7 +35,7 @@ let status = {
     type: "allow",
     effect: "allow",
     description: "Rasengan",
-    modify: function(payload) {
+    modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === "Rasengan");
       if (index !== -1) {
         if (payload.active > 1) {
@@ -62,7 +62,7 @@ let skills = {
     },
     description:
       "Naruto's version of the Lion Combo. This skill deals 20 damage to one enemy. During 'Shadow Clones' this skill will deal 10 additional damage.",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -84,7 +84,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -113,7 +113,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onSelf",
@@ -154,7 +154,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

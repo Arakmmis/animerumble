@@ -144,7 +144,7 @@ function stun(x) {
           "melee"
         ],
     active: x.active ? x.active : 1,
-    modify: function(payload) {}
+    modify: function(payload, self) {}
   };
 }
 
@@ -186,7 +186,7 @@ function disableDrIv(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 1,
-    modify: function(payload) {}
+    modify: function(payload, self) {}
   };
 }
 
@@ -201,7 +201,7 @@ function state(x) {
     info: x.info ? x.info : "",
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {},
+    modify: function(payload, self) {},
     persistence: x.persistence ? x.persistence : "instant"
   };
 }
@@ -216,7 +216,7 @@ function charge(x) {
     info: x.info ? x.info : "descending",
     description: x.description ? x.description : "",
     active: x.active ? x.active : -1,
-    modify: function(payload) {}
+    modify: function(payload, self) {}
   };
 }
 
@@ -258,7 +258,7 @@ function ignore(x) {
     effect: x.effect ? x.effect : x.type,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {},
+    modify: function(payload, self) {},
     persistence: x.persistence ? x.persistence : "instant"
   };
 }
@@ -272,7 +272,7 @@ function heal(x) {
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       payload.offense.hp += this.val;
     }
   };
@@ -329,7 +329,7 @@ function cooldownIncrease(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
-    modify: function(payload) {
+    modify: function(payload, self) {
       payload.skill.counter += 1;
     }
   };
@@ -345,7 +345,7 @@ function decreaseEnergy(x) {
     harmful: x.harmful ? x.harmful : true,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(s => s.name === x.name);
       if (index !== -1) {
         if (payload.active > 1) {

@@ -12,7 +12,7 @@ let status = {
     val: 10,
     type: "skill",
     active: 4,
-    modify: function(payload) {
+    modify: function(payload, self) {
       console.log(payload.offense.skill[payload.skill].name);
       if (
         payload.offense.skill[payload.skill].name === "Uzumaki Naruto Combo"
@@ -27,7 +27,7 @@ let status = {
     val: 0,
     type: "stun",
     active: 2,
-    modify: function(payload) {}
+    modify: function(payload, self) {}
   },
   allowRasengan: {
     name: "allowRasengan",
@@ -43,7 +43,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 2,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -53,7 +53,7 @@ let skills = {
     val: 45,
     cooldown: 2,
     required: true,
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.hp -= payload.val;
     }
   },
@@ -63,7 +63,7 @@ let skills = {
     val: 10,
     cooldown: 2,
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.allowRasengan)
       );
@@ -78,7 +78,7 @@ let skills = {
     val: 10,
     cooldown: 2,
     target: "self",
-    move: function(payload) {
+    move: function(payload, self) {
       payload.target.status.onState.push(
         new constructor.status(status.invulnerable)
       );

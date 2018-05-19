@@ -185,7 +185,7 @@ let skills = {
       r: 1
     },
     target: "allenemy",
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus(
           {
@@ -234,7 +234,7 @@ let skills = {
       i: 1,
       w: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus({
           subject: payload.offense,
@@ -263,7 +263,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

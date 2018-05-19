@@ -54,7 +54,7 @@ let skills = {
     description:
       "Usopp deals 20 damage to an enemy, that ignores invulnerability. If the enemy had bottle throw used on them last turn, they are stunned for one turn.",
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       let check = payload.target.status.onState.some(
         x => x.type === "state" && x.name === "Bottle Throw"
       );
@@ -91,7 +91,7 @@ let skills = {
       r: 1
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -118,7 +118,7 @@ let skills = {
     energy: {
       r: 2
     },
-    move: function(payload) {
+    move: function(payload, self) {
       let check = payload.target.status.onState.some(
         x => x.type === "state" && x.name === "Super Kill Lead Star"
       );
@@ -150,7 +150,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",

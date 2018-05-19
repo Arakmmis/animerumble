@@ -54,7 +54,7 @@ let status = {
     name: "Transform",
     active: 1,
     harmful: false,
-    modify: function(payload) {
+    modify: function(payload, self) {
       let swap = payload.offense.skill[1];
       payload.offense.skill[1] = payload.offense.skill[4];
       payload.offense.skill[4] = swap;
@@ -75,7 +75,7 @@ let skills = {
     target: "allenemy",
     description:
       "Nami deals 5 affliction damage to all enemies for 5 turns. Nami's other skills deal 10 extra damage.",
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.offense.status.onState.push(
       //   new constructor.status(status.state, this, 1)
       // );
@@ -110,7 +110,7 @@ let skills = {
       r: 2
     },
     target: "enemy",
-    move: function(payload) {
+    move: function(payload, self) {
       let state = payload.offense.status.onState.some(
         x => x.name === "Heat Ball - Cool Ball"
       );
@@ -166,7 +166,7 @@ let skills = {
     target: "enemy",
     marking: true,
     energy: { w: 1 },
-    move: function(payload) {
+    move: function(payload, self) {
       let state = payload.offense.status.onState.some(
         x => x.name === "Heat Ball - Cool Ball"
       );
@@ -205,7 +205,7 @@ let skills = {
     energy: {
       r: 1
     },
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.target.status.onState.push(
       //   new constructor.status(status.invulnerable, this, 4)
       // );
@@ -241,7 +241,7 @@ let skills = {
     target: "self",
     classes: ["instant", "physical"],
     energy: {},
-    move: function(payload) {
+    move: function(payload, self) {
       // payload.offense.status.onSelf.push(
       //   new constructor.status(status.transform, this, 5)
       // );
