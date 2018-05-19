@@ -217,8 +217,8 @@
                     onLoadFile(event) {
                         //Load                        
                         let file = event.target.files[0]
-                        console.log(file)
-                        let extenstion = file.name.split('.')[1]
+                        let extenstion = file.name.split('.')
+                        extension = extenstion[extenstion.length - 1]
                         let self = this
                         if (extenstion === 'ar' && (file.size / 1000 / 1000 <= 10)) {
                             var reader = new FileReader();
