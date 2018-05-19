@@ -84,7 +84,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 4,
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     description:
       "Gaara creates a clone of sand that mimics him and provides defense. Until Gaara receives new harmful non-affliction damage, he will ignore all harmful effects except damage and chakra cost changes. This skill cannot be used while active.",
     energy: {},
@@ -101,7 +101,7 @@ let skills = {
     description:
       "By covering himself with sand, Gaara permanently gains 40 points of destructible defense. This skill cannot stack and will re-apply itself.",
     target: "self",
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     energy: {
       r: 1
     },

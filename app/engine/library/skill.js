@@ -27,7 +27,7 @@ function pushStatus(package, type = "normal") {
     if (exist > -1) {
       store[exist].val += status.val;
     } else {
-      store.push(new constructor.status(status, inherit, skillIndex));
+      store.unshift(new constructor.status(status, inherit, skillIndex));
     }
   } else if (type === "replace") {
     let exist = store.some(
@@ -40,7 +40,11 @@ function pushStatus(package, type = "normal") {
     }
     store.push(new constructor.status(status, inherit, skillIndex));
   } else if (type === "normal" || type === undefined) {
-    store.push(new constructor.status(status, inherit, skillIndex));
+    if (status.type === "dd") {
+      store.unshift(new constructor.status(status, inherit, skillIndex));
+    } else {
+      store.push(new constructor.status(status, inherit, skillIndex));
+    }
   }
   console.log("statuspush", type);
 }

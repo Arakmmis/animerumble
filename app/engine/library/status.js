@@ -42,18 +42,13 @@ function protect(x) {
   return {
     name: x.name ? x.name : "Protect",
     val: x.val ? x.val : 15,
-    info: x.val,
+    defense: x.val,
     type: "protect",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload, self) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(
-        s => s.type === this.type && s.name === this.name && s.usage === 0
-      );
-
       let disableDrIv = payload.target.status.onState.findIndex(
         x => x.type === "disableDrIv"
       );
@@ -72,20 +67,20 @@ function protect(x) {
         disableDrIv = false;
       }
 
-      let tempVal = onReceive[index].info;
+      let tempVal = self.defense;
 
       let affliction = payload.skill.classes.some(x => x === "affliction");
       console.log("REDUCE VAL", payload.val, tempVal, affliction, disableDrIv);
-      if (index > -1 && payload.val !== 0 && payload.val > 0 && tempVal > 0) {
+      if (payload.val > 0 && tempVal > 0) {
         if (
           payload.skill.type !== "piercing" &&
           disableDrIv === false &&
           affliction === false
         ) {
-          let tempVal = self.info;
+          let tempVal = self.defense;
           let val = payload.val;
           let diff = tempVal - val;
-          self.info = diff;
+          self.defense = diff;
           console.log(diff, self);
 
           if (diff >= 0) {
@@ -94,8 +89,6 @@ function protect(x) {
             payload.val = Math.abs(diff);
           }
 
-          // payload.val -= this.val;
-          // onReceive[index].usage += 1;
           console.log("REDUCE!!", self, payload);
         }
       }
@@ -116,9 +109,9 @@ function invulnerable(x) {
       : [
           "instant",
           "mental",
-          "chakra",
+          "energy",
           "affliction",
-          "strategy",
+          "strategic",
           "physical",
           "ranged",
           "melee"
@@ -143,9 +136,9 @@ function stun(x) {
       : [
           "instant",
           "mental",
-          "chakra",
+          "energy",
           "affliction",
-          "strategy",
+          "strategic",
           "physical",
           "ranged",
           "melee"
@@ -162,6 +155,7 @@ function counter(x) {
     type: "counter",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : true,
+    period: "instant",
     isInvisible: true,
     description: x.description ? x.description : "",
     info: x.info ? x.info : "inclusive",
@@ -171,14 +165,14 @@ function counter(x) {
       : [
           "instant",
           "mental",
-          "chakra",
+          "energy",
           "affliction",
-          "strategy",
+          "strategic",
           "physical",
           "ranged",
           "melee"
         ],
-    active: x.active ? x.active : 2,
+    active: x.active ? x.active : 3,
     modify: x.modify ? x.modify : function(payload) {}
   };
 }
@@ -253,9 +247,9 @@ function ignore(x) {
       : [
           "instant",
           "mental",
-          "chakra",
+          "energy",
           "affliction",
-          "strategy",
+          "strategic",
           "physical",
           "ranged",
           "melee"
@@ -293,6 +287,7 @@ function bleed(x) {
     description: x.description ? x.description : "",
     period: "instant",
     isInvisible: x.isInvisible ? x.isInvisible : false,
+    nextTurn: x.nextTurn ? x.nextTurn : false,
     persistence: x.persistence ? x.persistence : "action",
     active: x.active ? x.active : 3,
     modify: x.modify
@@ -374,25 +369,19 @@ function dd(x) {
     active: x.active ? x.active : -1,
     callback: x.callback ? x.callback : function() {},
     modify: function(payload, self) {
-      let onReceive = payload.target.status.onReceive;
-      let index = onReceive.findIndex(
-        s => s.type === this.type && s.name === this.name && s.usage === 0
-      );
+      // let onReceive = payload.target.status.onReceive;
+      // let index = onReceive.findIndex(
+      //   s => s.type === this.type && s.name === this.name && s.usage === 0
+      // );
 
       // let disableDrIv = payload.target.status.onState.findIndex(
       //   x => x.type === "disableDrIv"
       // );
       let affliction = payload.skill.classes.some(x => x === "affliction");
-      console.log(
-        "before dd",
-        index,
-        self.usage,
-        payload.skill.type,
-        disableDrIv
-      );
-      if (index > -1) {
+      console.log("before dd", self.usage, payload.skill.type, disableDrIv);
+      if (payload.val > 0) {
         if (
-          onReceive[index].usage === 0 &&
+          // onReceive[index].usage === 0 &&
           payload.skill.type !== "piercing" &&
           affliction === false
         ) {
@@ -410,8 +399,9 @@ function dd(x) {
           }
 
           if (diff <= 0) {
+            console.log("diff destroyed", diff);
             payload.target.status.onReceive = payload.target.status.onReceive.filter(
-              s => s.name !== self.name
+              s => s.type !== self.type && s.name !== self.name
             );
             self.callback(payload, self);
           }

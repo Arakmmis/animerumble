@@ -76,7 +76,7 @@ let skills = {
     description:
       "Naruto hits one enemy with a ball of chakra dealing 45 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
     required: true,
-    classes: ["instant", "melee", "chakra"],
+    classes: ["instant", "melee", "energy"],
     energy: {
       s: 1,
       r: 1
@@ -97,7 +97,7 @@ let skills = {
     description:
       "Naruto creates multiple shadow clones hiding his true self. Naruto gains 15 points of damage reduction for 4 turns. During this time 'Uzumaki Naruto Combo' will deal 10 additional damage and 'Rasengan' can be used.",
     target: "self",
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     energy: {
       r: 1
     },
@@ -120,7 +120,7 @@ let skills = {
     cooldown: 4,
     description: "This skill makes Uzumaki Naruto invulnerable for 1 turn.",
     target: "self",
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     energy: {
       r: 1
     },

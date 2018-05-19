@@ -24,6 +24,7 @@ let status = {
     val: 25,
     active: 2,
     isInvisible: true,
+    nextTurn: true,
     modify: function(payload, self) {
       if (payload.active === 1) {
         payload.offense.hp -= payload.val;

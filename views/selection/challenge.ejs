@@ -68,7 +68,7 @@
     <div class="challenge--chatbox d-flex flex-column justify-content-between">
         <div class="l--chat d-flex flex-column" id="chat">
             <p>Welcome to Anime Rumble!</p>
-            <p v-for="msg in chat">{{msg}}</p>
+            <p v-for="msg in chat">{{msg.name+': '+msg.message+' '+timeAgo(msg.timestamp)}}</p>
         </div>
         <div class="l--input">
             <input v-model="chatSend" placeholder="Your message here..." @keyup.enter="onChat(), $refs.soundClick.play()"></input>

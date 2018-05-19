@@ -38,7 +38,7 @@ let status = {
     persistence: "action"
   }),
   stun: library.stun({
-    classes: ["physical", "chakra"],
+    classes: ["physical", "energy"],
     active: 2
   }),
   dd: library.dd({
@@ -89,7 +89,7 @@ let skills = {
     cooldown: 0,
     classes: ["action", "melee", "physical"],
     description:
-      "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and chakra skills, and dealing 15 for 2 turns. This skill will become Party Trick.",
+      "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and energy skills, and dealing 15 for 2 turns. This skill will become Party Trick.",
     energy: {
       r: 2
     },
@@ -120,7 +120,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 0,
-    classes: ["instant", "ranged", "chakra"],
+    classes: ["instant", "ranged", "energy"],
     description:
       "Nami launches a thunder ball at an enemy dealing 10 piercing damage over 2 turns.",
     target: "enemy",

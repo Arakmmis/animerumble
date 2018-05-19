@@ -9,6 +9,7 @@
     <script src="/js/vue-resource@1.5.0.js"></script>
     <script src="/js/polyfill.min.js"></script>
     <script src="/js/bootstrap-vue.js"></script>
+    <script src="/js/moment.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-61938466-9"></script>
@@ -190,6 +191,9 @@
                         this.buttonlock = false
                         socket.emit('cancelMatch', {})
                         this.$refs.soundClick.play()
+                    },
+                    timeAgo: function (timestamp) {
+                        return moment(timestamp).fromNow()
                     }
                 }
             })

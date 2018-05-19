@@ -3,23 +3,26 @@ const indicateTurn = require("./indicateTurn.js");
 const onSelfApply = require("./onSelfApply.js");
 const _ = require("lodash");
 
-function pattern(source) {
+function pattern(source, instant) {
   if (source.length > 0) {
     source.forEach((s, t) => {
-      s.name;
-      s.active -= 1;
-      if (s.type === "dd" && s.val <= 0) {
-        s.active = 0;
-      }
-      if (s.type === "protect") {
-        s.usage = 0;
-        s.info = s.val;
-      }
-      if (s.type === "unique") {
-        s.usage = 0;
-      }
-      if (s.type === "charge" && s.val <= 0) {
-        s.active = 0;
+      let instantEval = s.period === "instant" ? true : false;
+      if (instantEval === instant) {
+        s.name;
+        s.active -= 1;
+        if (s.type === "dd" && s.val <= 0) {
+          s.active = 0;
+        }
+        if (s.type === "protect") {
+          s.usage = 0;
+          s.defense = s.val;
+        }
+        if (s.type === "unique") {
+          s.usage = 0;
+        }
+        if (s.type === "charge" && s.val <= 0) {
+          s.active = 0;
+        }
       }
     });
     return source.filter(x => x.active !== 0);
@@ -70,6 +73,12 @@ function postSequence(x, turn, state) {
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
         if (s.period === "instant") {
+          //Next Turn Prevent
+          if (s.nextTurn === true && s.active > 1) {
+            s.active -= 1;
+            return;
+          }
+
           onSelfApply({
             offense: s.owner,
             target: x.nameId,
@@ -83,7 +92,11 @@ function postSequence(x, turn, state) {
           });
         }
       });
+      x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);
     }
+    x.status.onAttack = pattern(x.status.onAttack, true);
+    x.status.onReceive = pattern(x.status.onReceive, true);
+    x.status.onState = pattern(x.status.onState, true);
   }
 
   if (state.turn % 2 === turn) {
@@ -109,9 +122,11 @@ function postSequence(x, turn, state) {
       });
       x.status.onSelf = x.status.onSelf.filter(x => x.active !== 0);
     }
-    x.status.onAttack = pattern(x.status.onAttack);
-    x.status.onReceive = pattern(x.status.onReceive);
-    x.status.onState = pattern(x.status.onState);
+    x.status.onAttack = pattern(x.status.onAttack, false);
+    x.status.onReceive = pattern(x.status.onReceive, false);
+    x.status.onState = pattern(x.status.onState, false);
+
+    //Skill
     x.skill.forEach(s => {
       if (s.state === "cooldown") {
         if (s.counter > 0) {

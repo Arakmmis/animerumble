@@ -68,7 +68,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
-    classes: ["action", "ranged", "chakra"],
+    classes: ["action", "ranged", "energy"],
     description:
       "Shikamaru chokes all enemies, dealing 15 damage to them and making them unable to reduce damage or become invulnerable for 1 turn. If an enemy is affected by 'Meditate', this skill will last 2 turns instead.",
     energy: {
@@ -100,7 +100,7 @@ let skills = {
     type: "attack",
     val: 10,
     cooldown: 3,
-    classes: ["control", "ranged", "chakra"],
+    classes: ["control", "ranged", "energy"],
     description:
       "Shikamaru captures all enemy in shadows, stunning their non-mental skills for 1 turn. Enemies affected by 'Meditate' will instead have their non-mental skills stunned for 2 turns.",
     target: "allenemy",

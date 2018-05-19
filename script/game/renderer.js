@@ -3,8 +3,8 @@ function vueBind(payload) {
   console.log(payload);
   let ally = payload.team.teamEven === username ? "teamEven" : "teamOdd";
   let enemy = payload.team.teamEven === username ? "teamOdd" : "teamEven";
-  let turn = ally === "teamEven" ? 0 : 1;
-  let myTurn = payload.turn % 2 === turn ? true : false;
+  let turnVal = ally === "teamEven" ? 0 : 1;
+  let myTurn = payload.turn % 2 === turnVal ? true : false;
 
   if (payload.team.teamEven !== username && payload.team.teamOdd !== username) {
     console.log("spectate");
@@ -16,6 +16,17 @@ function vueBind(payload) {
   if (myTurn === true) {
     app.$refs.soundStartTurn.play();
   }
+
+  //Time
+  let timeDiff = (Date.now() - payload.timestamp) / 1000;
+  let timeCalc = Math.floor(45 - timeDiff);
+  let remaining = 100 * (timeCalc / 45);
+  console.log(payload.timestamp, timeDiff, timeCalc, remaining);
+
+  if (remaining < 0) {
+    remaining = 0;
+  }
+  app.state.timer.turn = remaining;
 
   // if (payload.winner.state === true && payload.winner.name === username) {
   // } else if (
@@ -33,17 +44,18 @@ function vueBind(payload) {
     ally: payload[ally].map(x => {
       return {
         ...x,
-        indicator: statusView(x.name, x.status)
+        indicator: statusView(x.name, x.status, turnVal)
       };
     }),
     enemy: payload[enemy].map(x => {
       return {
         ...x,
-        indicator: statusView(x.name, x.status)
+        indicator: statusView(x.name, x.status, turnVal)
       };
     }),
     turn: payload.turn,
     myTurn: myTurn,
+    turnVal: turnVal,
     room: payload.room,
     meta: {
       myName: payload.team[ally],
@@ -114,28 +126,20 @@ function vueBind(payload) {
   app.state.button = button;
   app.state.winner = payload.winner;
   app.state.exchange.modal = false;
-
-  //Time
-  let timeDiff = (Date.now() - payload.timestamp) / 1000;
-  let timeCalc = 45 - timeDiff;
-  let remaining = 100 * (timeCalc / 45);
-  console.log(payload.timestamp, timeDiff, timeCalc, remaining);
-
-  if (remaining < 0) {
-    remaining = 0;
-  }
-  app.state.timer.turn = remaining;
 }
 
-function statusView(name, payload) {
-  // console.log(name, payload);
+function statusView(name, payload, turnVal) {
+  console.log(name.slice(-1), payload);
   let status = _.concat(
     payload.onAttack,
     payload.onReceive,
     payload.onState,
     payload.onSelf
   );
-  status = status.filter(x => x.isInvisible === false);
+  console.log("invisible", turnVal, name.slice(-1));
+  if (turnVal === Number(name.slice(-1))) {
+    status = status.filter(x => x.isInvisible === false);
+  }
   let groupByNameId = _.groupBy(status, "nameId");
   let valuesByNameId = _.values(groupByNameId);
   let groupBySkillIndex = valuesByNameId.map(x => _.groupBy(x, "skillIndex"));

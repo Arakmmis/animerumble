@@ -28,7 +28,7 @@ function statusIterator(package, owner, status, callback) {
   if (owner === "offense") {
     let onAttack = source.onAttack;
     let counter = management.counter(onAttack, package);
-    console.log(counter);
+    console.log("Counter", counter);
     if (counter) {
       package.isCounter = true;
     }
@@ -36,18 +36,20 @@ function statusIterator(package, owner, status, callback) {
 
   source[status].forEach((x, i, a) => {
     if (x.persistence === "action" || x.persistence === "control") {
-      let attacker = persistenceCheck(
-        x,
-        package.offense,
-        package.state,
-        "attacker"
-      );
-      let receiver = persistenceCheck(
-        x,
-        package.target,
-        package.state,
-        "receiver"
-      );
+      // let attacker = persistenceCheck(
+      //   x,
+      //   package.offense,
+      //   package.state,
+      //   "attacker"
+      // );
+      // let receiver = persistenceCheck(
+      //   x,
+      //   package.target,
+      //   package.state,
+      //   "receiver"
+      // );
+      let attacker = false;
+      let receiver = false;
 
       if (attacker === false && receiver === false && x.type !== "counter") {
         x.modify(package, x);
@@ -72,17 +74,20 @@ function statusApply(payload, move, owner) {
       if (payload.target.status.onReceive.length > 0) {
         statusIterator(payload, "target", "onReceive", (payload, callback) => {
           if (!payload.isCounter) {
+            payload.val = payload.val < 0 ? 0 : payload.val;
             move(payload);
           }
         });
       } else {
         if (!payload.isCounter) {
+          payload.val = payload.val < 0 ? 0 : payload.val;
           move(payload);
         }
       }
     });
   } else {
     statusIterator(payload, "target", "onReceive", (payload, callback) => {
+      payload.val = payload.val < 0 ? 0 : payload.val;
       move(payload);
     });
   }

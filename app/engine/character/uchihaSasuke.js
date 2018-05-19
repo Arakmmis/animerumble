@@ -83,7 +83,7 @@ let skills = {
     type: "piercing",
     val: 30,
     cooldown: 1,
-    classes: ["instant", "melee", "chakra"],
+    classes: ["instant", "melee", "energy"],
     description:
       "Using a lightning element attack jutsu, Sasuke deals 30 piercing damage to one enemy. This skill will deal an additional 25 damage to an enemy affected by 'Sharingan'.",
     energy: {

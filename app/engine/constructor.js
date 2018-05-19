@@ -98,6 +98,10 @@ function status(payload, inherit, skill) {
   this.period = payload.period ? payload.period : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.stack = payload.stack ? payload.stack : 1;
+  this.nextTurn = payload.nextTurn ? payload.nextTurn : false;
+
+  //Value Store
+  this.defense = payload.defense ? payload.defense : 0;
 
   //State Modifier
   this.isCounter = payload.isCounter ? payload.isCounter : false;
@@ -112,31 +116,3 @@ function status(payload, inherit, skill) {
   this.modify = payload.modify ? payload.modify.bind(this) : empty;
   this.callback = payload.callback ? payload.callback.bind(this) : empty;
 }
-
-/*
-Effects:
-Stun
-Drain
-Leech
-Earn
-Invulnerability
-DD
-DR
-Heal
-Bleed
-Boost
-Protect
-Reduce
-
-Cooldown
-Duration
-Chakra Cost
-
-class
-physical
-energy
-mental
-affliction
-strategic
-
-*/

@@ -65,7 +65,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 0,
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     description:
       "Hinata deals 15 damage to all enemies,* and all allies, including her will gain 10 destructible defense for 1 turn. If used during 'Byakugan' this skill will deal 20 damage.",
     energy: {

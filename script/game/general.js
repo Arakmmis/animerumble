@@ -42,7 +42,7 @@ setInterval(() => {
         },
         packet: []
       };
-      app.onDone(payload);
+      // app.onDone(payload);
     }
   }
 }, 1000);

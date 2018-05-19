@@ -105,6 +105,7 @@ function counterManagement(onStatus, package) {
           x.modify(package, x);
           x.isInvisible = false;
           x.usage += 1;
+          x.active = 1;
         }
 
         return true;

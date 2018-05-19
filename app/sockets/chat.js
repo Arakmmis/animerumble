@@ -78,7 +78,12 @@ module.exports = function(io, socket) {
       .exec((err, res) => {
         if (err) return;
         let packet = res.map(x => {
-          return x.name + ": " + x.message;
+          return {
+            name: x.name,
+            message: x.message,
+            timestamp: x.timestamp
+          };
+          // return x.name + ": " + x.message;
         });
         packet.reverse();
 

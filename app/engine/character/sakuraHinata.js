@@ -67,7 +67,7 @@ let skills = {
     type: "attack",
     val: 25,
     cooldown: 0,
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     description:
       "Using basic healing techniques Sakura heals herself or one ally for 25 health.",
     target: "ally",
@@ -107,7 +107,7 @@ let skills = {
     type: "invulnerable",
     val: 10,
     cooldown: 4,
-    classes: ["instant", "chakra"],
+    classes: ["instant", "energy"],
     description: "This skill makes Haruno Sakura invulnerable for 1 turn.",
     target: "self",
     energy: {

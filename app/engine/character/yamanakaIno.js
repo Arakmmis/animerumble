@@ -111,7 +111,7 @@ let skills = {
     description:
       "Ino uses a strand of chakra endowed hair to create a trap. For 1 turn, if one enemy uses a new harmful skill, they will have the cooldowns of their skills increased by 1 for 2 turns. This skill is invisible.",
     target: "self",
-    classes: ["instant", "ranged", "chakra"],
+    classes: ["instant", "ranged", "energy"],
     energy: {
       r: 1
     },

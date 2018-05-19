@@ -128,7 +128,7 @@ let skills = {
     name: "Summon: Aquarius",
     type: "piercing",
     val: 10,
-    cooldown: 0,
+    cooldown: 3,
     description:
       "Deal 10 damage to all enemies. Lucy Gains 5 DD a turn for 3 turns, each time she is damaged, increase this skills duration by 1 turn. This skill stacks.",
     classes: ["instant", "physical"],

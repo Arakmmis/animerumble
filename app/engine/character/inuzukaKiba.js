@@ -39,7 +39,7 @@ let status = {
     }
   },
   energy: {
-    active: 4,
+    active: 3,
     modify: function(payload) {
       let index = payload.offense.skill.findIndex(x => x.name === "Garouga");
       if (index !== -1) {

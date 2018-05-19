@@ -404,8 +404,13 @@ let skills = {
       });
 
       //Attack random
-      if (payload.recursive === 0) {
-        let random = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+      let random = payload.state[payload.theirTurn].filter(
+        x =>
+          !x.status.onState.some(
+            s => s.type === "stun" && s.name === "Ice Make: Hammer"
+          )
+      );
+      if (random.length > 0) {
         let chooseRandom = helper.getRandomInt(random.length);
         skill.pushStatus({
           subject: random[chooseRandom],
@@ -413,15 +418,22 @@ let skills = {
           status: status.stun,
           inherit: this
         });
+      }
 
-        let check = skill.checkStatus({
-          subject: payload.offense,
-          onStatus: "onState",
-          statusType: "state",
-          statusName: "Ice Make: Geyser"
-        });
-        if (check) {
-          let random2 = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+      let check = skill.checkStatus({
+        subject: payload.offense,
+        onStatus: "onState",
+        statusType: "state",
+        statusName: "Ice Make: Geyser"
+      });
+      if (check) {
+        let random2 = payload.state[payload.theirTurn].filter(
+          x =>
+            !x.status.onState.some(
+              s => s.type === "stun" && s.name === "Ice Make: Hammer"
+            )
+        );
+        if (random2.length > 0) {
           let chooseRandom2 = helper.getRandomInt(random2.length);
           skill.pushStatus({
             subject: random2[chooseRandom2],

@@ -17,6 +17,7 @@ let status = {
     val: 10,
     active: 2,
     classes: ["affliction"],
+    nextTurn: true,
     modify: function(payload, self) {
       if (payload.active === 1) {
         payload.offense.hp -= payload.val;
@@ -35,7 +36,7 @@ let skills = {
   skill1: {
     name: "Fire Dragon's Iron Fist",
     type: "attack",
-    val: 20,
+    val: [20, 0, 0],
     cooldown: 1,
     classes: ["instant", "strategic"],
     energy: {

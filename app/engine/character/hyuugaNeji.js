@@ -82,7 +82,7 @@ let skills = {
     type: "attack",
     val: 15,
     cooldown: 1,
-    classes: ["instant", "melee", "chakra"],
+    classes: ["instant", "melee", "energy"],
     description:
       "Neji becomes invulnerable for 1 turn while dealing 15 damage to all enemies.",
     energy: {
