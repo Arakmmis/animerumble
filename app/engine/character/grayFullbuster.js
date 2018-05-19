@@ -210,7 +210,7 @@ let skills = {
       s: 1
     },
     description:
-      "Replace all of your skills with the alternative skills. They target all allies or all enemies.",
+      "Gray replaces his skills with their alternatives that will also target a whole team.",
     target: "self",
     move: function(payload, self) {
       skill.pushStatus({
@@ -239,7 +239,7 @@ let skills = {
       r: 1
     },
     description:
-      "Replace all of your skills with the alternative skills. Cast that skill twice.",
+      "Gray replaces his skills with their alternatives that will also activate twice.",
     target: "self",
     move: function(payload, self) {
       skill.pushStatus({
@@ -266,7 +266,7 @@ let skills = {
     classes: ["instant", "strategic"],
     energy: {},
     description:
-      "Replace all of your skills with the alternative skills.They cost one less random",
+      "Gray replaces his skills with their alternatives that will also cost one less random energy.",
     target: "self",
     move: function(payload, self) {
       skill.pushStatus({
@@ -317,7 +317,7 @@ let skills = {
     val: 20,
     cooldown: 0,
     description:
-      "Deal 20 piercing damage to an enemy. Replace all of your skills with the alternative skills.",
+      "Gray deals 20 piercing damage to one enemy. Afterwards, his skills revert to their originals.",
     classes: ["instant", "ranged", "energy"],
     energy: {
       r: 1
@@ -343,7 +343,7 @@ let skills = {
     val: 0,
     cooldown: 3,
     description:
-      "Grant 25 stacking DD to an allied target. While That DD remains ignore all effects other than damage. Replace all of your skills with the alternative skills.",
+      "Gray grants one ally 25 destructible defense. While this defense is active, they will ignore all harmful non-damage effects. Afterwards, his skills revert to their originals.",
     classes: ["instant", "strategic"],
     energy: {
       r: 2
@@ -394,7 +394,7 @@ let skills = {
     val: 10,
     cooldown: 3,
     description:
-      "Deal 10 damage and stun a random target not already affect by Ice Make Hammer. Replace all of your skills with the alternative skills.",
+      "Gray deals 10 damage to one enemy and stuns a random enemy for 1 turn. This skill cannot affect the same enemy twice. Afterwards, his skills revert to their originals.",
     classes: ["instant", "ranged", "energy"],
     energy: {
       s: 1,

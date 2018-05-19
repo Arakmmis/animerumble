@@ -96,6 +96,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 4,
+    harmful: false,
     classes: ["instant", "mental"],
     description:
       "Sakura's inner self surfaces and urges her on. For 4 turns, Sakura will gain 10 points of damage reduction and will ignore all non-damage effects other than chakra cost changes. During this time 'KO Punch' will deal 10 additional damage.",

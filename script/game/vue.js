@@ -114,7 +114,7 @@ let app = new Vue({
     },
     onDone: function(e) {
       console.log(e);
-      app.state.myTurn = false;
+      app.source.myTurn = false;
       //Sound
       this.$refs.soundEndTurn.play();
 

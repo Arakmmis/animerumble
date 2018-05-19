@@ -16,7 +16,7 @@
         <p class="l--desc mb-0" v-if="desc.effect === 'track'">Tracking</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'custom'">{{desc.description}} for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'counter'">Countered</p>
-        <p class="l--desc mb-0" v-if="desc.effect === 'state' && desc.isStack === trye">{{desc.name}} {{desc.stack}} stacks</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'state' && desc.isStack === true">{{desc.name}} {{desc.stack}} stacks</p>
         <p class="l--desc mb-0" v-if="desc.isInvisible === true">This skill is invisible</p>
     </div>
 </div>
