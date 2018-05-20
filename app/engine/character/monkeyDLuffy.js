@@ -15,6 +15,7 @@ let status = {
   invulnerable: library.invulnerable({}),
   stun: library.stun({}),
   stun2: library.stun({
+    active: 3,
     classes: ["strategic"]
   }),
   protect: library.protect({
