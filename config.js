@@ -1,6 +1,6 @@
 let credentials = {}
 
-credentials.mongodb = "mongodb://admin:marcel@35.196.49.66:27017/animerumble"
+credentials.mongodb = "mongodb://admin:marcel@35.196.30.65:27017/animerumble"
 
 credentials.imgur = {
     clientId: "Client-ID 1220d5eb79e65d6",
