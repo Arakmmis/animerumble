@@ -40,7 +40,11 @@ module.exports = function(io, socket) {
 
       io.to(roomName).emit("chat", {
         channel: "ingame",
-        message: message
+        message: {
+          message: payload.message,
+          name: auth.username,
+          timestamp: Date.now()
+        }
       });
     }
   });
@@ -58,7 +62,11 @@ module.exports = function(io, socket) {
       .sort({ _id: -1 })
       .exec((err, res) => {
         let packet = res.map(x => {
-          return x.name + ": " + x.message;
+          return {
+            name: x.name,
+            message: x.message,
+            timestamp: x.timestamp
+          };
         });
         packet.reverse();
 
@@ -69,7 +77,11 @@ module.exports = function(io, socket) {
     let message = auth.username + " join game";
     io.to(roomName).emit("chat", {
       channel: "ingame",
-      message: message
+      message: {
+        message: message,
+        name: "System",
+        timestamp: Date.now()
+      }
     });
   });
 

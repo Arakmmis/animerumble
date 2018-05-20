@@ -11,12 +11,12 @@
 
     <div class="l--chat d-flex flex-column" id="chat" v-if="chatChannel === 'ingame'">
         <p>Welcome to Anime Rumble! #ingame</p>
-        <p v-for="msg in chat">{{msg}}</p>
+        <p v-for="msg in chat">{{msg.name+': '+msg.message}}</p>
     </div>
 
     <div class="l--chat d-flex flex-column" id="chat" v-if="chatChannel === 'lobby'">
         <p>Welcome to Anime Rumble! #lobby</p>
-        <p v-for="msg in lobbychat">{{msg}}</p>
+        <p v-for="msg in lobbychat">{{msg.name+': '+msg.message}}</p>
     </div>
 
     <div class="l--input">
