@@ -56,6 +56,7 @@ let skills = {
     cooldown: 0,
     noCounter: true,
     marking: true,
+    harmful: false,
     energy: {},
     classes: ["instant", "ranged", "mental"],
     description:
