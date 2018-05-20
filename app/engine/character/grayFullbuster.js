@@ -416,6 +416,7 @@ let skills = {
       //Attack random
       let random = payload.state[payload.theirTurn].filter(
         x =>
+          x.hp > 0 &&
           !x.status.onState.some(
             s => s.type === "stun" && s.name === "Ice Make: Hammer"
           )
@@ -439,6 +440,7 @@ let skills = {
       if (check) {
         let random2 = payload.state[payload.theirTurn].filter(
           x =>
+            x.hp > 0 &&
             !x.status.onState.some(
               s => s.type === "stun" && s.name === "Ice Make: Hammer"
             )

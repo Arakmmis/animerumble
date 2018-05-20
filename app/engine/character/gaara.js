@@ -20,13 +20,13 @@ let status = {
     persistence: "control"
   }),
   disableDrIv: library.disableDrIv({
+    persistence: "control",
     active: 2
   }),
   ignore: library.ignore({
     active: 4
   }),
-  state: library.state({
-    name: "Sand Coffin",
+  state: library.lock({
     type: "lock",
     info: "Sand Burial",
     active: 3,

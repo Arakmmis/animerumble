@@ -64,10 +64,6 @@ let skills = {
         subject: payload.target,
         val: payload.val
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.stun, this, 1)
-      // );
-      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
@@ -88,7 +84,6 @@ let skills = {
         subject: payload.target,
         val: payload.val
       });
-      // payload.target.hp += payload.val;
     }
   },
   skill3: {
@@ -123,15 +118,6 @@ let skills = {
         status: status.boost,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.ignore, this, 3)
-      // );
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.protect, this, 3)
-      // );
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost, this, 3)
-      // );
     }
   },
   skill4: {
@@ -152,9 +138,6 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   }
 };

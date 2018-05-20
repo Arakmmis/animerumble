@@ -207,6 +207,21 @@ function state(x) {
   };
 }
 
+function lock(x) {
+  return {
+    name: x.name,
+    val: 0,
+    type: "lock",
+    effect: x.effect ? x.effect : x.type,
+    harmful: x.harmful ? x.harmful : false,
+    info: x.info ? x.info : "",
+    description: x.description ? x.description : "",
+    active: x.active ? x.active : 2,
+    modify: function(payload, self) {},
+    persistence: x.persistence ? x.persistence : "instant"
+  };
+}
+
 function charge(x) {
   return {
     name: x.name,
@@ -433,5 +448,6 @@ module.exports = {
   ignore,
   counter,
   charge,
-  track
+  track,
+  lock
 };

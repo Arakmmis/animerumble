@@ -50,11 +50,12 @@ function skill(payload, nameId) {
   this.classes = payload.classes;
   this.type = payload.type ? payload.type : "attack";
   this.alt = payload.alt !== undefined ? payload.alt : false;
-  this.harmful = payload.harmful
-    ? payload.harmful
-    : payload.type === "invulnerable"
-      ? false
-      : true;
+  this.harmful =
+    payload.harmful !== undefined
+      ? payload.harmful
+      : payload.type === "invulnerable"
+        ? false
+        : true;
 
   //Modifier
   this.state = payload.state ? payload.state : "active";
