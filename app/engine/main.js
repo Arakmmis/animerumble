@@ -51,7 +51,8 @@ function main(payload, callback) {
       teamEven: payload.team.teamEven
     },
     timestamp: Date.now(),
-    room: payload.room
+    room: payload.room,
+    log: []
   };
   state.teamEven.forEach((x, i) => {
     // x.name += 0;

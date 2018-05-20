@@ -22,8 +22,11 @@ let app = new Vue({
       skill: {
         offense: null,
         skill: null,
+        skillId: null,
+        skillName: null,
         target: null,
-        aim: null
+        aim: null,
+        heroIndex: null
       },
       timer: {
         turn: 100
@@ -106,6 +109,7 @@ let app = new Vue({
           offense: null,
           skill: null,
           skillId: null,
+          skillName: null,
           target: null,
           aim: null,
           heroIndex: null
@@ -127,6 +131,8 @@ let app = new Vue({
       packet = packet.filter(
         x =>
           x.skill !== null &&
+          x.skillId !== null &&
+          x.skillName !== null &&
           x.offense !== null &&
           x.target !== null &&
           x.aim !== null &&
@@ -154,6 +160,7 @@ let app = new Vue({
         offense: null,
         skill: null,
         skillId: null,
+        skillName: null,
         target: null,
         aim: null,
         heroIndex: null
@@ -162,13 +169,14 @@ let app = new Vue({
     onSkill: function(payload) {
       //Define and Switch State
       let state = this.state;
-      let marking = this.source.ally[payload.heroIndex].skill[
-        payload.skillIndex
-      ].marking;
+      let skill = this.source.ally[payload.heroIndex].skill[payload.skillIndex];
+      let marking = skill.marking;
+      let skillName = skill.name;
       let temporary = {
         offense: payload.name,
         skill: payload.skillIndex,
         skillId: payload.skillId,
+        skillName: skillName,
         target: null,
         aim: payload.target,
         heroIndex: payload.heroIndex,
@@ -213,6 +221,7 @@ let app = new Vue({
           offense: null,
           skill: null,
           skillId: null,
+          skillName: null,
           target: null,
           aim: null,
           heroIndex: null
@@ -267,6 +276,7 @@ let app = new Vue({
         offense: null,
         skill: null,
         skillId: null,
+        skillName: null,
         target: null,
         aim: null,
         heroIndex: null

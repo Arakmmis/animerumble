@@ -44,6 +44,8 @@ function vueBind(payload) {
     ally: payload[ally].map(x => {
       return {
         ...x,
+        skill:
+          app.mode === "game" ? x.skill : x.skill.sort((a, b) => a.id - b.id),
         indicator: statusView(x.name, x.status, turnVal)
       };
     }),

@@ -19,6 +19,7 @@ function battle(payload, store, callback) {
   state.timestamp = Date.now();
   let { myTurn, theirTurn } = indicateTurn(state);
   console.log(myTurn);
+  state.log = payload;
 
   if (payload[0].msg === "exchange") {
     state.energy[myTurn][payload[0].val] += 1;

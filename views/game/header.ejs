@@ -6,7 +6,7 @@
         <div class="l--turn text-center" @click="() => {source.myTurn === true ? onAttack():''}">
             <!-- <p>TURN {{source.turn}}</p> -->
             <p class="text-center w-100" v-if="mode === 'game'">{{source.myTurn === true ? 'PRESS WHEN READY' : 'OPPONENT TURN'}}</p>
-            <p class="text-center w-100" v-if="mode === 'spectate'">SPECTATING</p>
+            <p class="text-center w-100" v-if="mode === 'spectate'">{{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}}</p>
             <div class="l--bar">
                 <div :style="{width: state.timer.turn+'%'}" class="l--fill"></div>
             </div>

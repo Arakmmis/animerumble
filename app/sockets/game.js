@@ -3,6 +3,9 @@ let battle = require("../engine/battle.js");
 let surrender = require("../engine/surrender.js");
 let model = require("../helper/model.js");
 
+let mongoose = require("mongoose");
+let Game = require("../models/Game.js");
+
 let connection = 0;
 let store = {};
 let roomSpace = [];
@@ -92,6 +95,15 @@ module.exports = function(io, socket, lobby) {
 
         if (payload.winner.state === true) {
           console.log("Winner");
+
+          let game = new Game({
+            player: [payload.team.teamOdd, payload.team.teamEven],
+            winner: payload.winner.name,
+            room: roomName,
+            log: store[roomName],
+            timestamp: Date.now()
+          }).save();
+
           model.deleteMatch(roomName);
         }
       }
@@ -115,17 +127,19 @@ module.exports = function(io, socket, lobby) {
 
         if (payload.winner.state === true) {
           console.log("Winner");
+
+          let game = new Game({
+            player: [payload.team.teamOdd, payload.team.teamEven],
+            winner: payload.winner.name,
+            room: roomName,
+            log: store[roomName],
+            timestamp: Date.now()
+          }).save();
+
           model.deleteMatch(roomName);
         }
       }
     );
-  });
-
-  socket.on("chat", function(payload) {
-    console.log("message: " + payload.message);
-    let roomName = payload.room;
-    let message = auth.username + ": " + payload.message;
-    io.to(roomName).emit("chat", message);
   });
 
   socket.on("disconnect", function() {
