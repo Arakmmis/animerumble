@@ -215,6 +215,7 @@ let skills = {
     type: "attack",
     val: 100,
     cooldown: 0,
+    alt: 2,
     description:
       "Lee uses his strongest ability, expending all his chakra and dealing 100 damage to one enemy.",
     target: "enemy",

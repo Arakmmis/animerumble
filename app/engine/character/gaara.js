@@ -60,6 +60,7 @@ let skills = {
     name: "Sand Coffin",
     type: "attack",
     val: 0,
+    alt: 4,
     cooldown: 2,
     classes: ["physical", "ranged", "control"],
     energy: {
@@ -94,14 +95,6 @@ let skills = {
         status: status.stun,
         inherit: this
       });
-      // payload.offense.status.onSelf.push(
-      //   new constructor.status(status.transform, this, 1)
-      // );
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.disableDrIv, this, 1),
-      //   new constructor.status(status.state, this, 1),
-      //   new constructor.status(status.stun, this, 1)
-      // );
     }
   },
   skill2: {
@@ -122,9 +115,6 @@ let skills = {
         status: status.ignore,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.ignore, this, 2)
-      // );
     }
   },
   skill3: {
@@ -139,18 +129,6 @@ let skills = {
       r: 1
     },
     move: function(payload, self) {
-      // let dd = payload.target.status.onReceive.some(
-      //   x => x.type === "dd" && x.name === this.name
-      // );
-      // if (dd) {
-      //   payload.target.status.onReceive = payload.target.status.onReceive.filter(
-      //     x => x.type !== "dd" && x.name !== this.name
-      //   );
-      // }
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.dd, this, 3)
-      // );
-
       skill.pushStatus(
         {
           subject: payload.target,
@@ -180,15 +158,13 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   },
   skill5: {
     name: "Sand Burial",
     type: "attack",
     val: 100,
+    alt: 0,
     cooldown: 0,
     noCounter: true,
     description:

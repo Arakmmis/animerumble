@@ -80,9 +80,6 @@ let skills = {
           status: status.stun,
           inherit: this
         });
-        // payload.target.status.onState.push(
-        //   new constructor.status(status.stun, this, 1)
-        // );
       } else {
         skill.pushStatus({
           subject: payload.target,
@@ -94,10 +91,6 @@ let skills = {
           subject: payload.target,
           val: payload.val
         });
-        // payload.target.status.onState.push(
-        //   new constructor.status(status.disableDrIv, this, 1)
-        // );
-        // payload.target.hp -= payload.val;
       }
     }
   },
@@ -105,6 +98,7 @@ let skills = {
     name: "Mind Body Switch",
     type: "attack",
     val: 0,
+    alt: 4,
     cooldown: 0,
     classes: ["control", "ranged", "mental"],
     description:
@@ -126,12 +120,6 @@ let skills = {
         status: status.stun2,
         inherit: this
       });
-      // payload.offense.status.onSelf.push(
-      //   new constructor.status(status.transform, this, 2)
-      // );
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.stun2, this, 2)
-      // );
     }
   },
   skill3: {
@@ -151,9 +139,6 @@ let skills = {
         status: status.cooldownIncrease,
         inherit: this
       });
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.cooldownIncrease, this, 3)
-      // );
     }
   },
   skill4: {
@@ -173,15 +158,13 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   },
   skill5: {
     name: "Art of the Valentine",
     type: "attack",
     val: 25,
+    alt: 1,
     cooldown: 0,
     classes: ["instant", "ranged", "physical"],
     description: "This skill does 25 damage to one enemy.",
@@ -194,7 +177,6 @@ let skills = {
         subject: payload.target,
         val: payload.val
       });
-      // payload.target.hp -= payload.val;
     }
   }
 };

@@ -121,6 +121,7 @@ let skills = {
     name: "Gomu Gomu no Pistol",
     type: "attack",
     val: 0,
+    alt: 4,
     cooldown: 0,
     classes: ["action", "ranged", "physical"],
     energy: {
@@ -224,6 +225,7 @@ let skills = {
     name: "Gomu Gomu no Bazooka",
     type: "attack",
     val: 50,
+    alt: 0,
     cooldown: 0,
     description:
       "Luffy winds up both arm and deal 50 damage to all fully stunned or partially stunned enemy. Luffy also gains one Green energy.",

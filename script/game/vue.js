@@ -283,7 +283,6 @@ let app = new Vue({
         option = "ally";
       }
 
-      console.log(payload);
       //Sound
       this.$refs.soundClick.play();
       //Define
@@ -297,6 +296,7 @@ let app = new Vue({
         option: option
       };
       let skill = owner.skill[config.skill];
+
       //Map Description
       let map = {
         name: skill.name,
@@ -327,7 +327,8 @@ let app = new Vue({
         skill: config.skillId,
         heroIndex: config.heroIndex,
         map: map,
-        alt: alt
+        alt: alt,
+        option: option
       };
     },
     onStatus: function(payload) {

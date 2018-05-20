@@ -7,7 +7,7 @@
             <div class=" d-flex flex-row justify-content-between ">
                 <p class="l--title mb-0 ">
                     {{state.description.map.name}}
-                    <span class="l--alt" v-if="state.description.alt !== false" @click="onDescription({nameId: state.description.nameId, skillId: state.description.alt, heroIndex: state.description.heroIndex})">alt</span>
+                    <span class="l--alt" v-if="state.description.alt !== false" @click="onDescription({nameId: state.description.nameId, skillId: state.description.alt, heroIndex: state.description.heroIndex}, state.description.option)">alt</span>
                 </p>
                 <p class="l--info mb-0 d-flex flex-row align-items-center ">
                     <span class="pr-1 ">ENERGY:</span>

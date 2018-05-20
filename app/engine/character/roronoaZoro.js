@@ -145,6 +145,7 @@ let skills = {
     type: "invulnerable",
     val: 10,
     cooldown: 4,
+    alt: 4,
     harmful: true,
     description:
       "Zoro deals 10 damage to a random enemy, and goes invulnerable for one turn. After this skill is used it becomes Dragon Twister. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
@@ -188,6 +189,7 @@ let skills = {
     name: "Dragon Twister",
     type: "attack",
     val: 5,
+    alt: 3,
     cooldown: 3,
     description:
       "Zoro knocks an enemy into the air, stunning them and dealing 5 damage. This skill becomes Blade Wolf Stream. Each time this skill is used, Zoro deals 10 extra damage on all of his skills. This stacks.",

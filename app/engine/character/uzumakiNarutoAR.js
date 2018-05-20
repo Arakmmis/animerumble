@@ -162,6 +162,7 @@ let skills = {
     name: "Shadow Clones",
     type: "attack",
     val: 0,
+    alt: 4,
     cooldown: 1,
     classes: ["instant", "energy", "strategic"],
     energy: {
@@ -348,6 +349,7 @@ let skills = {
     name: "Sexy Technique",
     type: "attack",
     val: 0,
+    alt: 0,
     cooldown: 2,
     description:
       "Transforming into a woman, Naruto targets one enemy. If that enemy uses a non-mental skill, then they will be countered. If countered, Naruto's next skill will deal 5 more damage and Naruto will gain one Shadow Clone charge. This skill is invisible and costs two random energies if Naruto has more than 2 Shadow Clones.",

@@ -76,13 +76,6 @@ let skills = {
     description:
       "Nami deals 5 affliction damage to all enemies for 5 turns. Nami's other skills deal 10 extra damage.",
     move: function(payload, self) {
-      // payload.offense.status.onState.push(
-      //   new constructor.status(status.state, this, 1)
-      // );
-      // payload.target.status.onSelf.push(
-      //   new constructor.status(status.bleed, this, 1)
-      // );
-
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onState",
@@ -101,6 +94,7 @@ let skills = {
   skill2: {
     name: "Tornado Tempest",
     type: "attack",
+    alt: 4,
     val: 0,
     cooldown: 0,
     classes: ["action", "melee", "physical"],
@@ -121,9 +115,6 @@ let skills = {
           status: status.bleed3,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed3, this, 2)
-        // );
       } else {
         skill.pushStatus({
           subject: payload.target,
@@ -131,9 +122,6 @@ let skills = {
           status: status.bleed2,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed2, this, 2)
-        // );
       }
       skill.pushStatus({
         subject: payload.offense,
@@ -147,12 +135,6 @@ let skills = {
         status: status.stun,
         inherit: this
       });
-      // payload.offense.status.onSelf.push(
-      //   new constructor.status(status.transform, this, 2)
-      // );
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.stun, this, 2)
-      // );
     }
   },
   skill3: {
@@ -177,9 +159,6 @@ let skills = {
           status: status.bleed5,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed5, this, 3)
-        // );
       } else {
         skill.pushStatus({
           subject: payload.target,
@@ -187,9 +166,6 @@ let skills = {
           status: status.bleed4,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed4, this, 3)
-        // );
       }
     }
   },
@@ -206,9 +182,6 @@ let skills = {
       r: 1
     },
     move: function(payload, self) {
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -225,15 +198,13 @@ let skills = {
           status: status.dd,
           inherit: this
         });
-        // payload.target.status.onReceive.push(
-        //   new constructor.status(status.dd, this, 4)
-        // );
       }
     }
   },
   skill5: {
     name: "Party Trick",
     type: "self",
+    alt: 1,
     val: 0,
     cooldown: 3,
     harmful: false,
@@ -243,9 +214,6 @@ let skills = {
     classes: ["instant", "physical"],
     energy: {},
     move: function(payload, self) {
-      // payload.offense.status.onSelf.push(
-      //   new constructor.status(status.transform, this, 5)
-      // );
       skill.pushStatus({
         subject: payload.offense,
         onStatus: "onSelf",

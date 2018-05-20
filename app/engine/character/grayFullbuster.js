@@ -204,6 +204,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 3,
+    alt: 4,
     harmful: false,
     classes: ["instant", "strategic"],
     energy: {
@@ -232,6 +233,7 @@ let skills = {
     name: "Ice Make: Geyser",
     type: "attack",
     val: 0,
+    alt: 5,
     cooldown: 3,
     harmful: false,
     classes: ["instant", "strategic"],
@@ -261,6 +263,7 @@ let skills = {
     name: "Ice Make: Basic",
     type: "attack",
     val: 0,
+    alt: 6,
     cooldown: 2,
     harmful: false,
     classes: ["instant", "strategic"],
@@ -315,6 +318,7 @@ let skills = {
     name: "Ice Make: Lance",
     type: "piercing",
     val: 20,
+    alt: 0,
     cooldown: 0,
     description:
       "Gray deals 20 piercing damage to one enemy. Afterwards, his skills revert to their originals.",
@@ -341,6 +345,7 @@ let skills = {
     name: "Ice Make: Shield",
     type: "protect",
     val: 0,
+    alt: 1,
     cooldown: 3,
     description:
       "Gray grants one ally 25 destructible defense. While this defense is active, they will ignore all harmful non-damage effects. Afterwards, his skills revert to their originals.",
@@ -392,6 +397,7 @@ let skills = {
     name: "Ice Make: Hammer",
     type: "attack",
     val: 10,
+    alt: 2,
     cooldown: 3,
     description:
       "Gray deals 10 damage to one enemy and stuns a random enemy for 1 turn. This skill cannot affect the same enemy twice. Afterwards, his skills revert to their originals.",
