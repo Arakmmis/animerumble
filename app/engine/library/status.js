@@ -380,32 +380,34 @@ function dd(x) {
       // );
       let affliction = payload.skill.classes.some(x => x === "affliction");
       console.log("before dd", self.usage, payload.skill.type, disableDrIv);
-      if (payload.val > 0) {
-        if (
-          // onReceive[index].usage === 0 &&
-          payload.skill.type !== "piercing" &&
-          affliction === false
-        ) {
-          let dd = self.val;
-          let val = payload.val;
-          let diff = dd - val;
-          self.val = diff;
-          console.log(diff, self);
 
-          let newVal = val - dd;
-          if (diff >= 0) {
-            payload.val = 0;
-          } else {
-            payload.val = Math.abs(diff);
-          }
+      if (
+        payload.val > 0 &&
+        self.usage === 0 &&
+        // onReceive[index].usage === 0 &&
+        payload.skill.type !== "piercing" &&
+        affliction === false
+      ) {
+        let dd = self.val;
+        let val = payload.val;
+        let diff = dd - val;
+        self.val = diff;
+        console.log(diff, self);
 
-          if (diff <= 0) {
-            console.log("diff destroyed", diff);
-            payload.target.status.onReceive = payload.target.status.onReceive.filter(
-              s => s.type !== self.type && s.name !== self.name
-            );
-            self.callback(payload, self);
-          }
+        let newVal = val - dd;
+        if (diff >= 0) {
+          payload.val = 0;
+        } else {
+          payload.val = Math.abs(diff);
+        }
+
+        if (diff <= 0) {
+          console.log("diff destroyed", diff);
+          payload.target.status.onReceive = payload.target.status.onReceive.filter(
+            s => s.type !== self.type && s.name !== self.name
+          );
+          self.callback(payload, self);
+          self.usage = 1;
         }
       }
 

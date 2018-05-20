@@ -50,6 +50,7 @@ function vueBind(payload) {
     enemy: payload[enemy].map(x => {
       return {
         ...x,
+        skill: x.skill.sort((a, b) => b.id - a.id),
         indicator: statusView(x.name, x.status, turnVal)
       };
     }),
