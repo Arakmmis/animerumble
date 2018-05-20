@@ -1,7 +1,7 @@
 const helper = require("../helper.js");
 
 function cleanup(char, state, currentEnergy) {
-  if (char.hp <= 0) {
+  if (char.hp <= 0 && char.alive) {
     char.hp = 0;
     char.status = {
       onReceive: [],
@@ -37,6 +37,8 @@ function cleanup(char, state, currentEnergy) {
     currentEnergy.i += energy.i;
     currentEnergy.s += energy.s;
     currentEnergy.w += energy.w;
+
+    char.alive = false;
   }
   if (char.hp > 100) {
     char.hp = 100;

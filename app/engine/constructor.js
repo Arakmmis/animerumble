@@ -42,6 +42,7 @@ function skill(payload, nameId) {
   this.description = payload.description;
 
   //Core
+  this.alive = true;
   this.val = payload.val ? payload.val : 0;
   this.target = payload.target ? payload.target : "enemy";
   this.cooldown = payload.cooldown ? payload.cooldown : 0;

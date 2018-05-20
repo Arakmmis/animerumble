@@ -21,7 +21,11 @@ module.exports = function(io, socket) {
 
       io.emit("chat", {
         channel: "lobby",
-        message: message
+        message: {
+          message: payload.message,
+          name: auth.username,
+          timestamp: Date.now()
+        }
       });
     } else if (channel === "ingame") {
       let roomName = payload.room;
