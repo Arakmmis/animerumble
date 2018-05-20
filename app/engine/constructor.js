@@ -49,6 +49,7 @@ function skill(payload, nameId) {
   this.counter = payload.cooldown;
   this.classes = payload.classes;
   this.type = payload.type ? payload.type : "attack";
+  this.alt = payload.alt ? payload.alt : false;
   this.harmful = payload.harmful
     ? payload.harmful
     : payload.type === "invulnerable"

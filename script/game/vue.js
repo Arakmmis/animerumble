@@ -282,20 +282,21 @@ let app = new Vue({
       if (option === undefined) {
         option = "ally";
       }
+
       console.log(payload);
       //Sound
       this.$refs.soundClick.play();
       //Define
+      let owner = this.source[option][payload.heroIndex];
+      let skillIndex = owner.skill.findIndex(x => x.id === payload.skillId);
       let config = {
         nameId: payload.nameId,
-        skill: payload.skillIndex,
+        skill: skillIndex,
         skillId: payload.skillId,
         heroIndex: payload.heroIndex,
         option: option
       };
-      let skill = this.source[config.option][config.heroIndex].skill[
-        config.skill
-      ];
+      let skill = owner.skill[config.skill];
       //Map Description
       let map = {
         name: skill.name,
@@ -317,13 +318,16 @@ let app = new Vue({
         cooldown: skill.cooldown
       };
 
+      let alt = skill.alt !== false ? skill.alt : false;
+
       //Buffer Description
       let state = this.state;
       state.description = {
         nameId: config.nameId,
         skill: config.skillId,
         heroIndex: config.heroIndex,
-        map: map
+        map: map,
+        alt: alt
       };
     },
     onStatus: function(payload) {

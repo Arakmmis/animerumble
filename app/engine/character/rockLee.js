@@ -99,9 +99,6 @@ let skills = {
           status: status.bleed2,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed2, this, 1)
-        // );
       } else {
         skill.pushStatus({
           subject: payload.target,
@@ -109,9 +106,6 @@ let skills = {
           status: status.bleed,
           inherit: this
         });
-        // payload.target.status.onSelf.push(
-        //   new constructor.status(status.bleed, this, 1)
-        // );
       }
       skill.pushStatus({
         subject: payload.offense,
@@ -125,12 +119,6 @@ let skills = {
         status: status.boost2,
         inherit: this
       });
-      // payload.offense.status.onReceive.push(
-      //   new constructor.status(status.protect, this, 1)
-      // );
-      // payload.offense.status.onAttack.push(
-      //   new constructor.status(status.boost2, this, 1)
-      // );
     }
   },
   skill2: {
@@ -151,13 +139,13 @@ let skills = {
         subject: payload.target,
         val: payload.val
       });
-      // payload.target.hp -= payload.val;
     }
   },
   skill3: {
     name: "Fifth Gate Opening",
     cooldown: 4,
     harmful: false,
+    alt: 4,
     description:
       "Lee removes all harmful effects on him, losing 50 health*, and then becoming invulnerable to all harmful skills for 2 turns. The following 2 turns, this skill will be replaced by 'Final Lotus'. The affliction damage this skill deals cannot be ignored and cannot kill Lee.",
     target: "self",
@@ -190,16 +178,6 @@ let skills = {
         status: status.state,
         inherit: this
       });
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost1, this, 3)
-      // );
-      // payload.target.status.onSelf.push(
-      //   new constructor.status(status.transform, this, 3)
-      // );
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable2, this, 3),
-      //   new constructor.status(status.state, this, 3)
-      // );
       payload.target.hp -= 50;
       if (payload.target.hp <= 0) {
         payload.target.hp = 5;
@@ -211,20 +189,6 @@ let skills = {
         },
         "harmful"
       );
-
-      //Remove Harmful
-      // payload.target.status.onAttack = payload.target.status.onAttack.filter(
-      //   x => x.harmful === false
-      // );
-      // payload.target.status.onReceive = payload.target.status.onReceive.filter(
-      //   x => x.harmful === false
-      // );
-      // payload.target.status.onSelf = payload.target.status.onSelf.filter(
-      //   x => x.harmful === false
-      // );
-      // payload.target.status.onState = payload.target.status.onState.filter(
-      //   x => x.harmful === false
-      // );
     }
   },
   skill4: {
@@ -244,9 +208,6 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   },
   skill5: {
@@ -266,7 +227,6 @@ let skills = {
         subject: payload.target,
         val: payload.val
       });
-      // payload.target.hp -= payload.val;
     }
   }
 };
