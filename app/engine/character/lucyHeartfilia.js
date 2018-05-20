@@ -30,7 +30,7 @@ let status = {
         x => x.type !== "state" && x.name !== self.name
       );
 
-      payload.target.skill[0].target = "self";
+      payload.target.skill[0].target = "enemy";
     }
   }),
   dd2: library.dd({
