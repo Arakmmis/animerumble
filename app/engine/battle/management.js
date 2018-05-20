@@ -109,13 +109,13 @@ function counterManagement(onStatus, onState, package) {
         evaluate = intersect.length === 0 ? true : false;
       }
 
-      if (evaluate && x.active !== 1 && !ignore) {
-        if (x.usage === 0) {
-          x.modify(package, x);
-          x.isInvisible = false;
-          x.usage += 1;
-          // x.active = 1;
-        }
+      if (evaluate && x.usage === 0 && !ignore) {
+        // if (x.usage === 0) {
+        x.modify(package, x);
+        x.isInvisible = false;
+        x.usage += 1;
+        // x.active = 1;
+        // }
 
         return true;
       } else {

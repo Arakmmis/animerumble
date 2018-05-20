@@ -160,6 +160,7 @@ function counter(x) {
     description: x.description ? x.description : "",
     info: x.info ? x.info : "inclusive",
     persistence: x.persistence ? x.persistence : "instant",
+    period: "instant",
     classes: x.classes
       ? x.classes
       : [
