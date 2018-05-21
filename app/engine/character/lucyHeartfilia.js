@@ -82,7 +82,8 @@ let status = {
   }),
   bleed2: library.bleed({
     val: 20,
-    active: 3
+    active: 3,
+    persistence: "instant"
   }),
   track: library.track({
     active: 3,
