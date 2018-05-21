@@ -106,10 +106,10 @@ function buttonManagement(payload, option) {
           enemyStatus.onState.some(x => x.type === "disableDrIv") &&
           ignore === false
         ) {
-          console.log('hi')
+          console.log("hi");
           x.button = false;
         }
-        console.log(x.button)
+        console.log(x.button);
 
         //Marking
         if (payload.marking === true) {
@@ -128,7 +128,7 @@ function buttonManagement(payload, option) {
         let skill = app.source.ally[payload.heroIndex].skill[payload.skill];
         let enemyStatus = app.source.enemy[x.index].status;
         let lock = enemyStatus.onState.some(
-          x => x.type === "state" && x.info === skill.name
+          x => x.type === "lock" && x.info === skill.name
         );
 
         if (lock === true) {
@@ -322,7 +322,7 @@ function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
     if (x.type === "invulnerable") {
       let ignoreInvul = skill.ignoreInvul;
-      let intersect = _.intersection(x.classes, skill.classes);      
+      let intersect = _.intersection(x.classes, skill.classes);
 
       let evaluate;
 

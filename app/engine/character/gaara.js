@@ -26,7 +26,7 @@ let status = {
   ignore: library.ignore({
     active: 4
   }),
-  state: library.lock({
+  lock: library.lock({
     type: "lock",
     info: "Sand Burial",
     active: 3,
@@ -86,7 +86,7 @@ let skills = {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
-        status: status.state,
+        status: status.lock,
         inherit: this
       });
       skill.pushStatus({

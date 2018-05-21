@@ -346,6 +346,7 @@ let skills = {
     type: "protect",
     val: 0,
     alt: 1,
+    harmful: false,
     cooldown: 3,
     description:
       "Gray grants one ally 25 destructible defense. While this defense is active, they will ignore all harmful non-damage effects. Afterwards, his skills revert to their originals.",
@@ -419,7 +420,8 @@ let skills = {
           x.hp > 0 &&
           !x.status.onState.some(
             s => s.type === "stun" && s.name === "Ice Make: Hammer"
-          )
+          ) &&
+          !x.status.onState.some(s => s.type === "invulnerable")
       );
       if (random.length > 0) {
         let chooseRandom = helper.getRandomInt(random.length);
@@ -443,7 +445,8 @@ let skills = {
             x.hp > 0 &&
             !x.status.onState.some(
               s => s.type === "stun" && s.name === "Ice Make: Hammer"
-            )
+            ) &&
+            !x.status.onState.some(s => s.type === "invulnerable")
         );
         if (random2.length > 0) {
           let chooseRandom2 = helper.getRandomInt(random2.length);

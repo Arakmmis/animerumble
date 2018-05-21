@@ -83,7 +83,10 @@ let skills = {
     move: function(payload, self) {
       if (payload.recursive === 0) {
         //Attack random
-        let random = payload.state[payload.theirTurn].filter(x => x.hp > 0);
+        let random = payload.state[payload.theirTurn].filter(
+          x =>
+            x.hp > 0 && !x.status.onState.some(s => s.type === "invulnerable")
+        );
         let chooseRandom = helper.getRandomInt(random.length);
         let inherit = this;
         inherit.name = "Flame Absorption";

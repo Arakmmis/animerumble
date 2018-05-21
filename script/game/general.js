@@ -46,8 +46,8 @@ setInterval(() => {
         },
         packet: []
       };
-      app.onDone(payload);
-      app.source.myTurn = false;
+      // app.onDone(payload);
+      // app.source.myTurn = false;
     }
   }
 }, 1000);

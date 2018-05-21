@@ -27,7 +27,7 @@ let status = {
   }),
   dd: library.dd({
     name: "Protective Eight Trigrams Sixty-Four Palms",
-    val: 20,
+    val: 10,
     active: 2
   }),
   state: library.state({
