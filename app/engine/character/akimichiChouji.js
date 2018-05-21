@@ -133,6 +133,7 @@ let skills = {
     classes: ["instant", "affliction"],
     target: "self",
     usage: 0,
+    harmful: false,
     required: false,
     energy: {
       r: 1
