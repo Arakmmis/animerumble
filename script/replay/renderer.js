@@ -90,4 +90,4 @@ function statusView(name, payload, turnVal) {
   return final;
 }
 
-vueBind(app.log[0]);
+// vueBind(app.log[0]);

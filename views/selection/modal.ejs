@@ -1,0 +1,56 @@
+<script type="text/x-template" id="modal-template">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+  
+            <div class="modal-header">
+              <slot name="header">
+                Replay
+              </slot>
+            </div>
+  
+            <div class="modal-body">
+              <slot name="body">      
+                <div class="d-flex flex-row" v-for="item in replay">
+                    <p class="mb-0 mr-1">{{item.player[0]}} vs {{item.player[1]}} - Winner {{item.winner}}<p>
+                    <p class="mb-0"><a :href="'/replay/'+item.room">See Replay</a></p>
+                </div>                  
+              </slot>
+            </div>
+  
+            <div class="modal-footer">
+              <slot name="footer">                
+                <button class="modal-default-button btn-color4 w-100" @click="$emit('close')">
+                  Close
+                </button>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+</script>
+
+<script>
+  // register modal component
+  Vue.component('modal', {
+    props: ['char'],
+    data: function () {
+      return {
+        replay: []
+      }
+    },
+    created: function () {
+      console.log('created')
+      let self = this;
+      this.$http.get('/replay/get/list').then(function (response) {
+        if (response.status == "200") {
+          self.replay = response.body
+          console.log(response)
+        }
+      })
+    },
+    template: '#modal-template',
+  })
+</script>

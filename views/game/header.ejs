@@ -21,6 +21,7 @@
                 <b>T</b> {{source.energy.ally.r}}</p>
             <p @click="state.exchange.modal = !state.exchange.modal, $refs.soundClick.play()" v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p>
             <p class="l--exchange" v-if="source.myTurn !== true && mode === 'game'">ENERGY EXCHANGE</p>
+            <p class="l--exchange">TURN {{source.turn}}</p>
         </div>
     </div>
     <div class="game--profile">

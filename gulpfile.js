@@ -57,6 +57,7 @@ gulp.task("js-replay", function() {
     let source = [
       "script/replay/log.js",
       "script/replay/vue.js",
+      "script/replay/renderer.js",
       "script/replay/*.js"
     ];
 

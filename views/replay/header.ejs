@@ -5,7 +5,7 @@
     <div class="d-flex flex-column">
         <div class="l--turn text-center" @click="() => {source.myTurn === true ? onAttack():''}">
             <!-- <p>TURN {{source.turn}}</p> -->
-            <p class="text-center w-100" v-if="mode === 'game'">TURN {{source.turn}} - {{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}}</p>
+            <p class="text-center w-100" v-if="mode === 'game'">{{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}} - TURN {{source.turn}}</p>
             <!-- <p class="text-center w-100" v-if="mode === 'spectate'">{{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}}</p> -->
             <div class="l--bar">
                 <div :style="{width: '100%'}" class="l--fill"></div>

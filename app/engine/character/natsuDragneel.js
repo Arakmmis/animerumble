@@ -73,7 +73,7 @@ let skills = {
     cooldown: 4,
     description:
       "Natsu deals 35 damage to all enemies, and apply Flame Absorption on a random target hit.",
-    classes: ["instant", "strategic"],
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1,
       i: 1,
@@ -112,7 +112,7 @@ let skills = {
     description:
       "Natsu targets an enemy, if they use a harmful skill, counter it, and Natsu gains a red energy. The target of this skill in invisible.",
     target: "enemy",
-    classes: ["instant", "strategic", "physical"],
+    classes: ["instant", "ranged", "energy"],
     energy: {
       i: 1
     },

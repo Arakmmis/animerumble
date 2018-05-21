@@ -6,6 +6,7 @@
     <script src="/js/Sortable.min.js"></script>
     <script src="/js/vuedraggable.min.js"></script>
     <script src="/js/lodash.min.js"></script>
+    <script src="/js/vue-resource@1.5.0.js"></script>
     <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
 </head>
 
@@ -14,8 +15,7 @@
         <div class="d-flex flex-column w-100 game align-items-center">
             <div class="d-flex flex-column game--width justify-content-between">
                 <div class="d-flex flex-row justify-content-between game--nav">
-                    <p @click="onSurrender()" class="l--btn" v-if="mode === 'game'">Surrender</p>
-                    <p class="l--btn" v-if="mode === 'spectate'">
+                    <p class="l--btn">
                         <a href="/">Exit</a>
                     </p>
                 </div>

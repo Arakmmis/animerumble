@@ -3,7 +3,7 @@ let app = new Vue({
   el: "#app",
   data: {
     mode: "game",
-    log: log,
+    log: [],
     current: 0,
     source: {
       energy: {
