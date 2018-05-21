@@ -1,5 +1,4 @@
 function vueBind(payload) {
-  let username = getCookie("username");
   console.log(payload);
   let ally = "teamEven";
   let enemy = "teamOdd";
@@ -49,9 +48,11 @@ function vueBind(payload) {
     store.energy.ally.w;
 
   app.source = store;
-  app.state.button = button;
-  app.state.winner = payload.winner;
-  app.state.exchange.modal = false;
+  app.packet = payload.log;
+  app.action.push(payload.log);
+  // app.state.button = button;
+  // app.state.winner = payload.winner;
+  // app.state.exchange.modal = false;
 }
 
 function statusView(name, payload, turnVal) {
@@ -63,11 +64,11 @@ function statusView(name, payload, turnVal) {
     payload.onSelf
   );
   console.log("invisible", turnVal, name.slice(-1));
-  status = status.filter(
-    x =>
-      x.isInvisible === false ||
-      (x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal)
-  );
+  // status = status.filter(
+  //   x =>
+  //     x.isInvisible === false ||
+  //     (x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal)
+  // );
   let groupByNameId = _.groupBy(status, "nameId");
   let valuesByNameId = _.values(groupByNameId);
   let groupBySkillIndex = valuesByNameId.map(x => _.groupBy(x, "skillIndex"));
@@ -88,3 +89,5 @@ function statusView(name, payload, turnVal) {
   });
   return final;
 }
+
+vueBind(app.log[0]);

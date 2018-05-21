@@ -96,7 +96,7 @@ let skills = {
     type: "attack",
     alt: 4,
     val: 0,
-    cooldown: 0,
+    cooldown: 2,
     classes: ["action", "melee", "physical"],
     description:
       "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and energy skills, and dealing 15 for 2 turns. This skill will become Party Trick.",

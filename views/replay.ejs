@@ -1,0 +1,44 @@
+<head>
+    <title>Anime Rumble</title>
+    <script src="/js/vue.js"></script>
+    <script src="/js/v-tooltip.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/Sortable.min.js"></script>
+    <script src="/js/vuedraggable.min.js"></script>
+    <script src="/js/lodash.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app">
+        <div class="d-flex flex-column w-100 game align-items-center">
+            <div class="d-flex flex-column game--width justify-content-between">
+                <div class="d-flex flex-row justify-content-between game--nav">
+                    <p @click="onSurrender()" class="l--btn" v-if="mode === 'game'">Surrender</p>
+                    <p class="l--btn" v-if="mode === 'spectate'">
+                        <a href="/">Exit</a>
+                    </p>
+                </div>
+                <% include replay/header.ejs %>
+                    <div class="d-flex flex-row game--body">
+                        <% include replay/myteam.ejs %>
+                            <% include replay/theirteam.ejs %>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <% include replay/log.ejs %>
+                            <% include replay/description.ejs %>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Sounds -->
+        <!-- <audio ref="soundClick" src="/assets/sounds/click.mp3"></audio>
+        <audio ref="soundStartTurn" src="/assets/sounds/startturn.mp3"></audio>
+        <audio ref="soundEndTurn" src="/assets/sounds/endturn.mp3"></audio>
+        <audio ref="soundBad" src="/assets/sounds/bad.mp3"></audio>
+        <audio ref="soundLose" src="/assets/sounds/lose.mp3"></audio> -->
+
+    </div>
+
+    <script src="/build/replay.min.js"></script>
+</body>

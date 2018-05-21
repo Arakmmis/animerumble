@@ -1,0 +1,52 @@
+.replay--log {
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  height: 120px;
+
+  .l--tab {
+    padding: 5px 5px 0px 0px;
+    p {
+      padding: 0 10px;
+      font-size: 10px;
+      color: #fff;
+      margin: 0;
+      text-decoration: underline;
+    }
+  }
+
+  .l--chat {
+    margin: 5px 10px 10px 10px;
+    flex: 1;
+    overflow-y: scroll;
+    padding-bottom: 15px;
+    p {
+      font-size: 10px;
+      color: #fff;
+      margin: 0;
+    }
+  }
+
+  .l--input input {
+    width: 100%;
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 12px;
+    padding: 0 5px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.4);
+
+    &::-webkit-input-placeholder {
+      color: #222;
+    }
+    &:-moz-placeholder {
+      color: #222;
+    }
+    &::-moz-placeholder {
+      color: #222;
+    }
+    &:-ms-input-placeholder {
+      color: #222;
+    }
+  }
+}

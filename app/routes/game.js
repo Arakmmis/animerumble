@@ -1,4 +1,4 @@
-let middleware = require('./middleware.js');
+let middleware = require("./middleware.js");
 
 module.exports = function(app) {
   app.get("/game/:match", middleware.isLoggedIn, function(req, res) {

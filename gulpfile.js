@@ -52,6 +52,38 @@ gulp.task("js-game", function() {
   });
 });
 
+gulp.task("js-replay", function() {
+  function task() {
+    let source = [
+      "script/replay/log.js",
+      "script/replay/vue.js",
+      "script/replay/*.js"
+    ];
+
+    return gulp
+      .src(source)
+      .pipe(sourcemaps.init())
+      .pipe(
+        babel({
+          presets: ["@babel/env"]
+        })
+      )
+      .pipe(concat("replay.min.js"))
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest("public/build"));
+  }
+  task();
+  let watcher = gulp.watch("script/replay/*.js");
+  watcher.on("change", function(path, stats) {
+    console.log("File " + path + " was changed");
+    task();
+  });
+
+  watcher.on("unlink", function(path) {
+    console.log("File " + path + " was removed");
+  });
+});
+
 gulp.task("sass-style", function() {
   return gulp
     .src("./sass/style.scss")
@@ -74,4 +106,4 @@ gulp.task("sass:watch", function() {
   gulp.watch("sass/**/*.scss", ["sass-style", "sass-create"]);
 });
 
-gulp.task("default", ["start", "js-game", "sass:watch"]);
+gulp.task("default", ["start", "js-game", "js-replay", "sass:watch"]);

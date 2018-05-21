@@ -2,6 +2,7 @@
 let general = require("./general.js");
 let create = require("./create.js");
 let game = require("./game.js");
+let replay = require("./replay.js");
 let auth = require("./auth.js");
 
 module.exports = function(app) {
@@ -9,5 +10,6 @@ module.exports = function(app) {
   general(app);
   create(app);
   game(app);
-  auth(app)
+  replay(app);
+  auth(app);
 };

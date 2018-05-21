@@ -1,0 +1,29 @@
+<div class="w-100 game--info d-flex flex-row align-items-center justify-content-around">
+    <div class="game--profile">
+        <p>{{source.meta.myName}}</p>
+    </div>
+    <div class="d-flex flex-column">
+        <div class="l--turn text-center" @click="() => {source.myTurn === true ? onAttack():''}">
+            <!-- <p>TURN {{source.turn}}</p> -->
+            <p class="text-center w-100" v-if="mode === 'game'">TURN {{source.turn}} - {{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}}</p>
+            <!-- <p class="text-center w-100" v-if="mode === 'spectate'">{{source.turn % 2 !== 0 ? source.meta.myName+'\'s Turn' : source.meta.theirName+'\'s Turn'}}</p> -->
+            <div class="l--bar">
+                <div :style="{width: '100%'}" class="l--fill"></div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center l--energy" v-if="mode === 'game'">
+            <p>
+                <img src="/assets/energy/energy_0.gif" /> {{source.energy.ally.a}}
+                <img src="/assets/energy/energy_1.gif" /> {{source.energy.ally.i}}
+                <img src="/assets/energy/energy_2.gif" /> {{source.energy.ally.s}}
+                <img src="/assets/energy/energy_3.gif" /> {{source.energy.ally.w}}
+                <b>T</b> {{source.energy.ally.r}}</p>
+            <p @click="state.exchange.modal = !state.exchange.modal, $refs.soundClick.play()" v-if="source.myTurn === true" class="l--exchange">ENERGY EXCHANGE</p>
+            <p class="l--exchange" v-if="source.myTurn !== true && mode === 'game'">ENERGY EXCHANGE</p>
+        </div>
+    </div>
+    <div class="game--profile">
+        <p>{{source.meta.theirName}}</p>
+    </div>
+</div>
