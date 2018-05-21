@@ -88,7 +88,8 @@ function postSequence(x, turn, state) {
             state: state,
             stateCopy: stateCopy,
             myTurn: myTurn,
-            theirTurn: theirTurn
+            theirTurn: theirTurn,
+            sequence: 'postsequence'
           });
         }
       });
@@ -113,7 +114,8 @@ function postSequence(x, turn, state) {
               state: state,
               skill: s,
               myTurn: myTurn,
-              theirTurn: theirTurn
+              theirTurn: theirTurn,
+              sequence: 'postsequence'
             },
             s
           );

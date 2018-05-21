@@ -14,7 +14,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   invulnerable2: library.invulnerable({
-    active: 2
+    active: 3
   }),
   bleed: library.bleed({
     val: 10,

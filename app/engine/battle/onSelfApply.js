@@ -15,11 +15,13 @@ function persistenceCheck(skill, owner, state, context) {
   let evaluate;
   if (context === "attacker") {
     let onState = caster.status.onState;
-    let stun = management.stun(onState, skill);
+    // let stun = management.stun(onState, skill);
+    let stun = onState.some(s => s.type === "stun");
     evaluate = stun;
   } else if (context === "receiver") {
     let onState = caster.status.onState;
-    let invulnerable = management.invulnerable(onState, skill);
+    // let invulnerable = management.invulnerable(onState, skill);
+    let invulnerable = onState.some(s => s.type === "invulnerable");
     evaluate = invulnerable;
   }
   if (

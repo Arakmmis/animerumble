@@ -30,7 +30,8 @@ function skillApply(payload) {
     myTurn: payload.myTurn,
     theirTurn: payload.theirTurn,
     state: payload.state,
-    isCounter: false
+    isCounter: false,
+    sequence: "sequence"
   };
 
   execute(package);

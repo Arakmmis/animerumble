@@ -63,7 +63,8 @@ let status = {
     modify: function(payload, self) {
       if (
         self.usage === 0 &&
-        helper.sameTeam(payload.offense.nameId, self.nameId, false)
+        helper.sameTeam(payload.offense.nameId, self.nameId, false) &&
+        payload.sequence === "sequence"
       ) {
         let stun = library.stun({
           active: 2
