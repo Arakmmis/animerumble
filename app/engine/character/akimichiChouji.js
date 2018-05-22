@@ -98,7 +98,7 @@ let skills = {
       if (check > -1) {
         stack = payload.offense.status.onState[check].stack + 1;
       }
-      bleed.val = bleed.val * stack;
+      bleed.val = 20 * stack;
 
       skill.pushStatus({
         subject: payload.target,
@@ -106,20 +106,6 @@ let skills = {
         status: bleed,
         inherit: this
       });
-
-      // payload.offense.status.onState.push(
-      //   new constructor.status(status.invulnerable3, this, 2)
-      // );
-      // payload.target.status.onSelf.push(
-      //   new constructor.status(
-      //     library.bleed({
-      //       val: payload.val,
-      //       active: 3
-      //     }),
-      //     this,
-      //     2
-      //   )
-      // );
       console.log("Chouji Bleed", payload.target.status.onSelf, payload.val);
     }
   },
@@ -155,13 +141,6 @@ let skills = {
       );
 
       payload.target.skill[0].val += 20;
-
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost1, this, 3)
-      // );
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost2, this, 3)
-      // );
       console.log("Chouji Stats!", payload.target.status.onAttack);
       self.usage += 1;
       payload.target.hp -= 20;
