@@ -249,12 +249,15 @@ let skills = {
     },
     move: function(payload, self) {
       if (payload.recursive === 0) {
-        skill.pushStatus({
-          subject: payload.offense,
-          onStatus: "onReceive",
-          status: status.dd3,
-          inherit: this
-        });
+        skill.pushStatus(
+          {
+            subject: payload.offense,
+            onStatus: "onReceive",
+            status: status.dd3,
+            inherit: this
+          },
+          "stackDD"
+        );
       }
 
       skill.pushStatus({

@@ -371,19 +371,25 @@ let skills = {
       });
 
       if (check) {
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onReceive",
-          status: status.dd2,
-          inherit: this
-        });
+        skill.pushStatus(
+          {
+            subject: payload.target,
+            onStatus: "onReceive",
+            status: status.dd2,
+            inherit: this
+          },
+          "stackDD"
+        );
       } else {
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onReceive",
-          status: status.dd,
-          inherit: this
-        });
+        skill.pushStatus(
+          {
+            subject: payload.target,
+            onStatus: "onReceive",
+            status: status.dd,
+            inherit: this
+          },
+          "stackDD"
+        );
       }
 
       skill.pushStatus({
