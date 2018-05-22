@@ -169,16 +169,17 @@ let skills = {
         let index = payload.state[payload.theirTurn].findIndex(x =>
           x.status.onSelf.some(s => s.type === "bleed" && s.name === this.name)
         );
-
-        skill.pushStatus(
-          {
-            subject: payload.state[payload.theirTurn][index],
-            onStatus: "onSelf",
-            status: status.bleed,
-            inherit: this
-          },
-          "stackBleed"
-        );
+        if (index > -1) {
+          skill.pushStatus(
+            {
+              subject: payload.state[payload.theirTurn][index],
+              onStatus: "onSelf",
+              status: status.bleed,
+              inherit: this
+            },
+            "stackBleed"
+          );
+        }
       }
     }
   },
