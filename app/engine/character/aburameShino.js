@@ -124,7 +124,7 @@ let skills = {
           status: status.dd,
           inherit: this
         },
-        "replace"
+        "stackDD"
       );
       // payload.target.status.onReceive.push(
       //   new constructor.status(status.dd, this, 3)
