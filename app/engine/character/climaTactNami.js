@@ -144,7 +144,7 @@ let skills = {
     cooldown: 0,
     classes: ["instant", "ranged", "energy"],
     description:
-      "Nami launches a thunder ball at an enemy dealing 10 piercing damage over 2 turns.",
+      "Nami launches a thunder ball at an enemy dealing 10 piercing damage for 2 turns.",
     target: "enemy",
     marking: true,
     energy: { w: 1 },

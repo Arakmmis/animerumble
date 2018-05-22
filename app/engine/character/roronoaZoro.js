@@ -192,7 +192,7 @@ let skills = {
     alt: 3,
     cooldown: 3,
     description:
-      "Zoro knocks an enemy into the air, stunning them and dealing 5 damage. This skill becomes Blade Wolf Stream. Each time this skill is used, Zoro deals 10 extra damage on all of his skills. This stacks.",
+      "Zoro knocks an enemy into the air, stunning them and dealing 5 damage. This skill becomes Blade Wolf Stream. Each time this skill is used, Zoro deals 5 extra damage on all of his skills. This stacks.",
     classes: ["instant", "melee", "physical"],
     energy: {
       i: 1
