@@ -17,6 +17,7 @@ let status = {
     val: 10,
     active: 2,
     classes: ["affliction"],
+    persistence: "instant",
     nextTurn: true,
     modify: function(payload, self) {
       if (payload.active === 1) {
