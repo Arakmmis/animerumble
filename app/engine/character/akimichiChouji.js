@@ -98,7 +98,7 @@ let skills = {
       if (check > -1) {
         stack = payload.offense.status.onState[check].stack + 1;
       }
-      bleed.val = 20 * stack;
+      bleed.val = 10 * stack;
 
       skill.pushStatus({
         subject: payload.target,
