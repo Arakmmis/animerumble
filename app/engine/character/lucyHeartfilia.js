@@ -20,14 +20,16 @@ let status = {
       payload.state[payload.myTurn].forEach(x => {
         x.status.onSelf = x.status.onSelf.filter(
           x =>
-            x.type !== "bleed" &&
-            x.nameId !== self.nameId &&
-            x.name !== self.name
+            !(
+              x.type == "bleed" &&
+              x.nameId === self.nameId &&
+              x.name === self.name
+            )
         );
       });
 
       payload.target.status.onState = payload.target.status.onState.filter(
-        x => x.type !== "state" && x.name !== self.name
+        x => !(x.type === "state" && x.name === self.name)
       );
 
       payload.target.skill[0].target = "enemy";
@@ -39,7 +41,7 @@ let status = {
     active: 3,
     callback: function(payload, self) {
       payload.target.status.onState = payload.target.status.onState.filter(
-        x => x.type !== "unique" && x.nameId !== self.nameId
+        x => !(x.type === "unique" && x.nameId === self.nameId)
       );
     }
   }),
@@ -65,9 +67,11 @@ let status = {
       payload.state[payload.myTurn].forEach(x => {
         x.status.onSelf = x.status.onSelf.filter(
           x =>
-            x.type !== "bleed" &&
-            x.nameId !== self.nameId &&
-            x.name !== self.name
+            !(
+              x.type === "bleed" &&
+              x.nameId === self.nameId &&
+              x.name === self.name
+            )
         );
       });
     }

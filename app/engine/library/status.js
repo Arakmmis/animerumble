@@ -394,7 +394,7 @@ function dd(x) {
       //   x => x.type === "disableDrIv"
       // );
       let affliction = payload.skill.classes.some(x => x === "affliction");
-      console.log("before dd", self.usage, payload.skill.type, disableDrIv);
+      console.log("before dd", self.usage, payload.skill.type);
 
       if (
         payload.val > 0 &&
@@ -419,7 +419,7 @@ function dd(x) {
         if (diff <= 0) {
           console.log("diff destroyed", diff);
           payload.target.status.onReceive = payload.target.status.onReceive.filter(
-            s => s.type !== self.type && s.name !== self.name
+            s => !(s.type === self.type && s.name === self.name)
           );
           self.callback(payload, self);
           self.usage = 1;

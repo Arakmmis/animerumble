@@ -69,6 +69,8 @@ function postSequence(x, turn, state) {
   let { myTurn, theirTurn } = indicateTurn(state);
   let stateCopy = _.cloneDeep(state);
 
+  // console.log("COMPARE", state, stateCopy);
+
   if (state.turn % 2 !== turn) {
     if (x.status.onSelf.length > 0) {
       x.status.onSelf.forEach((s, t) => {
@@ -89,7 +91,7 @@ function postSequence(x, turn, state) {
             stateCopy: stateCopy,
             myTurn: myTurn,
             theirTurn: theirTurn,
-            sequence: 'postsequence'
+            sequence: "postsequence"
           });
         }
       });
@@ -115,7 +117,7 @@ function postSequence(x, turn, state) {
               skill: s,
               myTurn: myTurn,
               theirTurn: theirTurn,
-              sequence: 'postsequence'
+              sequence: "postsequence"
             },
             s
           );

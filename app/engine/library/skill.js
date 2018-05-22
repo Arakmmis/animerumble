@@ -87,7 +87,7 @@ function removeStatus(package, type = "all") {
     let statusType = package.statusType;
     let name = package.name;
     subject.status[onStatus] = subject.status[onStatus].filter(
-      x => x.type !== statusType && x.name !== name
+      x => !(x.type === statusType && x.name === name)
     );
   }
 }

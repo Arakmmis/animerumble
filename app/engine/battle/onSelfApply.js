@@ -11,17 +11,23 @@ function team(ownerid, state) {
 }
 
 function persistenceCheck(skill, owner, state, context) {
-  let caster = owner;
+  // let caster = team(owner, state);
+  // let caster = _.cloneDeep(owner);
+  let caster = Object.assign({}, owner);
+  let onState = _.cloneDeep(caster.status.onState);
+  console.log("COMPARE", caster, owner);
+  console.log(onState);
   let evaluate;
   if (context === "attacker") {
-    let onState = caster.status.onState;
-    let stun = management.stun(onState, skill);
-    // let stun = onState.some(s => s.type === "stun");
+    // let onState = _.cloneDeep(caster.status.onState);
+    // let stun = management.stun(onState, skill);
+    let stun = onState.some(s => s.type === "stun");
     evaluate = stun;
+    console.log(onState, stun, caster);
   } else if (context === "receiver") {
-    let onState = caster.status.onState;
-    let invulnerable = management.invulnerable(onState, skill);
-    // let invulnerable = onState.some(s => s.type === "invulnerable");
+    // let onState = caster.status.onState;
+    // let invulnerable = management.invulnerable(onState, skill);
+    let invulnerable = onState.some(s => s.type === "invulnerable");
     evaluate = invulnerable;
   }
   if (
@@ -44,6 +50,7 @@ function selfApply(package) {
     let attacker = persistenceCheck(s, package.offense, stateCopy, "attacker");
     let receiver = persistenceCheck(s, package.target, stateCopy, "receiver");
     if (attacker === false && receiver === false) {
+      console.log("BLEEED", attacker, receiver, s);
       s.modify(
         {
           offense: package.target,

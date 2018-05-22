@@ -35,7 +35,6 @@ function battle(payload, store, callback) {
   sequence(state, payload);
 
   //Post Sequence
-  controlManagement(state);
   state.teamEven.forEach(x => {
     postSequence(x, 0, state);
     cleanup(x, state, state.energy.teamEven);
@@ -44,6 +43,7 @@ function battle(payload, store, callback) {
     postSequence(x, 1, state);
     cleanup(x, state, state.energy.teamOdd);
   });
+  controlManagement(state);
 
   //Energy Distribution
   energyDistribution(state);

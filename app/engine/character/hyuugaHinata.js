@@ -116,6 +116,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 4,
+    harmful: false,
     description:
       "Hinata activates her Byakugan gaining 15 points of damage reduction for 4 turns. The following 4 turns, 'Hinata Gentle Fist' and 'Protective Eight Trigrams Sixty-Four Palms' will be improved.",
     target: "self",
