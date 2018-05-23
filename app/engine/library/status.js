@@ -73,7 +73,10 @@ function protect(x) {
       console.log("REDUCE VAL", payload.val, tempVal, affliction, disableDrIv);
       if (payload.val > 0 && tempVal > 0) {
         if (
-          payload.skill.type !== "piercing" &&
+          !(
+            payload.skill.type === "piercing" ||
+            payload.skill.classes.some(s => s === "piercing")
+          ) &&
           disableDrIv === false &&
           affliction === false
         ) {
@@ -400,7 +403,7 @@ function dd(x) {
         payload.val > 0 &&
         self.usage === 0 &&
         // onReceive[index].usage === 0 &&
-        payload.skill.type !== "piercing" &&
+        // payload.skill.type !== "piercing" &&
         affliction === false
       ) {
         let dd = self.val;
