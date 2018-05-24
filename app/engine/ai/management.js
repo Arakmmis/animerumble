@@ -289,7 +289,7 @@ function energyManagement(temporary, option) {
   function stunManagement(onState, skill) {
     let stun = onState.map(x => {
       if (x.type === "stun") {
-        let intersect = _.intersection(x.classes, skill.classes);
+        let intersect = _.intersection(x.comprise, skill.classes);
   
         let evaluate;
   
@@ -317,7 +317,7 @@ function energyManagement(temporary, option) {
   function invulnerableManagement(onState, skill) {
     let invulnerable = onState.map(x => {
       if (x.type === "invulnerable") {
-        let intersect = _.intersection(x.classes, skill.classes);
+        let intersect = _.intersection(x.comprise, skill.classes);
   
         let evaluate;
   
@@ -345,7 +345,7 @@ function energyManagement(temporary, option) {
   function ignoreManagement(onState, skill) {
     let ignore = onState.map(x => {
       if (x.type === "ignore") {
-        let intersect = _.intersection(x.classes, skill.classes);
+        let intersect = _.intersection(x.comprise, skill.classes);
   
         let evaluate;
   

@@ -26,13 +26,13 @@ let status = {
   stun2: library.stun({
     active: 2,
     info: "declusive",
-    classes: ["mental"],
+    comprise: ["mental"],
     persistence: "control"
   }),
   stun: library.stun({
     active: 1,
     info: "declusive",
-    classes: ["mental"],
+    comprise: ["mental"],
     persistence: "control"
   }),
   protect: library.protect({

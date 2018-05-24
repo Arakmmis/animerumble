@@ -16,7 +16,7 @@ let status = {
   stun: library.stun({}),
   stun2: library.stun({
     active: 3,
-    classes: ["strategic"]
+    comprise: ["strategic"]
   }),
   protect: library.protect({
     val: 15,

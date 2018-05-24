@@ -40,7 +40,7 @@ let status = {
     persistence: "action"
   }),
   stun: library.stun({
-    classes: ["physical", "energy"],
+    comprise: ["physical", "energy"],
     active: 2
   }),
   dd: library.dd({

@@ -14,7 +14,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   stun: library.stun({
-    classes: ["physical", "mental"]
+    comprise: ["physical", "mental"]
   }),
   protect: library.protect({
     val: 10,

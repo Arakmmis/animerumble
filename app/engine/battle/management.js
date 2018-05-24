@@ -4,7 +4,7 @@ function stunManagement(onState, skill) {
   let stun = onState.map(x => {
     if (x.type === "stun") {
       let ignore = ignoreManagement(onState, x);
-      let intersect = _.intersection(x.classes, skill.classes);
+      let intersect = _.intersection(x.comprise, skill.classes);
 
       let evaluate;
 
@@ -33,7 +33,7 @@ function invulnerableManagement(onState, skill) {
   let invulnerable = onState.map(x => {
     if (x.type === "invulnerable") {
       let ignoreInvul = skill.ignoreInvul;
-      let intersect = _.intersection(x.classes, skill.classes);
+      let intersect = _.intersection(x.comprise, skill.classes);
 
       let evaluate;
 
@@ -61,7 +61,7 @@ function invulnerableManagement(onState, skill) {
 function ignoreManagement(onState, skill) {
   let ignore = onState.map(x => {
     if (x.type === "ignore") {
-      let intersect = _.intersection(x.classes, skill.classes);
+      let intersect = _.intersection(x.comprise, skill.classes);
 
       let evaluate;
 
@@ -91,7 +91,7 @@ function counterManagement(onStatus, onState, package) {
   let counter = onStatus.map(x => {
     if (x.type === "counter") {
       let ignore = ignoreManagement(onState, x);
-      let intersect = _.intersection(x.classes, skill.classes);
+      let intersect = _.intersection(x.comprise, skill.classes);
 
       //Only Counter Harmful Skills
       let harmful = x.harmfulOnly;

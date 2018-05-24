@@ -14,7 +14,7 @@ let status = {
   invulnerable: library.invulnerable({}),
   stun: library.stun({}),
   stun2: library.stun({
-    classes: ["melee"]
+    comprise: ["melee"]
   }),
   protect: library.protect({
     val: 15,

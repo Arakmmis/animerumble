@@ -38,7 +38,7 @@ let status = {
   }),
   counter: library.counter({
     info: "declusive",
-    classes: ["mental"],
+    comprise: ["mental"],
     modify: function(payload, self) {
       let boost = library.boost({
         val: 5,

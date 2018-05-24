@@ -16,7 +16,7 @@ let status = {
   stun: library.stun({
     active: 2,
     info: "declusive",
-    classes: ["mental"],
+    comprise: ["mental"],
     persistence: "control"
   }),
   disableDrIv: library.disableDrIv({

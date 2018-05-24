@@ -14,7 +14,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   invulnerable2: library.invulnerable({
-    classes: ["physical", "energy"]
+    comprise: ["physical", "energy"]
   }),
   bleed: library.bleed({
     val: 5,

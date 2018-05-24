@@ -107,8 +107,8 @@ function invulnerable(x) {
     harmful: x.harmful ? x.harmful : false,
     effect: x.effect ? x.effect : x.type,
     info: x.info ? x.info : "inclusive",
-    classes: x.classes
-      ? x.classes
+    comprise: x.comprise
+      ? x.comprise
       : [
           "instant",
           "mental",
@@ -134,8 +134,8 @@ function stun(x) {
     description: x.description ? x.description : "",
     info: x.info ? x.info : "inclusive",
     persistence: x.persistence ? x.persistence : "instant",
-    classes: x.classes
-      ? x.classes
+    comprise: x.comprise
+      ? x.comprise
       : [
           "instant",
           "mental",
@@ -164,8 +164,8 @@ function counter(x) {
     info: x.info ? x.info : "inclusive",
     persistence: x.persistence ? x.persistence : "instant",
     period: "instant",
-    classes: x.classes
-      ? x.classes
+    comprise: x.comprise
+      ? x.comprise
       : [
           "instant",
           "mental",
@@ -262,8 +262,8 @@ function ignore(x) {
     type: "ignore",
     info: x.info ? x.info : "inclusive",
     harmful: x.harmful ? x.harmful : false,
-    classes: x.classes
-      ? x.classes
+    comprise: x.comprise
+      ? x.comprise
       : [
           "instant",
           "mental",
