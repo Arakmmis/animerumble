@@ -38,7 +38,7 @@ let status = {
   dd2: library.dd({
     isStack: true,
     val: 5,
-    active: 3,
+    active: -1,
     callback: function(payload, self) {
       payload.target.status.onState = payload.target.status.onState.filter(
         x => !(x.type === "unique" && x.nameId === self.nameId)
@@ -92,6 +92,7 @@ let status = {
   }),
   track: library.track({
     active: 3,
+    persistence: "instant",
     modify: function(payload, self) {
       let index = payload.offense.status.onReceive.findIndex(
         x => x.type === "dd" && x.name === self.name
@@ -109,7 +110,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 1,
-    classes: ["action", "physical"],
+    classes: ["action", "physical", "piercing"],
     energy: {
       w: 1,
       r: 1

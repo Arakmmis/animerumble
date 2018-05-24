@@ -333,12 +333,14 @@ let skills = {
         val: payload.val
       });
 
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: "onSelf",
-        status: status.transformBack,
-        inherit: this
-      });
+      if (payload.recursive === 0) {
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onSelf",
+          status: status.transformBack,
+          inherit: this
+        });
+      }
     }
   },
   skill6: {
@@ -392,12 +394,14 @@ let skills = {
         );
       }
 
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: "onSelf",
-        status: status.transformBack,
-        inherit: this
-      });
+      if (payload.recursive === 0) {
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onSelf",
+          status: status.transformBack,
+          inherit: this
+        });
+      }
     }
   },
   skill7: {
@@ -465,12 +469,14 @@ let skills = {
         }
       }
 
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: "onSelf",
-        status: status.transformBack,
-        inherit: this
-      });
+      if (payload.recursive === 0) {
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: "onSelf",
+          status: status.transformBack,
+          inherit: this
+        });
+      }
     }
   }
 };
