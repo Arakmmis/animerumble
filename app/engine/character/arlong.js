@@ -174,7 +174,7 @@ let skills = {
       "For 3 turns,Arlong will deal 10 damage to a random enemy each turn. Anyone who targets Arlong will be dealt 5 damage. Whoever is damaged by this skill will take 5 more damage that stacks from Shark Tooth Drill permanently. This skill turns into Great White Swim for 2 turns.",
     target: "randomenemy",
     energy: {
-      s: 1
+      r: 1
     },
     move: function(payload, self) {
       if (payload.recursive === 0) {
@@ -290,7 +290,7 @@ let skills = {
     cooldown: 2,
     classes: ["instant", "strategic"],
     description:
-      "Arlong will gain 20 destructible defense that lasts for 2 turns. During this time Shark on Darts will cost 1 less random chakra. As long as this destructible defense is active, Arlong will ignore any skills that drain, remove or steal energy.",
+      "Arlong will gain 20 destructible defense that lasts for 2 turns. During this time Shark Tooth Drill will cost 1 less random chakra. As long as this destructible defense is active, Arlong will ignore any skills that drain, remove or steal energy.",
     target: "self",
     energy: {
       r: 1
