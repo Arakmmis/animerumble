@@ -86,8 +86,9 @@ let skills = {
   },
   skill2: {
     name: "Chidori",
-    type: "piercing",
+    type: "attack",
     val: 30,
+    piercing: true,
     cooldown: 1,
     classes: ["instant", "melee", "energy"],
     description:

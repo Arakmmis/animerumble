@@ -316,7 +316,8 @@ let skills = {
   },
   skill5: {
     name: "Ice Make: Lance",
-    type: "piercing",
+    type: "attack",
+    piercing: true,
     val: 20,
     alt: 0,
     cooldown: 0,

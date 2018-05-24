@@ -73,10 +73,7 @@ function protect(x) {
       console.log("REDUCE VAL", payload.val, tempVal, affliction, disableDrIv);
       if (payload.val > 0 && tempVal > 0) {
         if (
-          !(
-            payload.skill.type === "piercing" ||
-            payload.skill.classes.some(s => s === "piercing")
-          ) &&
+          payload.skill.piercing === false &&
           disableDrIv === false &&
           affliction === false
         ) {
@@ -232,6 +229,7 @@ function charge(x) {
     type: "charge",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
+    isInvisible: x.isInvisible ? x.isInvisible : true,
     info: x.info ? x.info : "descending",
     description: x.description ? x.description : "",
     active: x.active ? x.active : -1,
@@ -244,10 +242,9 @@ function track(x) {
     name: x.name,
     val: 0,
     type: "track",
-    isInvisible: true,
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
-    isInvisible: x.isInvisible ? x.isInvisible : false,
+    isInvisible: x.isInvisible ? x.isInvisible : true,
     info: x.info ? x.info : "",
     description: x.description ? x.description : "",
     active: x.active ? x.active : -1,
@@ -304,6 +301,8 @@ function bleed(x) {
     type: "bleed",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : true,
+    classes: x.classes ? x.classes : false,
+    piercing: x.piercing ? x.piercing : false,
     description: x.description ? x.description : "",
     period: "instant",
     isInvisible: x.isInvisible ? x.isInvisible : false,
@@ -341,7 +340,6 @@ function drain(x) {
 function cooldownIncrease(x) {
   return {
     name: x.name ? x.name : "cooldownIncrease",
-
     val: x.val ? x.val : 0,
     type: "cooldownIncrease",
     effect: x.effect ? x.effect : x.type,
@@ -357,7 +355,6 @@ function cooldownIncrease(x) {
 function decreaseEnergy(x) {
   return {
     name: x.name ? x.name : "decreaseEnergy",
-
     val: x.val ? x.val : 5,
     type: "decreaseEnergy",
     effect: x.effect ? x.effect : x.type,

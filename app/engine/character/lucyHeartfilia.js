@@ -14,7 +14,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   dd: library.dd({
-    isStack: true,
+    isStack: true,    
     val: 20,
     callback: function(payload, self) {
       payload.state[payload.myTurn].forEach(x => {
@@ -81,6 +81,7 @@ let status = {
   }),
   bleed: library.bleed({
     isStack: true,
+    piercing: true,
     val: 15,
     active: -1
   }),

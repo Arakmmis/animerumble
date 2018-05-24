@@ -67,7 +67,7 @@ function persistenceCheck(skill, owner, state, context) {
 
 function postSequence(x, turn, state) {
   let { myTurn, theirTurn } = indicateTurn(state);
-  let stateCopy = _.cloneDeep(state);
+  let stateCopy = state;
 
   // console.log("COMPARE", state, stateCopy);
 

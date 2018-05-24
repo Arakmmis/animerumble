@@ -45,6 +45,7 @@ let status = {
   }),
   dd: library.dd({
     val: 15,
+    piercing: true,
     active: 3
   }),
   state: library.state({

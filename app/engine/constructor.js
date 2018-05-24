@@ -117,7 +117,7 @@ function status(payload, inherit, skill) {
 
   //State Modifier
   this.isCounter = payload.isCounter ? payload.isCounter : false;
-  this.isInvisible = payload.isInvisible ? payload.isInvisible : false;
+  this.isInvisible = payload.isInvisible === true ? true : false;
   this.isStack = payload.isStack ? payload.isStack : false;
 
   //Cosmetic

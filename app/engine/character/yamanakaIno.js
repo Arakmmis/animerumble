@@ -62,6 +62,7 @@ let skills = {
   skill1: {
     name: "Mind Body Disturbance",
     type: "attack",
+    piercing: true,
     val: 30,
     cooldown: 0,
     energy: {
