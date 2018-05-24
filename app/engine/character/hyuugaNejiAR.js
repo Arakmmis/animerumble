@@ -71,7 +71,7 @@ let skills = {
     cooldown: 1,
     classes: ["instant", "ranged", "energy"],
     energy: {
-      s: 1
+      i: 1
     },
     target: "allenemy",
     description:
@@ -130,7 +130,7 @@ let skills = {
     marking: true,
     energy: {
       a: 1,
-      i: 1
+      r: 1
     },
     move: function(payload, self) {
       skill.pushStatus({
@@ -184,7 +184,7 @@ let skills = {
     classes: ["action", "melee", "physical", "affliction"],
     energy: {
       a: 1,
-      s: 1
+      i: 1
     },
     target: "enemy",
     description:
