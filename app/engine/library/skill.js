@@ -162,7 +162,7 @@ function removeDD(payload) {
 
   status.onReceive = status.onReceive.filter(x => x.type !== "dd");
 
-  let myTeam = payload.state[myTeam];
+  let myTeam = payload.state[payload.myTurn];
   myTeam.forEach(x => {
     x.status.onSelf = x.status.onSelf.filter(
       x => !(x.type === "dd" && x.nameId === nameId)

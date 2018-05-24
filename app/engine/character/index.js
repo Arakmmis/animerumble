@@ -11,10 +11,12 @@ let rockLee = require("./rockLee.js");
 let hyuugaHinata = require("./hyuugaHinata.js");
 let yamanakaIno = require("./yamanakaIno.js");
 let gaara = require("./gaara.js");
+
 let climaTactNami = require("./climaTactNami.js");
 let roronoaZoro = require("./roronoaZoro.js");
 let usopp = require("./usopp.js");
 let monkeyDLuffy = require("./monkeyDLuffy.js");
+let arlong = require("./arlong.js");
 
 let uzumakiNarutoAR = require("./uzumakiNarutoAR.js");
 let hyuugaNejiAR = require("./hyuugaNejiAR.js");
@@ -45,6 +47,7 @@ module.exports = [
   climaTactNami,
   roronoaZoro,
   usopp,
+  arlong,
   natsuDragneel,
   grayFullbuster,
   lucyHeartfilia

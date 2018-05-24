@@ -14,7 +14,7 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({}),
+  invulnerable: library.invulnerable({ active: 1 }),
   stun: library.stun({}),
   protect: library.protect({
     val: 15
@@ -51,12 +51,12 @@ let status = {
     harmful: false,
     modify: function(payload, self) {
       if (payload.active === 3) {
-        let swap = payload.offense.skill[0];
-        payload.offense.skill[0] = payload.offense.skill[4];
+        let swap = payload.offense.skill[2];
+        payload.offense.skill[2] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
       } else if (payload.active === 1) {
-        let swap = payload.offense.skill[0];
-        payload.offense.skill[0] = payload.offense.skill[4];
+        let swap = payload.offense.skill[2];
+        payload.offense.skill[2] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
       }
     }
@@ -67,8 +67,7 @@ let skills = {
   skill1: {
     name: "Eight Trigrams Revolving Heaven",
     type: "attack",
-    val: 15,
-    alt: 4,
+    val: 15,    
     cooldown: 1,
     classes: ["instant", "ranged", "energy"],
     energy: {
@@ -80,7 +79,7 @@ let skills = {
     move: function(payload, self) {
       if (payload.recursive === 0) {
         skill.pushStatus({
-          subject: payload.target,
+          subject: payload.offense,
           onStatus: "onState",
           status: status.invulnerable,
           inherit: this
@@ -122,6 +121,7 @@ let skills = {
     name: "Gentle Fist",
     type: "attack",
     val: 0,
+    alt: 4,
     cooldown: 1,
     classes: ["action", "melee", "physical"],
     description:
@@ -179,7 +179,7 @@ let skills = {
     name: "Organ Strike",
     type: "attack",
     val: 25,
-    alt: 0,
+    alt: 2,
     cooldown: 2,
     classes: ["action", "melee", "physical", "affliction"],
     energy: {
@@ -202,6 +202,11 @@ let skills = {
         myTurn: payload.myTurn,
         theirTurn: payload.theirTurn,
         state: payload.state
+      });
+
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
       });
     }
   }

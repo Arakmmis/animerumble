@@ -20,6 +20,7 @@ let status = {
     active: 2
   }),
   heal: library.heal({
+    active: 1,
     val: 20
   }),
   ignore: library.ignore({
@@ -48,7 +49,7 @@ let status = {
   }),
   transform: {
     name: "Transform",
-    active: 4,
+    active: 3,
     harmful: false,
     modify: function(payload, self) {
       if (payload.active === 3) {
@@ -83,12 +84,13 @@ let skills = {
       skill.pushStatus(
         {
           subject: payload.target,
-          onStatus: "onSelf",
+          onStatus: "onReceive",
           status: status.dd,
           inherit: this
         },
         "stackDD"
       );
+
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onState",
@@ -144,7 +146,7 @@ let skills = {
       });
 
       skill.pushStatus({
-        subject: payload.target,
+        subject: payload.offense,
         onStatus: "onState",
         status: status.state2,
         inherit: this
@@ -174,7 +176,7 @@ let skills = {
         statusName: "Chakra Control"
       });
       if (check) {
-        heal.active = 3;
+        heal.active = 2;
       }
 
       let check2 = skill.checkStatus({

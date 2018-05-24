@@ -61,6 +61,7 @@ function sameTeam(subject, target, evaluate) {
 }
 
 module.exports = {
+  shuffle,
   energy,
   stealEnergy,
   getRandomInt,

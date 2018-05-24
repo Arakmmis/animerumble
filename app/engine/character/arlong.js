@@ -15,22 +15,27 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({}),
-  stun: libyrar.stun({
+  stun: library.stun({
     active: 1,
     comprise: ["strategic"]
   }),
-  stu2: libyrar.stun({
+  stun2: library.stun({
     active: 1,
     comprise: ["ranged"]
   }),
-  stun3: libyrar.stun({
+  stun3: library.stun({
     active: 2
   }),
   bleed: library.bleed({
     val: 10,
     active: 1,
     modify: function(payload, self) {
-      let boost = library.ignore({
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
+      });
+
+      let boost = library.boost({
         isStack: true,
         val: 5,
         active: -1,
@@ -41,18 +46,27 @@ let status = {
         }
       });
 
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: "onReceive",
-        status: status.boost,
-        inherit: this
-      });
+      let inherit = {
+        name: self.name,
+        nameId: self.nameId,
+        id: self.skillIndex - 1
+      };
+      console.log("APPLY", inherit);
+      skill.pushStatus(
+        {
+          subject: payload.target,
+          onStatus: "onReceive",
+          status: status.boost,
+          inherit: inherit
+        },
+        "stack"
+      );
     }
   }),
   ignore: library.ignore({
     active: 2
   }),
-  boost: library.ignore({
+  boost: library.boost({
     isStack: true,
     val: 10,
     active: -1,
@@ -90,7 +104,7 @@ let status = {
   }),
   transform: {
     name: "Transform",
-    active: 4,
+    active: 3,
     harmful: false,
     modify: function(payload, self) {
       if (payload.active === 3) {
@@ -177,17 +191,8 @@ let skills = {
           status: status.track,
           inherit: this
         });
-
-        skill.pushStatus({
-          subject: payload.target,
-          onStatus: "onSelf",
-          status: status.bleed,
-          inherit: this
-        });
       } else if (payload.recursive === 1) {
-        let bleed = status.bleed2;
-        bleed.nextTurn = true;
-        bleed.active = 2;
+        console.log("ARLONG TARGET", payload.target, payload.recursive);
         skill.pushStatus({
           subject: payload.target,
           onStatus: "onSelf",
@@ -195,7 +200,19 @@ let skills = {
           inherit: this
         });
       } else if (payload.recursive === 2) {
-        let bleed = status.bleed2;
+        console.log("ARLONG TARGET", payload.target, payload.recursive);
+        let bleed = status.bleed;
+        bleed.nextTurn = true;
+        bleed.active = 2;
+        skill.pushStatus({
+          subject: payload.target,
+          onStatus: "onSelf",
+          status: bleed,
+          inherit: this
+        });
+      } else if (payload.recursive === 3) {
+        console.log("ARLONG TARGET", payload.target, payload.recursive);
+        let bleed = status.bleed;
         bleed.nextTurn = true;
         bleed.active = 3;
         skill.pushStatus({
@@ -230,15 +247,15 @@ let skills = {
       if (payload.target.hp - payload.val < 50) {
         skill.pushStatus({
           subject: payload.target,
-          onStatus: "onSelf",
-          status: stun2,
+          onStatus: "onState",
+          status: status.stun3,
           inherit: this
         });
-      } else {
+      } else if (payload.target.hp - payload.val >= 50) {
         skill.pushStatus({
           subject: payload.target,
-          onStatus: "onSelf",
-          status: stun3,
+          onStatus: "onState",
+          status: status.stun2,
           inherit: this
         });
       }

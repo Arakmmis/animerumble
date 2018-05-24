@@ -18,7 +18,8 @@ function sequence(state, payload) {
     let offense = team(payload.offense);
     if (payload.aim === "randomenemy") {
       let target = payload.target.slice(0, 1);
-      let random = payload.target[helper.getRandomInt(2)];
+      // let random = payload.target[helper.getRandomInt(2)];
+      let random = helper.shuffle(payload.target);
       payload.target = target.concat(random);
     }
 

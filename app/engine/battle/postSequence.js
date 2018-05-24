@@ -109,6 +109,7 @@ function postSequence(x, turn, state) {
           s.modify(
             {
               offense: x,
+              target: x,
               val: s.val,
               active: s.active,
               myEnergy: state.energy[myTurn],

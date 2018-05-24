@@ -54,6 +54,7 @@ function selfApply(package) {
       s.modify(
         {
           offense: package.target,
+          target: package.target,
           val: package.val,
           active: s.active,
           myEnergy: package.myEnergy,
