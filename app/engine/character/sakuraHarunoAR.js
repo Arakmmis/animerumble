@@ -8,7 +8,7 @@ let info = {
   name: "Sakura Haruno AR",
   anime: "Naruto",
   author: "63k",
-  pictures: "63k",
+  pictures: "63k, Krasi.fit",
   description:
     "A Genin from Team 7, Sakura is very intelligent, but self-conscious about herself. Having just recently received training from Tsunade, Sakura is now able to deliver powerful punches and heal her own allies."
 };
