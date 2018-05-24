@@ -63,6 +63,7 @@ function skill(payload, nameId) {
   this.marking = payload.marking ? payload.marking : false;
   this.usage = payload.usage ? payload.usage : 0;
   this.multi = payload.multi ? payload.multi : 0;
+  this.piercing = payload.piercing ? payload.piercing : false;
 
   //State Modifier
   this.noCounter = payload.noCounter ? true : false;
@@ -100,6 +101,7 @@ function status(payload, inherit, skill) {
   //Modifier
   this.harmful = payload.harmful !== null ? payload.harmful : true;
   this.classes = payload.classes ? payload.classes : inherit.classes;
+  this.comprise = payload.comprise ? payload.comprise : inherit.classes;
   this.info = payload.info !== null ? payload.info : "inclusive";
   this.persistence = payload.persistence ? payload.persistence : "instant";
   this.allow = payload.allow ? payload.allow : false;
@@ -108,6 +110,7 @@ function status(payload, inherit, skill) {
   this.stack = payload.stack ? payload.stack : 1;
   this.nextTurn = payload.nextTurn ? payload.nextTurn : false;
   this.harmfulOnly = payload.harmfulOnly ? payload.harmfulOnly : false;
+  this.piercing = payload.piercing ? payload.piercing : false;
 
   //Value Store
   this.defense = payload.defense ? payload.defense : 0;
