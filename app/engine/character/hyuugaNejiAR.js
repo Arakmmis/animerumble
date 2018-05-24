@@ -68,6 +68,7 @@ let skills = {
     name: "Eight Trigrams Revolving Heaven",
     type: "attack",
     val: 15,
+    alt: 4,
     cooldown: 1,
     classes: ["instant", "ranged", "energy"],
     energy: {
@@ -178,6 +179,7 @@ let skills = {
     name: "Organ Strike",
     type: "attack",
     val: 25,
+    alt: 0,
     cooldown: 2,
     classes: ["action", "melee", "physical", "affliction"],
     energy: {

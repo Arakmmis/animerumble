@@ -15,7 +15,11 @@ let climaTactNami = require("./climaTactNami.js");
 let roronoaZoro = require("./roronoaZoro.js");
 let usopp = require("./usopp.js");
 let monkeyDLuffy = require("./monkeyDLuffy.js");
+
 let uzumakiNarutoAR = require("./uzumakiNarutoAR.js");
+let hyuugaNejiAR = require("./hyuugaNejiAR.js");
+let sakuraHarunoAR = require("./sakuraHarunoAR.js");
+
 let natsuDragneel = require("./natsuDragneel.js");
 let grayFullbuster = require("./grayFullbuster.js");
 let lucyHeartfilia = require("./lucyHeartfilia.js");
@@ -35,6 +39,8 @@ module.exports = [
   hyuugaNeji,
   gaara,
   uzumakiNarutoAR,
+  hyuugaNejiAR,
+  sakuraHarunoAR,
   monkeyDLuffy,
   climaTactNami,
   roronoaZoro,

@@ -289,7 +289,7 @@ function heal(x) {
     description: x.description ? x.description : "",
     active: x.active ? x.active : 2,
     modify: function(payload, self) {
-      payload.offense.hp += this.val;
+      payload.offense.hp += self.val;
     }
   };
 }

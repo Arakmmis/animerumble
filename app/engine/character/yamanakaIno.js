@@ -81,7 +81,7 @@ let skills = {
           status: status.stun,
           inherit: this
         });
-      } else {
+      } else if (payload.recursive === 1) {
         skill.pushStatus({
           subject: payload.target,
           onStatus: "onState",
