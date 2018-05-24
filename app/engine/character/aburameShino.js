@@ -56,11 +56,6 @@ let skills = {
         myEnergy: payload.myEnergy,
         amount: 1
       });
-      // let energy = helper.stealEnergy(payload.theirEnergy);
-      // if (energy !== false) {
-      //   payload.theirEnergy[energy] -= 1;
-      //   payload.myEnergy[energy] += 1;
-      // }
 
       skill.damage({
         subject: payload.target,
@@ -94,12 +89,6 @@ let skills = {
         status: status.boost,
         inherit: this
       });
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.reduce, this, 2)
-      // );
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.boost, this, 2)
-      // );
     }
   },
   skill3: {
@@ -126,9 +115,6 @@ let skills = {
         },
         "stackDD"
       );
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.dd, this, 3)
-      // );
     }
   },
   skill4: {
@@ -149,9 +135,6 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       });
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   }
 };

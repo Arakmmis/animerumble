@@ -146,6 +146,30 @@ function stealEnergy(payload) {
   }
 }
 
+function removeEnergy(payload) {
+  let energy = helper.stealEnergy(payload.theirEnergy);
+  let amount = payload.amount;
+
+  if (energy !== false) {
+    payload.theirEnergy[energy] -= amount;
+  }
+}
+
+function removeDD(payload) {
+  let subject = payload.subject;
+  let status = payload.subject.status;
+  let nameId = subject.nameId;
+
+  status.onReceive = status.onReceive.filter(x => x.type !== "dd");
+
+  let myTeam = payload.state[myTeam];
+  myTeam.forEach(x => {
+    x.status.onSelf = x.status.onSelf.filter(
+      x => !(x.type === "dd" && x.nameId === nameId)
+    );
+  });
+}
+
 module.exports = {
   pushStatus,
   damage,
@@ -153,5 +177,7 @@ module.exports = {
   removeStatus,
   charge,
   checkStatus,
-  stealEnergy
+  stealEnergy,
+  removeEnergy,
+  removeDD
 };
