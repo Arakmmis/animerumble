@@ -7,8 +7,8 @@ let info = {
   id: "hyuugaNejiAR",
   name: "Hyuuga Neji AR",
   anime: "Naruto",
-  author: "63k",
-  pictures: "N-B",
+  author: "63k, Krasi.fit",
+  pictures: "Krasi.fit",
   description:
     "A member of team Gai; Neji is the most talented member of the Hyuuga clan in both mind and body. Neji can use the most powerful techniques of his clan, shutting down an enemy's chakra or defending with an absolute defense."
 };
@@ -67,7 +67,7 @@ let skills = {
   skill1: {
     name: "Eight Trigrams Revolving Heaven",
     type: "attack",
-    val: 15,    
+    val: 15,
     cooldown: 1,
     classes: ["instant", "ranged", "energy"],
     energy: {
