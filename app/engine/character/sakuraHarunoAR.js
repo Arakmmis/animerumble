@@ -76,7 +76,7 @@ let skills = {
     description:
       "Controlling her chakra, Sakura gains 15 Destructible Defense and improves her skills for 3 turns. The destructible defense of this skill stacks. Becomes Inner Spirit when used.",
     energy: {
-      a: 1
+      w: 1
     },
     target: "self",
     classes: ["instant", "melee", "physical"],
@@ -123,7 +123,7 @@ let skills = {
       "Using basic Taijutsu, Sakura targets an enemy who takes 15 damage for 2 turns. Palm Healing will heal 10 more during its duration. This skill lasts one more turn and deals piercing damage during Chakra Control.",
     target: "enemy",
     energy: {
-      s: 1
+      a: 1
     },
     move: function(payload, self) {
       let check = skill.checkStatus({
@@ -164,7 +164,7 @@ let skills = {
       "Sakura heals an ally for 20 health and has all of the Affliction skills on them removed. This skill lasts an additional turn and can target Sakura during Chakra Control.",
     target: "otherally",
     energy: {
-      r: 1
+      s: 1
     },
     move: function(payload, self) {
       let heal = status.heal;
@@ -227,9 +227,7 @@ let skills = {
     classes: ["instant", "energy"],
     description: "Using her inner spirit, Sakura ignores the next stun effect.",
     target: "self",
-    energy: {
-      r: 1
-    },
+    energy: {},
     move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
