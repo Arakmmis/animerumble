@@ -14,7 +14,7 @@ let info = {
 };
 
 let status = {
-  invulnerable: library.invulnerable({ active: 1 }),
+  invulnerable: library.invulnerable({}),
   stun: library.stun({}),
   protect: library.protect({
     val: 15

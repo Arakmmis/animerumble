@@ -23,9 +23,7 @@ let status = {
     active: 1,
     val: 20
   }),
-  ignore: library.ignore({
-    active: 1
-  }),
+  ignore: library.ignore({}),
   dd: library.dd({
     isStack: true,
     val: 15
@@ -42,17 +40,17 @@ let status = {
       if (payload.active === 3) {
         payload.offense.skill[2].target = "ally";
       }
-      if (payload.active === 0) {
+      if (payload.active === 1) {
         payload.offense.skill[2].target = "otherally";
       }
     }
   }),
   transform: {
     name: "Transform",
-    active: 3,
+    active: 4,
     harmful: false,
     modify: function(payload, self) {
-      if (payload.active === 3) {
+      if (payload.active === 4) {
         let swap = payload.offense.skill[0];
         payload.offense.skill[0] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;
@@ -69,7 +67,7 @@ let skills = {
   skill1: {
     name: "Chakra Control",
     type: "attack",
-    val: 20,
+    val: 0,
     alt: 4,
     cooldown: 3,
     harmful: false,
@@ -155,11 +153,11 @@ let skills = {
   },
   skill3: {
     name: "Palm Healing",
-    type: "attack",
+    type: "heal",
     val: 20,
-    cooldown: 4,
+    cooldown: 2,
     harmful: false,
-    classes: ["instant", "mental"],
+    classes: ["instant", "energy"],
     description:
       "Sakura heals an ally for 20 health and has all of the Affliction skills on them removed. This skill lasts an additional turn and can target Sakura during Chakra Control.",
     target: "otherally",
@@ -223,7 +221,7 @@ let skills = {
     val: 0,
     alt: 0,
     harmful: false,
-    cooldown: 4,
+    cooldown: 0,
     classes: ["instant", "energy"],
     description: "Using her inner spirit, Sakura ignores the next stun effect.",
     target: "self",

@@ -39,10 +39,10 @@ let status = {
   }),
   transform: {
     name: "Transform",
-    active: 3,
+    active: 2,
     harmful: false,
     modify: function(payload, self) {
-      if (payload.active === 3) {
+      if (payload.active === 2) {
         let swap = payload.offense.skill[0];
         payload.offense.skill[0] = payload.offense.skill[4];
         payload.offense.skill[4] = swap;

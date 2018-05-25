@@ -21,15 +21,15 @@ setInterval(() => {
     return;
   }
   if (app.state.timer.turn > 0) {
-    let timer = app.state.timer.turn - 2.2;
+    let timer = app.state.timer.turn - 1.66;
     if (timer < 0) {
       timer = 0;
     }
     app.state.timer.turn = timer;
   } else if (app.state.timer.turn <= 0 && app.source.myTurn === true) {
     let timeDiff = (Date.now() - app.source.timestamp) / 1000;
-    let timeCalc = 45 - timeDiff;
-    let remaining = 100 * (timeCalc / 45);
+    let timeCalc = 60 - timeDiff;
+    let remaining = 100 * (timeCalc / 60);
     // console.log(app.source.timestamp, timeDiff, timeCalc, remaining);
 
     if (

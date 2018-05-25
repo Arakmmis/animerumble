@@ -19,8 +19,8 @@ function vueBind(payload) {
 
   //Time
   let timeDiff = (Date.now() - payload.timestamp) / 1000;
-  let timeCalc = Math.floor(45 - timeDiff);
-  let remaining = 100 * (timeCalc / 45);
+  let timeCalc = Math.floor(60 - timeDiff);
+  let remaining = 100 * (timeCalc / 60);
   console.log(payload.timestamp, timeDiff, timeCalc, remaining);
 
   if (remaining < 0) {

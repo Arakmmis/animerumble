@@ -74,6 +74,7 @@ function protect(x) {
       if (payload.val > 0 && tempVal > 0) {
         if (
           payload.skill.piercing === false &&
+          payload.skill.type !== "heal" &&
           disableDrIv === false &&
           affliction === false
         ) {
@@ -399,6 +400,7 @@ function dd(x) {
       if (
         payload.val > 0 &&
         self.usage === 0 &&
+        payload.skill.type !== "heal" &&
         // onReceive[index].usage === 0 &&
         // payload.skill.type !== "piercing" &&
         affliction === false

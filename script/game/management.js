@@ -193,7 +193,7 @@ function buttonManagement(payload, option) {
       app.state.button.ally.forEach(
         x => (x.button = x.disabled ? true : !x.button)
       );
-    } else if (payload.aim === "otherally") {
+    } else if (payload.aim === "otherally" || payload.aim === "allotherally") {
       app.state.button.ally.forEach(x => {
         let name = app.state.button.ally[payload.heroIndex].name;
         if (x.name !== name) {

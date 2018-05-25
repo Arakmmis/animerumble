@@ -92,12 +92,12 @@ let status = {
     active: 2
   }),
   track: library.track({
-    active: 2,
+    active: 3,
     modify: function(payload, self) {
-      if (payload.active === 2) {
+      if (payload.active === 3) {
         payload.offense.skill[2].energy.r = 1;
       }
-      if (payload.active === 0) {
+      if (payload.active === 1) {
         payload.offense.skill[2].energy.r = 2;
       }
     }
@@ -166,7 +166,7 @@ let skills = {
   skill2: {
     name: "Tooth Gum",
     type: "attack",
-    val: 0,
+    val: 10,
     alt: 4,
     cooldown: 3,
     classes: ["action", "melee", "physical"],
@@ -184,19 +184,26 @@ let skills = {
           status: status.transform,
           inherit: this
         });
-
-        skill.pushStatus({
-          subject: payload.offense,
-          onStatus: "onSelf",
-          status: status.track,
-          inherit: this
-        });
       } else if (payload.recursive === 1) {
         console.log("ARLONG TARGET", payload.target, payload.recursive);
+        skill.damage({
+          subject: payload.target,
+          val: payload.val
+        });
+        let boost = library.boost({
+          isStack: true,
+          val: 5,
+          active: -1,
+          modify: function(payload, self) {
+            if (payload.skill.name === "Shark Tooth Drill") {
+              payload.val += self.val * self.stack;
+            }
+          }
+        });
         skill.pushStatus({
           subject: payload.target,
-          onStatus: "onSelf",
-          status: status.bleed,
+          onStatus: "onReceive",
+          status: boost,
           inherit: this
         });
       } else if (payload.recursive === 2) {
@@ -244,14 +251,16 @@ let skills = {
         val: payload.val
       });
 
-      if (payload.target.hp - payload.val < 50) {
+      let hp = (payload.target.hp = payload.val);
+
+      if (hp <= 50) {
         skill.pushStatus({
           subject: payload.target,
           onStatus: "onState",
           status: status.stun3,
           inherit: this
         });
-      } else if (payload.target.hp - payload.val >= 50) {
+      } else if (hp > 50) {
         skill.pushStatus({
           subject: payload.target,
           onStatus: "onState",
@@ -299,7 +308,7 @@ let skills = {
       skill.pushStatus(
         {
           subject: payload.target,
-          onStatus: "onSelf",
+          onStatus: "onReceive",
           status: status.dd,
           inherit: this
         },
@@ -309,6 +318,13 @@ let skills = {
         subject: payload.target,
         onStatus: "onState",
         status: status.ignore,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: "onSelf",
+        status: status.track,
         inherit: this
       });
     }

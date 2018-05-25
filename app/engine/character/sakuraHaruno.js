@@ -68,7 +68,7 @@ let skills = {
   },
   skill2: {
     name: "Mystical Palm Healing",
-    type: "attack",
+    type: "heal",
     val: 25,
     cooldown: 0,
     harmful: false,

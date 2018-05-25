@@ -253,7 +253,7 @@ let app = new Vue({
         state.skill.target.unshift(payload.name);
         let ally = state.button.ally.map(x => x.name);
         state.skill.target = state.skill.target.concat(ally);
-      } else if (state.skill.aim === "otherally") {
+      } else if (state.skill.aim === "allotherally") {
         state.skill.target = state.button.ally
           .filter(x => x.name !== state.skill.offense)
           .map(x => x.name);
