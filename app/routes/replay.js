@@ -11,21 +11,24 @@ module.exports = function(app) {
   });
 
   app.get("/replay/get/list", middleware.isLoggedIn, function(req, res) {
-    Game.find({}).exec((err, rep) => {
-      if (err) res.send({ error: true });
-      let packet = rep.map(x => {
-        return {
-          player: x.player,
-          winner: x.winner,
-          room: x.room,
-          timestamp: x.timestamp
-        };
-      });
-      packet.reverse();
+    Game.find({})
+      .limit(10)
+      .sort({ _id: -1 })
+      .exec((err, rep) => {
+        if (err) res.send({ error: true });
+        let packet = rep.map(x => {
+          return {
+            player: x.player,
+            winner: x.winner,
+            room: x.room,
+            timestamp: x.timestamp
+          };
+        });
+        packet.reverse();
 
-      res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify(packet));
-    });
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify(packet));
+      });
   });
 
   app.get("/replay/history/:match", middleware.isLoggedIn, function(req, res) {
