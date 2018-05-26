@@ -10,7 +10,7 @@ module.exports = function(io, socket) {
     let user_ = model.getUser();
     let index = user_.findIndex(x => x.username === auth.username);
     if (index !== -1) {
-      let update_ = model.updateUser({        
+      let update_ = model.updateUser({
         username: auth.username,
         position: 0,
         socket: socket.id,
@@ -18,7 +18,7 @@ module.exports = function(io, socket) {
         status: "online"
       });
       socket.emit("logged", {
-        user: update_[0].username,        
+        user: update_[0].username,
         character: character.map(x => {
           return {
             name: x.name,
@@ -28,10 +28,10 @@ module.exports = function(io, socket) {
         })
       });
       io.emit("users", update_[1]);
-    } else if (index === -1) {      
+    } else if (index === -1) {
       let userModel = {
         socket: socket.id,
-        username: auth.username,        
+        username: auth.username,
         status: "online",
         room: "lobby"
       };
@@ -40,7 +40,7 @@ module.exports = function(io, socket) {
       io.emit("users", user_);
 
       socket.emit("logged", {
-        user: auth.username,        
+        user: auth.username,
         character: character.map(x => {
           return {
             name: x.name,
@@ -83,7 +83,8 @@ module.exports = function(io, socket) {
             challenger: challenge.challenger,
             accept: challenge.defender,
             challengerChar: challenge.challengerChar,
-            acceptChar: payload.char
+            acceptChar: payload.char,
+            mode: "private"
           },
           roomName => {
             console.log(model.getUser(payload.to).socket);
@@ -112,7 +113,8 @@ module.exports = function(io, socket) {
             challenger: opponent.username,
             accept: auth.username,
             challengerChar: opponent.char,
-            acceptChar: payload.char
+            acceptChar: payload.char,
+            mode: "ladder"
           },
           roomName => {
             io

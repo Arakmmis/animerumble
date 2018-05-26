@@ -47,7 +47,7 @@ let status = {
     harmfulOnly: true,
     modify: function(payload, self) {
       let state = library.state({
-        active: 1
+        active: 2
       });
 
       let inherit = {
@@ -57,7 +57,7 @@ let status = {
       };
 
       skill.pushStatus({
-        subject: payload.target,
+        subject: payload.offense,
         onStatus: "onState",
         status: state,
         inherit: inherit

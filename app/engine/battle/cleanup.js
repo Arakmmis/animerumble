@@ -12,24 +12,24 @@ function cleanup(char, state, currentEnergy) {
 
     state.teamOdd.forEach(x => {
       x.status.onAttack = x.status.onAttack.filter(
-        s => s.nameId !== char.nameId
+        s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control'))
       );
       x.status.onReceive = x.status.onReceive.filter(
-        s => s.nameId !== char.nameId
+        s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control'))
       );
-      x.status.onState = x.status.onState.filter(s => s.nameId !== char.nameId);
-      x.status.onSelf = x.status.onSelf.filter(s => s.nameId !== char.nameId);
+      x.status.onState = x.status.onState.filter(s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control')));
+      x.status.onSelf = x.status.onSelf.filter(s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control')));
     });
 
     state.teamEven.forEach(x => {
       x.status.onAttack = x.status.onAttack.filter(
-        s => s.nameId !== char.nameId
+        s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control'))
       );
       x.status.onReceive = x.status.onReceive.filter(
-        s => s.nameId !== char.nameId
+        s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control'))
       );
-      x.status.onState = x.status.onState.filter(s => s.nameId !== char.nameId);
-      x.status.onSelf = x.status.onSelf.filter(s => s.nameId !== char.nameId);
+      x.status.onState = x.status.onState.filter(s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control')));
+      x.status.onSelf = x.status.onSelf.filter(s => !(s.nameId === char.nameId && (s.persistence === 'action' || s.persistence === 'control')));
     });
 
     let energy = helper.energy(1);

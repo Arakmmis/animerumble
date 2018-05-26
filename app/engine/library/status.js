@@ -122,6 +122,31 @@ function invulnerable(x) {
   };
 }
 
+function friendlyInvulnerable(x) {
+  return {
+    name: x.name ? x.name : "friendlyInvulnerable",
+    val: 0,
+    type: "friendlyInvulnerable",
+    harmful: x.harmful ? x.harmful : true,
+    effect: x.effect ? x.effect : x.type,
+    info: x.info ? x.info : "inclusive",
+    comprise: x.comprise
+      ? x.comprise
+      : [
+          "instant",
+          "mental",
+          "energy",
+          "affliction",
+          "strategic",
+          "physical",
+          "ranged",
+          "melee"
+        ],
+    description: x.description ? x.description : "",
+    active: x.active ? x.active : 1
+  };
+}
+
 function stun(x) {
   return {
     name: x.name ? x.name : "stun",
@@ -451,5 +476,6 @@ module.exports = {
   counter,
   charge,
   track,
-  lock
+  lock,
+  friendlyInvulnerable
 };

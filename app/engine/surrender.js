@@ -11,10 +11,12 @@ function surrender(payload, store, callback) {
   state.log = [];
 
   let winner = state.team.teamEven !== payload ? "teamEven" : "teamOdd";
+  let loser = state.team.teamEven === payload ? "teamEven" : "teamOdd";
 
   state.winner = {
     state: true,
-    name: state.team[winner]
+    name: state.team[winner],
+    loser: state.team[loser]
   };
 
   //Exit

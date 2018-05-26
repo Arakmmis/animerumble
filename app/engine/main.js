@@ -44,7 +44,8 @@ function main(payload, callback) {
     turn: 1,
     winner: {
       state: false,
-      name: ""
+      name: "",
+      loser: ""
     },
     team: {
       teamOdd: payload.team.teamOdd,
@@ -52,7 +53,8 @@ function main(payload, callback) {
     },
     timestamp: Date.now(),
     room: payload.room,
-    log: []
+    log: [],
+    mode: payload.mode
   };
   state.teamEven.forEach((x, i) => {
     // x.name += 0;

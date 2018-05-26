@@ -54,7 +54,7 @@ function deleteUser(payload) {
 let match = [];
 
 function setMatch(payload, callback) {
-  let { challenger, accept, challengerChar, acceptChar } = payload;
+  let { challenger, accept, challengerChar, acceptChar, mode } = payload;
   let roomName = uniqid.time();
   let random = getRandomInt(2);
   match.push({
@@ -68,7 +68,8 @@ function setMatch(payload, callback) {
       char: acceptChar,
       order: 1 - random
     },
-    room: roomName
+    room: roomName,
+    mode: mode
   });
   callback(roomName);
 }

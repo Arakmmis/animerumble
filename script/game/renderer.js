@@ -73,12 +73,13 @@ function vueBind(payload) {
     store.energy.ally.w;
   console.log(store);
   let button = {
-    ally: store.ally.map(x => {
+    ally: store.ally.map((x, i) => {
       // let disabled = x.status.onState.findIndex(x => x.type === 'stun') > -1 || x.hp <= 0 ? true : false
       let disabled = x.hp <= 0 ? true : false;
       // let stun = x.status.onState.some(x => x.type === "stun") ? true : false;
       return {
         name: x.name,
+        index: i,
         button: true,
         onSkill: false,
         disabled: disabled,

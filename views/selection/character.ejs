@@ -83,6 +83,19 @@
                         </div>
                     </div>
                 </b-tab>
+                <b-tab title="DBZ" :title-link-class="linkClass(3)">
+                    <div class="selection--choice l--border-onepiece d-flex flex-row flex-wrap">
+                        <div v-for="char in characters.filter(x => x.anime === 'dbz')" class="d-flex flex-column">
+                            <div class="d-flex flex-row selection--char">
+                                <button @click="onDescription(char.id)" @dblclick="selectCharacter(char.id)" :disabled="lineup.some(x => x === char.id)"
+                                    class="l--char w-100">
+                                    <img :src="'/assets/character/'+char.id+'/avatar.jpg'" v-if="!lineup.some(x => x === char.id)">
+                                    <img :src="'/assets/theme/empty.jpg'" v-if="lineup.some(x => x === char.id)">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </b-tab>
             </b-tabs>
         </b-tabs>
     </div>

@@ -52,12 +52,14 @@ function battle(payload, store, callback) {
   if (state.teamOdd.filter(x => x.hp > 0).length === 0) {
     state.winner = {
       state: true,
-      name: state.team.teamEven
+      name: state.team.teamEven,
+      loser: state.team.teamOdd
     };
   } else if (state.teamEven.filter(x => x.hp > 0).length === 0) {
     state.winner = {
       state: true,
-      name: state.team.teamOdd
+      name: state.team.teamOdd,
+      loser: state.team.teamEven
     };
   }
 

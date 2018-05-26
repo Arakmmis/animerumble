@@ -27,6 +27,7 @@ let grayFullbuster = require("./grayFullbuster.js");
 let lucyHeartfilia = require("./lucyHeartfilia.js");
 
 let krillin = require("./krillin.js");
+let mutenRoshi = require("./mutenRoshi.js");
 
 module.exports = [
   uzumakiNaruto,
@@ -53,5 +54,6 @@ module.exports = [
   natsuDragneel,
   grayFullbuster,
   lucyHeartfilia,
-  krillin
+  krillin,
+  mutenRoshi
 ];

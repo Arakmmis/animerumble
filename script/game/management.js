@@ -190,14 +190,26 @@ function buttonManagement(payload, option) {
         }
       });
     } else if (payload.aim === "ally" || payload.aim === "allally") {
-      app.state.button.ally.forEach(
-        x => (x.button = x.disabled ? true : !x.button)
-      );
+      app.state.button.ally.forEach(x => {
+        console.log(x)
+        //Define
+        let allyStatus = app.source.ally[x.index].status;
+
+        //Friendly Invulnerability
+        let state = allyStatus.onState;
+        let invulnerable = state.some(x => x.type === "friendlyInvulnerable");
+
+        x.button = x.disabled || invulnerable ? true : !x.button;
+      });
     } else if (payload.aim === "otherally" || payload.aim === "allotherally") {
       app.state.button.ally.forEach(x => {
+        //Friendly Invulnerability
+        let state = x.onState;
+        let invulnerable = state.some(x => x.type === "friendlyInvulnerable");
+
         let name = app.state.button.ally[payload.heroIndex].name;
         if (x.name !== name) {
-          x.button = x.disabled ? true : !x.button;
+          x.button = x.disabled || invulnerable ? true : !x.button;
         }
       });
     } else if (payload.aim === "self") {

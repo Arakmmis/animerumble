@@ -5,6 +5,7 @@ let model = require("../helper/model.js");
 
 let mongoose = require("mongoose");
 let Game = require("../models/Game.js");
+let Rank = require("../models/Rank.js");
 
 let connection = 0;
 let store = {};
@@ -55,6 +56,7 @@ module.exports = function(io, socket, lobby) {
       team.teamEven = match.challenger.name;
       team.teamEvenChar = match.challenger.char;
     }
+    let mode = match.mode;
 
     let roomName = payload.room;
     let roomCheck = roomSpace.some(x => x === roomName) ? true : false;
@@ -65,7 +67,7 @@ module.exports = function(io, socket, lobby) {
 
     console.log(connection);
     if (!roomCheck) {
-      engine.main({ team: team, room: roomName }, payload => {
+      engine.main({ team: team, room: roomName, mode: mode }, payload => {
         store[roomName] = [];
         store[roomName].push(payload);
         console.log("apply", payload);
@@ -104,6 +106,10 @@ module.exports = function(io, socket, lobby) {
             timestamp: Date.now()
           }).save();
 
+          if (payload.mode === "ladder") {
+            rank(payload);
+          }
+
           model.deleteMatch(roomName);
         }
       }
@@ -136,6 +142,10 @@ module.exports = function(io, socket, lobby) {
             timestamp: Date.now()
           }).save();
 
+          if (payload.mode === "ladder") {
+            rank(payload);
+          }
+
           model.deleteMatch(roomName);
         }
       }
@@ -148,3 +158,57 @@ module.exports = function(io, socket, lobby) {
     console.log("user disconnected: " + auth.username);
   });
 };
+
+function rank(payload) {
+  let winner = Rank.findOne({ username: payload.winner.name }, function(
+    err,
+    doc
+  ) {
+    if (doc === null) {
+      let rank = new Rank({
+        username: payload.winner.name,
+        ladder: "Bugs",
+        season: 1,
+        win: 1,
+        lose: 0,
+        played: 1,
+        streak: 1
+      }).save();
+
+      return;
+    }
+    doc.username = payload.winner.name;
+    doc.ladder = "Bugs";
+    doc.season = 1;
+    doc.win++;
+    doc.played++;
+    doc.streak++;
+    doc.save();
+  });
+
+  let loser = Rank.findOne({ username: payload.winner.loser }, function(
+    err,
+    doc
+  ) {
+    if (doc === null) {
+      let rank = new Rank({
+        username: payload.winner.loser,
+        ladder: "Bugs",
+        season: 1,
+        win: 0,
+        lose: 1,
+        played: 1,
+        streak: 1
+      }).save();
+
+      return;
+    }
+    doc.username = payload.winner.loser;
+    doc.ladder = "Bugs";
+    doc.season = 1;
+    doc.lose++;
+    doc.played++;
+    doc.streak = 0;
+    doc.save();
+  });
+}

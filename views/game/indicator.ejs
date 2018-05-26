@@ -11,6 +11,7 @@
         <p class="l--desc mb-0" v-if="desc.effect === 'disableDrIv'">Cannot reduce damage or become invulnerable for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'stun'">Stun for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'invulnerable'">Invulnerable for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'friendlyInvulnerable'">Invulnerable from Friendly Skills for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'dd'">Destructible defense of {{desc.val}} for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'ignore'">Ignore for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'charge'">Charge {{desc.val}}</p>
@@ -18,6 +19,7 @@
         <p class="l--desc mb-0" v-if="desc.effect === 'custom'">{{desc.description}} for {{desc.active > 0 ? desc.active+' turns' : 'infinite'}}</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'counter'">Countered</p>
         <p class="l--desc mb-0" v-if="desc.effect === 'state' && desc.isStack === true">{{desc.name}} {{desc.stack}} stacks</p>
+        <p class="l--desc mb-0" v-if="desc.effect === 'state'">{{desc.name}} is active</p>
         <p class="l--desc mb-0" v-if="desc.isInvisible === true">This skill is invisible</p>
     </div>
 </div>

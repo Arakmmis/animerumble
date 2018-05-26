@@ -15,6 +15,9 @@ let info = {
 
 let status = {
   invulnerable: library.invulnerable({}),
+  friendlyInvulnerable: library.friendlyInvulnerable({
+    active: -1
+  }),
   stun: library.stun({
     active: -1
   }),
@@ -62,14 +65,12 @@ let status = {
       };
       skill.pushStatus({
         subject: payload.offense,
-        onStatus: "onAtack",
+        onStatus: "onAttack",
         status: reduce,
         inherit: inherit
       });
 
       payload.offense.hp -= 20;
-      // payload.state.energy[payload.theirTurn].i += 1;
-      // console.log("NATSU INCREASE");
     }
   }),
   reduce: library.reduce({
@@ -100,6 +101,7 @@ let skills = {
     val: 0,
     alt: 4,
     cooldown: 4,
+    harmful: false,
     description:
       "For 4 turns, Roshi gains 15 points of damage reduction, and 'Afterimage Strike' and 'Drunken Fist' will deal 5 additional damage. During this time, this skill is replaced by 'Original Kamehameha'",
     energy: {
@@ -155,9 +157,8 @@ let skills = {
   skill3: {
     name: "Drunken Fist",
     type: "attack",
-    val: 20,
-    cooldown: 2,
-    harmful: false,
+    val: 0,
+    cooldown: 3,
     classes: ["action", "melee", "physical"],
     description:
       "Roshi attacks with his Drunken Fist. For 3 turns, one enemy will receive 15 damage. The following three turns, Roshi will ignore all harmful effects except damage and chakra cost changes. This skill cannot be countered.",
@@ -185,7 +186,7 @@ let skills = {
     type: "invulnerable",
     noCounter: true,
     val: 0,
-    cooldown: 4,
+    cooldown: 0,
     classes: ["instant", "ranged", "energy"],
     description:
       "One enemy has all helpful skills on them removed, then they will be stunned and invulnerable to all further helpful skills each turn and Roshi instantly dies. This skill ignores invulnerability and cannot be countered or reflected.",
@@ -206,6 +207,13 @@ let skills = {
         subject: payload.target,
         onStatus: "onState",
         status: status.stun,
+        inherit: this
+      });
+
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: "onState",
+        status: status.friendlyInvulnerable,
         inherit: this
       });
     }
@@ -234,6 +242,11 @@ let skills = {
         onStatus: "onAttack",
         status: status.reduce,
         inherit: this
+      });
+
+      skill.damage({
+        subject: payload.target,
+        val: payload.val
       });
     }
   }

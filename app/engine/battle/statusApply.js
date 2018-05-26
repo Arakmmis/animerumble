@@ -98,8 +98,10 @@ function statusApply(payload, move, owner) {
     });
   } else {
     statusIterator(payload, "target", "onReceive", (payload, callback) => {
-      payload.val = payload.val < 0 ? 0 : payload.val;
-      move(payload, payload.skill);
+      if (!payload.isCounter) {
+        payload.val = payload.val < 0 ? 0 : payload.val;
+        move(payload, payload.skill);
+      }
     });
   }
 }
