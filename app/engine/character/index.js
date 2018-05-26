@@ -26,6 +26,8 @@ let natsuDragneel = require("./natsuDragneel.js");
 let grayFullbuster = require("./grayFullbuster.js");
 let lucyHeartfilia = require("./lucyHeartfilia.js");
 
+let krillin = require("./krillin.js");
+
 module.exports = [
   uzumakiNaruto,
   sakuraHaruno,
@@ -50,5 +52,6 @@ module.exports = [
   arlong,
   natsuDragneel,
   grayFullbuster,
-  lucyHeartfilia
+  lucyHeartfilia,
+  krillin
 ];

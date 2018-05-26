@@ -104,7 +104,7 @@ module.exports = function(io, socket, lobby) {
             timestamp: Date.now()
           }).save();
 
-          // model.deleteMatch(roomName);
+          model.deleteMatch(roomName);
         }
       }
     );
@@ -136,7 +136,7 @@ module.exports = function(io, socket, lobby) {
             timestamp: Date.now()
           }).save();
 
-          // model.deleteMatch(roomName);
+          model.deleteMatch(roomName);
         }
       }
     );

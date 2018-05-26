@@ -155,6 +155,15 @@ function removeEnergy(payload) {
   }
 }
 
+function gainEnergy(payload) {
+  let energy = helper.stealEnergy(payload.myEnergy);
+  let amount = payload.amount;
+
+  if (energy !== false) {
+    payload.myEnergy[energy] += amount;
+  }
+}
+
 function removeDD(payload) {
   let subject = payload.subject;
   let status = payload.subject.status;
@@ -170,6 +179,17 @@ function removeDD(payload) {
   });
 }
 
+function cooldownIncrease(payload) {
+  let subject = payload.subject;
+  let skill = subject.skill;
+
+  skill.forEach(x => {
+    if (x.counter > 0) {
+      x.counter += 1;
+    }
+  });
+}
+
 module.exports = {
   pushStatus,
   damage,
@@ -179,5 +199,7 @@ module.exports = {
   checkStatus,
   stealEnergy,
   removeEnergy,
-  removeDD
+  removeDD,
+  gainEnergy,
+  cooldownIncrease
 };

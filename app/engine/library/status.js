@@ -230,7 +230,7 @@ function charge(x) {
     type: "charge",
     effect: x.effect ? x.effect : x.type,
     harmful: x.harmful ? x.harmful : false,
-    isInvisible: x.isInvisible ? x.isInvisible : true,
+    isInvisible: x.isInvisible ? x.isInvisible : false,
     info: x.info ? x.info : "descending",
     description: x.description ? x.description : "",
     active: x.active ? x.active : -1,

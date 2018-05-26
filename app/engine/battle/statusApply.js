@@ -35,6 +35,16 @@ function statusIterator(package, owner, status, callback) {
     }
   }
 
+  if (owner === "target" && package.skill.noCounter === false) {
+    let onReceive = source.onReceive;
+    let onState = source.onState;
+    let counter = management.counter(onReceive, onState, package);
+    console.log("Counter", counter);
+    if (counter) {
+      package.isCounter = true;
+    }
+  }
+
   source[status].forEach((x, i, a) => {
     if (x.persistence === "action" || x.persistence === "control") {
       // let attacker = persistenceCheck(
