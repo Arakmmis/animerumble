@@ -49,234 +49,237 @@
         <audio ref="soundStartTurn" src="/assets/sounds/startturn.mp3"></audio>
 
         <modal v-if="showReplay" @close="showReplay = false"></modal>
+        <modalrank v-if="showRanks" @close="showRanks = false"></modalrank>
     </div>
 
     <% include selection/modal.ejs %>
-        <script>
-            const setCookie = (name, value, days = 7, path = '/') => {
-                const expires = new Date(Date.now() + days * 864e5).toGMTString()
-                document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
-            }
+        <% include selection/modalrank.ejs %>
+            <script>
+                const setCookie = (name, value, days = 7, path = '/') => {
+                    const expires = new Date(Date.now() + days * 864e5).toGMTString()
+                    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+                }
 
-            const getCookie = (name) => {
-                return document.cookie.split('; ').reduce((r, v) => {
-                    const parts = v.split('=')
-                    return parts[0] === name ? decodeURIComponent(parts[1]) : r
-                }, '')
-            }
+                const getCookie = (name) => {
+                    return document.cookie.split('; ').reduce((r, v) => {
+                        const parts = v.split('=')
+                        return parts[0] === name ? decodeURIComponent(parts[1]) : r
+                    }, '')
+                }
 
-            const deleteCookie = (name, path) => {
-                setCookie(name, '', -1, path)
-            }
+                const deleteCookie = (name, path) => {
+                    setCookie(name, '', -1, path)
+                }
 
-            function setIntervalX(callback, delay, repetitions) {
-                var x = 0;
-                var intervalID = window.setInterval(function () {
+                function setIntervalX(callback, delay, repetitions) {
+                    var x = 0;
+                    var intervalID = window.setInterval(function () {
 
-                    callback(x + 1);
+                        callback(x + 1);
 
-                    if (++x === repetitions) {
-                        window.clearInterval(intervalID);
-                    }
-                }, delay);
-            }
-
-            let socket = io('/lobby', {
-                query: {}
-            });
-
-            let chat = io('/chat');
-
-            let app = new Vue({
-                el: '#app',
-                data: {
-                    buttonlock: false,
-                    username: '',
-                    players: [],
-                    challenge: {
-                        count: 10,
-                        challenger: '',
-                        challenging: '',
-                        showChallenging: false,
-                        showChallenged: false,
-                    },
-                    lineup: [],
-                    characters: [],
-                    showModal: false,
-                    tabIndex: 0,
-                    matchMaking: false,
-                    charInfo: {},
-                    charSkill: 0,
-                    showCharInfo: false,
-                    chat: [],
-                    chatSend: "",
-                    discord: 0,
-                    showReplay: false,
-                },
-                methods: {
-                    onSpectate(room) {
-                        let url = "/game/" + room
-                        window.location.replace(url);
-                    },
-                    onChat: function () {
-                        let packet = {
-                            channel: 'lobby',
-                            message: this.chatSend
-                        };
-                        chat.emit("chat", packet);
-                        this.chatSend = "";
-                    },
-                    linkClass(idx) {
-                        if (this.tabIndex === idx) {
-                            return ['selection--tab', 'l--primary']
-                        } else {
-                            return ['selection--tab', 'l--secondary']
+                        if (++x === repetitions) {
+                            window.clearInterval(intervalID);
                         }
-                    },
-                    onDescription: function (payload) {
-                        console.log(payload)
-                        this.$http.get('/char/' + payload).then(function (response) {
-                            if (response.status == "200") {
-                                self.info = response.body[0]
-                                console.log(self.info)
-                                this.charInfo = self.info
-                                this.showCharInfo = true
-                            }
-                        })
-                        this.$refs.soundClick.play()
-                    },
-                    onChallenge: function (payload, event) {
-                        this.challenge.challenging = payload
-                        this.challenge.showChallenging = true
-                        this.buttonlock = true
+                    }, delay);
+                }
 
-                        socket.emit('challenge', {
-                            defender: payload,
-                            char: this.lineup
-                        })
-                        this.$refs.soundClick.play()
+                let socket = io('/lobby', {
+                    query: {}
+                });
 
-                        let self = this
-                        setIntervalX(function (x) {
-                            self.challenge.count -= 1
-                            if (x === 10) {
-                                self.challenge.count = 10
-                                self.challenge.showChallenging = false
-                                self.buttonlock = false
+                let chat = io('/chat');
+
+                let app = new Vue({
+                    el: '#app',
+                    data: {
+                        buttonlock: false,
+                        username: '',
+                        players: [],
+                        challenge: {
+                            count: 10,
+                            challenger: '',
+                            challenging: '',
+                            showChallenging: false,
+                            showChallenged: false,
+                        },
+                        lineup: [],
+                        characters: [],
+                        showModal: false,
+                        tabIndex: 0,
+                        matchMaking: false,
+                        charInfo: {},
+                        charSkill: 0,
+                        showCharInfo: false,
+                        chat: [],
+                        chatSend: "",
+                        discord: 0,
+                        showReplay: false,
+                        showRanks: false,
+                    },
+                    methods: {
+                        onSpectate(room) {
+                            let url = "/game/" + room
+                            window.location.replace(url);
+                        },
+                        onChat: function () {
+                            let packet = {
+                                channel: 'lobby',
+                                message: this.chatSend
+                            };
+                            chat.emit("chat", packet);
+                            this.chatSend = "";
+                        },
+                        linkClass(idx) {
+                            if (this.tabIndex === idx) {
+                                return ['selection--tab', 'l--primary']
+                            } else {
+                                return ['selection--tab', 'l--secondary']
                             }
-                        }, 1000, 10);
-                    },
-                    onAccept: function (payload) {
-                        socket.emit('accept', {
-                            char: this.lineup
-                        })
-                        this.$refs.soundClick.play()
-                    },
-                    selectCharacter: function (payload) {
-                        console.log(payload)
-                        if (this.lineup.length < 3) {
-                            console.log(this.lineup.some(x => x === payload))
-                            if (this.lineup.some(x => x === payload)) {
+                        },
+                        onDescription: function (payload) {
+                            console.log(payload)
+                            this.$http.get('/char/' + payload).then(function (response) {
+                                if (response.status == "200") {
+                                    self.info = response.body[0]
+                                    console.log(self.info)
+                                    this.charInfo = self.info
+                                    this.showCharInfo = true
+                                }
+                            })
+                            this.$refs.soundClick.play()
+                        },
+                        onChallenge: function (payload, event) {
+                            this.challenge.challenging = payload
+                            this.challenge.showChallenging = true
+                            this.buttonlock = true
+
+                            socket.emit('challenge', {
+                                defender: payload,
+                                char: this.lineup
+                            })
+                            this.$refs.soundClick.play()
+
+                            let self = this
+                            setIntervalX(function (x) {
+                                self.challenge.count -= 1
+                                if (x === 10) {
+                                    self.challenge.count = 10
+                                    self.challenge.showChallenging = false
+                                    self.buttonlock = false
+                                }
+                            }, 1000, 10);
+                        },
+                        onAccept: function (payload) {
+                            socket.emit('accept', {
+                                char: this.lineup
+                            })
+                            this.$refs.soundClick.play()
+                        },
+                        selectCharacter: function (payload) {
+                            console.log(payload)
+                            if (this.lineup.length < 3) {
+                                console.log(this.lineup.some(x => x === payload))
+                                if (this.lineup.some(x => x === payload)) {
+                                    this.lineup = this.lineup.filter(x => x !== payload)
+                                }
+                                else {
+                                    this.lineup.push(payload)
+                                }
+                            }
+                            console.log(this.lineup)
+                        },
+                        deselectCharacter: function (payload) {
+                            if (!this.matchMaking) {
                                 this.lineup = this.lineup.filter(x => x !== payload)
                             }
-                            else {
-                                this.lineup.push(payload)
-                            }
+                            this.$refs.soundClick.play()
+                        },
+                        findMatch: function (payload) {
+                            this.matchMaking = true
+                            this.buttonlock = true
+                            socket.emit('matchMaking', {
+                                char: this.lineup
+                            })
+                            this.$refs.soundClick.play()
+                        },
+                        cancelMatch: function () {
+                            this.matchMaking = false
+                            this.buttonlock = false
+                            socket.emit('cancelMatch', {})
+                            this.$refs.soundClick.play()
+                        },
+                        timeAgo: function (timestamp) {
+                            return moment(timestamp).fromNow()
                         }
-                        console.log(this.lineup)
-                    },
-                    deselectCharacter: function (payload) {
-                        if (!this.matchMaking) {
-                            this.lineup = this.lineup.filter(x => x !== payload)
+                    }
+                })
+
+                socket.emit('connectLobby', {
+                })
+                socket.on('logged', payload => {
+                    app.seen = true
+                    app.username = payload.user
+                    app.characters = payload.character
+                    console.log(payload)
+                    console.log('logged in')
+                    setCookie('username', payload.user)
+                })
+                socket.on('exist', payload => {
+                    console.log('exist')
+                })
+
+                socket.on('challenged', payload => {
+                    document.title = "(!)Challenged - Anime Rumble"
+                    app.challenge.challenger = payload.challenger
+                    app.challenge.showChallenged = true
+                    app.$refs.soundStartTurn.play()
+
+                    setIntervalX(function (x) {
+                        app.challenge.count -= 1
+                        if (x === 10) {
+                            app.challenge.count = 10
+                            app.challenge.showChallenged = false
                         }
-                        this.$refs.soundClick.play()
-                    },
-                    findMatch: function (payload) {
-                        this.matchMaking = true
-                        this.buttonlock = true
-                        socket.emit('matchMaking', {
-                            char: this.lineup
-                        })
-                        this.$refs.soundClick.play()
-                    },
-                    cancelMatch: function () {
-                        this.matchMaking = false
-                        this.buttonlock = false
-                        socket.emit('cancelMatch', {})
-                        this.$refs.soundClick.play()
-                    },
-                    timeAgo: function (timestamp) {
-                        return moment(timestamp).fromNow()
+                    }, 1000, 10);
+                })
+
+                socket.on('accepted', payload => {
+                    let url = "/game/" + payload
+                    window.location.replace(url);
+                })
+
+                socket.on('users', payload => {
+                    console.log('USERS', payload)
+                    app.players = payload
+                })
+
+                chat.on("chat", payload => {
+                    if (payload.channel === 'lobby') {
+                        app.chat.push(payload.message);
+                        setTimeout(() => {
+                            scrollChat();
+                        }, 100);
                     }
-                }
-            })
+                });
 
-            socket.emit('connectLobby', {
-            })
-            socket.on('logged', payload => {
-                app.seen = true
-                app.username = payload.user
-                app.characters = payload.character
-                console.log(payload)
-                console.log('logged in')
-                setCookie('username', payload.user)
-            })
-            socket.on('exist', payload => {
-                console.log('exist')
-            })
-
-            socket.on('challenged', payload => {
-                document.title = "(!)Challenged - Anime Rumble"
-                app.challenge.challenger = payload.challenger
-                app.challenge.showChallenged = true
-                app.$refs.soundStartTurn.play()
-
-                setIntervalX(function (x) {
-                    app.challenge.count -= 1
-                    if (x === 10) {
-                        app.challenge.count = 10
-                        app.challenge.showChallenged = false
-                    }
-                }, 1000, 10);
-            })
-
-            socket.on('accepted', payload => {
-                let url = "/game/" + payload
-                window.location.replace(url);
-            })
-
-            socket.on('users', payload => {
-                console.log('USERS', payload)
-                app.players = payload
-            })
-
-            chat.on("chat", payload => {
-                if (payload.channel === 'lobby') {
-                    app.chat.push(payload.message);
+                chat.emit('lobbyInitiate')
+                chat.on('lobbyInitiate', payload => {
+                    app.chat = payload
                     setTimeout(() => {
                         scrollChat();
                     }, 100);
-                }
-            });
-
-            chat.emit('lobbyInitiate')
-            chat.on('lobbyInitiate', payload => {
-                app.chat = payload
-                setTimeout(() => {
-                    scrollChat();
-                }, 100);
-            })
-
-            function scrollChat() {
-                var container = app.$el.querySelector("#chat");
-                container.scrollTop = container.scrollHeight;
-            }
-
-            function discord() {
-                app.$http.get('https://discordapp.com/api/guilds/429538988341198858/widget.json').then(function (response) {
-                    app.discord = response.body.members.length
                 })
-            }
-            discord()
-        </script>
+
+                function scrollChat() {
+                    var container = app.$el.querySelector("#chat");
+                    container.scrollTop = container.scrollHeight;
+                }
+
+                function discord() {
+                    app.$http.get('https://discordapp.com/api/guilds/429538988341198858/widget.json').then(function (response) {
+                        app.discord = response.body.members.length
+                    })
+                }
+                discord()
+            </script>
 </body>

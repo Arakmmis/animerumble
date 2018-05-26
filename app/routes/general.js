@@ -1,8 +1,9 @@
 let middleware = require("./middleware.js");
 let character = require("../engine/character/index.js");
+let Rank = require("../models/Rank.js");
 
 module.exports = function(app) {
-  app.get("/", function(req, res) {    
+  app.get("/", function(req, res) {
     if (req.isAuthenticated()) {
       res.render("selection");
     } else {
@@ -16,5 +17,19 @@ module.exports = function(app) {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(char));
     }
+  });
+
+  app.get("/ladder/bugs", function(req, res) {
+    Rank.find({})
+      .sort({ win: -1 })
+      .exec((err, rep) => {
+        if (err) res.send({ error: true });
+        let packet = rep.map(x => {
+          return x;
+        });
+
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify(packet));
+      });
   });
 };

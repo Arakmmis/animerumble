@@ -1,0 +1,64 @@
+<script type="text/x-template" id="modal-rank">
+    <transition name="modal">
+      <div class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+  
+            <div class="modal-header">
+              <slot name="header">
+                Ladder (Beta)
+              </slot>
+            </div>
+  
+            <div class="modal-body">
+              <slot name="body">      
+                <div class="d-flex flex-column ladder" v-for="(item, index) in ranks">
+                  <div class="d-flex flex-row">
+                      <p class="mb-0 l--rank mr-1">{{index+1}}</p>
+                      <p class="mb-0 mr-1 l--name">{{item.username}}</p>
+                  </div>
+                  <div class="d-flex flex-row mb-2">
+                      <p class="mb-0 mr-1 l--value"><span class="l--label">WIN</span> {{item.win}}</p>
+                      <p class="mb-0 mr-1 l--value"><span class="l--label">LOSE</span> {{item.lose}}</p>
+                      <p class="mb-0 mr-1 l--value"><span class="l--label">MATCHES</span> {{item.played}}</p>
+                      <p class="mb-0 mr-1 l--value"><span class="l--label">STREAK</span> {{item.streak}}</p>
+                  </div>                                        
+                </div>                  
+              </slot>
+            </div>
+  
+            <div class="modal-footer">
+              <slot name="footer">                
+                <button class="modal-default-button btn-color4 w-100" @click="$emit('close')">
+                  Close
+                </button>
+              </slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+</script>
+
+<script>
+  // register modal component
+  Vue.component('modalrank', {
+    props: ['char'],
+    data: function () {
+      return {
+        ranks: []
+      }
+    },
+    created: function () {
+      console.log('created')
+      let self = this;
+      this.$http.get('/ladder/bugs').then(function (response) {
+        if (response.status == "200") {
+          self.ranks = response.body
+          console.log(response)
+        }
+      })
+    },
+    template: '#modal-rank',
+  })
+</script>
