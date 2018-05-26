@@ -98,7 +98,7 @@ let skills = {
     alt: 4,
     val: 0,
     cooldown: 2,
-    classes: ["action", "melee", "physical"],
+    classes: ["action", "ranged", "physical"],
     description:
       "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and energy skills, and dealing 15 for 2 turns. This skill will become Party Trick.",
     energy: {
@@ -143,7 +143,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 0,
-    classes: ["instant", "ranged", "energy", "piercing"],
+    classes: ["instant", "ranged", "energy"],
     description:
       "Nami launches a thunder ball at an enemy dealing 10 piercing damage for 2 turns.",
     target: "enemy",

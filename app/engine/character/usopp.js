@@ -46,7 +46,7 @@ let skills = {
     type: "attack",
     val: 20,
     cooldown: 0,
-    classes: ["instant", "ranged", "physical"],
+    classes: ["instant", "ranged", "affliction"],
     energy: {
       w: 1
     },
@@ -86,7 +86,7 @@ let skills = {
     cooldown: 1,
     description:
       "Usopp throw a bottle at an enemy stunning their melee skills for one turn.",
-    classes: ["instant", "ranged", "physical"],
+    classes: ["instant", "ranged", "affliction"],
     energy: {
       r: 1
     },
@@ -114,7 +114,7 @@ let skills = {
     description:
       "Usopp fire a shot filled with highly explosive gunpowder dealing 30 affliction damage. If the enemy is stunned by Super Kill Lead Star, deal an additional 30 damage.",
     target: "enemy",
-    classes: ["instant", "ranged", "physical"],
+    classes: ["instant", "ranged", "affliction"],
     energy: {
       r: 2
     },
@@ -146,7 +146,7 @@ let skills = {
     cooldown: 4,
     description: "Usopp hides, making him invulnerable for 1 turn.",
     target: "self",
-    classes: ["instant", "physical"],
+    classes: ["instant", "affliction"],
     energy: {
       r: 1
     },

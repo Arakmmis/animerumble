@@ -5,7 +5,7 @@ let helper = require("../helper.js");
 
 let info = {
   id: "lucyHeartfilia",
-  name: "Luci Heartfilia",
+  name: "Lucy Heartfilia",
   anime: "FairyTail",
   author: "63k, FireBane",
   pictures: "Leciel, FireBane"
@@ -192,7 +192,7 @@ let skills = {
     cooldown: 3,
     description:
       "Deal 10 damage to all enemies. Lucy Gains 5 DD a turn for 3 turns, each time she is damaged, increase this skills duration by 1 turn. This skill stacks.",
-    classes: ["instant", "physical"],
+    classes: ["instant", "ranged", "physical"],
     energy: {
       i: 1,
       r: 1
@@ -245,7 +245,7 @@ let skills = {
     description:
       "Lucy gains 30 dd and deals 20 damage Piercing to all enemies, untill this DD is destroyed, or 3 turns pass.",
     target: "allenemy",
-    classes: ["instant", "melee", "physical"],
+    classes: ["instant", "ranged", "physical"],
     energy: {
       i: 1,
       w: 1
@@ -278,7 +278,7 @@ let skills = {
     cooldown: 4,
     description: "Lucy Becomes invulnerable for one turn.",
     target: "self",
-    classes: ["instant", "melee", "physical"],
+    classes: ["instant", "strategic"],
     energy: {
       r: 1
     },

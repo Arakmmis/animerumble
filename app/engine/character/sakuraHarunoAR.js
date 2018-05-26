@@ -21,7 +21,7 @@ let status = {
   }),
   heal: library.heal({
     active: 1,
-    val: 20
+    val: 15
   }),
   ignore: library.ignore({}),
   dd: library.dd({
@@ -155,7 +155,7 @@ let skills = {
     name: "Palm Healing",
     type: "heal",
     val: 20,
-    cooldown: 2,
+    cooldown: 3,
     harmful: false,
     classes: ["instant", "energy"],
     description:
