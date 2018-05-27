@@ -16,6 +16,11 @@ userController.register = function(req, res) {
 
 // Post registration
 userController.doRegister = function(req, res) {
+  if (req.body.username === "" || req.body.password === "") {
+    res.redirect("/?err=register");
+    return;
+  }
+  
   User.register(
     new User({
       username: req.body.username,
@@ -44,20 +49,20 @@ userController.login = function(req, res) {
 
 // Post login
 userController.doLogin = function(req, res) {
-  console.log('login')
+  console.log("login");
   passport.authenticate("local")(req, res, function() {
     if (err) {
       return next(err);
     }
     if (!user) {
-      console.log('not found')
+      console.log("not found");
       return res.redirect("/");
     }
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
       }
-      console.log('success')
+      console.log("success");
       return res.redirect("/");
     });
   });

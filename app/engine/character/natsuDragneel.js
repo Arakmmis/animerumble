@@ -7,7 +7,7 @@ let info = {
   id: "natsuDragneel",
   name: "Natsu Dragneel",
   anime: "FairyTail",
-  author: "63k",
+  author: "63k, Firebane",
   pictures: "Leciel, Firebane"
 };
 

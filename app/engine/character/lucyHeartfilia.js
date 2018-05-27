@@ -14,7 +14,7 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   dd: library.dd({
-    isStack: true,    
+    isStack: true,
     val: 20,
     callback: function(payload, self) {
       payload.state[payload.myTurn].forEach(x => {
@@ -245,7 +245,7 @@ let skills = {
     description:
       "Lucy gains 30 dd and deals 20 damage Piercing to all enemies, untill this DD is destroyed, or 3 turns pass.",
     target: "allenemy",
-    classes: ["instant", "ranged", "physical"],
+    classes: ["action", "ranged", "physical"],
     energy: {
       i: 1,
       w: 1

@@ -26,11 +26,16 @@ module.exports = function(app) {
 
   // route for login action
   app.post("/login", usernameToLowerCase, function(req, res, next) {
+    if (req.body.username === "" || req.body.password === "") {
+      res.redirect("/?err=login");
+      return;
+    }
+
     passport.authenticate("local", function(err, user, info) {
       if (err) {
         return next(err);
       }
-      if (!user) {        
+      if (!user) {
         return res.redirect("/?err=login");
       }
       req.logIn(user, function(err) {

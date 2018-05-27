@@ -6,6 +6,9 @@ module.exports = function(io, socket) {
   let auth = socket.request.user;
 
   socket.on("chat", function(payload) {
+    if(payload.message === ''){
+      return
+    }
     let channel = payload.channel;
     let message = auth.username + ": " + payload.message;
 

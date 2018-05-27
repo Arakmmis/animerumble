@@ -98,13 +98,13 @@ module.exports = function(io, socket, lobby) {
         if (payload.winner.state === true) {
           console.log("Winner");
 
-          let game = new Game({
-            player: [payload.team.teamOdd, payload.team.teamEven],
-            winner: payload.winner.name,
-            room: roomName,
-            log: store[roomName],
-            timestamp: Date.now()
-          }).save();
+          // let game = new Game({
+          //   player: [payload.team.teamOdd, payload.team.teamEven],
+          //   winner: payload.winner.name,
+          //   room: roomName,
+          //   log: store[roomName],
+          //   timestamp: Date.now()
+          // }).save();
 
           if (payload.mode === "ladder") {
             rank(payload);
@@ -134,13 +134,13 @@ module.exports = function(io, socket, lobby) {
         if (payload.winner.state === true) {
           console.log("Winner");
 
-          let game = new Game({
-            player: [payload.team.teamOdd, payload.team.teamEven],
-            winner: payload.winner.name,
-            room: roomName,
-            log: store[roomName],
-            timestamp: Date.now()
-          }).save();
+          // let game = new Game({
+          //   player: [payload.team.teamOdd, payload.team.teamEven],
+          //   winner: payload.winner.name,
+          //   room: roomName,
+          //   log: store[roomName],
+          //   timestamp: Date.now()
+          // }).save();
 
           if (payload.mode === "ladder") {
             rank(payload);

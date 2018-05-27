@@ -25,9 +25,18 @@ module.exports = function(app) {
       .exec((err, rep) => {
         if (err) res.send({ error: true });
         let packet = rep.map(x => {
-          return x;
+          return {
+            username: x.username,
+            ladder: x.ladder,
+            season: x.season,
+            win: x.win,
+            lose: x.lose,
+            played: x.played,
+            streak: x.streak,
+            ratio: x.win*1.2 - x.lose
+          };
         });
-
+        packet = packet.sort((a, b) => b.ratio - a.ratio);
         res.setHeader("Content-Type", "application/json");
         res.send(JSON.stringify(packet));
       });

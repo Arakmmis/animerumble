@@ -154,12 +154,12 @@ let skills = {
   skill3: {
     name: "Palm Healing",
     type: "heal",
-    val: 20,
+    val: 0,
     cooldown: 3,
     harmful: false,
     classes: ["instant", "energy"],
     description:
-      "Sakura heals an ally for 20 health and has all of the Affliction skills on them removed. This skill lasts an additional turn and can target Sakura during Chakra Control.",
+      "Sakura heals an ally for 15 health and has all of the Affliction skills on them removed. This skill lasts an additional turn and can target Sakura during Chakra Control.",
     target: "otherally",
     energy: {
       s: 1
