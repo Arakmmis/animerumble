@@ -203,8 +203,11 @@ function buttonManagement(payload, option) {
       });
     } else if (payload.aim === "otherally" || payload.aim === "allotherally") {
       app.state.button.ally.forEach(x => {
+        //Define
+        let allyStatus = app.source.ally[x.index].status;
+
         //Friendly Invulnerability
-        let state = x.onState;
+        let state = allyStatus.onState;
         let invulnerable = state.some(x => x.type === "friendlyInvulnerable");
 
         let name = app.state.button.ally[payload.heroIndex].name;

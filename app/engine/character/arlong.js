@@ -69,6 +69,7 @@ let status = {
   boost: library.boost({
     isStack: true,
     val: 10,
+    harmful: true,
     active: -1,
     modify: function(payload, self) {
       if (payload.skill.name === "Shark Tooth Drill") {

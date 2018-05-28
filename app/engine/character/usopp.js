@@ -28,7 +28,7 @@ let status = {
   bleed2: library.bleed({
     val: 30,
     active: 1,
-    classes: ["physical"]
+    classes: ["affliction"]
   }),
   state: library.state({
     name: "Super Kill Lead Star",

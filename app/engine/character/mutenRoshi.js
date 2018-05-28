@@ -32,6 +32,10 @@ let status = {
   ignore: library.ignore({
     active: 4
   }),
+  protect: library.protect({
+    val: 15,
+    active: 4
+  }),
   dd: library.dd({
     isStack: true,
     val: 15,
@@ -55,7 +59,7 @@ let status = {
   counter: library.counter({
     harmfulOnly: true,
     modify: function(payload, self) {
-      let reduce = library.reduce({
+      let boost = library.booat({
         val: 10
       });
       let inherit = {
@@ -65,8 +69,8 @@ let status = {
       };
       skill.pushStatus({
         subject: payload.offense,
-        onStatus: "onAttack",
-        status: reduce,
+        onStatus: "onReceive",
+        status: boost,
         inherit: inherit
       });
 
@@ -113,7 +117,7 @@ let skills = {
       skill.pushStatus({
         subject: payload.target,
         onStatus: "onReceive",
-        status: status.dd,
+        status: status.protect,
         inherit: this
       });
 

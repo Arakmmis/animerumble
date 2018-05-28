@@ -16,7 +16,8 @@ let info = {
 let status = {
   invulnerable: library.invulnerable({}),
   reduce: library.reduce({
-    val: 10
+    val: 10,
+    active: 1
   }),
   bleed: library.bleed({
     val: 10,
@@ -41,13 +42,13 @@ let status = {
   }),
   heal: library.heal({
     active: 2,
-    val: 25
+    val: 15
   }),
   counter: library.counter({
     harmfulOnly: true,
     modify: function(payload, self) {
       let state = library.state({
-        active: 2
+        active: 1
       });
 
       let inherit = {
@@ -171,7 +172,7 @@ let skills = {
     val: 0,
     cooldown: 2,
     description:
-      "Krillin takes a senzu bean for himself or a team mate, removing all harmful effects on that ally and making them gain 1 energy, then they will heal 25 health over 2 turns. This skill can only be used thrice in a game.",
+      "Krillin takes a senzu bean for himself or a team mate, removing all harmful effects on that ally and making them gain 1 energy, then they will heal 15 health over 2 turns. This skill can only be used thrice in a game.",
     target: "ally",
     usage: 0,
     classes: ["instant", "strategic"],
