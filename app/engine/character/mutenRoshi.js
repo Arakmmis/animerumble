@@ -59,7 +59,7 @@ let status = {
   counter: library.counter({
     harmfulOnly: true,
     modify: function(payload, self) {
-      let boost = library.booat({
+      let boost = library.boost({
         val: 10
       });
       let inherit = {
