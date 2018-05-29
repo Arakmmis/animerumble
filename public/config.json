@@ -299,6 +299,18 @@
       "src": "linecons"
     },
     {
+      "uid": "6020aff067fc3c119cdd75daa5249220",
+      "css": "exchange",
+      "code": 61676,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "80451d627470ea7f977a263fdb771d7b",
+      "css": "palette",
+      "code": 59403,
+      "src": "entypo"
+    },
+    {
       "uid": "ccbbadb955dca53fa7cf42c79e988a02",
       "css": "rocket",
       "code": 59396,

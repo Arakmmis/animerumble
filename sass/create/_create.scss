@@ -137,6 +137,11 @@
   color: #999;
   font-weight: 300;
 }
+.create--shortcut {
+  font-size: 10px;
+  color: #999;
+  font-weight: 300;
+}
 
 .create--load {
   opacity: 0;
@@ -180,6 +185,14 @@
       max-height: 75px;
       margin-right: 7px;
       float: left;
+
+      //Border Option
+      &.l--border {
+        img {
+          border: 1px solid #222;
+        }
+      }
+
       .create--upload {
         opacity: 0;
         width: 75px;
@@ -190,7 +203,6 @@
         font-size: 10px;
       }
       .l--img-upload {
-        border: 1px solid #222;
         height: 75px;
         width: 75px;
         max-height: 75px;

@@ -47,11 +47,12 @@
 
                 <!-- Name -->
                 <div class="create--box w-75">
-                    <div class="d-flex flex-row align-items-end">
+                    <div class="d-flex flex-row align-items-end create--skill-name">
                         <input placeholder="Name" class="create--name l--main" v-model="profile.name"></input>
+                        <i @click="appearances('border','profile')" class="icon-palette"></i>
                     </div>
                     <div class="l--body">
-                        <div class="l--img" @click="uploadPicture('profile')">
+                        <div :class="profile.appearances.border ? 'l--img l--border' : 'l--img'" @click="uploadPicture('profile')">
                             <img :src="profile.picture !== '' ? profile.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
                         </div>
                         <editable :content="profile.description" ref="profile" @update="profile.description = $event"></editable>
@@ -74,10 +75,11 @@
                         <div class="d-flex flex-row align-items-end create--skill-name">
                             <p class="l--label mr-1">Skill:</p>
                             <input placeholder="Skill Name" class="create--name l--main" v-model="item.name"></input>
+                            <i @click="appearances('border','skills',i)" class="icon-palette"></i>
                             <i @click="removeSkill(i)" class="icon-cancel-circled"></i>
                         </div>
                         <div class="l--body">
-                            <div class="l--img" @click="uploadPicture('skills', i)">
+                            <div :class="item.appearances.border ? 'l--img l--border' : 'l--img'" @click="uploadPicture('skills', i)">
                                 <img :src="item.picture !== '' ? item.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
                             </div>
                             <editable :content="skills[i].text" ref="skills" @update="skills[i].text = $event"></editable>
@@ -137,12 +139,17 @@
                         <i class="icon-up-circled"></i> Load Character
                     </p>
                 </div>
-                <form enctype="multipart/form-data">
-                    <input type="file" ref="loadFile" @change="onLoadFile($event)" name="progress" class="create--load"></input>
-                </form>
-                <form enctype="multipart/form-data">
-                    <input type="file" ref="uploadPicture" @change="onFileChanged($event, selection.type, selection.id)" name="avatar" class="create--load"></input>
-                </form>
+                <p class="create--shortcut" data-html2canvas-ignore="true">
+                    <i>Styling Shortcut (Chrome Only): Bold - ctrl+b/cmd+b, Italic - ctrl+i/cmd+i, Underline - ctrl+u</i>
+                </p>
+                <div class="d-flex flex-row">
+                    <form enctype="multipart/form-data">
+                        <input type="file" ref="loadFile" @change="onLoadFile($event)" name="progress" class="create--load"></input>
+                    </form>
+                    <form enctype="multipart/form-data">
+                        <input type="file" ref="uploadPicture" @change="onFileChanged($event, selection.type, selection.id)" name="avatar" class="create--load"></input>
+                    </form>
+                </div>
                 <p class="create--credit">Created on AnimeRumble.com</p>
             </div>
         </div>
@@ -166,7 +173,10 @@
                         w: 0,
                         r: 0
                     },
-                    classes: ''
+                    classes: '',
+                    appearances: {
+                        border: true
+                    }
                 }
             }
 
@@ -174,14 +184,14 @@
                 template: '<div contenteditable="true" placeholder="Enter text here..." class="create--editable" @input="update"></div>',
                 props: ['content'],
                 mounted: function () {
-                    this.$el.innerText = this.content;
+                    this.$el.innerHTML = this.content;
                 },
                 methods: {
                     rerender: function (payload) {
-                        this.$el.innerText = payload;
+                        this.$el.innerHTML = payload;
                     },
                     update: function (event) {
-                        this.$emit('update', event.target.innerText);
+                        this.$emit('update', event.target.innerHTML);
                     }
                 }
             })
@@ -196,7 +206,10 @@
                         picture: '',
                         pictures: '',
                         author: '',
-                        description: ''
+                        description: '',
+                        appearances: {
+                            border: true
+                        }
                     },
                     skills: [
                         _.cloneDeep(skill()),
@@ -210,6 +223,13 @@
                     }
                 },
                 methods: {
+                    appearances(subject, type, id) {
+                        if (type === 'skills') {
+                            this.skills[id].appearances.border = !this.skills[id].appearances.border
+                        } else if (type === 'profile') {
+                            this.profile.appearances.border = !this.profile.appearances.border
+                        }
+                    },
                     uploadPicture(type, id) {
                         this.selection.type = type
                         this.selection.id = id
@@ -255,6 +275,22 @@
                             reader.onload = function (event) {
                                 let decode = atob(event.target.result)
                                 let result = JSON.parse(decode);
+
+                                //Legacy Convert
+                                if (result.profile.appearances === undefined) {
+                                    result.profile.appearances = {
+                                        border: true
+                                    }
+                                }
+                                result.skills.forEach(x => {
+                                    if (x.appearances === undefined) {
+                                        x.appearances = {
+                                            border: true
+                                        }
+                                    }
+                                })
+
+                                //Load
                                 self.profile = result.profile
                                 self.skills = result.skills
 
@@ -265,6 +301,7 @@
                                         self.$refs.skills[i].rerender(x.text)
                                     }
                                 })
+
 
                                 // setTimeout(() => {
                                 //     autosize.destroy(document.querySelectorAll('textarea'));
