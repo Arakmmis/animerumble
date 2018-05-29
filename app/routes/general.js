@@ -20,7 +20,9 @@ module.exports = function(app) {
   });
 
   app.get("/ladder/bugs", function(req, res) {
-    Rank.find({})
+    Rank.find({
+      win: { $gt: 5 }
+    })
       .sort({ win: -1 })
       .exec((err, rep) => {
         if (err) res.send({ error: true });
@@ -33,7 +35,7 @@ module.exports = function(app) {
             lose: x.lose,
             played: x.played,
             streak: x.streak,
-            ratio: x.win*1.2 - x.lose
+            ratio: x.win * 1.2 - x.lose
           };
         });
         packet = packet.sort((a, b) => b.ratio - a.ratio);

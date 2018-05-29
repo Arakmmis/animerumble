@@ -169,14 +169,22 @@ module.exports = function(io, socket, lobby) {
 
     //Define
     let roomName = socket.handshake.query.room;
+    let match = model.getMatch(roomName);
+    if(match === undefined){
+      return
+    }
+    if (
+      match.challenger.name === auth.username ||
+      match.accept.name === auth.username
+    ) {
+      //Handle Disconnects
+      io.to(roomName).emit("onDisconnect", { username: auth.username });
 
-    //Handle Disconnects
-    io.to(roomName).emit("onDisconnect", { username: auth.username });
-
-    controlDisconnect[auth.username] = setTimeout(function() {
-      console.log(auth.username + " SURRENDER");
-      onSurrender(auth.username, store, roomName, io);
-    }, 30000);
+      controlDisconnect[auth.username] = setTimeout(function() {
+        console.log(auth.username + " SURRENDER");
+        onSurrender(auth.username, store, roomName, io);
+      }, 30000);
+    }
   });
 
   socket.on("reconnect", function() {
