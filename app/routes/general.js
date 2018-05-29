@@ -21,7 +21,7 @@ module.exports = function(app) {
 
   app.get("/ladder/bugs", function(req, res) {
     Rank.find({
-      win: { $gt: 5 }
+      played: { $gt: 5 }
     })
       .sort({ win: -1 })
       .exec((err, rep) => {
