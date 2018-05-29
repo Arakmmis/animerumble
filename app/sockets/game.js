@@ -119,6 +119,7 @@ module.exports = function(io, socket, lobby) {
           }
 
           model.deleteMatch(roomName);
+          delete store[roomName];
         }
       }
     );
@@ -155,6 +156,7 @@ module.exports = function(io, socket, lobby) {
           }
 
           model.deleteMatch(roomName);
+          delete store[roomName];
         }
       }
     );
@@ -209,6 +211,7 @@ function onSurrender(username, store, roomName, io) {
       }
 
       model.deleteMatch(roomName);
+      delete store[roomName];
     }
   });
 }
