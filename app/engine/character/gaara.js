@@ -29,7 +29,7 @@ let status = {
   lock: library.lock({
     type: "lock",
     info: "Sand Burial",
-    active: 3,
+    active: 2,
     harmful: false
   }),
   dd: library.dd({
