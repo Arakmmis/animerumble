@@ -76,7 +76,7 @@ module.exports = function(io, socket) {
       });
 
     //Announce Presence
-    let message = auth.username + " join game";
+    let message = auth.username + " has joined";
     io.to(roomName).emit("chat", {
       channel: "ingame",
       message: {

@@ -18,13 +18,13 @@ gulp.task("start", function() {
 gulp.task("js-game", function() {
   function task() {
     let source = [
+      "script/game/helper.js",
       "script/game/setup.js",
       "script/game/vue.js",
       "script/game/management.js",
       "script/game/renderer.js",
       "script/game/general.js",
       "script/game/socket.js",
-      "script/game/helper.js",
       "script/game/*.js"
     ];
 

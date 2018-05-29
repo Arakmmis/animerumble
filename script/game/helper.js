@@ -30,3 +30,9 @@ const getCookie = name => {
 const deleteCookie = (name, path) => {
   setCookie(name, "", -1, path);
 };
+
+function getRoomName() {
+  let url = window.location.href.split("/");
+  let room = url[url.length - 1];
+  return room;
+};

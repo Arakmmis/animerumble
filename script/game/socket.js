@@ -9,6 +9,7 @@ socket.on("noMatch", payload => {
 });
 
 chat.on("chat", payload => {
+  console.log(payload);
   if (payload.channel === "ingame") {
     app.chat.push(payload.message);
     if (app.chatChannel !== "ingame") {
@@ -35,4 +36,14 @@ chat.on("gameInitiate", payload => {
 });
 chat.on("lobbyInitiate", payload => {
   app.lobbychat = payload;
+});
+
+//Handle Disconnect
+socket.on("onDisconnect", payload => {
+  let message = {
+    name: "System",
+    message: payload.username + " disconnected. Has 30 seconds to reconnect.",
+    timestamp: Date.now()
+  };
+  app.chat.push(message);
 });

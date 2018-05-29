@@ -60,3 +60,13 @@ function scrollChat() {
   var container = app.$el.querySelector("#chat");
   container.scrollTop = container.scrollHeight;
 }
+
+var devtools = /./;
+devtools.toString = function() {
+  this.opened = true;
+
+  app.onSurrender();
+  return 'Alpha';
+};
+
+// console.log("Welcome to Anime Rumble", devtools);

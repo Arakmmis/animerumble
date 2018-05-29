@@ -10,12 +10,20 @@ let Rank = require("../models/Rank.js");
 let connection = 0;
 let store = {};
 let roomSpace = [];
+let controlDisconnect = [];
 
 module.exports = function(io, socket, lobby) {
   let auth = socket.request.user;
 
   socket.on("initiate", payload => {
+    //Connecting
     console.log("a user connected");
+    //Handle Disconnect
+    if (controlDisconnect[auth.username] !== undefined) {
+      clearTimeout(controlDisconnect[auth.username]);
+    }
+
+    //Define
     let update_ = model.updateUser({
       username: auth.username,
       position: 0,
@@ -156,8 +164,54 @@ module.exports = function(io, socket, lobby) {
     let deleted = model.offline(socket.id);
     lobby.emit("users", deleted);
     console.log("user disconnected: " + auth.username);
+
+    //Define
+    let roomName = socket.handshake.query.room;
+
+    //Handle Disconnects
+    io.to(roomName).emit("onDisconnect", { username: auth.username });
+
+    controlDisconnect[auth.username] = setTimeout(function() {
+      console.log(auth.username + " SURRENDER");
+      onSurrender(auth.username, store, roomName, io);
+    }, 30000);
+  });
+
+  socket.on("reconnect", function() {
+    console.log(auth.username + " RECONNECT");
   });
 };
+
+function onSurrender(username, store, roomName, io) {
+  if (store[roomName] === undefined) {
+    return;
+  }
+
+  surrender(username, store[roomName][store[roomName].length - 1], payload => {
+    store[roomName].push(payload);
+    console.log("view", payload.team, payload.turn, payload.winner);
+
+    io.to(roomName).emit("apply", payload);
+
+    if (payload.winner.state === true) {
+      console.log("Winner");
+
+      // let game = new Game({
+      //   player: [payload.team.teamOdd, payload.team.teamEven],
+      //   winner: payload.winner.name,
+      //   room: roomName,
+      //   log: store[roomName],
+      //   timestamp: Date.now()
+      // }).save();
+
+      if (payload.mode === "ladder") {
+        rank(payload);
+      }
+
+      model.deleteMatch(roomName);
+    }
+  });
+}
 
 function rank(payload) {
   let winner = Rank.findOne({ username: payload.winner.name }, function(
