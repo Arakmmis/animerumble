@@ -50,19 +50,14 @@
                     <div class="d-flex flex-row align-items-end">
                         <input placeholder="Name" class="create--name l--main" v-model="profile.name"></input>
                     </div>
-                    <div class="l--body d-flex flex-row mb-1">
-                        <div class="l--img">
+                    <div class="l--body">
+                        <div class="l--img" @click="uploadPicture('profile')">
                             <img :src="profile.picture !== '' ? profile.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
-                            <form enctype="multipart/form-data">
-                                <input type="file" @change="onFileChanged($event, 'profile')" name="avatar" class="create--upload">
-                            </form>
                         </div>
-                        <textarea placeholder="Enter your text here" v-model="profile.description"></textarea>
+                        <editable :content="profile.description" ref="profile" @update="profile.description = $event"></editable>
                     </div>
                     <div class="d-flex flex-row">
                         <div class="d-flex flex-row w-50 align-items-end">
-                            <!-- <p class="l--label-bold">Author</p>
-                            <input placeholder="Your Name" class="create--name l--m2px" v-model="profile.author"></input> -->
                             <p class="l--credit">Author</p>
                             <input placeholder="Your Name" class="create--name l--credit" v-model="profile.author"></input>
                         </div>
@@ -81,14 +76,11 @@
                             <input placeholder="Skill Name" class="create--name l--main" v-model="item.name"></input>
                             <i @click="removeSkill(i)" class="icon-cancel-circled"></i>
                         </div>
-                        <div class="l--body d-flex flex-row">
-                            <div class="l--img">
+                        <div class="l--body">
+                            <div class="l--img" @click="uploadPicture('skills', i)">
                                 <img :src="item.picture !== '' ? item.picture : '/assets/create/placeholder.jpg'" class="l--img-upload">
-                                <form enctype="multipart/form-data">
-                                    <input type="file" @change="onFileChanged($event, 'skills', i)" name="avatar" class="create--upload">
-                                </form>
                             </div>
-                            <textarea placeholder="Enter your text here" v-model="item.text"></textarea>
+                            <editable :content="skills[i].text" ref="skills" @update="skills[i].text = $event"></editable>
                         </div>
                         <div class="d-flex flex-row align-items-end justify-content-between align-items-center">
                             <div class="d-flex flex-row">
@@ -148,6 +140,9 @@
                 <form enctype="multipart/form-data">
                     <input type="file" ref="loadFile" @change="onLoadFile($event)" name="progress" class="create--load"></input>
                 </form>
+                <form enctype="multipart/form-data">
+                    <input type="file" ref="uploadPicture" @change="onFileChanged($event, selection.type, selection.id)" name="avatar" class="create--load"></input>
+                </form>
                 <p class="create--credit">Created on AnimeRumble.com</p>
             </div>
         </div>
@@ -171,10 +166,25 @@
                         w: 0,
                         r: 0
                     },
-                    classes: '',
+                    classes: ''
                 }
             }
 
+            Vue.component('editable', {
+                template: '<div contenteditable="true" placeholder="Enter text here..." class="create--editable" @input="update"></div>',
+                props: ['content'],
+                mounted: function () {
+                    this.$el.innerText = this.content;
+                },
+                methods: {
+                    rerender: function (payload) {
+                        this.$el.innerText = payload;
+                    },
+                    update: function (event) {
+                        this.$emit('update', event.target.innerText);
+                    }
+                }
+            })
             Vue.use(VTooltip);
             let app = new Vue({
                 el: '#app',
@@ -193,9 +203,18 @@
                         _.cloneDeep(skill()),
                         _.cloneDeep(skill()),
                         _.cloneDeep(skill()),
-                    ]
+                    ],
+                    selection: {
+                        type: null,
+                        id: null
+                    }
                 },
                 methods: {
+                    uploadPicture(type, id) {
+                        this.selection.type = type
+                        this.selection.id = id
+                        this.$refs.uploadPicture.click()
+                    },
                     onFileChanged(event, type, index) {
                         let file = event.target.files[0]
                         if ((file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') && (file.size / 1000 / 1000 <= 10)) {
@@ -239,10 +258,18 @@
                                 self.profile = result.profile
                                 self.skills = result.skills
 
-                                setTimeout(() => {
-                                    autosize.destroy(document.querySelectorAll('textarea'));
-                                    autosize(document.querySelectorAll('textarea'));
-                                }, 100)
+                                //Rerender
+                                self.$refs.profile.rerender(result.profile.description)
+                                result.skills.forEach((x, i) => {
+                                    if (self.$refs.skills[i] !== undefined) {
+                                        self.$refs.skills[i].rerender(x.text)
+                                    }
+                                })
+
+                                // setTimeout(() => {
+                                //     autosize.destroy(document.querySelectorAll('textarea'));
+                                //     autosize(document.querySelectorAll('textarea'));
+                                // }, 100)
                             }
                         }
                     },
@@ -306,6 +333,6 @@
                 }
             })
 
-            autosize(document.querySelectorAll('textarea'));
+            // autosize(document.querySelectorAll('textarea'));
         </script>
 </body>
