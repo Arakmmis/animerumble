@@ -64,9 +64,14 @@ function scrollChat() {
 var devtools = /./;
 devtools.toString = function() {
   this.opened = true;
-
-  app.onSurrender();
-  return 'Alpha';
+  let url = window.location.href.split("/");
+  if (url[2] !== "localhost:3000") {
+    setTimeout(() => {
+      app.onSurrender();
+      window.location.replace("/");
+    }, 1000);
+  }
+  return "v.0.0.1 Alpha";
 };
 
-// console.log("Welcome to Anime Rumble", devtools);
+console.log("Welcome to Anime Rumble", devtools);
