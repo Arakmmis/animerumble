@@ -91,8 +91,7 @@ function getMatch(payload = undefined) {
 }
 
 function deleteMatch(payload) {
-  match = match.filter(x => x.room !== payload);
-  console.log(match);
+  match = match.filter(x => x.room !== payload);  
 }
 
 //Match Making
