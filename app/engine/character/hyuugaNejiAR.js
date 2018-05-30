@@ -100,7 +100,7 @@ let skills = {
     classes: ["instant", "melee", "physical"],
     piercing: true,
     description:
-      "This skill deals 35 damage to an enemy and removes an energy from their chakra pool.",
+      "This skill deals 35 piercing damage to an enemy and removes an energy from their chakra pool.",
     energy: {
       a: 1,
       i: 1
