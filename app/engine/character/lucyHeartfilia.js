@@ -108,7 +108,7 @@ let skills = {
     name: "Summon: Taurus",
     type: "attack",
     val: 0,
-    cooldown: 1,
+    cooldown: 2,
     classes: ["action", "physical", "piercing"],
     energy: {
       w: 1,
@@ -239,7 +239,7 @@ let skills = {
     name: "Summon: Cancer",
     type: "attack",
     val: 0,
-    cooldown: 3,
+    cooldown: 4,
     description:
       "Lucy gains 30 dd and deals 20 damage Piercing to all enemies, untill this DD is destroyed, or 3 turns pass.",
     target: "allenemy",

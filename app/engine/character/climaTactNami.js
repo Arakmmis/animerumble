@@ -16,12 +16,11 @@ let status = {
   bleed: library.bleed({
     val: 5,
     active: 5,
-    persistence: "control"
+    persistence: "action"
   }),
   bleed2: library.bleed({
     val: 15,
     active: 2,
-
     persistence: "action"
   }),
   bleed3: library.bleed({
@@ -69,7 +68,7 @@ let skills = {
     type: "attack",
     val: 0,
     cooldown: 5,
-    classes: ["control", "ranged", "affliction"],
+    classes: ["action", "ranged", "affliction"],
     energy: {
       s: 1
     },
@@ -97,7 +96,7 @@ let skills = {
     type: "attack",
     alt: 4,
     val: 0,
-    cooldown: 2,
+    cooldown: 3,
     classes: ["action", "ranged", "physical"],
     description:
       "Nami uses the only weapon Usopp installed in the clima-tact, stunning the target physical and energy skills, and dealing 15 for 2 turns. This skill will become Party Trick.",

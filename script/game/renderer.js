@@ -140,12 +140,16 @@ function statusView(name, payload, turnVal) {
     payload.onState,
     payload.onSelf
   );
-  console.log("invisible", turnVal, name.slice(-1));
-  status = status.filter(
-    x =>
-      x.isInvisible === false ||
-      (x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal)
-  );
+  // console.log("invisible", turnVal, name.slice(-1));
+  if (app.mode === "game") {
+    status = status.filter(
+      x =>
+        x.isInvisible === false ||
+        (x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal)
+    );
+  } else {
+    status = status.filter(x => x.isInvisible === false);
+  }
   // if (turnVal === Number(name.slice(-1))) {
   //   status = status.filter(
   //     x => x.isInvisible === false || x.isInvisible !== false && Number(x.nameId.slice(-1)) === turnVal

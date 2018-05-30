@@ -24,7 +24,7 @@ let status = {
     active: 1
   }),
   bleed: library.bleed({
-    val: 20,
+    val: 10,
     active: 2
   }),
   boost: library.boost({
@@ -98,6 +98,7 @@ let skills = {
     val: 35,
     cooldown: 1,
     classes: ["instant", "melee", "physical"],
+    piercing: true,
     description:
       "This skill deals 35 damage to an enemy and removes an energy from their chakra pool.",
     energy: {
@@ -125,12 +126,11 @@ let skills = {
     cooldown: 1,
     classes: ["action", "melee", "physical"],
     description:
-      "Neji deals 20 damage to an enemy for 2 turns. The target of this skill takes double damage from Organ Strike. This skill becomes Organ Strike for 2 turns.",
+      "Neji deals 10 damage to an enemy for 2 turns. The target of this skill takes double damage from Organ Strike. This skill becomes Organ Strike for 2 turns.",
     target: "enemy",
     marking: true,
     energy: {
-      a: 1,
-      r: 1
+      a: 1
     },
     move: function(payload, self) {
       skill.pushStatus({
