@@ -40,7 +40,7 @@ let skills = {
     type: "attack",
     val: [20, 0, 0],
     cooldown: 1,
-    classes: ["instant", "melee", "physical", "affliction"],
+    classes: ["instant", "melee", "physical"],
     energy: {
       a: 1
     },

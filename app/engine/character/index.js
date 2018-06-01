@@ -29,6 +29,8 @@ let lucyHeartfilia = require("./lucyHeartfilia.js");
 let krillin = require("./krillin.js");
 let mutenRoshi = require("./mutenRoshi.js");
 
+let uzumakiNaruto63k = require("./uzumakiNaruto63k.js");
+
 module.exports = [
   uzumakiNaruto,
   sakuraHaruno,

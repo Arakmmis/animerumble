@@ -20,8 +20,7 @@ let status = {
     comprise: ["strategic"]
   }),
   stun2: library.stun({
-    active: 1,
-    comprise: ["ranged"]
+    active: 1
   }),
   stun3: library.stun({
     active: 2
