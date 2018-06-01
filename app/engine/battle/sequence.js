@@ -23,7 +23,7 @@ function sequence(state, payload) {
       payload.target = target.concat(random);
     }
 
-    payload.target.forEach((x, t) => {
+    payload.target.forEach((x, t, a) => {
       let target = team(x);
       if (target === undefined) {
         console.log(payload, target);
@@ -38,7 +38,8 @@ function sequence(state, payload) {
         state: state,
         myTurn: myTurn,
         theirTurn: theirTurn,
-        recursive: t
+        recursive: t,
+        last: t === a.length - 1 ? true : false
       });
     });
   });

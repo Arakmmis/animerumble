@@ -155,7 +155,7 @@ let skills = {
         val: payload.val
       });
 
-      if (payload.target.hp - payload.val < 50) {
+      if (payload.target.hp - payload.val <= 50) {
         skill.removeEnergy({
           theirEnergy: payload.theirEnergy,
           myEnergy: payload.myEnergy,
@@ -252,7 +252,7 @@ let skills = {
         val: payload.val
       });
 
-      let hp = (payload.target.hp = payload.val);
+      let hp = payload.target.hp - payload.val;
 
       if (hp <= 50) {
         skill.pushStatus({

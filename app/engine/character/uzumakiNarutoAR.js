@@ -162,6 +162,7 @@ let skills = {
     name: "Shadow Clones",
     type: "attack",
     val: 0,
+    harmful: false,
     alt: 4,
     cooldown: 1,
     classes: ["instant", "energy", "strategic"],

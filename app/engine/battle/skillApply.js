@@ -31,7 +31,8 @@ function skillApply(payload) {
     theirTurn: payload.theirTurn,
     state: payload.state,
     isCounter: false,
-    sequence: "sequence"
+    sequence: "sequence",
+    last: payload.last
   };
 
   execute(package);

@@ -145,7 +145,7 @@ let skills = {
         inherit: this
       });
 
-      if (payload.recursive === 2) {
+      if (payload.last === true) {
         let check = skill.checkStatus({
           subject: payload.offense,
           onStatus: "onAttack",
