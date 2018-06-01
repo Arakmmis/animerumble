@@ -133,7 +133,7 @@ function vueBind(payload) {
 }
 
 function statusView(name, payload, turnVal) {
-  console.log(name.slice(-1), payload);
+  // console.log(name.slice(-1), payload);
   let status = _.concat(
     payload.onAttack,
     payload.onReceive,

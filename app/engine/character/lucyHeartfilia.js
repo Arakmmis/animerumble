@@ -87,6 +87,7 @@ let status = {
   }),
   bleed2: library.bleed({
     val: 20,
+    piercing: true,
     active: 3
   }),
   track: library.track({

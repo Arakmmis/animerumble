@@ -32,6 +32,7 @@ let status = {
     val: 10,
     isStack: true,
     active: -1,
+    harmful: true,
     modify: function(payload, self) {
       if (payload.skill.name === "Twin Rising Dragons Trap") {
         payload.val += self.val * self.stack;

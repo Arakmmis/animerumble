@@ -21,7 +21,8 @@ let status = {
   }),
   state: library.state({
     name: "Meditate",
-    active: 5
+    active: 5,
+    harmful: true
   }),
   stun2: library.stun({
     active: 2,
@@ -55,7 +56,7 @@ let skills = {
     val: 0,
     cooldown: 0,
     noCounter: true,
-    marking: true,    
+    marking: true,
     energy: {},
     classes: ["instant", "ranged", "mental"],
     description:
