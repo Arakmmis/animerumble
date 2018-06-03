@@ -68,12 +68,12 @@ let skills = {
     }
   },
   skill2: {
-    name: "Fire Dargon's Flame Roar",
+    name: "Fire Dragon's Flame Roar",
     type: 'attack',
     val: 35,
     cooldown: 4,
     description:
-      'Natsu deals 35 damage to all enemies, and apply Flame Absorption on a random target hit.',
+      'Natsu deals 35 damage to all enemies, and apply Flame Absorption on a random target hit for 1 turn.',
     classes: ['instant', 'melee', 'physical'],
     energy: {
       a: 1,
@@ -111,7 +111,7 @@ let skills = {
     val: 0,
     cooldown: 1,
     description:
-      'Natsu targets an enemy, if they use a harmful skill, counter it, and Natsu gains a red energy. The target of this skill in invisible.',
+      'Natsu targets an enemy, for 1 turn if they use a harmful skill, counter it, and Natsu gains a red energy. The target of this skill in invisible.',
     target: 'enemy',
     classes: ['instant', 'ranged', 'energy'],
     energy: {

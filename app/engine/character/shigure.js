@@ -67,8 +67,7 @@ let skills = {
     cooldown: 0,
     classes: ['instant', 'strategic'],
     harmful: false,
-    energy: {
-      w: 1,
+    energy: {      
       r: 1
     },
     target: 'self',

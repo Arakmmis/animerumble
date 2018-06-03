@@ -43,6 +43,8 @@ let status = {
     }
   }),
   onAttack: {
+    active: 1,
+    isInvisible: true,
     modify: function(payload, self) {
       payload.offense.hp -= 15
     }
