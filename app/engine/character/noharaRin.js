@@ -126,13 +126,6 @@ let skills = {
         },
         'harmful'
       )
-
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: 'onSelf',
-        status: status.bleed,
-        inherit: this
-      })
     }
   },
   skill3: {
