@@ -6,7 +6,7 @@ let helper = require("../helper.js");
 let info = {
   id: "uzumakiNarutoAR",
   name: "Uzumaki Naruto (AR)",
-  anime: "Naruto",
+  anime: "NarutoAR",
   author: "Tsvet, Zetsu",
   pictures: "Kakarotossj"
 };

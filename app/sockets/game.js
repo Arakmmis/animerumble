@@ -1,26 +1,26 @@
-let engine = require("../engine/main.js");
-let battle = require("../engine/battle.js");
-let surrender = require("../engine/surrender.js");
-let model = require("../helper/model.js");
+let engine = require('../engine/main.js')
+let battle = require('../engine/battle.js')
+let surrender = require('../engine/surrender.js')
+let model = require('../helper/model.js')
 
-let mongoose = require("mongoose");
-let Game = require("../models/Game.js");
-let Rank = require("../models/Rank.js");
+let mongoose = require('mongoose')
+let Game = require('../models/Game.js')
+let Rank = require('../models/Rank.js')
 
-let connection = 0;
-let store = {};
-let roomSpace = [];
-let controlDisconnect = [];
+let connection = 0
+let store = {}
+let roomSpace = []
+let controlDisconnect = []
 
 module.exports = function(io, socket, lobby) {
-  let auth = socket.request.user;
+  let auth = socket.request.user
 
-  socket.on("initiate", payload => {
+  socket.on('initiate', payload => {
     //Connecting
-    console.log("a user connected");
+    console.log('a user connected')
     //Handle Disconnect
-    if (controlDisconnect[auth.username] !== undefined) {
-      clearTimeout(controlDisconnect[auth.username]);
+    if (controlDisconnect[auth.username + payload.room] !== undefined) {
+      clearTimeout(controlDisconnect[auth.username + payload.room])
     }
 
     //Define
@@ -29,82 +29,82 @@ module.exports = function(io, socket, lobby) {
       position: 0,
       socket: socket.id,
       room: payload.room,
-      status: "ingame"
-    });
+      status: 'ingame'
+    })
 
     if (update_ === undefined) {
-      socket.emit("noMatch", {});
-      return;
+      socket.emit('noMatch', {})
+      return
     }
 
-    lobby.emit("users", update_[1]);
+    lobby.emit('users', update_[1])
 
     //Check Matches
-    let match = model.getMatch(payload.room);
+    let match = model.getMatch(payload.room)
     if (match === undefined) {
-      roomSpace = roomSpace.filter(x => x === payload.room);
-      socket.emit("noMatch", {});
-      return;
+      roomSpace = roomSpace.filter(x => x === payload.room)
+      socket.emit('noMatch', {})
+      return
     }
-    let user = model.getUser(auth.username);
+    let user = model.getUser(auth.username)
     let team = {
-      teamOdd: "",
+      teamOdd: '',
       teamOddChar: [],
-      teamEven: "",
+      teamEven: '',
       teamEvenChar: []
-    };
-    if (match.challenger.order === 1) {
-      team.teamOdd = match.challenger.name;
-      team.teamOddChar = match.challenger.char;
-      team.teamEven = match.accept.name;
-      team.teamEvenChar = match.accept.char;
-    } else {
-      team.teamOdd = match.accept.name;
-      team.teamOddChar = match.accept.char;
-      team.teamEven = match.challenger.name;
-      team.teamEvenChar = match.challenger.char;
     }
-    let mode = match.mode;
+    if (match.challenger.order === 1) {
+      team.teamOdd = match.challenger.name
+      team.teamOddChar = match.challenger.char
+      team.teamEven = match.accept.name
+      team.teamEvenChar = match.accept.char
+    } else {
+      team.teamOdd = match.accept.name
+      team.teamOddChar = match.accept.char
+      team.teamEven = match.challenger.name
+      team.teamEvenChar = match.challenger.char
+    }
+    let mode = match.mode
 
-    let roomName = payload.room;
-    let roomCheck = roomSpace.some(x => x === roomName) ? true : false;
-    console.log(roomSpace);
-    socket.join(payload.room);
+    let roomName = payload.room
+    let roomCheck = roomSpace.some(x => x === roomName) ? true : false
+    console.log(roomSpace)
+    socket.join(payload.room)
     //Engine Initiate
-    connection = connection + 1;
+    connection = connection + 1
 
-    console.log(connection);
+    console.log(connection)
     if (!roomCheck) {
       engine.main({ team: team, room: roomName, mode: mode }, payload => {
-        store[roomName] = [];
-        store[roomName].push(payload);
-        console.log("apply", payload);
-        socket.emit("apply", store[roomName][store[roomName].length - 1]);
-      });
+        store[roomName] = []
+        store[roomName].push(payload)
+        console.log('apply', payload)
+        socket.emit('apply', store[roomName][store[roomName].length - 1])
+      })
 
-      roomSpace.push(roomName);
+      roomSpace.push(roomName)
     } else {
-      socket.emit("apply", store[roomName][store[roomName].length - 1]);
+      socket.emit('apply', store[roomName][store[roomName].length - 1])
     }
-  });
+  })
 
-  socket.on("sequence", payload => {
-    let roomName = payload.room;
+  socket.on('sequence', payload => {
+    let roomName = payload.room
     if (store[roomName] === undefined) {
-      socket.emit("noMatch", {});
-      return;
+      socket.emit('noMatch', {})
+      return
     }
     battle(
       payload.packet,
       store[roomName][store[roomName].length - 1],
       payload => {
-        store[roomName].push(payload);
-        console.log("view", payload.team, payload.turn, payload.winner);
+        store[roomName].push(payload)
+        console.log('view', payload.team, payload.turn, payload.winner)
 
-        io.to(roomName).emit("apply", payload);
+        io.to(roomName).emit('apply', payload)
 
         if (payload.winner.state === true) {
-          console.log("Winner");
+          console.log('Winner')
 
           // let game = new Game({
           //   player: [payload.team.teamOdd, payload.team.teamEven],
@@ -114,34 +114,34 @@ module.exports = function(io, socket, lobby) {
           //   timestamp: Date.now()
           // }).save();
 
-          if (payload.mode === "ladder") {
-            rank(payload);
+          if (payload.mode === 'ladder') {
+            rank(payload)
           }
 
-          model.deleteMatch(roomName);
-          delete store[roomName];
+          model.deleteMatch(roomName)
+          delete store[roomName]
         }
       }
-    );
-  });
+    )
+  })
 
-  socket.on("surrender", payload => {
-    let roomName = payload.room;
+  socket.on('surrender', payload => {
+    let roomName = payload.room
     if (store[roomName] === undefined) {
-      socket.emit("noMatch", {});
-      return;
+      socket.emit('noMatch', {})
+      return
     }
     surrender(
       auth.username,
       store[roomName][store[roomName].length - 1],
       payload => {
-        store[roomName].push(payload);
-        console.log("view", payload.team, payload.turn, payload.winner);
+        store[roomName].push(payload)
+        console.log('view', payload.team, payload.turn, payload.winner)
 
-        io.to(roomName).emit("apply", payload);
+        io.to(roomName).emit('apply', payload)
 
         if (payload.winner.state === true) {
-          console.log("Winner");
+          console.log('Winner')
 
           // let game = new Game({
           //   player: [payload.team.teamOdd, payload.team.teamEven],
@@ -151,26 +151,26 @@ module.exports = function(io, socket, lobby) {
           //   timestamp: Date.now()
           // }).save();
 
-          if (payload.mode === "ladder") {
-            rank(payload);
+          if (payload.mode === 'ladder') {
+            rank(payload)
           }
 
-          model.deleteMatch(roomName);
-          delete store[roomName];
+          model.deleteMatch(roomName)
+          delete store[roomName]
         }
       }
-    );
-  });
+    )
+  })
 
-  socket.on("disconnect", function() {
-    let deleted = model.offline(socket.id);
-    lobby.emit("users", deleted);
-    console.log("user disconnected: " + auth.username);
+  socket.on('disconnect', function() {
+    let deleted = model.offline(socket.id)
+    lobby.emit('users', deleted)
+    console.log('user disconnected: ' + auth.username)
 
     //Define
-    let roomName = socket.handshake.query.room;
-    let match = model.getMatch(roomName);
-    if(match === undefined){
+    let roomName = socket.handshake.query.room
+    let match = model.getMatch(roomName)
+    if (match === undefined) {
       return
     }
     if (
@@ -178,33 +178,33 @@ module.exports = function(io, socket, lobby) {
       match.accept.name === auth.username
     ) {
       //Handle Disconnects
-      io.to(roomName).emit("onDisconnect", { username: auth.username });
+      io.to(roomName).emit('onDisconnect', { username: auth.username })
 
-      controlDisconnect[auth.username] = setTimeout(function() {
-        console.log(auth.username + " SURRENDER");
-        onSurrender(auth.username, store, roomName, io);
-      }, 30000);
+      controlDisconnect[auth.username + roomName] = setTimeout(function() {
+        console.log(auth.username + ' SURRENDER')
+        onSurrender(auth.username, store, roomName, io)
+      }, 30000)
     }
-  });
+  })
 
-  socket.on("reconnect", function() {
-    console.log(auth.username + " RECONNECT");
-  });
-};
+  socket.on('reconnect', function() {
+    console.log(auth.username + ' RECONNECT')
+  })
+}
 
 function onSurrender(username, store, roomName, io) {
   if (store[roomName] === undefined) {
-    return;
+    return
   }
 
   surrender(username, store[roomName][store[roomName].length - 1], payload => {
-    store[roomName].push(payload);
-    console.log("view", payload.team, payload.turn, payload.winner);
+    store[roomName].push(payload)
+    console.log('view', payload.team, payload.turn, payload.winner)
 
-    io.to(roomName).emit("apply", payload);
+    io.to(roomName).emit('apply', payload)
 
     if (payload.winner.state === true) {
-      console.log("Winner");
+      console.log('Winner')
 
       // let game = new Game({
       //   player: [payload.team.teamOdd, payload.team.teamEven],
@@ -214,14 +214,14 @@ function onSurrender(username, store, roomName, io) {
       //   timestamp: Date.now()
       // }).save();
 
-      if (payload.mode === "ladder") {
-        rank(payload);
+      if (payload.mode === 'ladder') {
+        rank(payload)
       }
 
-      model.deleteMatch(roomName);
-      delete store[roomName];
+      model.deleteMatch(roomName)
+      delete store[roomName]
     }
-  });
+  })
 }
 
 function rank(payload) {
@@ -232,24 +232,24 @@ function rank(payload) {
     if (doc === null) {
       let rank = new Rank({
         username: payload.winner.name,
-        ladder: "Bugs",
+        ladder: 'Bugs',
         season: 1,
         win: 1,
         lose: 0,
         played: 1,
         streak: 1
-      }).save();
+      }).save()
 
-      return;
+      return
     }
-    doc.username = payload.winner.name;
-    doc.ladder = "Bugs";
-    doc.season = 1;
-    doc.win++;
-    doc.played++;
-    doc.streak++;
-    doc.save();
-  });
+    doc.username = payload.winner.name
+    doc.ladder = 'Bugs'
+    doc.season = 1
+    doc.win++
+    doc.played++
+    doc.streak++
+    doc.save()
+  })
 
   let loser = Rank.findOne({ username: payload.winner.loser }, function(
     err,
@@ -258,22 +258,22 @@ function rank(payload) {
     if (doc === null) {
       let rank = new Rank({
         username: payload.winner.loser,
-        ladder: "Bugs",
+        ladder: 'Bugs',
         season: 1,
         win: 0,
         lose: 1,
         played: 1,
         streak: 1
-      }).save();
+      }).save()
 
-      return;
+      return
     }
-    doc.username = payload.winner.loser;
-    doc.ladder = "Bugs";
-    doc.season = 1;
-    doc.lose++;
-    doc.played++;
-    doc.streak = 0;
-    doc.save();
-  });
+    doc.username = payload.winner.loser
+    doc.ladder = 'Bugs'
+    doc.season = 1
+    doc.lose++
+    doc.played++
+    doc.streak = 0
+    doc.save()
+  })
 }

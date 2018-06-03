@@ -4,9 +4,8 @@ let skill = require('../library/skill.js')
 let helper = require('../helper.js')
 
 let info = {
-  id: 'uzumakiNaruto63k',
-  name: 'Uzumaki Naruto63k',
-
+  id: 'noharaRin',
+  name: 'Nohara Rin',
   anime: 'Naruto',
   author: '',
   pictures: ''
@@ -16,22 +15,38 @@ let status = {
   invulnerable: library.invulnerable({}),
   stun: library.stun({}),
   protect: library.protect({
-    val: 5,
+    val: 15,
+    active: 4
+  }),
+  heal: library.heal({
+    val: 10,
+    active: 3
+  }),
+  heal2: library.heal({
+    val: 10,
     active: 3
   }),
   bleed: library.bleed({
-    val: 5
+    val: 10,
+    active: 3
+  }),
+  state: library.state({
+    active: 3
   }),
   boost: library.boost({
-    val: 5,
-    active: 4,
+    val: 10,
+    active: 3,
     modify: function(payload, self) {
-      if (payload.skill.name === 'Uzumaki Naruto Combo') {
-        payload.val += this.val
+      if (payload.skill.type === 'heal') {
+        payload.val += self.val
       }
     }
   }),
-
+  onAttack: {
+    modify: function(payload, self) {
+      payload.offense.hp -= 15
+    }
+  },
   required: {
     active: 4,
     type: 'allow',
@@ -39,7 +54,6 @@ let status = {
     description: 'Rasengan',
     modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === 'Rasengan')
-
       if (index !== -1) {
         if (payload.active > 1) {
           payload.offense.skill[index].required = false
@@ -55,84 +69,88 @@ let status = {
 
 let skills = {
   skill1: {
-    name: 'Uzumaki Naruto Combo',
+    name: 'Pit Trap',
     type: 'attack',
-    val: 5,
+    val: 15,
+    piercing: true,
+    ignoreInvul: true,
     cooldown: 0,
-
-    classes: ['instant', 'melee', 'mental'],
+    classes: ['instant', 'physical'],
     energy: {
-      a: 1,
-      r: 1
+      w: 1
     },
     description:
-      "Naruto's version of the Lion Combo. This skill deals 5 damage to one enemy. During 'Shadow Clones' this skill will deal 10 additional damage.",
+      'Rin traps one enemy. For 1 turn, Rin will gain 15 points of damage reduction, and that enemy will take 15 piercing damage that ignores invulnerability at the end of their turn. If that enemy uses a new skill they will take another 15 damage. The target of this skill is invisible.',
     move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
       })
-      // payload.target.hp -= payload.val;
+      skill.pushStatus({
+        subject: payload.offense,
+        onStatus: 'onReceive',
+        status: status.protect,
+        inherit: this
+      })
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: 'onAttack',
+        status: status.onAttack,
+        inherit: this
+      })
     }
   },
   skill2: {
-    name: 'Rasengan',
-    type: 'attack',
-    val: 20,
-    cooldown: 1,
+    name: 'Rin Mystical Palm Healing',
+    type: 'heal',
+    val: 25,
+    cooldown: 0,
+    harmful: false,
     description:
-      "Naruto hits one enemy with a ball of chakra dealing 20 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
-    required: true,
-    classes: ['instant', 'ranged', 'affliction'],
+      'Rin heals a team mate or herself 25 health and removes all harmful afflictions on that ally.',
+    classes: ['instant', 'affliction'],
     energy: {
       s: 1
     },
-    target: 'enemy',
+    target: 'ally',
     move: function(payload, self) {
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: 'onState',
-        status: status.stun,
-        inherit: this
-      })
-
-      skill.damage({
+      skill.heal({
         subject: payload.target,
         val: payload.val
       })
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.stun, this, 2)
-      // );
+      skill.removeStatus(
+        {
+          subject: payload.target
+        },
+        'harmful'
+      )
 
-      // payload.target.hp -= payload.val;
+      skill.pushStatus({
+        subject: payload.target,
+        onStatus: 'onSelf',
+        status: status.bleed,
+        inherit: this
+      })
     }
   },
   skill3: {
-    name: 'Shadow Clones',
-    type: 'attack',
+    name: 'Medical Kit',
+    type: 'heal',
     harmful: false,
     val: 0,
     cooldown: 3,
     description:
-      "Naruto creates multiple shadow clones hiding his true self. Naruto gains 5 points of damage reduction for 3 turns. During this time 'Uzumaki Naruto Combo' will deal 5 additional damage and 'Rasengan' can be used.",
-    target: 'self',
-    classes: ['instant', 'energy'],
+      'Rin gives her medical kit to herself or an ally. For 3 turns, that character will heal 10 health. During this time, any healing skills used by that character will be increased by 10 points.',
+    target: 'ally',
+    classes: ['instant', 'strategic'],
     energy: {
-      r: 1
+      r: 2
     },
     move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
-
         onStatus: 'onSelf',
-        status: status.required,
-        inherit: this
-      })
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: 'onReceive',
-        status: status.protect,
-
+        status: status.heal,
         inherit: this
       })
       skill.pushStatus({
@@ -141,32 +159,19 @@ let skills = {
         status: status.boost,
         inherit: this
       })
-      // payload.target.status.onSelf.push(
-
-      //   new constructor.status(status.required, this, 3)
-      // );
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.protect, this, 3)
-      // );
-
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost, this, 3)
-      // );
     }
   },
   skill4: {
-    name: 'Sexy Technique',
+    name: 'Flee',
     type: 'invulnerable',
-
     val: 0,
-    cooldown: 3,
-    description: 'This skill makes Uzumaki Naruto invulnerable for 1 turn.',
+    cooldown: 4,
+    description: 'This skill makes Nohara Rin invulnerable for 1 turn.',
     target: 'self',
-    classes: ['instant', 'energy'],
+    classes: ['instant', 'strategic'],
     energy: {
       r: 1
     },
-
     move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
@@ -174,10 +179,6 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       })
-
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.invulnerable, this, 4)
-      // );
     }
   }
 }
@@ -186,7 +187,6 @@ let character = {
   name: info.name,
   id: info.id,
   anime: info.anime,
-
   credit: {
     author: info.author,
     pictures: info.pictures

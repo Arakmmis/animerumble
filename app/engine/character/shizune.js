@@ -4,9 +4,8 @@ let skill = require('../library/skill.js')
 let helper = require('../helper.js')
 
 let info = {
-  id: 'uzumakiNaruto63k',
-  name: 'Uzumaki Naruto63k',
-
+  id: 'shizune',
+  name: 'Shizune',
   anime: 'Naruto',
   author: '',
   pictures: ''
@@ -16,14 +15,18 @@ let status = {
   invulnerable: library.invulnerable({}),
   stun: library.stun({}),
   protect: library.protect({
-    val: 5,
-    active: 3
+    val: 15,
+    active: 4
   }),
   bleed: library.bleed({
-    val: 5
+    val: 10,
+    active: 3
+  }),
+  state: library.state({
+    active: 3
   }),
   boost: library.boost({
-    val: 5,
+    val: 10,
     active: 4,
     modify: function(payload, self) {
       if (payload.skill.name === 'Uzumaki Naruto Combo') {
@@ -31,7 +34,6 @@ let status = {
       }
     }
   }),
-
   required: {
     active: 4,
     type: 'allow',
@@ -39,7 +41,6 @@ let status = {
     description: 'Rasengan',
     modify: function(payload, self) {
       let index = payload.offense.skill.findIndex(x => x.name === 'Rasengan')
-
       if (index !== -1) {
         if (payload.active > 1) {
           payload.offense.skill[index].required = false
@@ -55,118 +56,89 @@ let status = {
 
 let skills = {
   skill1: {
-    name: 'Uzumaki Naruto Combo',
+    name: 'Prepared Needle Shot',
     type: 'attack',
-    val: 5,
+    val: 15,
     cooldown: 0,
-
-    classes: ['instant', 'melee', 'mental'],
+    classes: ['instant', 'physical'],
     energy: {
-      a: 1,
       r: 1
     },
     description:
-      "Naruto's version of the Lion Combo. This skill deals 5 damage to one enemy. During 'Shadow Clones' this skill will deal 10 additional damage.",
+      'Shizune shoots hidden needles at one enemy dealing 15 damage to them.',
     move: function(payload, self) {
       skill.damage({
         subject: payload.target,
         val: payload.val
       })
-      // payload.target.hp -= payload.val;
     }
   },
   skill2: {
-    name: 'Rasengan',
+    name: 'Poison Mist',
     type: 'attack',
-    val: 20,
+    val: 0,
     cooldown: 1,
+    marking: true,
     description:
-      "Naruto hits one enemy with a ball of chakra dealing 20 damage to them and stunning their skills for 1 turn. This skill requires 'Shadow Clones'.",
-    required: true,
-    classes: ['instant', 'ranged', 'affliction'],
+      'Shizune breathes a poison cloud on one enemy who takes 10 affliction damage for 3 turns. This skill may not be used on an enemy currently affected.',
+    classes: ['instant', 'affliction'],
     energy: {
-      s: 1
+      r: 1
     },
     target: 'enemy',
     move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
         onStatus: 'onState',
-        status: status.stun,
+        status: status.state,
         inherit: this
       })
-
-      skill.damage({
+      skill.pushStatus({
         subject: payload.target,
-        val: payload.val
+        onStatus: 'onSelf',
+        status: status.bleed,
+        inherit: this
       })
-      // payload.target.status.onState.push(
-      //   new constructor.status(status.stun, this, 2)
-      // );
-
-      // payload.target.hp -= payload.val;
     }
   },
   skill3: {
-    name: 'Shadow Clones',
-    type: 'attack',
+    name: 'Healing Resuscitation Regeneration',
+    type: 'heal',
     harmful: false,
-    val: 0,
-    cooldown: 3,
+    val: 35,
+    cooldown: 1,
     description:
-      "Naruto creates multiple shadow clones hiding his true self. Naruto gains 5 points of damage reduction for 3 turns. During this time 'Uzumaki Naruto Combo' will deal 5 additional damage and 'Rasengan' can be used.",
-    target: 'self',
-    classes: ['instant', 'energy'],
+      'Using this advanced healing technique Shizune heals one ally for 35 health and removes all enemy afflictions from them.',
+    target: 'ally',
+    classes: ['instant', 'strategic'],
     energy: {
-      r: 1
+      r: 2
     },
     move: function(payload, self) {
-      skill.pushStatus({
+      skill.heal({
         subject: payload.target,
-
-        onStatus: 'onSelf',
-        status: status.required,
-        inherit: this
+        val: payload.val
       })
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: 'onReceive',
-        status: status.protect,
-
-        inherit: this
-      })
-      skill.pushStatus({
-        subject: payload.target,
-        onStatus: 'onAttack',
-        status: status.boost,
-        inherit: this
-      })
-      // payload.target.status.onSelf.push(
-
-      //   new constructor.status(status.required, this, 3)
-      // );
-      // payload.target.status.onReceive.push(
-      //   new constructor.status(status.protect, this, 3)
-      // );
-
-      // payload.target.status.onAttack.push(
-      //   new constructor.status(status.boost, this, 3)
-      // );
+      skill.removeStatus(
+        {
+          subject: payload.target,
+          onStatus: 'onSelf'
+        },
+        'affliction'
+      )
     }
   },
   skill4: {
-    name: 'Sexy Technique',
+    name: 'Shizune Dodge',
     type: 'invulnerable',
-
     val: 0,
-    cooldown: 3,
-    description: 'This skill makes Uzumaki Naruto invulnerable for 1 turn.',
+    cooldown: 4,
+    description: 'This skill makes Shizune invulnerable for 1 turn.',
     target: 'self',
-    classes: ['instant', 'energy'],
+    classes: ['instant', 'strategic'],
     energy: {
       r: 1
     },
-
     move: function(payload, self) {
       skill.pushStatus({
         subject: payload.target,
@@ -174,7 +146,6 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       })
-
       // payload.target.status.onState.push(
       //   new constructor.status(status.invulnerable, this, 4)
       // );
@@ -186,7 +157,6 @@ let character = {
   name: info.name,
   id: info.id,
   anime: info.anime,
-
   credit: {
     author: info.author,
     pictures: info.pictures
