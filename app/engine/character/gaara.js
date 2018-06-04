@@ -37,7 +37,7 @@ let status = {
         payload.target.status.onState = payload.target.status.onState.filter(
           x => !(x.type === 'ignore' && x.name === 'Sand Clone')
         )
-        payload.target.status.onReceive = payload.target.status.onState.filter(
+        payload.target.status.onReceive = payload.target.status.onReceive.filter(
           x => !(x.type === 'receive' && x.name === 'Sand Clone')
         )
         self.usage = 1
