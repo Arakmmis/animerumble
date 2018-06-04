@@ -67,9 +67,7 @@ let skills = {
     cooldown: 0,
     classes: ['instant', 'strategic'],
     harmful: false,
-    energy: {      
-      r: 1
-    },
+    energy: {},
     target: 'self',
     description:
       'Shigure tosses his umbrellas into the air, gaining four Umbrella Counters. During this time, Shigure can use this skill again to remove all Umbrella Counters and gain 10 points of damage reduction for each Umbrella Counter for 1 turn.',
