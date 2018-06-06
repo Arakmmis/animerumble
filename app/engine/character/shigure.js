@@ -174,7 +174,7 @@ let skills = {
           x => x.type === 'charge' && x.name === 'Umbrella Toss'
         )[0]
         if (charge.val > 0) {
-          bleed.val = bleed.val * charge.val
+          bleed.val = 15 * charge.val
         }
         skill.removeStatus({
           subject: payload.offense,
