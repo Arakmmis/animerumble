@@ -82,7 +82,7 @@ let skills = {
         x => x.type === 'charge'
       )
       if (index > -1) {
-        charge = payload.offense.status.onState[index].val += 2
+        payload.offense.status.onState[index].val += 2
       } else {
         skill.pushStatus({
           subject: payload.offense,
@@ -91,6 +91,9 @@ let skills = {
           inherit: this
         })
       }
+
+      //Gain Green
+      payload.myEnergy.a += 1
 
       skill.pushStatus({
         subject: payload.offense,
