@@ -22,6 +22,10 @@ let status = {
     val: 10,
     active: 2
   }),
+  heal2: library.heal({
+    val: 10,
+    active: 1
+  }),
   selfCharge: {
     type: 'self',
     active: 2,
@@ -72,14 +76,21 @@ let skills = {
     },
     target: 'self',
     description:
-      'Using a special breathing technique, Jonathan gains 2 charges of Hamon, and gains 1  green energy. For the next two turns,Jonathan is healed for 10 health, and gains 1 charge of Hamon.',
+      'Using a special breathing technique, Jonathan gains 2 charges of Hamon, and gains 1 green energy. For the next two turns, Jonathan is healed for 10 health, and gains 1 charge of Hamon.',
     move: function(payload, self) {
-      skill.pushStatus({
-        subject: payload.offense,
-        onStatus: 'onState',
-        status: status.charge,
-        inherit: this
-      })
+      let index = payload.offense.status.onState.findIndex(
+        x => x.type === 'charge'
+      )
+      if (index > -1) {
+        charge = payload.offense.status.onState[index].val += 2
+      } else {
+        skill.pushStatus({
+          subject: payload.offense,
+          onStatus: 'onState',
+          status: status.charge,
+          inherit: this
+        })
+      }
 
       skill.pushStatus({
         subject: payload.offense,
@@ -93,40 +104,6 @@ let skills = {
         status: status.selfCharge,
         inherit: this
       })
-
-      // let check = skill.checkStatus({
-      //   subject: payload.offense,
-      //   onStatus: 'onState',
-      //   statusType: 'charge',
-      //   statusName: 'Umbrella Toss'
-      // })
-      // if (!check) {
-      //   skill.pushStatus({
-      //     subject: payload.offense,
-      //     onStatus: 'onState',
-      //     status: status.charge,
-      //     inherit: this
-      //   })
-      // } else {
-      //   let protect = status.protect
-      //   let charge = payload.offense.status.onState.filter(
-      //     x => x.type === 'charge' && x.name === 'Umbrella Toss'
-      //   )[0]
-      //   protect.val = protect.val * charge.val
-
-      //   skill.pushStatus({
-      //     subject: payload.offense,
-      //     onStatus: 'onReceive',
-      //     status: status.protect,
-      //     inherit: this
-      //   })
-      //   skill.removeStatus({
-      //     subject: payload.offense,
-      //     onStatus: 'onState',
-      //     statusType: 'charge',
-      //     statusName: 'Umbrella Toss'
-      //   })
-      // }
     }
   },
   skill2: {
@@ -159,28 +136,6 @@ let skills = {
         }
       }
 
-      // if (payload.recursive === 0) {
-      //   let check = skill.checkStatus({
-      //     subject: payload.offense,
-      //     onStatus: 'onState',
-      //     statusType: 'charge',
-      //     statusName: 'Umbrella Toss'
-      //   })
-      //   if (check) {
-      //     console.log(check)
-      //     let charge = payload.offense.status.onState.filter(
-      //       x => x.type === 'charge' && x.name === 'Umbrella Toss'
-      //     )[0]
-      //     console.log(charge)
-      //     if (charge.val > 0) {
-      //       charge.val -= 1
-      //       if (payload.offense.skill[2].energy.r > 0) {
-      //         payload.offense.skill[2].energy.r -= 1
-      //       }
-      //     }
-      //   }
-      // }
-
       skill.damage({
         subject: payload.target,
         val: payload.val
@@ -212,7 +167,7 @@ let skills = {
       let bleed = status.bleed
       bleed.val = 10 + 5 * charge
 
-      let heal = status.heal
+      let heal = status.heal2
       heal.val = 10 + 5 * charge
 
       if (payload.recursive === 0) {
@@ -232,35 +187,6 @@ let skills = {
         status: status.bleed,
         inherit: this
       })
-
-      // let check = skill.checkStatus({
-      //   subject: payload.offense,
-      //   onStatus: 'onState',
-      //   statusType: 'charge',
-      //   statusName: 'Umbrella Toss'
-      // })
-      // if (check) {
-      //   let charge = payload.offense.status.onState.filter(
-      //     x => x.type === 'charge' && x.name === 'Umbrella Toss'
-      //   )[0]
-      //   if (charge.val > 0) {
-      //     bleed.val = 15 * charge.val
-      //   }
-      //   skill.removeStatus({
-      //     subject: payload.offense,
-      //     onStatus: 'onState',
-      //     statusType: 'charge',
-      //     statusName: 'Umbrella Toss'
-      //   })
-      //   self.energy.r = 4
-      // }
-
-      // skill.pushStatus({
-      //   subject: payload.target,
-      //   onStatus: 'onSelf',
-      //   status: status.bleed,
-      //   inherit: this
-      // })
     }
   },
   skill4: {
@@ -282,7 +208,7 @@ let skills = {
         status: status.invulnerable,
         inherit: this
       })
-      let charge = 1
+      let charge = 0
       let dd = status.dd
 
       let index = payload.offense.status.onState.findIndex(
@@ -291,7 +217,7 @@ let skills = {
       if (index > -1) {
         charge = payload.offense.status.onState[index].val
       }
-      dd.val = 5 * charge
+      dd.val = 5 + 5 * charge
       skill.pushStatus({
         subject: payload.target,
         onStatus: 'onReceive',
