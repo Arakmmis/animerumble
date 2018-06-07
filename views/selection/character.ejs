@@ -1,7 +1,16 @@
 <div class="w-100 selection d-flex flex-column align-items-center">
     <div class="w-50">
         <div class="img-100" v-if="!showCharInfo">
-            <img src="/assets/animerumble2.jpg" class="selection--img">
+            <!-- <img src="/assets/animerumble2.jpg" class="selection--img"> -->
+            <div class="card">
+                <div class="card-body">
+                    <p>Announcements</p>
+                    <p>For those new to the site, we're updating the game for Alpha v2 to address all bugs, add new features,
+                        and better UIs. Please check back around 19 June 2018.
+                    </p>
+                    <p> -AR Team, 7 June 2018</p>
+                </div>
+            </div>
         </div>
         <div class="selection--details d-flex flex-column" v-if="showCharInfo">
             <div class="d-flex flex-row align-items-end mb-3">
