@@ -175,12 +175,14 @@ let skills = {
 
       if (payload.recursive === 0) {
         payload.state[payload.myTurn].forEach(x => {
-          skill.pushStatus({
-            subject: x,
-            onStatus: 'onSelf',
-            status: status.heal,
-            inherit: this
-          })
+          if (x.hp > 0) {
+            skill.pushStatus({
+              subject: x,
+              onStatus: 'onSelf',
+              status: status.heal,
+              inherit: this
+            })
+          }
         })
       }
 
