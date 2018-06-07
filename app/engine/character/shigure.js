@@ -195,7 +195,7 @@ let skills = {
   },
   skill4: {
     name: 'Umbrella Block',
-    type: 'This skill makes Shigure invulnerable for 1 turn.',
+    type: 'invulnerable',
     val: 0,
     cooldown: 4,
     description: 'This skill makes Tayuya invulnerable for 1 turn.',
