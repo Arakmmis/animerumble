@@ -46,7 +46,6 @@ module.exports = [
   akimichiChouji,
   yamanakaIno,
   rockLee,
-  tenten,
   hyuugaNeji,
   gaara,
   shigure,
