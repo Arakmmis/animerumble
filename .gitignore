@@ -3,3 +3,4 @@ backup
 coinstory.pem
 SSH Keys.txt
 config.js
+ecosystem.config.js
